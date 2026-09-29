@@ -1,0 +1,45 @@
+import 'package:later/domain/models.dart';
+
+final DateTime t0 = DateTime(2026, 9, 30, 10, 0); // Wednesday
+
+LaterItem item(
+  String id, {
+  String? title,
+  String category = 'other',
+  DateTime? created,
+  DateTime? due,
+  bool hasTime = false,
+  Priority priority = Priority.normal,
+  int? minutes,
+  ItemStatus status = ItemStatus.active,
+  int snooze = 0,
+  List<String> tags = const [],
+  String description = '',
+  String note = '',
+  String? url,
+  bool reminder = false,
+  int offset = 0,
+  RepeatRule repeat = RepeatRule.none,
+  DateTime? kept,
+}) =>
+    LaterItem(
+      id: id,
+      title: title ?? 'item $id',
+      categoryId: category,
+      createdAt: created ?? t0,
+      updatedAt: created ?? t0,
+      dueAt: due,
+      hasTime: hasTime,
+      priority: priority,
+      estimatedMinutes: minutes,
+      status: status,
+      snoozeCount: snooze,
+      tags: tags,
+      description: description,
+      note: note,
+      url: url,
+      reminderEnabled: reminder,
+      reminderOffsetMinutes: offset,
+      repeat: repeat,
+      lastKeptAt: kept,
+    );
