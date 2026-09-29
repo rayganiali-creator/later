@@ -238,7 +238,7 @@
   "reminderOff": "بدون یادآوری",
   "reminderAtTime": "سر وقت",
   "reminderBefore10": "۱۰ دقیقه قبل",
-  "reminderBefore1h": "۱ ساعت قبل",
+  "reminderBefore60Label": "۱ ساعت قبل",
   "reminderBefore1d": "۱ روز قبل",
   "reminderNeedsDate": "برای یادآوری یه تاریخ لازمه.",
   "reminderAtDefault": "ساعت {time} (پیش‌فرض)",

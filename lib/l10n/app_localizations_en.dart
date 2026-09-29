@@ -523,7 +523,7 @@ class AppL10nEn extends AppL10n {
   String get reminderBefore10 => '10 min before';
 
   @override
-  String get reminderBefore1h => '1 hour before';
+  String get reminderBefore60Label => '1 hour before';
 
   @override
   String get reminderBefore1d => '1 day before';

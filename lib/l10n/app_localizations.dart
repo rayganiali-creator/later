@@ -1063,11 +1063,11 @@ abstract class AppL10n {
   /// **'۱۰ دقیقه قبل'**
   String get reminderBefore10;
 
-  /// No description provided for @reminderBefore1h.
+  /// No description provided for @reminderBefore60Label.
   ///
   /// In fa, this message translates to:
   /// **'۱ ساعت قبل'**
-  String get reminderBefore1h;
+  String get reminderBefore60Label;
 
   /// No description provided for @reminderBefore1d.
   ///

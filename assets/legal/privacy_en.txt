@@ -1,0 +1,51 @@
+# Privacy Policy — Later
+
+Last updated: September 2026 · Version 1
+
+# Summary
+
+Later is built so that your data stays with you: no account, no personal-data server, no ads and no analytics.
+
+# What the app stores
+
+The items you add (title, description, note, link, tags, category, date and time, priority and estimated duration), custom categories, history and simple usage statistics, and app settings. All of it is stored only in the app's private storage on your device and is never sent to any server.
+
+# Internet
+
+The store build of Later does not request the internet permission and its core features work fully offline. The app does not send any personal data to us or to third parties.
+
+# Permissions
+
+Notifications: to show reminders; requested only the first time you set a reminder.
+Exact alarms: to show reminders on time; optional.
+Device restart: so reminders are re-scheduled after the phone reboots.
+Cafe Bazaar communication: only to buy a Pro subscription.
+The app does not ask for contacts, location, microphone, camera or shared storage. Saving and restoring backups uses the system file picker.
+
+# Sharing from other apps
+
+When you choose "Share → Later" in another app (for example a browser), only the text and link you sent are saved on your device.
+
+# Purchases
+
+Payments are handled by the app store (Cafe Bazaar); Later has no access to your payment details. Subscription status (plan type, start and end dates) is stored on the device in encrypted form.
+
+# Backups
+
+You create backup files yourself and decide where to save or share them. The file is not encrypted: anyone who can open it can read your items. Keep it safe. Automatic backups (Pro) are stored only in the app's private storage.
+
+# Notifications and privacy
+
+In Settings you can turn on "Hide text in notifications" so item titles are not shown on the lock screen.
+
+# Deleting your data
+
+"Erase everything" in Settings, or uninstalling the app, removes all data from the device. Because there is no server, we hold no copy.
+
+# Children
+
+The app collects no information about users and is suitable for all ages.
+
+# Changes to this policy
+
+If this policy changes, the new version is shown in the app and you may be asked to accept it again.

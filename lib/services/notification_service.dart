@@ -9,6 +9,7 @@ import 'package:timezone/timezone.dart' as tz;
 
 import '../domain/models.dart';
 import '../domain/reminders.dart';
+import 'background_actions.dart';
 
 /// Payload conventions for notifications: `item:<id>`.
 class NotificationTap {
@@ -93,16 +94,13 @@ abstract class NotificationGateway {
 const String kReminderChannelId = 'later_reminders';
 
 /// Called by the plugin in a background isolate for actions that don't need
-/// the UI. Must be a top-level function.
+/// the UI (Done / Tomorrow buttons). Must be a top-level function.
 @pragma('vm:entry-point')
 void notificationBackgroundHandler(NotificationResponse response) {
   final tap = NotificationTap.parse(response.payload, response.actionId);
   if (tap == null) return;
-  backgroundActionHandler?.call(tap);
+  unawaited(applyBackgroundAction(tap));
 }
-
-/// Injected by main.dart so the background isolate can apply Done/Snooze.
-Future<void> Function(NotificationTap tap)? backgroundActionHandler;
 
 class FlutterNotificationGateway implements NotificationGateway {
   FlutterNotificationGateway([FlutterLocalNotificationsPlugin? plugin])

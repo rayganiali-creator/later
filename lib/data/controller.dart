@@ -858,8 +858,9 @@ class LaterController extends ChangeNotifier {
     _afterItemsChanged();
   }
 
-  /// Fires a notification right now (for permission / channel testing).
-  Future<void> debugShowTestNotification() async {
+  /// Fires a notification right now (permission / channel check). Available
+  /// to users in Settings so they can verify notifications work.
+  Future<void> showTestNotification() async {
     final t = _notificationTexts();
     await notifications.showNow(id: 424242, title: t.testTitle, body: t.testBody);
   }

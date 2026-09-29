@@ -521,7 +521,7 @@ class AppL10nFa extends AppL10n {
   String get reminderBefore10 => '۱۰ دقیقه قبل';
 
   @override
-  String get reminderBefore1h => '۱ ساعت قبل';
+  String get reminderBefore60Label => '۱ ساعت قبل';
 
   @override
   String get reminderBefore1d => '۱ روز قبل';
