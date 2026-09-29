@@ -57,12 +57,11 @@ class MemoryVault implements Vault {
 /// market-side receipt check can be added later without touching the UI.
 class ProService extends ChangeNotifier {
   ProService({
-    required Vault vault,
+    required this._vault,
     DateTime Function()? clock,
     String backupSigningKey = const String.fromEnvironment('LATER_PRO_SIGNING_KEY'),
   })  : _clock = clock ?? DateTime.now,
-        _backupKey = backupSigningKey,
-        _vault = vault;
+        _backupKey = backupSigningKey;
 
   static const _kRecord = 'pro.record.v1';
   static const _kDeviceKey = 'pro.devkey.v1';

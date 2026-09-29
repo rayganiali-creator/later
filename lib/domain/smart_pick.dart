@@ -85,11 +85,11 @@ class SmartPicker {
 
     if (o.advanced) {
       switch (i.priority) {
-        case Priority.high:
+        case ItemPriority.high:
           s += 3.0;
-        case Priority.normal:
+        case ItemPriority.normal:
           s += 1.0;
-        case Priority.low:
+        case ItemPriority.low:
           s += 0.0;
       }
       // Items snoozed repeatedly get a gentle nudge: decide or drop.

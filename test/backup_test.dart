@@ -24,7 +24,7 @@ LaterSnapshot sampleSnapshot(int n) {
           created: t0.subtract(Duration(days: i % 90, minutes: i)),
           due: i % 3 == 0 ? t0.add(Duration(days: i % 20)) : null,
           hasTime: i % 6 == 0,
-          priority: Priority.values[i % 3],
+          priority: ItemPriority.values[i % 3],
           minutes: i % 4 == 0 ? 5 + i % 50 : null,
           status: ItemStatus.values[i % 10 == 0 ? 1 : (i % 17 == 0 ? 2 : 0)],
           snooze: i % 5,

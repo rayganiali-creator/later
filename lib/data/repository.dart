@@ -103,6 +103,12 @@ class LaterRepository {
 
   Future<void> addEvent(ItemEvent e) => _db.insert('events', e.toDb());
 
+  /// Removes the most recent event of [type] for [itemId] (used by undo and
+  /// re-open so statistics are not double counted).
+  Future<void> removeLastEvent(String itemId, EventType type) => _db.rawDelete(
+      'DELETE FROM events WHERE id = (SELECT MAX(id) FROM events WHERE item_id = ? AND type = ?)',
+      [itemId, type.index]);
+
   /// Atomically writes an item change together with its history event.
   Future<void> upsertItemWithEvent(LaterItem item, ItemEvent? event) =>
       _db.transaction((txn) async {

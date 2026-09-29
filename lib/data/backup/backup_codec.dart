@@ -119,7 +119,7 @@ class BackupCodec {
         for (final e in s.events) (e.toDb()..remove('id')),
       ],
       'settings': s.settings,
-      if (proBlob != null) 'pro': proBlob,
+      'pro': ?proBlob,
     };
     final dataJson = jsonEncode(data);
     final checksum = sha256.convert(utf8.encode(dataJson)).toString();
@@ -368,7 +368,7 @@ class BackupCodec {
       categoryId: cat,
       url: url,
       tags: tags,
-      priority: Priority.values[priority],
+      priority: ItemPriority.values[priority],
       estimatedMinutes: _intOpt(raw['est_minutes'], 1, 24 * 60 * 30, 'item.est'),
       dueAt: _dateOpt(raw['due_at'], 'item.due_at'),
       hasTime: raw['has_time'] == 1,

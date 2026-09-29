@@ -4,7 +4,7 @@ import 'dart:convert';
 enum ItemStatus { active, done, dropped }
 
 /// Values are persisted as their index; never reorder.
-enum Priority { low, normal, high }
+enum ItemPriority { low, normal, high }
 
 /// Values are persisted as their index; never reorder.
 enum RepeatRule { none, daily, weekly, monthly }
@@ -23,7 +23,7 @@ class LaterItem {
     this.note = '',
     this.url,
     this.tags = const [],
-    this.priority = Priority.normal,
+    this.priority = ItemPriority.normal,
     this.estimatedMinutes,
     this.dueAt,
     this.hasTime = false,
@@ -45,7 +45,7 @@ class LaterItem {
   final String categoryId;
   final String? url;
   final List<String> tags;
-  final Priority priority;
+  final ItemPriority priority;
   final int? estimatedMinutes;
 
   /// Local wall-clock instant of the due date. When [hasTime] is false only
@@ -77,7 +77,7 @@ class LaterItem {
     String? categoryId,
     Object? url = _unset,
     List<String>? tags,
-    Priority? priority,
+    ItemPriority? priority,
     Object? estimatedMinutes = _unset,
     Object? dueAt = _unset,
     bool? hasTime,
@@ -168,7 +168,7 @@ class LaterItem {
       categoryId: m['category_id'] as String,
       url: m['url'] as String?,
       tags: tags,
-      priority: Priority.values[_clamp(m['priority'] as int?, 0, 2, 1)],
+      priority: ItemPriority.values[_clamp(m['priority'] as int?, 0, 2, 1)],
       estimatedMinutes: m['est_minutes'] as int?,
       dueAt: d(m['due_at']),
       hasTime: (m['has_time'] as int? ?? 0) == 1,

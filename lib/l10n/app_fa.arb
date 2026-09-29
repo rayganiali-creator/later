@@ -1,1 +1,698 @@
-{"@@locale":"fa","appName":"بعداً"}
+{
+  "@@locale": "fa",
+  "appName": "بعداً",
+  "tagline": "الان لازم نیست؛ فقط فراموشش نکن.",
+  "ok": "باشه",
+  "cancel": "انصراف",
+  "save": "ذخیره",
+  "delete": "حذف",
+  "edit": "ویرایش",
+  "close": "بستن",
+  "retry": "تلاش دوباره",
+  "done": "انجام شد",
+  "next": "بعدی",
+  "skip": "رد کردن",
+  "continueLabel": "ادامه",
+  "undo": "برگردان",
+  "add": "اضافه کن",
+  "search": "جستجو",
+  "all": "همه",
+  "none": "هیچ‌کدام",
+  "proBadge": "Pro",
+  "loading": "در حال بارگذاری…",
+  "errorGeneric": "یه مشکلی پیش اومد. دوباره تلاش کن.",
+  "errorLoad": "بارگذاری اطلاعات ناموفق بود.",
+  "navHome": "خانه",
+  "navList": "بعداً",
+  "navHistory": "تاریخچه",
+  "navSettings": "تنظیمات",
+  "semAdd": "افزودن مورد جدید",
+  "onb1Title": "الان لازم نیست.",
+  "onb1Body": "ذهنت را از هزارتا کار نیمه‌کاره خالی کن.",
+  "onb2Title": "هر چیزی را که نمی‌خواهی فراموش کنی، اینجا نگه دار.",
+  "onb2Body": "مقاله، فیلم، خرید، ایده، لینک، یه تماس… فقط بنویس یا از هر برنامه‌ای «اشتراک‌گذاری» کن.",
+  "onb3Title": "بعداً خودش به تو یادآوری می‌کند.",
+  "onb3Body": "یه تاریخ و ساعت بده؛ یا نده و هر وقت وقت آزاد داشتی بگو «یه مورد بهم بده».",
+  "onb4Title": "بدون حساب کاربری، بدون سرور.",
+  "onb4Body": "اطلاعاتت فقط روی دستگاه خودت می‌ماند و حتی بدون اینترنت کار می‌کند.",
+  "onb5Title": "آماده‌ای؟",
+  "onb5Body": "هر چیزی که الان وقتش نیست را همین‌جا بگذار.",
+  "onbStart": "بزن بریم",
+  "legalTitle": "قبل از شروع",
+  "legalIntro": "لطفاً قوانین استفاده و سیاست حریم خصوصی را بخوان و تأیید کن.",
+  "termsTitle": "قوانین استفاده",
+  "privacyTitle": "سیاست حریم خصوصی",
+  "legalAccept": "قوانین استفاده و سیاست حریم خصوصی را خوانده‌ام و می‌پذیرم.",
+  "legalContinue": "تأیید و ورود",
+  "legalLoadError": "بارگذاری متن ناموفق بود.",
+  "legalUpdatedTitle": "به‌روزرسانی قوانین",
+  "homeWaiting": "{count} مورد منتظر توست",
+  "@homeWaiting": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "homeWaitingOne": "یک مورد منتظر توست",
+  "homeEmptyTitle": "هنوز چیزی برای بعداً نداری.",
+  "homeEmptyBody": "چه خوب. فعلاً ذهنت آزاده. 🌱",
+  "homeEmptyCta": "اولین مورد را اضافه کن",
+  "statToday": "امروز",
+  "statWeek": "این هفته",
+  "statNoDate": "بدون تاریخ",
+  "statOverdue": "عقب‌افتاده",
+  "statStale": "مانده‌ها",
+  "pickCardTitle": "🎯 یه مورد بهم بده",
+  "pickCardSub": "نمی‌دونی الان چی کار کنی؟ من انتخاب می‌کنم.",
+  "timeCardTitle": "الان چقدر وقت داری؟",
+  "minutesN": "{n} دقیقه",
+  "@minutesN": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      }
+    }
+  },
+  "hourOne": "۱ ساعت",
+  "anyTime": "مهم نیست",
+  "homeTodaySection": "امروز و عقب‌افتاده‌ها",
+  "homeSeeAll": "همه",
+  "staleBannerTitle": "{count} مورد مدت‌هاست منتظرند",
+  "@staleBannerTitle": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "staleBannerBody": "یه نگاه سریع بنداز؛ نگه دار یا رها کن.",
+  "decideTitle": "تصمیم نگیر",
+  "decideIntro": "نمی‌دونم الان چی کار کنم.",
+  "decideLabel": "🎯 پیشنهاد بعدی تو:",
+  "decideAbout": "حدود {n} دقیقه",
+  "@decideAbout": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      }
+    }
+  },
+  "decideDo": "انجامش می‌دم",
+  "decideLater": "بعداً",
+  "decideAnother": "مورد دیگری بده",
+  "decideNone": "چیزی برای پیشنهاد ندارم",
+  "decideNoneBody": "لیستت خالیه یا چیزی به این زمان نمی‌خوره. 🌱",
+  "decideNoMore": "مورد دیگری نمانده.",
+  "decideDoneToast": "آفرین! انجام شد ✓",
+  "smartPickTitle": "پیشنهاد هوشمند",
+  "smartPickHeader": "الان چقدر وقت داری؟",
+  "smartPickResultsFor": "مناسب {time}",
+  "@smartPickResultsFor": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "smartPickResultsAny": "پیشنهادها",
+  "smartPickEmpty": "برای این مدت چیزی پیدا نکردم.",
+  "smartPickProHint": "پیشنهاد پیشرفته (اولویت و فیلتر دسته) با Pro",
+  "smartPickCategory": "فقط از دسته‌ی…",
+  "smartPickAllCategories": "همه‌ی دسته‌ها",
+  "listTitle": "بعداً",
+  "searchHint": "جستجو در بعداً…",
+  "searchAdvancedHint": "جستجوی پیشرفته (برچسب، لینک، یادداشت) با Pro",
+  "filterAll": "همه",
+  "filterToday": "امروز",
+  "filterWeek": "این هفته",
+  "filterNoDate": "بدون تاریخ",
+  "filterOverdue": "عقب‌افتاده",
+  "filterHigh": "اولویت بالا",
+  "filterStale": "مانده‌ها",
+  "sortTitle": "مرتب‌سازی",
+  "sortNewest": "جدیدترین",
+  "sortOldest": "قدیمی‌ترین",
+  "sortDeadline": "نزدیک‌ترین موعد",
+  "sortPriority": "اولویت",
+  "sortShortest": "کوتاه‌ترین کار",
+  "sortLongest": "طولانی‌ترین کار",
+  "listEmptyFiltered": "چیزی پیدا نشد",
+  "listEmptyFilteredBody": "فیلتر یا عبارت جستجو را عوض کن.",
+  "smartFiltersPro": "فیلترهای هوشمند با Pro",
+  "overdue": "عقب‌افتاده",
+  "waitingDays": "{n} روز است منتظر",
+  "@waitingDays": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      }
+    }
+  },
+  "dueToday": "امروز",
+  "dueTomorrow": "فردا",
+  "atTime": "ساعت {time}",
+  "@atTime": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "noDate": "بدون تاریخ",
+  "priorityHigh": "اولویت بالا",
+  "priorityNormal": "عادی",
+  "priorityLow": "کم",
+  "priority": "اولویت",
+  "duration": "زمان تخمینی",
+  "minutesShort": "{n} د",
+  "@minutesShort": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      }
+    }
+  },
+  "reminder": "یادآوری",
+  "repeat": "تکرار",
+  "repeatNone": "یک‌بار",
+  "repeatDaily": "هر روز",
+  "repeatWeekly": "هر هفته",
+  "repeatMonthly": "هر ماه",
+  "snoozedTimes": "{n} بار به بعد رفته",
+  "@snoozedTimes": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      }
+    }
+  },
+  "itemDone": "انجام شد",
+  "itemSnooze": "بعداً",
+  "itemDrop": "بی‌خیالش شدم",
+  "itemOpenLink": "باز کردن لینک",
+  "itemLinkFailed": "لینک باز نشد.",
+  "toastDone": "انجام شد ✓",
+  "toastDropped": "کنار گذاشته شد",
+  "toastDeleted": "حذف شد",
+  "toastSnoozed": "منتقل شد به {when}",
+  "@toastSnoozed": {
+    "placeholders": {
+      "when": {
+        "type": "String"
+      }
+    }
+  },
+  "toastSaved": "ذخیره شد",
+  "toastAdded": "به بعداً اضافه شد",
+  "toastReopened": "به لیست برگشت",
+  "confirmDeleteTitle": "حذف این مورد؟",
+  "confirmDeleteBody": "این مورد برای همیشه پاک می‌شود.",
+  "createdOn": "ثبت‌شده در {date}",
+  "@createdOn": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "itemNotFound": "این مورد دیگر وجود ندارد.",
+  "addTitle": "چیزی برای بعداً",
+  "editTitle": "ویرایش",
+  "titleHint": "چی رو بذارم برای بعداً؟",
+  "titleRequired": "یه عنوان بنویس",
+  "moreOptions": "گزینه‌های بیشتر",
+  "lessOptions": "کمتر",
+  "fieldDescription": "توضیح",
+  "fieldNote": "یادداشت",
+  "fieldUrl": "لینک",
+  "urlInvalid": "لینک معتبر نیست (فقط http و https).",
+  "fieldTags": "برچسب‌ها",
+  "fieldTagsHint": "با کاما جدا کن",
+  "fieldCategory": "دسته",
+  "fieldDate": "تاریخ",
+  "fieldTime": "ساعت",
+  "datePick": "انتخاب تاریخ…",
+  "timePick": "انتخاب ساعت…",
+  "timeNone": "بدون ساعت",
+  "reminderOff": "بدون یادآوری",
+  "reminderAtTime": "سر وقت",
+  "reminderBefore10": "۱۰ دقیقه قبل",
+  "reminderBefore1h": "۱ ساعت قبل",
+  "reminderBefore1d": "۱ روز قبل",
+  "reminderNeedsDate": "برای یادآوری یه تاریخ لازمه.",
+  "reminderAtDefault": "ساعت {time} (پیش‌فرض)",
+  "@reminderAtDefault": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "repeatProHint": "یادآوری تکرارشونده با Pro",
+  "durationUnknown": "نامشخص",
+  "durationCustom": "دلخواه",
+  "durationCustomHint": "چند دقیقه؟",
+  "quickToday": "امروز",
+  "quickTomorrow": "فردا",
+  "quickWeekend": "آخر هفته",
+  "quickNextWeek": "هفته بعد",
+  "quickNoDate": "بدون تاریخ",
+  "quickCustom": "تاریخ دیگر",
+  "discardTitle": "تغییرات ذخیره نشود؟",
+  "discardBody": "چیزی که نوشته‌ای ذخیره نشده.",
+  "discard": "دور بینداز",
+  "snoozeTitle": "به کِی موکولش کنم؟",
+  "snoozeTonight": "امشب",
+  "snoozeTomorrow": "فردا",
+  "snoozeWeekend": "آخر هفته",
+  "snoozeNextWeek": "هفته بعد",
+  "snoozeNextMonth": "ماه بعد",
+  "snoozeCustom": "تاریخ دلخواه",
+  "snoozeNoDate": "بدون تاریخ",
+  "datePickerTitle": "انتخاب تاریخ",
+  "prevMonth": "ماه قبل",
+  "nextMonth": "ماه بعد",
+  "today": "امروز",
+  "clear": "پاک کردن",
+  "staleTitle": "بعداً، نه هیچ‌وقت",
+  "staleQuestion": "این مورد {days} روز است منتظر توست.\nهنوز می‌خواهی نگهش داری؟",
+  "@staleQuestion": {
+    "placeholders": {
+      "days": {
+        "type": "String"
+      }
+    }
+  },
+  "staleKeep": "نگه دار",
+  "staleSnooze": "برای بعداً تنظیم کن",
+  "staleDone": "انجام شد",
+  "staleDrop": "بی‌خیالش شدم",
+  "staleProgress": "{i} از {n}",
+  "@staleProgress": {
+    "placeholders": {
+      "i": {
+        "type": "String"
+      },
+      "n": {
+        "type": "String"
+      }
+    }
+  },
+  "staleAllDone": "همه‌چی مرتبه ✨",
+  "staleAllDoneBody": "لیستت سبک‌تر شد.",
+  "staleNoPressure": "بدون عجله؛ هیچ تصمیمی اشتباه نیست.",
+  "historyTitle": "تاریخچه",
+  "periodToday": "امروز",
+  "periodWeek": "این هفته",
+  "periodMonth": "این ماه",
+  "periodAll": "همه",
+  "historyEmpty": "هنوز چیزی در تاریخچه نیست",
+  "historyEmptyBody": "کارهای انجام‌شده و کنار گذاشته‌شده اینجا می‌مانند.",
+  "historyDoneAt": "انجام شد · {date}",
+  "@historyDoneAt": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "historyDroppedAt": "کنار گذاشته شد · {date}",
+  "@historyDroppedAt": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "historyRestore": "برگردان به لیست",
+  "historyProNote": "تاریخچه‌ی کامل (ماه و همه) با Pro",
+  "historyDisabled": "ثبت تاریخچه خاموش است؛ فقط آمار ناشناس نگه داشته می‌شود.",
+  "statsTitle": "آمار",
+  "statsDone": "انجام‌شده",
+  "statsDropped": "کنار گذاشته‌شده",
+  "statsDeleted": "حذف‌شده",
+  "statsSnoozed": "بار به تعویق افتاده",
+  "statsActive": "فعال",
+  "statsAvgWait": "میانگین ماندن تا انجام",
+  "statsDaysValue": "{n} روز",
+  "@statsDaysValue": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      }
+    }
+  },
+  "statsTopCategory": "محبوب‌ترین دسته",
+  "statsThisWeek": "انجام‌شده در این هفته",
+  "statsProLocked": "آمار کامل با Pro",
+  "statsNoData": "—",
+  "settingsTitle": "تنظیمات",
+  "secAppearance": "ظاهر",
+  "theme": "تم",
+  "themeLight": "روشن",
+  "themeDark": "تیره",
+  "themeSystem": "پیش‌فرض سیستم",
+  "accent": "رنگ اصلی",
+  "accentIndigo": "بنفش",
+  "accentTeal": "فیروزه‌ای",
+  "accentRose": "رُز",
+  "accentAmber": "کهربایی",
+  "accentSlate": "خاکستری",
+  "appIcon": "آیکون برنامه",
+  "iconClassic": "کلاسیک",
+  "iconTeal": "فیروزه‌ای",
+  "iconRose": "رُز",
+  "iconDark": "تیره",
+  "iconChangeNote": "با تغییر آیکون ممکن است چند لحظه‌ی دیگر در لانچر عوض شود.",
+  "secReminders": "یادآوری",
+  "remindersToggle": "یادآوری‌ها",
+  "defaultReminderTime": "ساعت پیش‌فرض یادآوری",
+  "privateNotifications": "پنهان کردن متن در اعلان",
+  "privateNotificationsSub": "عنوان موردها روی صفحه‌ی قفل دیده نشود.",
+  "notifPermission": "دسترسی اعلان",
+  "notifPermissionOn": "فعال است",
+  "notifPermissionOff": "غیرفعال است؛ برای باز کردن تنظیمات بزن",
+  "exactAlarm": "دقت یادآوری",
+  "exactAlarmOk": "دقیق",
+  "exactAlarmOff": "تقریبی؛ «هشدار دقیق» مجاز نشده",
+  "batteryOptimization": "محدودیت باتری",
+  "batteryOptimizationSub": "بعضی گوشی‌ها یادآوری را می‌بندند؛ بزن تا تنظیمات باز شود.",
+  "sendTestNotification": "ارسال اعلان آزمایشی",
+  "testNotificationSent": "اعلان آزمایشی ارسال شد.",
+  "secGeneral": "عمومی",
+  "language": "زبان",
+  "langFa": "فارسی",
+  "langEn": "English",
+  "calendar": "تقویم",
+  "calJalali": "شمسی",
+  "calGregorian": "میلادی",
+  "weekStart": "شروع هفته",
+  "weekendDay": "روز آخر هفته",
+  "keepHistory": "نگه داشتن تاریخچه",
+  "keepHistorySub": "موردهای انجام‌شده و کنار گذاشته‌شده در آرشیو بمانند.",
+  "staleAfter": "مرور مانده‌ها بعد از",
+  "daysN": "{n} روز",
+  "@daysN": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      }
+    }
+  },
+  "secData": "اطلاعات",
+  "backupRestore": "پشتیبان‌گیری و بازیابی",
+  "categoriesManage": "مدیریت دسته‌ها",
+  "secAbout": "درباره",
+  "proSettingsTitle": "بعداً Pro",
+  "proSettingsFree": "نسخه‌ی رایگان",
+  "proSettingsActive": "فعال تا {date}",
+  "@proSettingsActive": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "about": "درباره‌ی برنامه",
+  "aboutBody": "بعداً یک برنامه‌ی کوچک و سریع برای نگه‌داشتن چیزهایی است که الان وقتشان نیست؛ بدون حساب کاربری و بدون سرور.",
+  "aboutOffline": "همه‌ی اطلاعات فقط روی دستگاه تو ذخیره می‌شود.",
+  "aboutLicenses": "مجوزهای متن‌باز",
+  "aboutContact": "پشتیبانی",
+  "version": "نسخه",
+  "versionValue": "نسخه {v}",
+  "@versionValue": {
+    "placeholders": {
+      "v": {
+        "type": "String"
+      }
+    }
+  },
+  "resetApp": "پاک کردن همه‌ی اطلاعات",
+  "resetAppSub": "همه‌ی موردها، دسته‌ها، تاریخچه و تنظیمات",
+  "resetConfirmTitle": "همه‌چیز پاک شود؟",
+  "resetConfirmBody": "همه‌ی موردها، دسته‌ها، تاریخچه و تنظیمات این برنامه برای همیشه پاک می‌شود. این کار قابل بازگشت نیست.\n(اشتراک Pro از بین نمی‌رود.)\nپیشنهاد می‌کنیم اول پشتیبان بگیری.",
+  "resetTypeHint": "برای تأیید، کلمه‌ی «{word}» را بنویس",
+  "@resetTypeHint": {
+    "placeholders": {
+      "word": {
+        "type": "String"
+      }
+    }
+  },
+  "resetWord": "پاک",
+  "resetAction": "پاک کردن همه‌چیز",
+  "resetDone": "همه‌چیز پاک شد.",
+  "categoryName": "{id, select, work{کار} read{خواندنی} watch{دیدنی} buy{خرید} idea{ایده} link{لینک} people{افراد} other{سایر}}",
+  "@categoryName": {
+    "placeholders": {
+      "id": {
+        "type": "String"
+      }
+    }
+  },
+  "categoryNew": "دسته‌ی جدید",
+  "categoryEdit": "ویرایش دسته",
+  "categoryNameHint": "نام دسته",
+  "categoryEmojiHint": "ایموجی",
+  "categoryLimit": "در نسخه‌ی رایگان تا {free} دسته‌ی سفارشی می‌توانی بسازی؛ Pro تا {pro} دسته.",
+  "@categoryLimit": {
+    "placeholders": {
+      "free": {
+        "type": "String"
+      },
+      "pro": {
+        "type": "String"
+      }
+    }
+  },
+  "categoryDeleteTitle": "این دسته حذف شود؟",
+  "categoryDeleteBody": "موردهای این دسته به «سایر» منتقل می‌شوند.",
+  "categoryBuiltin": "دسته‌ی پیش‌فرض",
+  "backupTitle": "پشتیبان‌گیری و بازیابی",
+  "backupIntro": "اطلاعات فقط روی همین دستگاه است. برای جابه‌جایی یا نصب مجدد، از آن‌ها فایل پشتیبان بگیر.",
+  "backupExport": "خروجی گرفتن از اطلاعات",
+  "backupExportSub": "یک فایل ‎.later‎ با همه‌ی موردها، دسته‌ها، تاریخچه و تنظیمات",
+  "backupImport": "بازیابی از فایل",
+  "backupImportSub": "فایل پشتیبانِ قبلی را انتخاب کن",
+  "backupLast": "آخرین پشتیبان: {date}",
+  "@backupLast": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "backupNever": "هنوز پشتیبان نگرفته‌ای",
+  "backupExported": "پشتیبان ذخیره شد ✓",
+  "backupAuto": "پشتیبان خودکار هفتگی",
+  "backupAutoSub": "تا ۵ نسخه در حافظه‌ی خصوصی برنامه نگه داشته می‌شود (Pro).",
+  "backupAdvancedExport": "خروجی‌های بیشتر (Pro)",
+  "exportCsv": "خروجی CSV",
+  "exportText": "خروجی متنی (Markdown)",
+  "exportSaved": "فایل ذخیره شد ✓",
+  "restoreConfirmTitle": "بازیابی اطلاعات؟",
+  "restoreConfirmReplace": "اطلاعات فعلی ({current} مورد) با محتوای فایل ({incoming} مورد، ساخته‌شده در {date}) جایگزین می‌شود.\nپیش از آن یک نسخه‌ی ایمنی از اطلاعات فعلی نگه داشته می‌شود.",
+  "@restoreConfirmReplace": {
+    "placeholders": {
+      "current": {
+        "type": "String"
+      },
+      "date": {
+        "type": "String"
+      },
+      "incoming": {
+        "type": "String"
+      }
+    }
+  },
+  "restoreConfirmEmpty": "فایل شامل {incoming} مورد است (ساخته‌شده در {date}).",
+  "@restoreConfirmEmpty": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      },
+      "incoming": {
+        "type": "String"
+      }
+    }
+  },
+  "restoreAction": "بازیابی",
+  "restoreDone": "اطلاعات بازیابی شد ✓",
+  "restoreProRestored": "اشتراک Pro هم از پشتیبان بازیابی شد.",
+  "backupErrEmpty": "فایل خالی است.",
+  "backupErrTooLarge": "فایل خیلی بزرگ است.",
+  "backupErrNotJson": "فایل خراب یا ناقص است.",
+  "backupErrNotBackup": "این فایل پشتیبان «بعداً» نیست.",
+  "backupErrMissing": "فایل ناقص است.",
+  "backupErrFuture": "این پشتیبان با نسخه‌ی جدیدتری از برنامه ساخته شده. برنامه را به‌روزرسانی کن.",
+  "backupErrUnsupported": "قالب این پشتیبان دیگر پشتیبانی نمی‌شود.",
+  "backupErrChecksum": "فایل آسیب دیده یا ویرایش شده است.",
+  "backupErrInvalid": "محتوای فایل معتبر نیست.",
+  "backupErrMigration": "به‌روزرسانی قالب فایل ناموفق بود.",
+  "backupErrGeneric": "بازیابی انجام نشد. اطلاعات فعلی دست‌نخورده ماند.",
+  "backupNoChange": "اطلاعات فعلی تغییری نکرد.",
+  "proTitle": "بعداً Pro",
+  "proHeadline": "امکانات بیشتر برای کسانی که «بعداً» را زیاد استفاده می‌کنند.",
+  "proFreeNote": "نسخه‌ی رایگان همچنان کامل قابل استفاده است و هیچ اطلاعاتی محدود یا حذف نمی‌شود.",
+  "proActiveUntil": "فعال تا {date}",
+  "@proActiveUntil": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "proRemaining": "{n} روز باقی مانده",
+  "@proRemaining": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      }
+    }
+  },
+  "proExpiredNote": "اشتراک Pro تمام شده؛ اطلاعاتت سالم است و فقط امکانات Pro غیرفعال شده‌اند.",
+  "proPlan1": "۱ ماهه",
+  "proPlan3": "۳ ماهه",
+  "proPlan6": "۶ ماهه",
+  "proPlanDay1": "۱ روزه (آزمایشی)",
+  "proPlanDay7": "۷ روزه (آزمایشی)",
+  "priceToman": "{price} تومان",
+  "@priceToman": {
+    "placeholders": {
+      "price": {
+        "type": "String"
+      }
+    }
+  },
+  "proBuy": "خرید",
+  "proExtend": "تمدید",
+  "proStackNote": "با خرید جدید، روزهای باقی‌مانده حفظ می‌شود و مدت تازه به آن اضافه می‌شود.",
+  "proRestore": "بازیابی خریدها",
+  "proRestored": "{n} خرید بازیابی شد",
+  "@proRestored": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      }
+    }
+  },
+  "proNothingToRestore": "خرید بازیابی‌نشده‌ای پیدا نشد.",
+  "proPurchaseSuccess": "Pro فعال شد 🎉",
+  "proPurchaseCancelled": "خرید لغو شد.",
+  "proPurchaseUnavailable": "سرویس پرداخت در دسترس نیست. برنامه‌ی کافه‌بازار را بررسی کن.",
+  "proPurchaseFailed": "خرید انجام نشد. دوباره تلاش کن.",
+  "proTamper": "اطلاعات اشتراک معتبر نبود و بازنشانی شد. اگر خرید کرده‌ای، «بازیابی خریدها» را بزن.",
+  "proF1": "پیشنهاد هوشمند پیشرفته",
+  "proF2": "فیلترها و جستجوی پیشرفته",
+  "proF3": "آمار و تاریخچه‌ی کامل",
+  "proF4": "دسته‌های سفارشی بیشتر",
+  "proF5": "یادآوری تکرارشونده و پیشرفته",
+  "proF6": "ویجت‌های پیشرفته",
+  "proF7": "تم‌ها و آیکون‌های بیشتر",
+  "proF8": "پشتیبان خودکار و خروجی‌های بیشتر",
+  "proLockedTitle": "این امکان مخصوص Pro است",
+  "proLockedBody": "با Pro این و چند امکان دیگر باز می‌شود. نسخه‌ی رایگان همچنان کامل است.",
+  "proSeePlans": "دیدن پلن‌ها",
+  "notNow": "حالا نه",
+  "qaTitle": "ابزار تست (فقط نسخه‌ی آزمایشی)",
+  "qaNote": "این بخش در نسخه‌ی بازار وجود ندارد.",
+  "qaGrantPlan": "شبیه‌سازی خرید {plan}",
+  "@qaGrantPlan": {
+    "placeholders": {
+      "plan": {
+        "type": "String"
+      }
+    }
+  },
+  "qaClearPro": "حذف Pro",
+  "qaAdvance": "جلو بردن ساعت برنامه: {n} روز",
+  "@qaAdvance": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      }
+    }
+  },
+  "qaResetTime": "بازنشانی ساعت شبیه‌سازی‌شده",
+  "qaClock": "ساعت برنامه: {date}",
+  "@qaClock": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "qaSeed": "افزودن {n} مورد نمونه",
+  "@qaSeed": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      }
+    }
+  },
+  "qaSeeded": "{n} مورد اضافه شد.",
+  "@qaSeeded": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      }
+    }
+  },
+  "qaNotifNow": "اعلان همین حالا",
+  "qaNotifIn": "اعلان تا {s} ثانیه‌ی دیگر",
+  "@qaNotifIn": {
+    "placeholders": {
+      "s": {
+        "type": "String"
+      }
+    }
+  },
+  "qaProState": "وضعیت Pro: {state}",
+  "@qaProState": {
+    "placeholders": {
+      "state": {
+        "type": "String"
+      }
+    }
+  },
+  "notifChannelName": "یادآوری‌ها",
+  "notifChannelDescription": "یادآوری موردهایی که برای بعداً گذاشته‌ای",
+  "notifActionDone": "انجام شد",
+  "notifActionTomorrow": "فردا",
+  "notifPrivateBody": "یه مورد منتظر توست",
+  "notifBodyGeneric": "بعداً",
+  "notifTestTitle": "اعلان آزمایشی",
+  "notifTestBody": "اگر این را می‌بینی، اعلان‌ها کار می‌کنند ✓",
+  "reminderPermissionBanner": "اجازه‌ی اعلان داده نشده؛ یادآوری‌ها نمایش داده نمی‌شوند.",
+  "reminderSyncFailed": "برخی یادآوری‌ها ثبت نشدند.",
+  "reminderApproximate": "یادآوری‌ها تقریبی‌اند؛ برای دقت بیشتر «هشدار دقیق» را مجاز کن.",
+  "permissionDeniedTitle": "اجازه‌ی اعلان لازم است",
+  "permissionDeniedBody": "برای اینکه بعداً بتونم یادت بندازم، اجازه‌ی اعلان را فعال کن.",
+  "openSettings": "باز کردن تنظیمات",
+  "shareAdded": "«{title}» به بعداً اضافه شد",
+  "@shareAdded": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "widgetWaiting": "{n} مورد منتظرند",
+  "@widgetWaiting": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      }
+    }
+  },
+  "widgetEmpty": "چیزی منتظر نیست 🌱",
+  "widgetAdd": "+ اضافه کن",
+  "widgetPick": "🎯 پیشنهاد",
+  "widgetProOnly": "ویجت پیشرفته مخصوص Pro است",
+  "widgetSuggestion": "پیشنهاد",
+  "shortcutAdd": "اضافه کردن",
+  "shortcutPick": "یه مورد بهم بده",
+  "shortcutSearch": "جستجو",
+  "licensesLegalese": "ساخته‌شده با فلاتر. فونت وزیرمتن (مجوز OFL)."
+}

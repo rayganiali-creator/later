@@ -122,7 +122,7 @@ bool matchesFilter(
     case FilterKind.overdue:
       return isOverdue(i, now);
     case FilterKind.highPriority:
-      return i.priority == Priority.high;
+      return i.priority == ItemPriority.high;
     case FilterKind.stale:
       return isStale(i, now, staleDays);
     case FilterKind.category:

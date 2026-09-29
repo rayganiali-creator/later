@@ -99,7 +99,7 @@ void main() {
     final overdue = item('over', due: DateTime(2026, 9, 20));
     final overdueTime = item('overt', due: DateTime(2026, 9, 30, 9), hasTime: true);
     final laterToday = item('lt', due: DateTime(2026, 9, 30, 18), hasTime: true);
-    final high = item('high', priority: Priority.high);
+    final high = item('high', priority: ItemPriority.high);
     final all = [today, weekLater, nextWeek, none, overdue, overdueTime, laterToday, high];
 
     List<String> f(ItemFilter x) => all
@@ -192,9 +192,9 @@ void main() {
   });
 
   group('Sorting', () {
-    final a = item('a', created: DateTime(2026, 9, 1), due: DateTime(2026, 10, 5), priority: Priority.low, minutes: 30);
-    final b = item('b', created: DateTime(2026, 9, 3), due: DateTime(2026, 10, 1), priority: Priority.high, minutes: 5);
-    final c = item('c', created: DateTime(2026, 9, 2), priority: Priority.normal);
+    final a = item('a', created: DateTime(2026, 9, 1), due: DateTime(2026, 10, 5), priority: ItemPriority.low, minutes: 30);
+    final b = item('b', created: DateTime(2026, 9, 3), due: DateTime(2026, 10, 1), priority: ItemPriority.high, minutes: 5);
+    final c = item('c', created: DateTime(2026, 9, 2), priority: ItemPriority.normal);
     final d = item('d', created: DateTime(2026, 8, 1), due: DateTime(2026, 10, 3), minutes: 120);
     List<String> s(SortMode m) => sortItems([a, b, c, d], m, now: t0).map((e) => e.id).toList();
     test('newest', () => expect(s(SortMode.newest), ['b', 'c', 'a', 'd']));
@@ -252,8 +252,8 @@ void main() {
 
     test('advanced: priority & category filter', () {
       final list = [
-        item('lowp', priority: Priority.low, category: 'read'),
-        item('highp', priority: Priority.high, category: 'buy'),
+        item('lowp', priority: ItemPriority.low, category: 'read'),
+        item('highp', priority: ItemPriority.high, category: 'buy'),
       ];
       final adv = SmartPicker(random: Random(1))
           .pick(list, t0, const PickOptions(advanced: true, limit: 2));

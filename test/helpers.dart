@@ -9,7 +9,7 @@ LaterItem item(
   DateTime? created,
   DateTime? due,
   bool hasTime = false,
-  Priority priority = Priority.normal,
+  ItemPriority priority = ItemPriority.normal,
   int? minutes,
   ItemStatus status = ItemStatus.active,
   int snooze = 0,
