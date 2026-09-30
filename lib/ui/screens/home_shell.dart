@@ -62,11 +62,7 @@ class _HomeShellState extends State<HomeShell> {
     ];
 
     return Scaffold(
-      body: AnimatedSwitcher(
-        duration: const Duration(milliseconds: 220),
-        switchInCurve: Curves.easeOutCubic,
-        child: KeyedSubtree(key: ValueKey(bus.tab), child: tabs[bus.tab]),
-      ),
+      body: IndexedStack(index: bus.tab, children: tabs),
       floatingActionButton: bus.tab == 3
           ? null
           : Semantics(

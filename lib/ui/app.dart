@@ -31,13 +31,39 @@ class _LaterAppState extends State<LaterApp> with WidgetsBindingObserver {
   StreamSubscription<SharedContent>? _shareSub;
   StreamSubscription<QuickAction>? _actionSub;
   Object? _initError;
+  Object? _appKey;
 
   LaterController get c => widget.controller;
+
+  /// Only the things that change the *shell* (theme, language, gate screens).
+  /// Item edits must not rebuild MaterialApp.
+  Object _shellKey() {
+    final st = c.settings;
+    return (
+      c.loaded,
+      c.loaded && c.isPro,
+      st.themeMode,
+      st.accent,
+      st.languageCode,
+      st.onboardingDone,
+      st.legalAccepted,
+    );
+  }
+
+  void _onController() {
+    final k = _shellKey();
+    if (k != _appKey) {
+      _appKey = k;
+      if (mounted) setState(() {});
+    }
+  }
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
+    _appKey = _shellKey();
+    c.addListener(_onController);
     unawaited(_boot());
   }
 
@@ -84,6 +110,7 @@ class _LaterAppState extends State<LaterApp> with WidgetsBindingObserver {
 
   @override
   void dispose() {
+    c.removeListener(_onController);
     WidgetsBinding.instance.removeObserver(this);
     _shareSub?.cancel();
     _actionSub?.cancel();
@@ -92,9 +119,8 @@ class _LaterAppState extends State<LaterApp> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-    return ListenableBuilder(
-      listenable: c,
-      builder: (context, _) {
+    return Builder(
+      builder: (context) {
         final st = c.settings;
         final isPro = c.loaded && c.isPro;
         // When Pro ends, non-free accents fall back to the default palette

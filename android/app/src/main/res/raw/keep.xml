@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Resources only referenced by *name at runtime* must survive resource shrinking:
+     the notification small icon is looked up by string by flutter_local_notifications. -->
+<resources xmlns:tools="http://schemas.android.com/tools"
+    tools:keep="@drawable/ic_notification,@mipmap/ic_launcher*,@drawable/ic_shortcut_*"
+    tools:shrinkMode="strict" />

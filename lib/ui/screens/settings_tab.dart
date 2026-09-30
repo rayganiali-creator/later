@@ -216,8 +216,15 @@ class _SettingsTabState extends State<SettingsTab> with WidgetsBindingObserver {
             _tile(Icons.battery_saver_rounded, l.batteryOptimization, l.batteryOptimizationSub,
                 onTap: () => app.platform.openBatteryOptimizationSettings()),
             _tile(Icons.notification_add_outlined, l.sendTestNotification, null, onTap: () async {
-              await app.showTestNotification();
-              if (context.mounted) showAppSnack(context, l.testNotificationSent);
+              try {
+                await app.ensureNotificationPermission();
+                await app.showTestNotification();
+                if (context.mounted) showAppSnack(context, l.testNotificationSent);
+              } catch (e) {
+                // Never a raw exception for users; QA builds also show the detail.
+                final detail = AppConfig.testToolsEnabled ? '\n$e' : '';
+                if (context.mounted) showAppSnack(context, '${l.errorGeneric}$detail', duration: const Duration(seconds: 8));
+              }
             }),
           ]),
 

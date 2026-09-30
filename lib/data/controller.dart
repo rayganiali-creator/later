@@ -865,6 +865,20 @@ class LaterController extends ChangeNotifier {
     await notifications.showNow(id: 424242, title: t.testTitle, body: t.testBody);
   }
 
+  /// Human-readable notification diagnostics (QA + Settings support info).
+  Future<String> notificationDiagnostics() async {
+    final b = StringBuffer();
+    try {
+      b.writeln('permission: ${(await notifications.permission()).name}');
+      b.writeln('exactAlarms: ${await notifications.exactAlarmsAllowed()}');
+      b.writeln('pending: ${(await notifications.pendingIds()).length}');
+      b.writeln('lastSync: scheduled=${_reminderStatus.scheduled} failed=${_reminderStatus.failed}');
+    } catch (e) {
+      b.writeln('error: ${e.runtimeType}: $e');
+    }
+    return b.toString();
+  }
+
   /// Schedules a real test reminder in [seconds] (exercises AlarmManager).
   Future<void> debugScheduleTestIn(int seconds) async {
     final t = _notificationTexts();
