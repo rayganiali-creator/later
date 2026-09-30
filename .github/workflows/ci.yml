@@ -93,8 +93,12 @@ jobs:
       - name: Collect outputs
         run: |
           mkdir -p out
-          cp build/app/outputs/flutter-apk/app-qa-*-release.apk out/ || true
-          cp build/app/outputs/flutter-apk/app-qa-release.apk out/ 2>/dev/null || true
+          ls build/app/outputs/flutter-apk/
+          mkdir -p release-assets
+          # split-per-abi names look like app-arm64-v8a-qa-release.apk
+          for f in build/app/outputs/flutter-apk/app-*qa-release.apk build/app/outputs/flutter-apk/app-qa-*release.apk; do
+            [ -f "$f" ] && cp "$f" out/ && cp "$f" release-assets/ || true
+          done
           cp build/app/outputs/flutter-apk/app-qa-debug.apk out/
           cp build/app/outputs/bundle/storeRelease/app-store-release.aab out/app-store-release-THROWAWAY-KEY.aab
           cp android/app/build/reports/lint-results-storeRelease.html out/ 2>/dev/null || true
@@ -118,6 +122,4 @@ jobs:
             Package id: `app.baadan.later.qa` — installs next to the store app.
             Commit: ${{ github.sha }}
           files: |
-            out/app-qa-*-release.apk
-            out/app-qa-release.apk
-            out/app-qa-debug.apk
+            release-assets/*.apk
