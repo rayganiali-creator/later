@@ -94,7 +94,8 @@ class AppL10nEn extends AppL10n {
   String get onb1Title => 'You don\'t need it now.';
 
   @override
-  String get onb1Body => 'Free your mind from a thousand half-finished things.';
+  String get onb1Body =>
+      'Not everything has to be done right now. Put aside what isn\'t for now.';
 
   @override
   String get onb2Title =>
@@ -102,21 +103,21 @@ class AppL10nEn extends AppL10n {
 
   @override
   String get onb2Body =>
-      'An article, a movie, a purchase, an idea, a link, a call… just type it or Share it from any app.';
+      'An article, a movie, something to buy, an idea, a call. Type it, or hit Share in any app.';
 
   @override
   String get onb3Title => 'Later reminds you by itself.';
 
   @override
   String get onb3Body =>
-      'Give it a date and time — or don\'t, and ask \"give me one\" whenever you have a moment.';
+      'Give it a date and it\'ll remind you. No date? Spin the roulette when you have a moment.';
 
   @override
   String get onb4Title => 'No account, no server.';
 
   @override
   String get onb4Body =>
-      'Your data stays on your own device and works even without internet.';
+      'Your data stays on your phone and works without internet.';
 
   @override
   String get onb5Title => 'Ready?';
@@ -132,7 +133,7 @@ class AppL10nEn extends AppL10n {
 
   @override
   String get legalIntro =>
-      'Please read and accept the Terms of Use and the Privacy Policy.';
+      'Before you start, please read and accept the Terms of Use and Privacy Policy.';
 
   @override
   String get termsTitle => 'Terms of Use';
@@ -155,11 +156,11 @@ class AppL10nEn extends AppL10n {
 
   @override
   String homeWaiting(String count) {
-    return '$count items are waiting for you';
+    return '$count things are waiting for you';
   }
 
   @override
-  String get homeWaitingOne => 'One item is waiting for you';
+  String get homeWaitingOne => 'One thing is waiting for you';
 
   @override
   String get homeEmptyTitle => 'Nothing for later yet.';
@@ -186,10 +187,11 @@ class AppL10nEn extends AppL10n {
   String get statStale => 'Waiting long';
 
   @override
-  String get pickCardTitle => '🎯 Give me one';
+  String get pickCardTitle => 'Later roulette';
 
   @override
-  String get pickCardSub => 'Don\'t know what to do now? I\'ll choose.';
+  String get pickCardSub =>
+      'Can\'t decide what to do? Let the roulette choose.';
 
   @override
   String get timeCardTitle => 'How much time do you have?';
@@ -226,7 +228,7 @@ class AppL10nEn extends AppL10n {
   String get decideIntro => 'I don\'t know what to do right now.';
 
   @override
-  String get decideLabel => '🎯 Your next suggestion:';
+  String get decideLabel => 'The roulette picked';
 
   @override
   String decideAbout(String n) {
@@ -252,7 +254,7 @@ class AppL10nEn extends AppL10n {
   String get decideNoMore => 'No more items to suggest.';
 
   @override
-  String get decideDoneToast => 'Nice! Done ✓';
+  String get decideDoneToast => 'Done ✓';
 
   @override
   String get smartPickTitle => 'Smart pick';
@@ -272,8 +274,7 @@ class AppL10nEn extends AppL10n {
   String get smartPickEmpty => 'I couldn\'t find anything for that long.';
 
   @override
-  String get smartPickProHint =>
-      'Advanced picks (priority & category filter) with Pro';
+  String get smartPickProHint => 'Category and priority filters need Pro';
 
   @override
   String get smartPickCategory => 'Only from category…';
@@ -619,7 +620,7 @@ class AppL10nEn extends AppL10n {
 
   @override
   String staleQuestion(String days) {
-    return 'This has been waiting for you for $days days.\nDo you still want to keep it?';
+    return 'It\'s been waiting $days days.\nDo you still want to keep it?';
   }
 
   @override
@@ -640,13 +641,13 @@ class AppL10nEn extends AppL10n {
   }
 
   @override
-  String get staleAllDone => 'All clear ✨';
+  String get staleAllDone => 'All clear';
 
   @override
   String get staleAllDoneBody => 'Your list just got lighter.';
 
   @override
-  String get staleNoPressure => 'No rush; no decision is wrong.';
+  String get staleNoPressure => 'No rush. Whatever you decide is fine.';
 
   @override
   String get historyTitle => 'History';
@@ -683,7 +684,7 @@ class AppL10nEn extends AppL10n {
   String get historyRestore => 'Move back to list';
 
   @override
-  String get historyProNote => 'Full history (month & all) with Pro';
+  String get historyProNote => 'Full history (month and all time) with Pro';
 
   @override
   String get historyDisabled =>
@@ -860,8 +861,7 @@ class AppL10nEn extends AppL10n {
   String get keepHistory => 'Keep history';
 
   @override
-  String get keepHistorySub =>
-      'Keep completed and set-aside items in the archive.';
+  String get keepHistorySub => 'Keep finished and set-aside items in history.';
 
   @override
   String get staleAfter => 'Review long-waiting items after';
@@ -899,7 +899,7 @@ class AppL10nEn extends AppL10n {
 
   @override
   String get aboutBody =>
-      'Later is a small, fast app for keeping things that aren\'t for now — no account, no server.';
+      'Later is where things go when it isn\'t the time yet. No account, no server.';
 
   @override
   String get aboutOffline => 'All your data is stored only on your device.';
@@ -929,7 +929,7 @@ class AppL10nEn extends AppL10n {
 
   @override
   String get resetConfirmBody =>
-      'All items, categories, history and settings will be permanently deleted. This cannot be undone.\n(Your Pro subscription is not affected.)\nWe suggest making a backup first.';
+      'Everything in this app is deleted for good and can\'t be brought back. Your Pro plan isn\'t affected. Make a backup first.';
 
   @override
   String resetTypeHint(String word) {
@@ -974,7 +974,7 @@ class AppL10nEn extends AppL10n {
 
   @override
   String categoryLimit(String free, String pro) {
-    return 'The free plan allows $free custom categories; Pro allows up to $pro.';
+    return 'The free plan allows $free custom categories. Pro allows up to $pro.';
   }
 
   @override
@@ -991,7 +991,7 @@ class AppL10nEn extends AppL10n {
 
   @override
   String get backupIntro =>
-      'Your data lives only on this device. Make a backup file before moving or reinstalling.';
+      'Your data lives only on this phone. Before switching phones or reinstalling, make a backup file.';
 
   @override
   String get backupExport => 'Export my data';
@@ -1101,11 +1101,11 @@ class AppL10nEn extends AppL10n {
   String get proTitle => 'Later Pro';
 
   @override
-  String get proHeadline => 'More power for people who use Later a lot.';
+  String get proHeadline => 'If you use Later a lot, Pro makes it easier.';
 
   @override
   String get proFreeNote =>
-      'The free version stays fully usable and none of your data is ever limited or deleted.';
+      'The free version isn\'t crippled. If Pro ends, nothing you saved is deleted or locked.';
 
   @override
   String proActiveUntil(String date) {
@@ -1119,7 +1119,7 @@ class AppL10nEn extends AppL10n {
 
   @override
   String get proExpiredNote =>
-      'Your Pro has ended. Your data is safe; only Pro features are switched off.';
+      'Your Pro has ended. Your data is still here; only the Pro features are off.';
 
   @override
   String get proPlan1 => '1 month';
@@ -1149,7 +1149,7 @@ class AppL10nEn extends AppL10n {
 
   @override
   String get proStackNote =>
-      'A new purchase keeps your remaining days and adds the new period on top.';
+      'If you buy again during a plan, your remaining days aren\'t lost; the new period is added on top.';
 
   @override
   String get proRestore => 'Restore purchases';
@@ -1163,7 +1163,7 @@ class AppL10nEn extends AppL10n {
   String get proNothingToRestore => 'No unrestored purchases found.';
 
   @override
-  String get proPurchaseSuccess => 'Pro activated 🎉';
+  String get proPurchaseSuccess => 'Pro is active';
 
   @override
   String get proPurchaseCancelled => 'Purchase cancelled.';
@@ -1177,38 +1177,38 @@ class AppL10nEn extends AppL10n {
 
   @override
   String get proTamper =>
-      'Subscription data was invalid and was reset. If you purchased, tap \"Restore purchases\".';
+      'The subscription data was invalid and was cleared. If you had bought Pro, tap \"Restore purchases\".';
 
   @override
-  String get proF1 => 'Advanced smart pick';
+  String get proF1 => 'Smart roulette and smart inbox';
 
   @override
-  String get proF2 => 'Smart filters & advanced search';
+  String get proF2 => 'Advanced search and filters';
 
   @override
-  String get proF3 => 'Full statistics & history';
+  String get proF3 => 'Full statistics and history';
 
   @override
   String get proF4 => 'More custom categories';
 
   @override
-  String get proF5 => 'Recurring & advanced reminders';
+  String get proF5 => 'Repeating reminders';
 
   @override
-  String get proF6 => 'Advanced widgets';
+  String get proF6 => 'List widget';
 
   @override
-  String get proF7 => 'More themes & icons';
+  String get proF7 => 'More colours and icons';
 
   @override
-  String get proF8 => 'Auto backups & more exports';
+  String get proF8 => 'Auto backup and CSV export';
 
   @override
   String get proLockedTitle => 'This is a Pro feature';
 
   @override
   String get proLockedBody =>
-      'Pro unlocks this and more. The free version remains complete.';
+      'This one is part of Pro. Everything else works fully without it.';
 
   @override
   String get proSeePlans => 'See plans';
@@ -1293,7 +1293,7 @@ class AppL10nEn extends AppL10n {
 
   @override
   String get reminderPermissionBanner =>
-      'Notification permission isn\'t granted; reminders won\'t show.';
+      'Notifications aren\'t allowed, so reminders won\'t show.';
 
   @override
   String get reminderSyncFailed => 'Some reminders couldn\'t be scheduled.';
@@ -1348,4 +1348,867 @@ class AppL10nEn extends AppL10n {
 
   @override
   String get licensesLegalese => 'Built with Flutter. Vazirmatn font (OFL).';
+
+  @override
+  String get repeatYearly => 'Every year';
+
+  @override
+  String get defaultCapsuleTitle => 'Untitled capsule';
+
+  @override
+  String get defaultMessageTitle => 'Untitled message';
+
+  @override
+  String typeName(String id) {
+    String _temp0 = intl.Intl.selectLogic(id, {
+      'task': 'Task',
+      'read': 'Article',
+      'watch': 'Video',
+      'wishlist': 'Wish',
+      'idea': 'Idea',
+      'person': 'Person',
+      'capsule': 'Capsule',
+      'future': 'Message',
+      'other': 'Item',
+    });
+    return '$_temp0';
+  }
+
+  @override
+  String daysAgo(String n) {
+    return '$n days ago';
+  }
+
+  @override
+  String get dashRoulette => 'Later roulette';
+
+  @override
+  String get dashInbox => 'Inbox';
+
+  @override
+  String dashInboxCount(String n) {
+    return '$n items waiting to be sorted';
+  }
+
+  @override
+  String get dashInboxEmpty => 'Your inbox is empty';
+
+  @override
+  String get dashShelves => 'Shelves';
+
+  @override
+  String get shelfReadTitle => 'Read later';
+
+  @override
+  String get shelfWatchTitle => 'Watch later';
+
+  @override
+  String get shelfWishTitle => 'Wishlist';
+
+  @override
+  String get shelfIdeaTitle => 'Ideas';
+
+  @override
+  String get shelfPeopleTitle => 'People';
+
+  @override
+  String get shelfFutureTitle => 'Future';
+
+  @override
+  String get returnedBanner => 'Something came back from the past';
+
+  @override
+  String get returnedBannerBody => 'Open it and see what it was.';
+
+  @override
+  String ideaReviewBanner(String n) {
+    return '$n ideas are due for review';
+  }
+
+  @override
+  String get searchEverywhere => 'Search everything';
+
+  @override
+  String get searchEverywhereHint => 'Tasks, articles, ideas, people…';
+
+  @override
+  String get searchNothing => 'Nothing found';
+
+  @override
+  String get searchStartTyping => 'Type a word.';
+
+  @override
+  String get searchDone => 'Finished';
+
+  @override
+  String get addTypeLabel => 'What is it?';
+
+  @override
+  String get addTypeAuto => 'I\'ll sort it later';
+
+  @override
+  String get fieldPrice => 'Price';
+
+  @override
+  String get fieldCurrency => 'Currency';
+
+  @override
+  String get currencyDefault => 'Toman';
+
+  @override
+  String get fieldWatchKind => 'Kind';
+
+  @override
+  String get kindVideo => 'Video';
+
+  @override
+  String get kindMovie => 'Movie';
+
+  @override
+  String get kindSeries => 'Series';
+
+  @override
+  String get kindOther => 'Other';
+
+  @override
+  String get stageUnread => 'Unread';
+
+  @override
+  String get stageReading => 'Reading';
+
+  @override
+  String get stageRead => 'Read';
+
+  @override
+  String get stageArchived => 'Archived';
+
+  @override
+  String get stageUnwatched => 'Unwatched';
+
+  @override
+  String get stageWatching => 'Watching';
+
+  @override
+  String get stageWatched => 'Watched';
+
+  @override
+  String get stageInterested => 'Interested';
+
+  @override
+  String get stageMaybe => 'Maybe';
+
+  @override
+  String get stageBought => 'Bought';
+
+  @override
+  String get stageNotInterested => 'No longer interested';
+
+  @override
+  String get stageIdeaNew => 'New';
+
+  @override
+  String get stageThinking => 'Thinking';
+
+  @override
+  String get stageDeveloping => 'Developing';
+
+  @override
+  String get stageIdeaArchived => 'Archived';
+
+  @override
+  String get stageIdeaDropped => 'Dropped';
+
+  @override
+  String get stageSealed => 'Sealed';
+
+  @override
+  String get stageOpened => 'Opened';
+
+  @override
+  String get markAsRead => 'Mark as read';
+
+  @override
+  String get markAsWatched => 'Mark as watched';
+
+  @override
+  String get markAsBought => 'Mark as bought';
+
+  @override
+  String get itemStage => 'Status';
+
+  @override
+  String get moveToShelf => 'Move to…';
+
+  @override
+  String movedTo(String shelf) {
+    return 'Moved to \"$shelf\"';
+  }
+
+  @override
+  String get shelfEmptyReadTitle => 'Nothing to read yet';
+
+  @override
+  String get shelfEmptyReadBody => 'Share an article link to Later.';
+
+  @override
+  String get shelfEmptyWatchTitle => 'Nothing to watch yet';
+
+  @override
+  String get shelfEmptyWatchBody =>
+      'Keep a YouTube link or a movie title here.';
+
+  @override
+  String get shelfEmptyWishTitle => 'Your wishlist is empty';
+
+  @override
+  String get shelfEmptyWishBody =>
+      'Put something you might buy here. After a while I\'ll ask if you still want it.';
+
+  @override
+  String get shelfEmptyIdeaTitle => 'No ideas yet';
+
+  @override
+  String get shelfEmptyIdeaBody => 'Ideas wait here until their time comes.';
+
+  @override
+  String get shelfWaiting => 'Waiting';
+
+  @override
+  String get shelfHistory => 'History';
+
+  @override
+  String get shelfAllStages => 'All';
+
+  @override
+  String get shelfStatsTitle => 'Statistics';
+
+  @override
+  String get shelfAdvancedFilters => 'Advanced filters';
+
+  @override
+  String get shelfHistoryPro => 'This shelf\'s history with Pro';
+
+  @override
+  String get shelfCollections => 'Lists';
+
+  @override
+  String get shelfCollectionMain => 'Main';
+
+  @override
+  String get collectionNew => 'New list';
+
+  @override
+  String get collectionName => 'List name';
+
+  @override
+  String get collectionProHint => 'Several separate lists with Pro';
+
+  @override
+  String get sortByPrice => 'Price';
+
+  @override
+  String get sortByScore => 'Score';
+
+  @override
+  String get sortByTime => 'Estimated time';
+
+  @override
+  String get statsWaiting => 'Waiting';
+
+  @override
+  String get statsFinished => 'Finished';
+
+  @override
+  String get statsThisMonth => 'This month';
+
+  @override
+  String get statsMinutesWaiting => 'Total time waiting';
+
+  @override
+  String get statsAvgFinish => 'Average until finished';
+
+  @override
+  String get statsTotalPrice => 'Total price';
+
+  @override
+  String readTimeEstimate(String n) {
+    return 'About $n min';
+  }
+
+  @override
+  String linkHost(String host) {
+    return 'from $host';
+  }
+
+  @override
+  String get priceNow => 'Price';
+
+  @override
+  String get priceSetNew => 'Record a new price';
+
+  @override
+  String get priceTarget => 'Target price';
+
+  @override
+  String get priceTargetReached => 'Target price reached';
+
+  @override
+  String get priceHistoryTitle => 'Price history';
+
+  @override
+  String get priceHistoryEmpty => 'No price recorded yet.';
+
+  @override
+  String get priceHint => 'e.g. 1200000';
+
+  @override
+  String get wishProHint => 'Target price and price history with Pro';
+
+  @override
+  String get wishReviewTitle => 'Do you still want it?';
+
+  @override
+  String wishReviewQuestion(String days) {
+    return 'It\'s been on your list for $days days.\nDo you still want to buy it?';
+  }
+
+  @override
+  String get wishStill => 'I still want it';
+
+  @override
+  String get wishUnsure => 'I\'m not sure';
+
+  @override
+  String get wishNo => 'I don\'t want it anymore';
+
+  @override
+  String get ideaReviewTitle => 'Idea review';
+
+  @override
+  String get ideaReviewNone => 'Nothing to review.';
+
+  @override
+  String get ideaReviewIntro =>
+      'Take a look at each idea and decide what to do.';
+
+  @override
+  String get ideaScore => 'Score';
+
+  @override
+  String get ideaLinks => 'Related ideas';
+
+  @override
+  String get ideaAddLink => 'Link another idea';
+
+  @override
+  String get ideaToTask => 'Turn into a task';
+
+  @override
+  String get ideaConverted => 'It\'s a task now';
+
+  @override
+  String get ideaKeepThinking => 'Still thinking';
+
+  @override
+  String get ideaDevelop => 'Let\'s develop it';
+
+  @override
+  String get ideaArchiveIt => 'Archive';
+
+  @override
+  String get ideaDropIt => 'Let it go';
+
+  @override
+  String ideaLastReviewed(String when) {
+    return 'Last reviewed: $when';
+  }
+
+  @override
+  String get ideaNeverReviewed => 'Not reviewed yet';
+
+  @override
+  String get ideaProHint => 'Score, linking and review with Pro';
+
+  @override
+  String get peopleTitle => 'People';
+
+  @override
+  String get peopleEmptyTitle => 'You haven\'t added anyone yet';
+
+  @override
+  String get peopleEmptyBody =>
+      'For example \"call Ali later\". Pick someone from your contacts or type a name.';
+
+  @override
+  String get personAdd => 'Add a person';
+
+  @override
+  String get personFromContacts => 'Pick from contacts';
+
+  @override
+  String get personTypeName => 'Just type a name';
+
+  @override
+  String get personName => 'Name';
+
+  @override
+  String get personNote => 'Note';
+
+  @override
+  String personLast(String when) {
+    return 'Last contact: $when';
+  }
+
+  @override
+  String get personNever => 'No contact logged yet';
+
+  @override
+  String personNext(String when) {
+    return 'Next: $when';
+  }
+
+  @override
+  String get personNoNext => 'No reminder';
+
+  @override
+  String get personTalked => 'We just talked';
+
+  @override
+  String get personAddReminder => 'New reminder';
+
+  @override
+  String get personReminderHint => 'e.g. send a message';
+
+  @override
+  String get personOpenContact => 'Open contact';
+
+  @override
+  String get personDeleteTitle => 'Delete this person?';
+
+  @override
+  String get personDeleteBody =>
+      'Its reminders stay, but they\'re no longer linked to this person.';
+
+  @override
+  String get personHistory => 'Contact history';
+
+  @override
+  String get personFollowUp => 'Follow up';
+
+  @override
+  String personFollowUpDays(String n) {
+    return 'Remind me in $n days';
+  }
+
+  @override
+  String get personGroup => 'Group';
+
+  @override
+  String get personDueTitle => 'Time to reach out';
+
+  @override
+  String get personLinked => 'Reminders';
+
+  @override
+  String get personPickerFailed =>
+      'Couldn\'t pick a contact. Type the name instead.';
+
+  @override
+  String get interactionNoteHint => 'What did you talk about? (optional)';
+
+  @override
+  String get peopleProHint =>
+      'History, follow-ups and \"time to reach out\" with Pro';
+
+  @override
+  String get personContactRef => 'From your contacts';
+
+  @override
+  String get futureTitle => 'Future';
+
+  @override
+  String get futureTabCapsules => 'Time capsules';
+
+  @override
+  String get futureTabMessages => 'Messages to me';
+
+  @override
+  String get capsuleEmptyTitle => 'No capsules';
+
+  @override
+  String get capsuleEmptyBody =>
+      'Hide something until a date. It comes back that day.';
+
+  @override
+  String get messageEmptyTitle => 'You haven\'t written any message';
+
+  @override
+  String get messageEmptyBody => 'Write to your future self.';
+
+  @override
+  String get capsuleNew => 'New capsule';
+
+  @override
+  String get messageNew => 'New message';
+
+  @override
+  String get sealTitleHint => 'Title';
+
+  @override
+  String get capsuleBodyHint => 'What do you want to see later?';
+
+  @override
+  String get messageBodyHint => 'What do you tell your future self?';
+
+  @override
+  String sealOpenOn(String date) {
+    return 'Opens: $date';
+  }
+
+  @override
+  String get sealPickDate => 'Opening date';
+
+  @override
+  String get sealQuick1m => 'In 1 month';
+
+  @override
+  String get sealQuick3m => 'In 3 months';
+
+  @override
+  String get sealQuick6m => 'In 6 months';
+
+  @override
+  String get sealQuick1y => 'In 1 year';
+
+  @override
+  String sealSaved(String date) {
+    return 'Sealed. You won\'t see it until $date.';
+  }
+
+  @override
+  String sealLimitFree(String n) {
+    return 'The free plan allows $n sealed items at a time. Pro is unlimited.';
+  }
+
+  @override
+  String get sealNeedsFuture => 'The date must be in the future.';
+
+  @override
+  String lockedUntil(String date) {
+    return 'Locked until $date';
+  }
+
+  @override
+  String get openIt => 'Open it';
+
+  @override
+  String get returnedTitle => 'Something came back from the past';
+
+  @override
+  String get messageReturnedTitle => 'You have a message from your past self';
+
+  @override
+  String writtenOn(String date) {
+    return 'Written on $date';
+  }
+
+  @override
+  String get sealRepeat => 'Repeat';
+
+  @override
+  String get sealAttach => 'Attachments';
+
+  @override
+  String get sealAttachAdd => 'Add a photo or file';
+
+  @override
+  String sealAttachLimit(String mb, String n) {
+    return 'Up to $n files, $mb MB each. They stay on this phone only.';
+  }
+
+  @override
+  String get sealAttachTooBig => 'This file is over the size limit.';
+
+  @override
+  String get sealAttachFailed => 'The file couldn\'t be added.';
+
+  @override
+  String get sealProHint =>
+      'Unlimited capsules and messages, attachments, tags and repeats with Pro';
+
+  @override
+  String get sealThisItem => 'Keep for the future';
+
+  @override
+  String get sealItemQuestion => 'Hide it until when?';
+
+  @override
+  String timelineOpened(String date) {
+    return 'Opened on $date';
+  }
+
+  @override
+  String get notifCapsuleTitle => 'Something came back from the past';
+
+  @override
+  String get notifCapsuleBody => 'Open it and see what it was.';
+
+  @override
+  String get notifFutureTitle => 'You have a message from your past self';
+
+  @override
+  String get notifFutureBody => 'Open it and read it.';
+
+  @override
+  String get notifIdeaReviewTitle => 'Time to review your ideas';
+
+  @override
+  String get notifIdeaReviewBody => 'A few ideas are waiting for another look.';
+
+  @override
+  String get inboxTitle => 'Inbox';
+
+  @override
+  String get inboxIntro =>
+      'Whatever you saved quickly waits here until you decide what to do with it.';
+
+  @override
+  String get inboxEmptyTitle => 'The inbox is empty';
+
+  @override
+  String get inboxEmptyBody => 'Everything is in its place.';
+
+  @override
+  String get triageToday => 'Today';
+
+  @override
+  String get triageWeek => 'This week';
+
+  @override
+  String get triageNoDate => 'No date';
+
+  @override
+  String get triageRead => 'Read later';
+
+  @override
+  String get triageWatch => 'Watch later';
+
+  @override
+  String get triageWish => 'Wishlist';
+
+  @override
+  String get triageIdea => 'Idea';
+
+  @override
+  String get triageDone => 'Done';
+
+  @override
+  String get triageDelete => 'Delete';
+
+  @override
+  String inboxSuggest(String what) {
+    return 'This looks like $what. Move it?';
+  }
+
+  @override
+  String get inboxSuggestYes => 'Yes, move it';
+
+  @override
+  String get suggestWhatRead => 'an article';
+
+  @override
+  String get suggestWhatWatch => 'a video';
+
+  @override
+  String get suggestWhatWish => 'something to buy';
+
+  @override
+  String get suggestWhatIdea => 'an idea';
+
+  @override
+  String get suggestWhatPerson => 'a reminder about a person';
+
+  @override
+  String get inboxProHint => 'Automatic destination suggestions with Pro';
+
+  @override
+  String get rouletteTitle => 'Later roulette';
+
+  @override
+  String get roulettePick => 'Pick one';
+
+  @override
+  String get rouletteSpinning => 'Picking…';
+
+  @override
+  String get rouletteStart => 'Start';
+
+  @override
+  String get rouletteLater => 'Later';
+
+  @override
+  String get rouletteAgain => 'Another one';
+
+  @override
+  String get rouletteEmptyTitle => 'Nothing to draw from';
+
+  @override
+  String get rouletteEmptyBody =>
+      'Your list is empty or nothing matches the filters.';
+
+  @override
+  String get rouletteFilters => 'Filters';
+
+  @override
+  String get rouletteTime => 'Time';
+
+  @override
+  String get rouletteEnergy => 'Energy';
+
+  @override
+  String get energyLow => 'Low';
+
+  @override
+  String get energyHigh => 'High';
+
+  @override
+  String get rouletteCats => 'Roulette categories';
+
+  @override
+  String get rouletteHistoryTitle => 'Roulette history';
+
+  @override
+  String get rouletteHistoryEmpty => 'You haven\'t spun yet.';
+
+  @override
+  String get rouletteProHint =>
+      'Time, category, priority and energy filters and history with Pro';
+
+  @override
+  String get rouletteOpenLink => 'Open link';
+
+  @override
+  String get shareWhere => 'Where should I keep it?';
+
+  @override
+  String get shareInbox => 'Inbox';
+
+  @override
+  String get shareSavedInbox => 'Saved to your inbox.';
+
+  @override
+  String get shareSuggested => 'Suggested';
+
+  @override
+  String get proWhatYouGet => 'What you get with Pro';
+
+  @override
+  String get proFreeHeader => 'Free already includes';
+
+  @override
+  String get proFreeList =>
+      'Unlimited saving, inbox, basic roulette, read / watch / wishlist, ideas, people, capsules and messages (up to 2), search, reminders, sharing, light and dark themes, backup.';
+
+  @override
+  String get proFT1 => 'Smart roulette';
+
+  @override
+  String get proFD1 =>
+      'Picks from the categories you choose, by time, priority and energy, and keeps a roulette history.';
+
+  @override
+  String get proFT2 => 'Smart inbox';
+
+  @override
+  String get proFD2 =>
+      'Suggests a destination for each item (article, video, purchase, idea). You always confirm.';
+
+  @override
+  String get proFT3 => 'Fuller shelves';
+
+  @override
+  String get proFD3 =>
+      'Reading and watching history and stats, advanced filters and sorting, several separate lists.';
+
+  @override
+  String get proFT4 => 'Smarter wishlist';
+
+  @override
+  String get proFD4 =>
+      'Target price, a price history you record, stats and re-check reminders.';
+
+  @override
+  String get proFT5 => 'Ideas with review';
+
+  @override
+  String get proFD5 =>
+      'Scores, linking ideas, periodic review, a monthly reminder and turning an idea into a task.';
+
+  @override
+  String get proFT6 => 'People who matter';
+
+  @override
+  String get proFD6 =>
+      'Contact history, automatic follow-ups, custom groups and a \"time to reach out\" list.';
+
+  @override
+  String get proFT7 => 'More future';
+
+  @override
+  String get proFD7 =>
+      'Unlimited capsules and messages, small photo and file attachments, tags and repeats (e.g. yearly).';
+
+  @override
+  String get proFT8 => 'Search and filters';
+
+  @override
+  String get proFD8 =>
+      'Search in tags, links and notes, plus the \"waiting long\" filter.';
+
+  @override
+  String get proFT9 => 'Full stats and history';
+
+  @override
+  String get proFD9 =>
+      'All months and full statistics instead of only the last 7 days.';
+
+  @override
+  String get proFT10 => 'Repeating reminders';
+
+  @override
+  String get proFD10 => 'Daily, weekly, monthly or yearly, until you do it.';
+
+  @override
+  String get proFT11 => 'Look and widget';
+
+  @override
+  String get proFD11 =>
+      'More colours and icons, and a list widget for your home screen.';
+
+  @override
+  String get proFT12 => 'More backup';
+
+  @override
+  String get proFD12 => 'Weekly automatic backup and CSV / text export.';
+
+  @override
+  String get settingsRouletteCats => 'Roulette categories';
+
+  @override
+  String get settingsRouletteCatsAll => 'All categories';
+
+  @override
+  String get wishlistReviewAfter => 'Ask \"still want it?\" after';
+
+  @override
+  String get askWhereOnShare => 'After sharing, ask where it goes';
+
+  @override
+  String get askWhereOnShareSub => 'If off, everything goes to the inbox.';
+
+  @override
+  String get ideaReviewEvery => 'Review ideas every';
+
+  @override
+  String get ideaReviewMonthly => 'Monthly review reminder';
 }

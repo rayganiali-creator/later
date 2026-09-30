@@ -84,6 +84,7 @@ class Fmt {
         RepeatRule.daily => l.repeatDaily,
         RepeatRule.weekly => l.repeatWeekly,
         RepeatRule.monthly => l.repeatMonthly,
+        RepeatRule.yearly => l.repeatYearly,
       };
 
   String priority(ItemPriority p) => switch (p) {

@@ -161,6 +161,10 @@
             <action android:name="android.intent.action.PROCESS_TEXT" />
             <data android:mimeType="text/plain" />
         </intent>
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <data android:scheme="content" android:host="com.android.contacts" />
+        </intent>
         <!-- Cafe Bazaar (billing). -->
         <package android:name="com.farsitel.bazaar" />
     </queries>

@@ -7,10 +7,88 @@ enum ItemStatus { active, done, dropped }
 enum ItemPriority { low, normal, high }
 
 /// Values are persisted as their index; never reorder.
-enum RepeatRule { none, daily, weekly, monthly }
+enum RepeatRule { none, daily, weekly, monthly, yearly }
 
-/// Values are persisted as their index; never reorder.
-enum EventType { created, completed, dropped, snoozed, deleted, reopened, kept }
+/// Values are persisted as their index; never reorder (append only).
+enum EventType {
+  created,
+  completed,
+  dropped,
+  snoozed,
+  deleted,
+  reopened,
+  kept,
+  spun,
+  unlocked,
+  moved,
+}
+
+/// What kind of thing an item is. One table, one model, many "shelves".
+/// Persisted as index: append only.
+enum ItemType { task, read, watch, wishlist, idea, person, capsule, future }
+
+/// Per-type progress ("stage"). Persisted as an int whose meaning depends on
+/// the [ItemType]; [ItemStages] is the single place that knows the mapping
+/// between a stage and the generic [ItemStatus].
+class ItemStages {
+  const ItemStages._();
+
+  // read
+  static const unread = 0, reading = 1, read = 2, archived = 3;
+  // watch
+  static const unwatched = 0, watching = 1, watched = 2;
+  // wishlist
+  static const interested = 0, maybe = 1, bought = 2, notInterested = 3;
+  // idea
+  static const ideaNew = 0, thinking = 1, developing = 2, ideaArchived = 3, ideaDropped = 4;
+  // capsule / future message
+  static const sealed = 0, opened = 1;
+
+  /// All stages of [t] in display order.
+  static List<int> of(ItemType t) => switch (t) {
+        ItemType.read => const [unread, reading, read, archived],
+        ItemType.watch => const [unwatched, watching, watched],
+        ItemType.wishlist => const [interested, maybe, bought, notInterested],
+        ItemType.idea => const [ideaNew, thinking, developing, ideaArchived, ideaDropped],
+        ItemType.capsule || ItemType.future => const [sealed, opened],
+        _ => const [0],
+      };
+
+  static ItemStatus statusFor(ItemType t, int stage) {
+    switch (t) {
+      case ItemType.read:
+        return stage == read ? ItemStatus.done : (stage == archived ? ItemStatus.dropped : ItemStatus.active);
+      case ItemType.watch:
+        return stage == watched ? ItemStatus.done : ItemStatus.active;
+      case ItemType.wishlist:
+        return stage == bought ? ItemStatus.done : (stage == notInterested ? ItemStatus.dropped : ItemStatus.active);
+      case ItemType.idea:
+        return stage >= ideaArchived ? ItemStatus.dropped : ItemStatus.active;
+      case ItemType.capsule:
+      case ItemType.future:
+        return stage == opened ? ItemStatus.done : ItemStatus.active;
+      default:
+        return ItemStatus.active;
+    }
+  }
+
+  /// Stage to use when the generic "done" button is pressed.
+  static int doneStage(ItemType t) => switch (t) {
+        ItemType.read => read,
+        ItemType.watch => watched,
+        ItemType.wishlist => bought,
+        ItemType.capsule || ItemType.future => opened,
+        _ => 0,
+      };
+
+  /// Stage to use for "let it go".
+  static int dropStage(ItemType t) => switch (t) {
+        ItemType.read => archived,
+        ItemType.wishlist => notInterested,
+        ItemType.idea => ideaDropped,
+        _ => 0,
+      };
+}
 
 class LaterItem {
   const LaterItem({
@@ -36,6 +114,14 @@ class LaterItem {
     this.snoozeCount = 0,
     this.lastKeptAt,
     this.source,
+    this.type = ItemType.task,
+    this.stage = 0,
+    this.inbox = false,
+    this.unlockAt,
+    this.personId,
+    this.collectionId,
+    this.lastReviewedAt,
+    this.extra = const {},
   });
 
   final String id;
@@ -68,7 +154,54 @@ class LaterItem {
   /// Where the item came from ("share", "manual", "widget"...). Informational.
   final String? source;
 
+  /// Which shelf the item lives on.
+  final ItemType type;
+
+  /// Type specific progress, see [ItemStages].
+  final int stage;
+
+  /// True while the item has not been sorted yet (see the Inbox screen).
+  final bool inbox;
+
+  /// Until this instant the item is sealed: hidden from every list, from the
+  /// roulette and from notifications (time capsule / future message).
+  final DateTime? unlockAt;
+
+  /// Person this item is about (people reminders).
+  final String? personId;
+
+  /// Optional user collection (extra wishlists, reading lists...).
+  final String? collectionId;
+  final DateTime? lastReviewedAt;
+
+  /// Type specific JSON-safe fields (price, watch kind, idea score...).
+  final Map<String, Object?> extra;
+
   bool get isActive => status == ItemStatus.active;
+
+  bool isLockedAt(DateTime now) => unlockAt != null && unlockAt!.isAfter(now);
+
+  // ---- typed accessors for [extra] --------------------------------------
+  double? get price => (extra['price'] as num?)?.toDouble();
+  String get currency => (extra['currency'] as String?) ?? '';
+  double? get targetPrice => (extra['targetPrice'] as num?)?.toDouble();
+  String get watchKind => (extra['watchKind'] as String?) ?? 'video';
+  int? get score => (extra['score'] as num?)?.toInt();
+  List<String> get links =>
+      ((extra['links'] as List?) ?? const []).whereType<String>().toList(growable: false);
+
+  /// Price history recorded by the user: [(epochMs, price)].
+  List<(DateTime, double)> get priceHistory {
+    final raw = extra['priceHistory'];
+    if (raw is! List) return const [];
+    final out = <(DateTime, double)>[];
+    for (final e in raw) {
+      if (e is List && e.length == 2 && e[0] is num && e[1] is num) {
+        out.add((DateTime.fromMillisecondsSinceEpoch((e[0] as num).toInt()), (e[1] as num).toDouble()));
+      }
+    }
+    return out;
+  }
 
   LaterItem copyWith({
     String? title,
@@ -91,6 +224,14 @@ class LaterItem {
     int? snoozeCount,
     Object? lastKeptAt = _unset,
     Object? source = _unset,
+    ItemType? type,
+    int? stage,
+    bool? inbox,
+    Object? unlockAt = _unset,
+    Object? personId = _unset,
+    Object? collectionId = _unset,
+    Object? lastReviewedAt = _unset,
+    Map<String, Object?>? extra,
   }) {
     return LaterItem(
       id: id,
@@ -107,24 +248,36 @@ class LaterItem {
       dueAt: identical(dueAt, _unset) ? this.dueAt : dueAt as DateTime?,
       hasTime: hasTime ?? this.hasTime,
       reminderEnabled: reminderEnabled ?? this.reminderEnabled,
-      reminderOffsetMinutes:
-          reminderOffsetMinutes ?? this.reminderOffsetMinutes,
+      reminderOffsetMinutes: reminderOffsetMinutes ?? this.reminderOffsetMinutes,
       repeat: repeat ?? this.repeat,
       status: status ?? this.status,
       createdAt: createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
-      completedAt: identical(completedAt, _unset)
-          ? this.completedAt
-          : completedAt as DateTime?,
-      droppedAt: identical(droppedAt, _unset)
-          ? this.droppedAt
-          : droppedAt as DateTime?,
+      completedAt: identical(completedAt, _unset) ? this.completedAt : completedAt as DateTime?,
+      droppedAt: identical(droppedAt, _unset) ? this.droppedAt : droppedAt as DateTime?,
       snoozeCount: snoozeCount ?? this.snoozeCount,
-      lastKeptAt: identical(lastKeptAt, _unset)
-          ? this.lastKeptAt
-          : lastKeptAt as DateTime?,
+      lastKeptAt: identical(lastKeptAt, _unset) ? this.lastKeptAt : lastKeptAt as DateTime?,
       source: identical(source, _unset) ? this.source : source as String?,
+      type: type ?? this.type,
+      stage: stage ?? this.stage,
+      inbox: inbox ?? this.inbox,
+      unlockAt: identical(unlockAt, _unset) ? this.unlockAt : unlockAt as DateTime?,
+      personId: identical(personId, _unset) ? this.personId : personId as String?,
+      collectionId: identical(collectionId, _unset) ? this.collectionId : collectionId as String?,
+      lastReviewedAt: identical(lastReviewedAt, _unset) ? this.lastReviewedAt : lastReviewedAt as DateTime?,
+      extra: extra ?? this.extra,
     );
+  }
+
+  /// Returns a copy with one [extra] key set (null removes it).
+  LaterItem withExtra(String key, Object? value) {
+    final m = Map<String, Object?>.from(extra);
+    if (value == null) {
+      m.remove(key);
+    } else {
+      m[key] = value;
+    }
+    return copyWith(extra: m);
   }
 
   Map<String, Object?> toDb() => {
@@ -150,15 +303,27 @@ class LaterItem {
         'snooze_count': snoozeCount,
         'last_kept_at': lastKeptAt?.millisecondsSinceEpoch,
         'source': source,
+        'item_type': type.index,
+        'stage': stage,
+        'inbox': inbox ? 1 : 0,
+        'unlock_at': unlockAt?.millisecondsSinceEpoch,
+        'person_id': personId,
+        'collection_id': collectionId,
+        'last_reviewed_at': lastReviewedAt?.millisecondsSinceEpoch,
+        'extra': jsonEncode(extra),
       };
 
   factory LaterItem.fromDb(Map<String, Object?> m) {
-    DateTime? d(Object? v) =>
-        v == null ? null : DateTime.fromMillisecondsSinceEpoch(v as int);
+    DateTime? d(Object? v) => v == null ? null : DateTime.fromMillisecondsSinceEpoch(v as int);
     List<String> tags = const [];
     try {
       final raw = jsonDecode((m['tags'] as String?) ?? '[]');
       if (raw is List) tags = raw.whereType<String>().toList(growable: false);
+    } catch (_) {}
+    var extra = <String, Object?>{};
+    try {
+      final raw = jsonDecode((m['extra'] as String?) ?? '{}');
+      if (raw is Map) extra = raw.cast<String, Object?>();
     } catch (_) {}
     return LaterItem(
       id: m['id'] as String,
@@ -174,7 +339,7 @@ class LaterItem {
       hasTime: (m['has_time'] as int? ?? 0) == 1,
       reminderEnabled: (m['reminder_enabled'] as int? ?? 0) == 1,
       reminderOffsetMinutes: m['reminder_offset_min'] as int? ?? 0,
-      repeat: RepeatRule.values[_clamp(m['repeat_rule'] as int?, 0, 3, 0)],
+      repeat: RepeatRule.values[_clamp(m['repeat_rule'] as int?, 0, RepeatRule.values.length - 1, 0)],
       status: ItemStatus.values[_clamp(m['status'] as int?, 0, 2, 0)],
       createdAt: d(m['created_at'])!,
       updatedAt: d(m['updated_at'])!,
@@ -183,6 +348,14 @@ class LaterItem {
       snoozeCount: m['snooze_count'] as int? ?? 0,
       lastKeptAt: d(m['last_kept_at']),
       source: m['source'] as String?,
+      type: ItemType.values[_clamp(m['item_type'] as int?, 0, ItemType.values.length - 1, 0)],
+      stage: m['stage'] as int? ?? 0,
+      inbox: (m['inbox'] as int? ?? 0) == 1,
+      unlockAt: d(m['unlock_at']),
+      personId: m['person_id'] as String?,
+      collectionId: m['collection_id'] as String?,
+      lastReviewedAt: d(m['last_reviewed_at']),
+      extra: extra,
     );
   }
 
@@ -325,5 +498,171 @@ class ItemEvent {
         at: DateTime.fromMillisecondsSinceEpoch(m['at'] as int),
         categoryId: m['category_id'] as String?,
         daysWaited: m['days_waited'] as int?,
+      );
+}
+
+/// Someone the user wants to keep in touch with. The address-book entry is
+/// only *referenced* (never copied or uploaded): [contactUri] is the system
+/// lookup URI returned by the Android contact picker.
+class Person {
+  const Person({
+    required this.id,
+    required this.name,
+    required this.createdAt,
+    required this.updatedAt,
+    this.contactUri,
+    this.note = '',
+    this.group = '',
+    this.lastInteractionAt,
+  });
+
+  final String id;
+  final String name;
+  final String? contactUri;
+  final String note;
+
+  /// Free-text group ("family", "work"...). Custom groups are a Pro feature.
+  final String group;
+  final DateTime? lastInteractionAt;
+  final DateTime createdAt;
+  final DateTime updatedAt;
+
+  Person copyWith({
+    String? name,
+    Object? contactUri = _unset,
+    String? note,
+    String? group,
+    Object? lastInteractionAt = _unset,
+    DateTime? updatedAt,
+  }) =>
+      Person(
+        id: id,
+        name: name ?? this.name,
+        contactUri: identical(contactUri, _unset) ? this.contactUri : contactUri as String?,
+        note: note ?? this.note,
+        group: group ?? this.group,
+        lastInteractionAt:
+            identical(lastInteractionAt, _unset) ? this.lastInteractionAt : lastInteractionAt as DateTime?,
+        createdAt: createdAt,
+        updatedAt: updatedAt ?? this.updatedAt,
+      );
+
+  Map<String, Object?> toDb() => {
+        'id': id,
+        'name': name,
+        'contact_uri': contactUri,
+        'note': note,
+        'group_name': group,
+        'last_interaction_at': lastInteractionAt?.millisecondsSinceEpoch,
+        'created_at': createdAt.millisecondsSinceEpoch,
+        'updated_at': updatedAt.millisecondsSinceEpoch,
+      };
+
+  factory Person.fromDb(Map<String, Object?> m) => Person(
+        id: m['id'] as String,
+        name: m['name'] as String,
+        contactUri: m['contact_uri'] as String?,
+        note: (m['note'] as String?) ?? '',
+        group: (m['group_name'] as String?) ?? '',
+        lastInteractionAt: m['last_interaction_at'] == null
+            ? null
+            : DateTime.fromMillisecondsSinceEpoch(m['last_interaction_at'] as int),
+        createdAt: DateTime.fromMillisecondsSinceEpoch(m['created_at'] as int),
+        updatedAt: DateTime.fromMillisecondsSinceEpoch(m['updated_at'] as int),
+      );
+}
+
+/// One logged contact with a person (Pro: full history).
+class Interaction {
+  const Interaction({this.id, required this.personId, required this.at, this.note = ''});
+  final int? id;
+  final String personId;
+  final DateTime at;
+  final String note;
+
+  Map<String, Object?> toDb() => {
+        if (id != null) 'id': id,
+        'person_id': personId,
+        'at': at.millisecondsSinceEpoch,
+        'note': note,
+      };
+
+  factory Interaction.fromDb(Map<String, Object?> m) => Interaction(
+        id: m['id'] as int?,
+        personId: m['person_id'] as String,
+        at: DateTime.fromMillisecondsSinceEpoch(m['at'] as int),
+        note: (m['note'] as String?) ?? '',
+      );
+}
+
+/// A named group of items of one type (extra wishlists, reading lists...).
+class ItemCollection {
+  const ItemCollection({
+    required this.id,
+    required this.name,
+    required this.type,
+    required this.sortOrder,
+    required this.createdAt,
+  });
+
+  final String id;
+  final String name;
+  final ItemType type;
+  final int sortOrder;
+  final DateTime createdAt;
+
+  Map<String, Object?> toDb() => {
+        'id': id,
+        'name': name,
+        'item_type': type.index,
+        'sort_order': sortOrder,
+        'created_at': createdAt.millisecondsSinceEpoch,
+      };
+
+  factory ItemCollection.fromDb(Map<String, Object?> m) => ItemCollection(
+        id: m['id'] as String,
+        name: m['name'] as String,
+        type: ItemType.values[_clamp(m['item_type'] as int?, 0, ItemType.values.length - 1, 0)],
+        sortOrder: m['sort_order'] as int? ?? 0,
+        createdAt: DateTime.fromMillisecondsSinceEpoch(m['created_at'] as int),
+      );
+}
+
+/// A small file attached to a future message (bytes live in private storage).
+class Attachment {
+  const Attachment({
+    required this.id,
+    required this.itemId,
+    required this.name,
+    required this.mime,
+    required this.size,
+    required this.createdAt,
+  });
+
+  final String id;
+  final String itemId;
+  final String name;
+  final String mime;
+  final int size;
+  final DateTime createdAt;
+
+  bool get isImage => mime.startsWith('image/');
+
+  Map<String, Object?> toDb() => {
+        'id': id,
+        'item_id': itemId,
+        'name': name,
+        'mime': mime,
+        'size': size,
+        'created_at': createdAt.millisecondsSinceEpoch,
+      };
+
+  factory Attachment.fromDb(Map<String, Object?> m) => Attachment(
+        id: m['id'] as String,
+        itemId: m['item_id'] as String,
+        name: m['name'] as String,
+        mime: (m['mime'] as String?) ?? 'application/octet-stream',
+        size: m['size'] as int? ?? 0,
+        createdAt: DateTime.fromMillisecondsSinceEpoch(m['created_at'] as int),
       );
 }

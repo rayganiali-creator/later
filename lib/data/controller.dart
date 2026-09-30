@@ -9,8 +9,11 @@ import '../core/config/pro_plans.dart';
 import '../core/util/dates.dart';
 import '../core/util/ids.dart';
 import '../core/util/text.dart';
+import '../domain/classifier.dart';
 import '../domain/models.dart';
 import '../domain/pro.dart';
+import '../domain/roulette.dart';
+import '../domain/universal_search.dart';
 import '../domain/reminders.dart';
 import '../domain/search_filter_sort.dart';
 import '../domain/settings.dart';
@@ -18,6 +21,7 @@ import '../domain/smart_pick.dart';
 import '../domain/snooze.dart';
 import '../domain/transitions.dart';
 import '../l10n/app_localizations.dart';
+import '../services/attachment_store.dart';
 import '../services/file_gateway.dart';
 import '../services/notification_service.dart';
 import '../services/platform_bridge.dart';
@@ -43,6 +47,40 @@ class HomeCounts {
   final int stale;
 }
 
+/// Counters shown on the home dashboard.
+class DashboardCounts {
+  const DashboardCounts({
+    required this.today,
+    required this.inbox,
+    required this.read,
+    required this.watch,
+    required this.wishlist,
+    required this.ideas,
+    required this.future,
+    required this.people,
+  });
+  final int today, inbox, read, watch, wishlist, ideas, future, people;
+}
+
+enum TriageChoice { today, thisWeek, noDate, read, watch, wishlist, idea, done, delete }
+
+enum WishAnswer { still, unsure, no }
+
+class ShelfStats {
+  const ShelfStats({
+    required this.waiting,
+    required this.finished,
+    required this.finishedThisWeek,
+    required this.finishedThisMonth,
+    required this.minutesWaiting,
+    required this.avgDaysToFinish,
+    required this.totalPrice,
+  });
+  final int waiting, finished, finishedThisWeek, finishedThisMonth, minutesWaiting;
+  final double? avgDaysToFinish;
+  final double totalPrice;
+}
+
 /// Reversible action result (for "undo" snackbars).
 typedef UndoAction = Future<void> Function();
 
@@ -66,11 +104,15 @@ class LaterController extends ChangeNotifier {
     required this.files,
     required this.purchases,
     required this.appVersion,
+    AttachmentStore? attachmentStore,
     DateTime Function()? clock,
     SmartPicker? picker,
+    Roulette? roulette,
     BackupCodec? codec,
   })  : _baseClock = clock ?? DateTime.now,
         picker = picker ?? SmartPicker(),
+        roulette = roulette ?? Roulette(),
+        attachmentStore = attachmentStore ?? MemoryAttachmentStore(),
         codec = codec ?? BackupCodec();
 
   final LaterRepository repo;
@@ -82,6 +124,8 @@ class LaterController extends ChangeNotifier {
   final PurchaseGateway purchases;
   final String appVersion;
   final SmartPicker picker;
+  final Roulette roulette;
+  final AttachmentStore attachmentStore;
   final BackupCodec codec;
   final DateTime Function() _baseClock;
 
@@ -89,6 +133,10 @@ class LaterController extends ChangeNotifier {
 
   List<LaterItem> _items = const [];
   List<ItemCategory> _categories = const [];
+  List<Person> _people = const [];
+  List<ItemCollection> _collections = const [];
+  List<Attachment> _attachments = const [];
+  final List<String> _recentSpins = [];
   AppSettings _settings = const AppSettings();
   bool _loaded = false;
   Duration _debugOffset = Duration.zero;
@@ -101,6 +149,9 @@ class LaterController extends ChangeNotifier {
   bool get loaded => _loaded;
   List<LaterItem> get allItems => _items;
   List<ItemCategory> get categories => _categories;
+  List<Person> get people => _people;
+  List<ItemCollection> get collections => _collections;
+  List<Attachment> get attachments => _attachments;
   AppSettings get settings => _settings;
   ReminderSyncResult get reminderStatus => _reminderStatus;
   int get revision => _rev;
@@ -132,9 +183,7 @@ class LaterController extends ChangeNotifier {
 
   Future<void> init() async {
     final snap = await repo.loadAll();
-    _items = snap.items;
-    _categories = snap.categories;
-    _settings = AppSettings.fromMap(snap.settings);
+    _adopt(snap);
     await pro.load();
     _loaded = true;
     _bump();
@@ -152,6 +201,7 @@ class LaterController extends ChangeNotifier {
       'search': l10n.shortcutSearch,
     }));
     unawaited(autoBackupIfDue());
+    unawaited(sweepAttachments());
   }
 
   /// Called when the app returns to the foreground: re-reads the database
@@ -163,9 +213,21 @@ class LaterController extends ChangeNotifier {
     final snap = await repo.loadAll();
     _items = snap.items;
     _categories = snap.categories;
+    _people = snap.people;
+    _collections = snap.collections;
+    _attachments = snap.attachments;
     _bump();
     unawaited(syncReminders());
     unawaited(_pushWidgets());
+  }
+
+  void _adopt(LaterSnapshot snap) {
+    _items = snap.items;
+    _categories = snap.categories;
+    _people = snap.people;
+    _collections = snap.collections;
+    _attachments = snap.attachments;
+    _settings = AppSettings.fromMap(snap.settings);
   }
 
   @override
@@ -184,9 +246,18 @@ class LaterController extends ChangeNotifier {
   // ------------------------------------------------------------- queries
 
   _Cache? _cache;
-  _Cache get _c => _cache ??= _Cache(_items, now(), _settings);
+  _Cache get _c {
+    final c = _cache;
+    final n = now();
+    if (c != null && (c.nextUnlock == null || n.isBefore(c.nextUnlock!))) return c;
+    return _cache = _Cache(_items, n);
+  }
 
+  /// Everything visible right now (sealed things are hidden).
   List<LaterItem> get activeItems => _c.active;
+
+  /// Sealed capsules / messages that have not opened yet.
+  List<LaterItem> get sealedItems => _c.sealed;
   List<LaterItem> get historyItems => _c.history;
 
   LaterItem? itemById(String id) {
@@ -220,7 +291,7 @@ class LaterController extends ChangeNotifier {
       if (isDueThisWeek(i, n, _settings.weekStart)) week++;
       if (i.dueAt == null) none++;
       if (isOverdue(i, n)) over++;
-      if (isStale(i, n, _settings.staleDays)) stale++;
+      if (_staleFor(i, n)) stale++;
     }
     return HomeCounts(
       total: activeItems.length,
@@ -232,11 +303,24 @@ class LaterController extends ChangeNotifier {
     );
   }
 
+  /// Ideas have their own review, sealed things must not nag, wishlist items use
+  /// their own (usually shorter) "still want it?" period.
+  bool _staleFor(LaterItem i, DateTime n) {
+    switch (i.type) {
+      case ItemType.idea:
+      case ItemType.capsule:
+      case ItemType.future:
+        return false;
+      case ItemType.wishlist:
+        return isStale(i, n, _settings.wishlistReviewDays);
+      default:
+        return isStale(i, n, _settings.staleDays);
+    }
+  }
+
   List<LaterItem> staleItems() {
     final n = now();
-    final list = activeItems
-        .where((i) => isStale(i, n, _settings.staleDays))
-        .toList();
+    final list = activeItems.where((i) => _staleFor(i, n)).toList();
     list.sort((a, b) => (a.lastKeptAt ?? a.createdAt)
         .compareTo(b.lastKeptAt ?? b.createdAt));
     return list;
@@ -297,6 +381,8 @@ class LaterController extends ChangeNotifier {
     String source = 'manual',
     DateTime? dueAt,
     bool hasTime = false,
+    ItemType type = ItemType.task,
+    bool inbox = true,
   }) {
     final n = now();
     final cleaned = cleanText(title, AppConfig.maxTitleLength);
@@ -314,6 +400,9 @@ class LaterController extends ChangeNotifier {
       dueAt: dueAt,
       hasTime: hasTime,
       source: source,
+      type: type,
+      // Fast capture lands in the inbox unless the caller already sorted it.
+      inbox: inbox && dueAt == null && type == ItemType.task,
     ));
   }
 
@@ -581,10 +670,37 @@ class LaterController extends ChangeNotifier {
       bodyOf: (i) => i.description.isNotEmpty
           ? i.description
           : '${categoryEmoji(i.categoryId)} ${categoryName(i.categoryId)} · ${l.notifBodyGeneric}',
+      unlockTitleOf: (i) => i.type == ItemType.future ? l.notifFutureTitle : l.notifCapsuleTitle,
+      unlockBodyOf: (i) => i.type == ItemType.future ? l.notifFutureBody : l.notifCapsuleBody,
+      extra: _systemReminders(),
     );
     _reminderStatus = r;
     if (!_disposed) notifyListeners();
     return r;
+  }
+
+  static const _ideaReviewId = 'sys:idea_review';
+
+  /// Reminders that do not belong to a single item.
+  List<PlannedReminder> _systemReminders() {
+    if (!_settings.ideaReviewReminder || !access.has(ProFeature.ideaTools)) return const [];
+    if (!activeItems.any((i) => i.type == ItemType.idea)) return const [];
+    final n = now();
+    final m = _settings.defaultReminderMinutes;
+    var at = DateTime(n.year, n.month, 1, m ~/ 60, m % 60);
+    if (!at.isAfter(n)) at = DateTime(n.year, n.month + 1, 1, m ~/ 60, m % 60);
+    final l = l10n;
+    return [
+      PlannedReminder(
+        notificationId: stableHash31(_ideaReviewId),
+        itemId: _ideaReviewId,
+        fireAt: at,
+        repeat: RepeatRule.monthly,
+        title: l.notifIdeaReviewTitle,
+        body: l.notifIdeaReviewBody,
+        sealed: true,
+      ),
+    ];
   }
 
   /// Asks for the notification permission at the moment the user first turns
@@ -602,9 +718,28 @@ class LaterController extends ChangeNotifier {
     return ok;
   }
 
+  String? _pendingRoute;
+
+  /// A screen a notification asked to open (`ideas`), consumed by the UI.
+  String? takePendingRoute() {
+    final v = _pendingRoute;
+    _pendingRoute = null;
+    return v;
+  }
+
   Future<void> handleNotificationTap(NotificationTap tap) async {
+    if (tap.itemId == _ideaReviewId) {
+      _pendingRoute = 'ideas';
+      _bump();
+      return;
+    }
     final item = itemById(tap.itemId);
     if (item == null || !item.isActive) return;
+    if (item.type == ItemType.capsule || item.type == ItemType.future) {
+      _pendingOpenItemId = item.id;
+      _bump();
+      return;
+    }
     switch (tap.actionId) {
       case NotificationTap.actionDone:
         await complete(tap.itemId);
@@ -643,6 +778,9 @@ class LaterController extends ChangeNotifier {
       createdAt: n,
       updatedAt: n,
       source: 'share',
+      // Saved right away (nothing is lost if the app is closed); the user can
+      // then put it on the right shelf with one tap.
+      inbox: true,
     ));
   }
 
@@ -720,7 +858,23 @@ class LaterController extends ChangeNotifier {
   Future<LaterSnapshot> _snapshot() => repo.loadAll();
 
   Future<Uint8List> buildBackupBytes() async {
-    final snap = await _snapshot();
+    final base = await _snapshot();
+    final bytes = <String, Uint8List>{};
+    for (final a in base.attachments) {
+      final b = await attachmentStore.read(a.id);
+      if (b != null) bytes[a.id] = b;
+    }
+    final snap = LaterSnapshot(
+      items: base.items,
+      categories: base.categories,
+      events: base.events,
+      settings: base.settings,
+      people: base.people,
+      interactions: base.interactions,
+      collections: base.collections,
+      attachments: base.attachments,
+      attachmentBytes: bytes,
+    );
     return codec.encode(
       snap,
       now: now(),
@@ -757,9 +911,13 @@ class LaterController extends ChangeNotifier {
 
     await repo.replaceAll(backup.snapshot);
     final snap = await repo.loadAll();
-    _items = snap.items;
-    _categories = snap.categories;
-    _settings = AppSettings.fromMap(snap.settings);
+    _adopt(snap);
+    // Attachment bytes: write the restored ones, drop any that are gone.
+    for (final a in backup.snapshot.attachments) {
+      final b = backup.snapshot.attachmentBytes[a.id];
+      if (b != null) await attachmentStore.write(a.id, b);
+    }
+    await attachmentStore.retainOnly({for (final a in snap.attachments) a.id});
     await pro.importFromBackup(backup.proBlob, now: now());
     _bump();
     await syncReminders();
@@ -789,13 +947,626 @@ class LaterController extends ChangeNotifier {
   Future<void> resetAll() async {
     await repo.wipe(now());
     final snap = await repo.loadAll();
-    _items = snap.items;
-    _categories = snap.categories;
+    _adopt(snap);
     _settings = const AppSettings();
+    await attachmentStore.retainOnly({});
     await notifications.cancelAll();
     _bump();
     unawaited(_pushWidgets());
   }
+
+  // ================================================================ shelves
+
+  /// Active items of one shelf (Read Later, Watch Later, Wishlist...).
+  List<LaterItem> shelf(ItemType t, {String? collectionId}) => [
+        for (final i in activeItems)
+          if (i.type == t && (collectionId == null || i.collectionId == collectionId)) i
+      ];
+
+  /// Finished items of one shelf (read, watched, bought, archived...).
+  List<LaterItem> shelfHistory(ItemType t) => [
+        for (final i in historyItems)
+          if (i.type == t) i
+      ];
+
+  List<LaterItem> get inboxItems => [
+        for (final i in activeItems)
+          if (i.inbox) i
+      ];
+
+  DashboardCounts dashboardCounts() {
+    final n = now();
+    var today = 0, inbox = 0, read = 0, watch = 0, wish = 0, ideas = 0, unopened = 0;
+    for (final i in activeItems) {
+      if (i.inbox) inbox++;
+      switch (i.type) {
+        case ItemType.read:
+          read++;
+        case ItemType.watch:
+          watch++;
+        case ItemType.wishlist:
+          wish++;
+        case ItemType.idea:
+          ideas++;
+        case ItemType.capsule:
+        case ItemType.future:
+          unopened++; // unlocked but not opened yet
+        default:
+          if (isDueToday(i, n) || isOverdue(i, n)) today++;
+      }
+    }
+    return DashboardCounts(
+      today: today,
+      inbox: inbox,
+      read: read,
+      watch: watch,
+      wishlist: wish,
+      ideas: ideas,
+      future: sealedItems.length + unopened,
+      people: _people.length,
+    );
+  }
+
+  /// Puts an item on a shelf with one tap (inbox triage, share sheet).
+  Future<UndoAction?> moveToType(String id, ItemType type) async {
+    final cur = itemById(id);
+    if (cur == null) return null;
+    return _commit(cur, Transitions.moveToType(cur, type, now()));
+  }
+
+  Future<UndoAction?> setStage(String id, int stage) async {
+    final cur = itemById(id);
+    if (cur == null) return null;
+    return _commit(cur, Transitions.setStage(cur, stage, now()));
+  }
+
+  /// Marks an inbox item as sorted without moving it anywhere.
+  Future<UndoAction?> triage(String id, TriageChoice c) async {
+    final cur = itemById(id);
+    if (cur == null) return null;
+    final n = now();
+    switch (c) {
+      case TriageChoice.today:
+        return _commit(cur, _sorted(cur, n, dueAt: Dates.startOfDay(n)));
+      case TriageChoice.thisWeek:
+        final end = Dates.addDays(Dates.startOfWeek(n, _settings.weekStart), 6);
+        return _commit(cur, _sorted(cur, n, dueAt: end.isBefore(Dates.startOfDay(n)) ? Dates.startOfDay(n) : end));
+      case TriageChoice.noDate:
+        return _commit(cur, _sorted(cur, n));
+      case TriageChoice.read:
+        return moveToType(id, ItemType.read);
+      case TriageChoice.watch:
+        return moveToType(id, ItemType.watch);
+      case TriageChoice.wishlist:
+        return moveToType(id, ItemType.wishlist);
+      case TriageChoice.idea:
+        return moveToType(id, ItemType.idea);
+      case TriageChoice.done:
+        return complete(id);
+      case TriageChoice.delete:
+        return delete(id);
+    }
+  }
+
+  Transition _sorted(LaterItem i, DateTime n, {DateTime? dueAt}) => Transition(
+        i.copyWith(inbox: false, dueAt: dueAt ?? i.dueAt, hasTime: dueAt != null ? false : i.hasTime, updatedAt: n),
+        ItemEvent(itemId: i.id, type: EventType.moved, at: n, categoryId: i.categoryId),
+      );
+
+  /// Writes a transition and returns an undo that restores the previous item.
+  Future<UndoAction?> _commit(LaterItem prev, Transition t) async {
+    await repo.upsertItemWithEvent(t.item, t.event);
+    _replace(t.item);
+    _afterItemsChanged();
+    return () async {
+      await repo.removeLastEvent(prev.id, t.event.type);
+      await repo.upsertItem(prev);
+      _replace(prev);
+      _afterItemsChanged();
+    };
+  }
+
+  /// Suggests a shelf for [item] (Pro "Smart Inbox"). Never applied silently.
+  Classification? suggestionFor(LaterItem item) {
+    if (!access.has(ProFeature.smartInbox)) return null;
+    final c = ItemClassifier.classify(item.title, url: item.url, description: item.description);
+    return c.isDefault ? null : c;
+  }
+
+  // ================================================================ roulette
+
+  RouletteOptions rouletteOptions({
+    int? minutes,
+    ItemPriority? priority,
+    RouletteEnergy? energy,
+    Set<String>? categories,
+  }) {
+    final pro = access.has(ProFeature.smartRoulette);
+    final cats = pro ? (categories ?? _settings.rouletteCategories) : const <String>{};
+    return RouletteOptions(
+      availableMinutes: pro ? minutes : null,
+      categoryIds: cats.isEmpty ? null : cats,
+      priority: pro ? priority : null,
+      energy: pro ? energy : null,
+      recentIds: List.of(_recentSpins),
+    );
+  }
+
+  /// Draws one item for "قرعه بعداً" and remembers it (history is Pro).
+  Future<LaterItem?> spinRoulette({RouletteOptions? options}) async {
+    final o = options ?? rouletteOptions();
+    final r = roulette.spin(activeItems, now(), o);
+    if (r == null) return null;
+    _recentSpins.add(r.id);
+    while (_recentSpins.length > 3) {
+      _recentSpins.removeAt(0);
+    }
+    await repo.addEvent(ItemEvent(itemId: r.id, type: EventType.spun, at: now(), categoryId: r.categoryId));
+    return r;
+  }
+
+  /// Roulette history (Pro): newest first.
+  Future<List<(ItemEvent, LaterItem?)>> rouletteHistory({int limit = 100}) async {
+    final ev = await repo.events(type: EventType.spun);
+    return [for (final e in ev.take(limit)) (e, itemById(e.itemId))];
+  }
+
+  // ================================================================ people
+
+  Person? personById(String id) {
+    for (final p in _people) {
+      if (p.id == id) return p;
+    }
+    return null;
+  }
+
+  Future<Person> addPerson(String name, {String? contactUri, String note = '', String group = ''}) async {
+    final n = now();
+    final clean = cleanText(name, 200);
+    if (clean.isEmpty) throw ArgumentError('empty name');
+    final p = Person(
+      id: newId(),
+      name: clean,
+      contactUri: contactUri,
+      note: cleanText(note, AppConfig.maxTextLength),
+      group: access.has(ProFeature.peopleTools) ? cleanText(group, 60) : '',
+      createdAt: n,
+      updatedAt: n,
+    );
+    await repo.upsertPerson(p);
+    _people = [..._people, p];
+    _bump();
+    return p;
+  }
+
+  Future<void> updatePerson(Person p) async {
+    final u = p.copyWith(
+      name: cleanText(p.name, 200).isEmpty ? p.name : cleanText(p.name, 200),
+      note: cleanText(p.note, AppConfig.maxTextLength),
+      group: access.has(ProFeature.peopleTools) ? cleanText(p.group, 60) : p.group,
+      updatedAt: now(),
+    );
+    await repo.upsertPerson(u);
+    _people = [for (final x in _people) x.id == u.id ? u : x];
+    _bump();
+  }
+
+  Future<void> deletePerson(String id) async {
+    await repo.deletePerson(id);
+    _people = _people.where((p) => p.id != id).toList();
+    _items = [for (final i in _items) i.personId == id ? i.copyWith(personId: null) : i];
+    _afterItemsChanged();
+  }
+
+  /// "We just talked". Pro also keeps the log and can schedule a follow-up.
+  Future<void> logInteraction(String personId, {DateTime? at, String note = '', int? followUpDays}) async {
+    final p = personById(personId);
+    if (p == null) return;
+    final when = at ?? now();
+    final pro = access.has(ProFeature.peopleTools);
+    if (pro) {
+      await repo.addInteraction(Interaction(personId: personId, at: when, note: cleanText(note, 2000)));
+    }
+    await updatePersonRaw(p.copyWith(lastInteractionAt: when, updatedAt: now()));
+    if (pro && followUpDays != null && followUpDays > 0) {
+      await addPersonReminder(
+        personId,
+        title: p.name,
+        dueAt: Dates.startOfDay(Dates.addDays(when, followUpDays)),
+        reminder: true,
+      );
+    }
+  }
+
+  Future<void> updatePersonRaw(Person p) async {
+    await repo.upsertPerson(p);
+    _people = [for (final x in _people) x.id == p.id ? p : x];
+    _bump();
+  }
+
+  Future<List<Interaction>> interactionsOf(String personId) => repo.interactionsOf(personId);
+
+  /// "Message Ali later": a reminder item linked to the person.
+  Future<LaterItem> addPersonReminder(
+    String personId, {
+    required String title,
+    DateTime? dueAt,
+    bool hasTime = false,
+    bool reminder = true,
+    RepeatRule repeat = RepeatRule.none,
+  }) {
+    final n = now();
+    return saveNew(LaterItem(
+      id: newId(),
+      title: title,
+      categoryId: BuiltinCategories.people,
+      createdAt: n,
+      updatedAt: n,
+      type: ItemType.person,
+      personId: personId,
+      dueAt: dueAt,
+      hasTime: hasTime,
+      reminderEnabled: reminder && dueAt != null,
+      repeat: access.has(ProFeature.recurringReminders) ? repeat : RepeatRule.none,
+      source: 'person',
+    ));
+  }
+
+  List<LaterItem> personItems(String personId) => [
+        for (final i in activeItems)
+          if (i.personId == personId) i
+      ];
+
+  DateTime? nextReminderOf(String personId) {
+    final n = now();
+    DateTime? best;
+    for (final i in personItems(personId)) {
+      final d = effectiveDue(i, n);
+      if (d != null && (best == null || d.isBefore(best))) best = d;
+    }
+    return best;
+  }
+
+  /// People not contacted for [days] days (Pro dashboard).
+  List<Person> peopleDue({int days = 30}) {
+    final n = now();
+    return [
+      for (final p in _people)
+        if (p.lastInteractionAt == null
+            ? Dates.daysBetween(p.createdAt, n) >= days
+            : Dates.daysBetween(p.lastInteractionAt!, n) >= days)
+          p
+    ];
+  }
+
+  // ============================================================ collections
+
+  int collectionLimit(ItemType t) =>
+      access.has(ProFeature.multipleCollections) ? ProLimits.proCollectionsPerType : ProLimits.freeCollectionsPerType;
+
+  List<ItemCollection> collectionsOf(ItemType t) => [
+        for (final c in _collections)
+          if (c.type == t) c
+      ];
+
+  bool canAddCollection(ItemType t) => collectionsOf(t).length < collectionLimit(t);
+
+  Future<ItemCollection?> addCollection(String name, ItemType type) async {
+    final clean = cleanText(name, 40);
+    if (clean.isEmpty || !canAddCollection(type)) return null;
+    final c = ItemCollection(
+      id: 'k_${newId().substring(0, 12)}',
+      name: clean,
+      type: type,
+      sortOrder: _collections.length,
+      createdAt: now(),
+    );
+    await repo.upsertCollection(c);
+    _collections = [..._collections, c];
+    _bump();
+    return c;
+  }
+
+  Future<void> deleteCollection(String id) async {
+    await repo.deleteCollection(id);
+    _collections = _collections.where((c) => c.id != id).toList();
+    _items = [for (final i in _items) i.collectionId == id ? i.copyWith(collectionId: null) : i];
+    _bump();
+  }
+
+  Future<void> setCollection(String itemId, String? collectionId) async {
+    final cur = itemById(itemId);
+    if (cur == null) return;
+    await update(cur.copyWith(collectionId: collectionId));
+  }
+
+  // ================================================================ wishlist
+
+  /// Records a new price. Every change is kept in the history (Pro shows it).
+  Future<void> setPrice(String id, double? price, {String? currency}) async {
+    final cur = itemById(id);
+    if (cur == null) return;
+    var next = cur.withExtra('price', price).withExtra('currency', currency ?? cur.currency);
+    if (price != null && price != cur.price) {
+      final hist = [
+        ...((cur.extra['priceHistory'] as List?) ?? const []),
+        [now().millisecondsSinceEpoch, price],
+      ];
+      next = next.withExtra('priceHistory', hist.length > 200 ? hist.sublist(hist.length - 200) : hist);
+    }
+    await update(next);
+  }
+
+  Future<void> setTargetPrice(String id, double? target) async {
+    final cur = itemById(id);
+    if (cur == null || !access.has(ProFeature.advancedShelves)) return;
+    await update(cur.withExtra('targetPrice', target));
+  }
+
+  /// Wishlist items nobody has looked at for a while ("still want it?").
+  List<LaterItem> wishlistToReview() {
+    final n = now();
+    return [
+      for (final i in activeItems)
+        if (i.type == ItemType.wishlist &&
+            Dates.daysBetween(i.lastReviewedAt ?? i.createdAt, n) >= _settings.wishlistReviewDays)
+          i
+    ]..sort((a, b) => (a.lastReviewedAt ?? a.createdAt).compareTo(b.lastReviewedAt ?? b.createdAt));
+  }
+
+  Future<void> answerWishlist(String id, WishAnswer a) async {
+    final cur = itemById(id);
+    if (cur == null) return;
+    switch (a) {
+      case WishAnswer.still:
+        await _commit(cur, Transitions.review(cur, now()));
+      case WishAnswer.unsure:
+        final r = Transitions.review(cur, now());
+        await _commit(cur, Transition(r.item.copyWith(stage: ItemStages.maybe), r.event));
+      case WishAnswer.no:
+        await setStage(id, ItemStages.notInterested);
+    }
+  }
+
+  // ================================================================ ideas
+
+  List<LaterItem> ideasToReview() {
+    final n = now();
+    return [
+      for (final i in activeItems)
+        if (i.type == ItemType.idea &&
+            Dates.daysBetween(i.lastReviewedAt ?? i.createdAt, n) >= _settings.ideaReviewDays)
+          i
+    ]..sort((a, b) => (a.lastReviewedAt ?? a.createdAt).compareTo(b.lastReviewedAt ?? b.createdAt));
+  }
+
+  Future<void> reviewIdea(String id, {int? stage, int? score}) async {
+    final cur = itemById(id);
+    if (cur == null) return;
+    var t = Transitions.review(cur, now());
+    var item = t.item;
+    if (score != null && access.has(ProFeature.ideaTools)) item = item.withExtra('score', score.clamp(0, 10));
+    if (stage != null) item = Transitions.setStage(item, stage, now()).item;
+    await repo.upsertItemWithEvent(item, t.event);
+    _replace(item);
+    _afterItemsChanged();
+  }
+
+  /// Pro: two ideas that belong together.
+  Future<void> linkItems(String a, String b) async {
+    if (!access.has(ProFeature.ideaTools) || a == b) return;
+    final x = itemById(a), y = itemById(b);
+    if (x == null || y == null) return;
+    LaterItem add(LaterItem i, String other) {
+      final l = {...i.links, other}.toList();
+      return i.withExtra('links', l);
+    }
+    await update(add(x, b));
+    await update(add(itemById(b)!, a));
+  }
+
+  Future<void> unlinkItems(String a, String b) async {
+    for (final pair in [(a, b), (b, a)]) {
+      final i = itemById(pair.$1);
+      if (i == null) continue;
+      await update(i.withExtra('links', i.links.where((e) => e != pair.$2).toList()));
+    }
+  }
+
+  List<LaterItem> linkedItems(LaterItem i) => [
+        for (final id in i.links)
+          if (itemById(id) != null) itemById(id)!
+      ];
+
+  /// Pro: turn an idea into a normal to-do.
+  Future<UndoAction?> convertIdeaToTask(String id) async {
+    if (!access.has(ProFeature.ideaTools)) return null;
+    return moveToType(id, ItemType.task);
+  }
+
+  // ============================================================ shelf stats
+
+  ShelfStats shelfStats(ItemType t) {
+    final n = now();
+    final week = Dates.startOfWeek(n, _settings.weekStart);
+    final month = DateTime(n.year, n.month, 1);
+    var waiting = 0, minutes = 0;
+    var finishedWeek = 0, finishedMonth = 0, finished = 0;
+    var waitedDays = 0;
+    double spend = 0;
+    for (final i in _items) {
+      if (i.type != t) continue;
+      if (i.isActive) {
+        waiting++;
+        minutes += i.estimatedMinutes ?? 0;
+        if (t == ItemType.wishlist && i.price != null) spend += i.price!;
+      } else if (i.status == ItemStatus.done && i.completedAt != null) {
+        finished++;
+        waitedDays += Dates.daysBetween(i.createdAt, i.completedAt!).clamp(0, 100000);
+        if (!i.completedAt!.isBefore(week)) finishedWeek++;
+        if (!i.completedAt!.isBefore(month)) finishedMonth++;
+      }
+    }
+    return ShelfStats(
+      waiting: waiting,
+      finished: finished,
+      finishedThisWeek: finishedWeek,
+      finishedThisMonth: finishedMonth,
+      minutesWaiting: minutes,
+      avgDaysToFinish: finished == 0 ? null : waitedDays / finished,
+      totalPrice: spend,
+    );
+  }
+
+  // ======================================================= sealed / future
+
+  /// How many capsules / future messages are sealed right now.
+  int sealedCount({required bool messages}) => [
+        for (final i in sealedItems)
+          if ((i.type == ItemType.future) == messages) i
+      ].length;
+
+  bool canSeal({required bool messages}) {
+    if (access.has(messages ? ProFeature.richFutureMessages : ProFeature.richTimeCapsules)) return true;
+    return sealedCount(messages: messages) <
+        (messages ? ProLimits.freeFutureMessages : ProLimits.freeCapsules);
+  }
+
+  /// Creates a capsule or a future message. Returns null if the free limit is
+  /// reached (the UI then offers Pro).
+  Future<LaterItem?> seal({
+    required String title,
+    String body = '',
+    required DateTime unlockAt,
+    bool message = false,
+    RepeatRule repeat = RepeatRule.none,
+    List<String> tags = const [],
+    String? categoryId,
+  }) async {
+    if (!canSeal(messages: message)) return null;
+    if (!unlockAt.isAfter(now())) throw ArgumentError('unlock date must be in the future');
+    final n = now();
+    final pro = access.has(message ? ProFeature.richFutureMessages : ProFeature.richTimeCapsules);
+    return saveNew(LaterItem(
+      id: newId(),
+      title: title.trim().isEmpty ? (message ? l10n.defaultMessageTitle : l10n.defaultCapsuleTitle) : title,
+      description: body,
+      categoryId: categoryId != null && pro ? categoryId : BuiltinCategories.other,
+      tags: pro ? tags : const [],
+      createdAt: n,
+      updatedAt: n,
+      type: message ? ItemType.future : ItemType.capsule,
+      unlockAt: unlockAt,
+      repeat: pro ? repeat : RepeatRule.none,
+      source: 'sealed',
+    ));
+  }
+
+  /// Seals an existing item until [unlockAt] (hidden everywhere until then).
+  Future<LaterItem?> sealExisting(String id, DateTime unlockAt) async {
+    final cur = itemById(id);
+    if (cur == null || !unlockAt.isAfter(now())) return null;
+    if (!canSeal(messages: false)) return null;
+    final u = cur.copyWith(unlockAt: unlockAt, inbox: false);
+    await update(u);
+    return itemById(id);
+  }
+
+  /// Opens a capsule / message that has reached its date.
+  Future<LaterItem?> openSealed(String id) async {
+    final cur = itemById(id);
+    if (cur == null || cur.isLockedAt(now())) return null;
+    DateTime? next;
+    if (cur.repeat != RepeatRule.none && access.has(ProFeature.richFutureMessages)) {
+      final base = cur.unlockAt ?? now();
+      var d = base;
+      var k = 0;
+      while (!d.isAfter(now()) && k < 500) {
+        k++;
+        d = switch (cur.repeat) {
+          RepeatRule.daily => Dates.addDays(base, k),
+          RepeatRule.weekly => Dates.addDays(base, 7 * k),
+          RepeatRule.monthly => Dates.addMonths(base, k, CalendarSystem.gregorian),
+          RepeatRule.yearly => Dates.addMonths(base, 12 * k, CalendarSystem.gregorian),
+          RepeatRule.none => base,
+        };
+      }
+      next = d;
+    }
+    final t = Transitions.openSealed(cur, now(), nextUnlock: next);
+    await repo.upsertItemWithEvent(t.item, t.event);
+    _replace(t.item);
+    _afterItemsChanged();
+    return cur; // the content as it was when it opened
+  }
+
+  /// Everything sealed or opened, for the future timeline.
+  List<LaterItem> timeline({required bool messages}) {
+    bool inTimeline(LaterItem i) => messages
+        ? i.type == ItemType.future
+        : (i.type == ItemType.capsule || (i.unlockAt != null && i.type != ItemType.future));
+    final all = [
+      for (final i in _items)
+        if (inTimeline(i)) i
+    ];
+    all.sort((a, b) => (a.unlockAt ?? a.createdAt).compareTo(b.unlockAt ?? b.createdAt));
+    return all;
+  }
+
+  // ============================================================ attachments
+
+  List<Attachment> attachmentsOf(String itemId) => [
+        for (final a in _attachments)
+          if (a.itemId == itemId) a
+      ];
+
+  /// Pro: a small file on a future message. Stays on the device.
+  Future<Attachment?> addAttachment(String itemId, String name, String mime, Uint8List bytes) async {
+    if (!access.has(ProFeature.richFutureMessages)) return null;
+    if (bytes.isEmpty || bytes.length > ProLimits.maxAttachmentBytes) throw ArgumentError('size');
+    if (attachmentsOf(itemId).length >= ProLimits.maxAttachmentsPerMessage) throw StateError('limit');
+    final a = Attachment(
+      id: newId(),
+      itemId: itemId,
+      name: cleanText(name, 120).replaceAll(RegExp(r'[\\/:*?"<>|]'), '_'),
+      mime: RegExp(r'^[a-z0-9.+-]+/[a-z0-9.+-]+$').hasMatch(mime) ? mime : 'application/octet-stream',
+      size: bytes.length,
+      createdAt: now(),
+    );
+    await attachmentStore.write(a.id, bytes);
+    await repo.upsertAttachment(a);
+    _attachments = [..._attachments, a];
+    _bump();
+    return a;
+  }
+
+  Future<Uint8List?> attachmentBytes(String id) => attachmentStore.read(id);
+
+  Future<void> removeAttachment(String id) async {
+    await attachmentStore.delete(id);
+    await repo.deleteAttachment(id);
+    _attachments = _attachments.where((a) => a.id != id).toList();
+    _bump();
+  }
+
+  /// Removes attachment rows/files whose item no longer exists.
+  Future<void> sweepAttachments() async {
+    final ids = {for (final i in _items) i.id};
+    for (final a in _attachments.where((a) => !ids.contains(a.itemId)).toList()) {
+      await removeAttachment(a.id);
+    }
+  }
+
+  // ================================================================ search
+
+  List<SearchHit> search(String query) => universalSearch(
+        items: [..._items.where((i) => !i.isLockedAt(now()))],
+        people: _people,
+        query: query,
+        now: now(),
+        advanced: access.has(ProFeature.advancedSearch),
+        categoryName: categoryName,
+      );
 
   // ------------------------------------------------------------- QA tools
 
@@ -915,17 +1686,30 @@ class LaterController extends ChangeNotifier {
 
 /// Lazily computed, revision-scoped derived lists.
 class _Cache {
-  _Cache(List<LaterItem> items, DateTime now, AppSettings s) {
+  _Cache(List<LaterItem> items, DateTime now) {
     final a = <LaterItem>[];
     final h = <LaterItem>[];
+    final sealed = <LaterItem>[];
+    DateTime? next;
     for (final i in items) {
-      (i.isActive ? a : h).add(i);
+      if (!i.isActive) {
+        h.add(i);
+      } else if (i.isLockedAt(now)) {
+        sealed.add(i);
+        if (next == null || i.unlockAt!.isBefore(next)) next = i.unlockAt;
+      } else {
+        a.add(i);
+      }
     }
     h.sort((x, y) => (y.completedAt ?? y.droppedAt ?? y.updatedAt)
         .compareTo(x.completedAt ?? x.droppedAt ?? x.updatedAt));
     active = a;
     history = h;
+    this.sealed = sealed;
+    nextUnlock = next;
   }
   late final List<LaterItem> active;
   late final List<LaterItem> history;
+  late final List<LaterItem> sealed;
+  late final DateTime? nextUnlock;
 }

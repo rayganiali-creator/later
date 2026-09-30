@@ -34,21 +34,40 @@ LaterSnapshot sampleSnapshot(int n) {
           url: i % 7 == 0 ? 'https://example.com/p/$i' : null,
           reminder: i % 6 == 0,
           offset: (i % 3) * 10,
-          repeat: RepeatRule.values[i % 4]),
+          repeat: RepeatRule.values[i % 5]).copyWith(
+        type: ItemType.values[i % ItemType.values.length],
+        stage: i % 3,
+        inbox: i % 11 == 0,
+        unlockAt: i % 13 == 0 ? t0.add(const Duration(days: 400)) : null,
+        personId: i % 8 == 0 ? 'p1' : null,
+        collectionId: i % 9 == 0 ? 'col1' : null,
+        lastReviewedAt: i % 4 == 0 ? t0 : null,
+        extra: i % 3 == 0
+            ? {'price': 1200000 + i, 'currency': 'تومان', 'watchKind': 'movie', 'score': i % 10, 'links': ['item1'], 'priceHistory': [[t0.millisecondsSinceEpoch, 1100000.0]]}
+            : const {},
+      ),
   ];
   final events = [
     for (var i = 0; i < n; i++)
       ItemEvent(itemId: 'item$i', type: EventType.values[i % EventType.values.length], at: t0.subtract(Duration(hours: i)), categoryId: 'read', daysWaited: i % 30),
   ];
+  final att = Attachment(id: 'att1', itemId: 'item1', name: 'a.png', mime: 'image/png', size: 5, createdAt: t0);
   return LaterSnapshot(
     items: items,
     categories: cats,
     events: events,
-    settings: const AppSettings(onboardingDone: true, keepHistory: false, staleDays: 45).toMap(),
+    settings: const AppSettings(onboardingDone: true, keepHistory: false, staleDays: 45, rouletteCategories: {'read', 'buy'}).toMap(),
+    people: [
+      Person(id: 'p1', name: 'علی', contactUri: 'content://com.android.contacts/contacts/lookup/abc/1', note: 'دوست', group: 'خانواده', lastInteractionAt: t0, createdAt: t0, updatedAt: t0),
+    ],
+    interactions: [Interaction(personId: 'p1', at: t0, note: 'تماس')],
+    collections: [ItemCollection(id: 'col1', name: 'فهرست دوم', type: ItemType.wishlist, sortOrder: 0, createdAt: t0)],
+    attachments: n > 1 ? [att] : const [],
+    attachmentBytes: n > 1 ? {'att1': Uint8List.fromList([1, 2, 3, 4, 5])} : const {},
   );
 }
 
-void expectSameSnapshot(LaterSnapshot a, LaterSnapshot b) {
+void expectSameSnapshot(LaterSnapshot a, LaterSnapshot b, {bool bytes = true}) {
   expect(b.items.length, a.items.length);
   final bm = {for (final i in b.items) i.id: i};
   for (final i in a.items) {
@@ -63,7 +82,24 @@ void expectSameSnapshot(LaterSnapshot a, LaterSnapshot b) {
     expect(y, x);
   }
   expect(b.settings, a.settings);
+  expect(b.people.map((x) => x.toDb()).toList(), a.people.map((x) => x.toDb()).toList());
+  expect(b.interactions.map((x) => (x.toDb()..remove('id'))).toList(), a.interactions.map((x) => (x.toDb()..remove('id'))).toList());
+  expect(b.collections.map((x) => x.toDb()).toList(), a.collections.map((x) => x.toDb()).toList());
+  expect(b.attachments.map((x) => x.toDb()).toList(), a.attachments.map((x) => x.toDb()).toList());
+  if (bytes) expect(b.attachmentBytes.keys.toSet(), a.attachmentBytes.keys.toSet());
 }
+
+LaterSnapshot withBytes(LaterSnapshot s, Map<String, Uint8List> bytes) => LaterSnapshot(
+      items: s.items,
+      categories: s.categories,
+      events: s.events,
+      settings: s.settings,
+      people: s.people,
+      interactions: s.interactions,
+      collections: s.collections,
+      attachments: s.attachments,
+      attachmentBytes: bytes,
+    );
 
 Uint8List _reencode(Map<String, Object?> doc) => Uint8List.fromList(utf8.encode(jsonEncode(doc)));
 
@@ -78,7 +114,7 @@ void main() {
       final s = sampleSnapshot(200);
       final d = codec.decode(encode(s));
       expectSameSnapshot(s, d.snapshot);
-      expect(d.sourceSchemaVersion, 1);
+      expect(d.sourceSchemaVersion, AppConfig.backupSchemaVersion);
       expect(d.createdAt, DateTime.fromMillisecondsSinceEpoch(t0.millisecondsSinceEpoch));
     });
 
@@ -132,11 +168,11 @@ void main() {
           throwsA(isA<BackupException>().having((e) => e.error, 'error', BackupError.futureVersion)));
     });
 
-    test('old schema version is migrated (v1 -> v3 chain)', () {
+    test('old schema version is migrated (v2 -> v4 chain)', () {
       // Simulates future app versions: schema 3 renamed "title" -> "name" then
-      // "name" -> "title" back, plus a new mandatory field.
-      final migrator = BackupMigrator(target: 3, steps: {
-        1: (doc) {
+      // "name" -> "title" back.
+      final migrator = BackupMigrator(target: 4, steps: {
+        2: (doc) {
           final data = Map<String, Object?>.from(doc['data']! as Map);
           data['items'] = [
             for (final i in data['items']! as List)
@@ -146,7 +182,7 @@ void main() {
           ];
           return {...doc, 'data': data};
         },
-        2: (doc) {
+        3: (doc) {
           final data = Map<String, Object?>.from(doc['data']! as Map);
           data['items'] = [
             for (final i in data['items']! as List)
@@ -160,18 +196,18 @@ void main() {
       final c = BackupCodec(migrator: migrator);
       final s = sampleSnapshot(10);
       final d = c.decode(encode(s));
-      expect(d.sourceSchemaVersion, 1);
+      expect(d.sourceSchemaVersion, 2);
       expectSameSnapshot(s, d.snapshot);
     });
 
     test('missing migration step => unsupportedVersion', () {
-      final c = BackupCodec(migrator: BackupMigrator(target: 2));
+      final c = BackupCodec(migrator: BackupMigrator(target: 3, steps: const {}));
       expect(() => c.decode(encode(sampleSnapshot(1))),
           throwsA(isA<BackupException>().having((e) => e.error, 'error', BackupError.unsupportedVersion)));
     });
 
     test('throwing migration => migrationFailed', () {
-      final c = BackupCodec(migrator: BackupMigrator(target: 2, steps: {1: (d) => throw StateError('boom')}));
+      final c = BackupCodec(migrator: BackupMigrator(target: 3, steps: {2: (d) => throw StateError('boom')}));
       expect(() => c.decode(encode(sampleSnapshot(1))),
           throwsA(isA<BackupException>().having((e) => e.error, 'error', BackupError.migrationFailed)));
     });
@@ -256,7 +292,7 @@ void main() {
         final s = sampleSnapshot(n);
         await repo.replaceAll(s);
         final sw = Stopwatch()..start();
-        final bytes = encode(await repo.loadAll());
+        final bytes = encode(withBytes(await repo.loadAll(), s.attachmentBytes));
         final exportMs = sw.elapsedMilliseconds;
         await repo.wipe(t0); // "delete app data"
         expect((await repo.loadItems()), isEmpty);
@@ -265,7 +301,7 @@ void main() {
         await repo.replaceAll(decoded.snapshot);
         final importMs = sw.elapsedMilliseconds;
         final back = await repo.loadAll();
-        expectSameSnapshot(s, back);
+        expectSameSnapshot(s, back, bytes: false);
         // ignore: avoid_print
         print('n=$n size=${(bytes.length / 1024).toStringAsFixed(0)}KB export=${exportMs}ms import=${importMs}ms');
         expect(exportMs + importMs, lessThan(15000));
@@ -277,7 +313,7 @@ void main() {
       final bytes = encode(s);
       await repo.replaceAll(codec.decode(bytes).snapshot);
       await repo.replaceAll(codec.decode(bytes).snapshot);
-      expectSameSnapshot(s, await repo.loadAll());
+      expectSameSnapshot(s, await repo.loadAll(), bytes: false);
     });
 
     test('failed restore leaves current data untouched', () async {
@@ -290,7 +326,7 @@ void main() {
         settings: const {},
       );
       await expectLater(repo.replaceAll(bad), throwsA(anything));
-      expectSameSnapshot(s, await repo.loadAll());
+      expectSameSnapshot(s, await repo.loadAll(), bytes: false);
     });
 
     test('stats aggregate from events', () async {

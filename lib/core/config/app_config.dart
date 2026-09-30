@@ -13,10 +13,10 @@ class AppConfig {
   static const String tagline = 'الان لازم نیست؛ فقط فراموشش نکن.';
 
   /// SQLite schema version (see [AppDatabase] migrations).
-  static const int dbSchemaVersion = 1;
+  static const int dbSchemaVersion = 2;
 
   /// Backup file schema version (see [BackupMigrator]).
-  static const int backupSchemaVersion = 1;
+  static const int backupSchemaVersion = 2;
   static const String backupFormatId = 'later-backup';
   static const String backupExtension = 'later';
 

@@ -97,6 +97,15 @@ enum ProFeature {
   iconCustomization,
   autoBackups,
   advancedExport,
+  smartRoulette,
+  rouletteHistory,
+  smartInbox,
+  advancedShelves,
+  ideaTools,
+  peopleTools,
+  richTimeCapsules,
+  richFutureMessages,
+  multipleCollections,
 }
 
 class ProLimits {
@@ -105,6 +114,14 @@ class ProLimits {
   static const int freeCustomCategories = 2;
   static const int proCustomCategories = 40;
   static const int freeHistoryDays = 7;
+
+  /// Sealed things a free user can have at the same time.
+  static const int freeCapsules = 2;
+  static const int freeFutureMessages = 2;
+  static const int freeCollectionsPerType = 0;
+  static const int proCollectionsPerType = 12;
+  static const int maxAttachmentBytes = 2 * 1024 * 1024;
+  static const int maxAttachmentsPerMessage = 3;
 }
 
 /// Read-only view answering "may the user use X right now?".

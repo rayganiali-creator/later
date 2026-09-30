@@ -20,7 +20,7 @@
   "none": "هیچ‌کدام",
   "proBadge": "Pro",
   "loading": "در حال بارگذاری…",
-  "errorGeneric": "یه مشکلی پیش اومد. دوباره تلاش کن.",
+  "errorGeneric": "یه مشکلی پیش اومد. دوباره امتحان کن.",
   "errorLoad": "بارگذاری اطلاعات ناموفق بود.",
   "navHome": "خانه",
   "navList": "بعداً",
@@ -28,25 +28,25 @@
   "navSettings": "تنظیمات",
   "semAdd": "افزودن مورد جدید",
   "onb1Title": "الان لازم نیست.",
-  "onb1Body": "ذهنت را از هزارتا کار نیمه‌کاره خالی کن.",
+  "onb1Body": "لازم نیست همه‌چیز همین الان تموم بشه. چیزی که وقتش نیست رو بذار کنار.",
   "onb2Title": "هر چیزی را که نمی‌خواهی فراموش کنی، اینجا نگه دار.",
-  "onb2Body": "مقاله، فیلم، خرید، ایده، لینک، یه تماس… فقط بنویس یا از هر برنامه‌ای «اشتراک‌گذاری» کن.",
+  "onb2Body": "مقاله، فیلم، خرید، ایده، یه تماس. بنویس، یا از هر برنامه‌ای «اشتراک‌گذاری» رو بزن.",
   "onb3Title": "بعداً خودش به تو یادآوری می‌کند.",
-  "onb3Body": "یه تاریخ و ساعت بده؛ یا نده و هر وقت وقت آزاد داشتی بگو «یه مورد بهم بده».",
+  "onb3Body": "تاریخ و ساعت بده تا خودش یادآوری کنه. ندادی هم مهم نیست، وقتی وقت داشتی قرعه بزن.",
   "onb4Title": "بدون حساب کاربری، بدون سرور.",
-  "onb4Body": "اطلاعاتت فقط روی دستگاه خودت می‌ماند و حتی بدون اینترنت کار می‌کند.",
+  "onb4Body": "اطلاعاتت فقط روی گوشی خودته و بدون اینترنت هم کار می‌کنه.",
   "onb5Title": "آماده‌ای؟",
-  "onb5Body": "هر چیزی که الان وقتش نیست را همین‌جا بگذار.",
+  "onb5Body": "هر چی الان وقتش نیست رو همین‌جا بذار.",
   "onbStart": "بزن بریم",
   "legalTitle": "قبل از شروع",
-  "legalIntro": "لطفاً قوانین استفاده و سیاست حریم خصوصی را بخوان و تأیید کن.",
+  "legalIntro": "قبل از شروع، قوانین استفاده و سیاست حریم خصوصی رو بخون و تأیید کن.",
   "termsTitle": "قوانین استفاده",
   "privacyTitle": "سیاست حریم خصوصی",
   "legalAccept": "قوانین استفاده و سیاست حریم خصوصی را خوانده‌ام و می‌پذیرم.",
   "legalContinue": "تأیید و ورود",
   "legalLoadError": "بارگذاری متن ناموفق بود.",
   "legalUpdatedTitle": "به‌روزرسانی قوانین",
-  "homeWaiting": "{count} مورد منتظر توست",
+  "homeWaiting": "{count} چیز منتظرته",
   "@homeWaiting": {
     "placeholders": {
       "count": {
@@ -54,7 +54,7 @@
       }
     }
   },
-  "homeWaitingOne": "یک مورد منتظر توست",
+  "homeWaitingOne": "یه چیز منتظرته",
   "homeEmptyTitle": "هنوز چیزی برای بعداً نداری.",
   "homeEmptyBody": "چه خوب. فعلاً ذهنت آزاده. 🌱",
   "homeEmptyCta": "اولین مورد را اضافه کن",
@@ -63,8 +63,8 @@
   "statNoDate": "بدون تاریخ",
   "statOverdue": "عقب‌افتاده",
   "statStale": "مانده‌ها",
-  "pickCardTitle": "🎯 یه مورد بهم بده",
-  "pickCardSub": "نمی‌دونی الان چی کار کنی؟ من انتخاب می‌کنم.",
+  "pickCardTitle": "قرعه بعداً",
+  "pickCardSub": "نمی‌دونی الان چی‌کار کنی؟ بذار قرعه تصمیم بگیره.",
   "timeCardTitle": "الان چقدر وقت داری؟",
   "minutesN": "{n} دقیقه",
   "@minutesN": {
@@ -89,7 +89,7 @@
   "staleBannerBody": "یه نگاه سریع بنداز؛ نگه دار یا رها کن.",
   "decideTitle": "تصمیم نگیر",
   "decideIntro": "نمی‌دونم الان چی کار کنم.",
-  "decideLabel": "🎯 پیشنهاد بعدی تو:",
+  "decideLabel": "قرعه این شد",
   "decideAbout": "حدود {n} دقیقه",
   "@decideAbout": {
     "placeholders": {
@@ -104,7 +104,7 @@
   "decideNone": "چیزی برای پیشنهاد ندارم",
   "decideNoneBody": "لیستت خالیه یا چیزی به این زمان نمی‌خوره. 🌱",
   "decideNoMore": "مورد دیگری نمانده.",
-  "decideDoneToast": "آفرین! انجام شد ✓",
+  "decideDoneToast": "انجام شد ✓",
   "smartPickTitle": "پیشنهاد هوشمند",
   "smartPickHeader": "الان چقدر وقت داری؟",
   "smartPickResultsFor": "مناسب {time}",
@@ -117,7 +117,7 @@
   },
   "smartPickResultsAny": "پیشنهادها",
   "smartPickEmpty": "برای این مدت چیزی پیدا نکردم.",
-  "smartPickProHint": "پیشنهاد پیشرفته (اولویت و فیلتر دسته) با Pro",
+  "smartPickProHint": "فیلتر دسته و اولویت با Pro",
   "smartPickCategory": "فقط از دسته‌ی…",
   "smartPickAllCategories": "همه‌ی دسته‌ها",
   "listTitle": "بعداً",
@@ -276,7 +276,7 @@
   "today": "امروز",
   "clear": "پاک کردن",
   "staleTitle": "بعداً، نه هیچ‌وقت",
-  "staleQuestion": "این مورد {days} روز است منتظر توست.\nهنوز می‌خواهی نگهش داری؟",
+  "staleQuestion": "این {days} روزه منتظرته.\nهنوز می‌خوای نگهش داری؟",
   "@staleQuestion": {
     "placeholders": {
       "days": {
@@ -299,9 +299,9 @@
       }
     }
   },
-  "staleAllDone": "همه‌چی مرتبه ✨",
+  "staleAllDone": "همه‌چی مرتبه",
   "staleAllDoneBody": "لیستت سبک‌تر شد.",
-  "staleNoPressure": "بدون عجله؛ هیچ تصمیمی اشتباه نیست.",
+  "staleNoPressure": "عجله‌ای نیست. هر تصمیمی بگیری درسته.",
   "historyTitle": "تاریخچه",
   "periodToday": "امروز",
   "periodWeek": "این هفته",
@@ -326,7 +326,7 @@
     }
   },
   "historyRestore": "برگردان به لیست",
-  "historyProNote": "تاریخچه‌ی کامل (ماه و همه) با Pro",
+  "historyProNote": "تاریخچه‌ی کامل (ماه و همه‌ی زمان‌ها) با Pro",
   "historyDisabled": "ثبت تاریخچه خاموش است؛ فقط آمار ناشناس نگه داشته می‌شود.",
   "statsTitle": "آمار",
   "statsDone": "انجام‌شده",
@@ -390,7 +390,7 @@
   "weekStart": "شروع هفته",
   "weekendDay": "روز آخر هفته",
   "keepHistory": "نگه داشتن تاریخچه",
-  "keepHistorySub": "موردهای انجام‌شده و کنار گذاشته‌شده در آرشیو بمانند.",
+  "keepHistorySub": "کارهای انجام‌شده و کنار گذاشته‌شده تو تاریخچه بمونن.",
   "staleAfter": "مرور مانده‌ها بعد از",
   "daysN": "{n} روز",
   "@daysN": {
@@ -415,7 +415,7 @@
     }
   },
   "about": "درباره‌ی برنامه",
-  "aboutBody": "بعداً یک برنامه‌ی کوچک و سریع برای نگه‌داشتن چیزهایی است که الان وقتشان نیست؛ بدون حساب کاربری و بدون سرور.",
+  "aboutBody": "بعداً جای چیزهاییه که الان وقتشون نیست. بدون حساب کاربری، بدون سرور.",
   "aboutOffline": "همه‌ی اطلاعات فقط روی دستگاه تو ذخیره می‌شود.",
   "aboutLicenses": "مجوزهای متن‌باز",
   "aboutContact": "پشتیبانی",
@@ -431,7 +431,7 @@
   "resetApp": "پاک کردن همه‌ی اطلاعات",
   "resetAppSub": "همه‌ی موردها، دسته‌ها، تاریخچه و تنظیمات",
   "resetConfirmTitle": "همه‌چیز پاک شود؟",
-  "resetConfirmBody": "همه‌ی موردها، دسته‌ها، تاریخچه و تنظیمات این برنامه برای همیشه پاک می‌شود. این کار قابل بازگشت نیست.\n(اشتراک Pro از بین نمی‌رود.)\nپیشنهاد می‌کنیم اول پشتیبان بگیری.",
+  "resetConfirmBody": "همه‌ی موردها، دسته‌ها، تاریخچه و تنظیمات این برنامه برای همیشه پاک می‌شه و برنمی‌گرده. اشتراک Pro از بین نمی‌ره. بهتره اول یه پشتیبان بگیری.",
   "resetTypeHint": "برای تأیید، کلمه‌ی «{word}» را بنویس",
   "@resetTypeHint": {
     "placeholders": {
@@ -455,7 +455,7 @@
   "categoryEdit": "ویرایش دسته",
   "categoryNameHint": "نام دسته",
   "categoryEmojiHint": "ایموجی",
-  "categoryLimit": "در نسخه‌ی رایگان تا {free} دسته‌ی سفارشی می‌توانی بسازی؛ Pro تا {pro} دسته.",
+  "categoryLimit": "نسخه‌ی رایگان {free} دسته‌ی سفارشی داره. با Pro تا {pro} تا می‌شه.",
   "@categoryLimit": {
     "placeholders": {
       "free": {
@@ -470,7 +470,7 @@
   "categoryDeleteBody": "موردهای این دسته به «سایر» منتقل می‌شوند.",
   "categoryBuiltin": "دسته‌ی پیش‌فرض",
   "backupTitle": "پشتیبان‌گیری و بازیابی",
-  "backupIntro": "اطلاعات فقط روی همین دستگاه است. برای جابه‌جایی یا نصب مجدد، از آن‌ها فایل پشتیبان بگیر.",
+  "backupIntro": "اطلاعاتت فقط روی همین گوشیه. قبل از عوض کردن گوشی یا نصب دوباره، یه فایل پشتیبان بگیر.",
   "backupExport": "خروجی گرفتن از اطلاعات",
   "backupExportSub": "یک فایل ‎.later‎ با همه‌ی موردها، دسته‌ها، تاریخچه و تنظیمات",
   "backupImport": "بازیابی از فایل",
@@ -533,8 +533,8 @@
   "backupErrGeneric": "بازیابی انجام نشد. اطلاعات فعلی دست‌نخورده ماند.",
   "backupNoChange": "اطلاعات فعلی تغییری نکرد.",
   "proTitle": "بعداً Pro",
-  "proHeadline": "امکانات بیشتر برای کسانی که «بعداً» را زیاد استفاده می‌کنند.",
-  "proFreeNote": "نسخه‌ی رایگان همچنان کامل قابل استفاده است و هیچ اطلاعاتی محدود یا حذف نمی‌شود.",
+  "proHeadline": "اگه زیاد از «بعداً» استفاده می‌کنی، Pro کارت رو راحت‌تر می‌کنه.",
+  "proFreeNote": "نسخه‌ی رایگان ناقص نیست. اگه Pro تموم بشه هم چیزی از اطلاعاتت پاک یا قفل نمی‌شه.",
   "proActiveUntil": "فعال تا {date}",
   "@proActiveUntil": {
     "placeholders": {
@@ -551,7 +551,7 @@
       }
     }
   },
-  "proExpiredNote": "اشتراک Pro تمام شده؛ اطلاعاتت سالم است و فقط امکانات Pro غیرفعال شده‌اند.",
+  "proExpiredNote": "اشتراک Pro تموم شده. اطلاعاتت سر جاشه؛ فقط قابلیت‌های Pro خاموش شدن.",
   "proPlan1": "۱ ماهه",
   "proPlan3": "۳ ماهه",
   "proPlan6": "۶ ماهه",
@@ -567,9 +567,9 @@
   },
   "proBuy": "خرید",
   "proExtend": "تمدید",
-  "proStackNote": "با خرید جدید، روزهای باقی‌مانده حفظ می‌شود و مدت تازه به آن اضافه می‌شود.",
+  "proStackNote": "اگه وسط اشتراک دوباره بخری، روزهای مونده از بین نمی‌رن؛ مدت جدید بهشون اضافه می‌شه.",
   "proRestore": "بازیابی خریدها",
-  "proRestored": "{n} خرید بازیابی شد",
+  "proRestored": "{n} خرید برگشت",
   "@proRestored": {
     "placeholders": {
       "n": {
@@ -578,21 +578,21 @@
     }
   },
   "proNothingToRestore": "خرید بازیابی‌نشده‌ای پیدا نشد.",
-  "proPurchaseSuccess": "Pro فعال شد 🎉",
+  "proPurchaseSuccess": "Pro فعال شد",
   "proPurchaseCancelled": "خرید لغو شد.",
   "proPurchaseUnavailable": "سرویس پرداخت در دسترس نیست. برنامه‌ی کافه‌بازار را بررسی کن.",
   "proPurchaseFailed": "خرید انجام نشد. دوباره تلاش کن.",
-  "proTamper": "اطلاعات اشتراک معتبر نبود و بازنشانی شد. اگر خرید کرده‌ای، «بازیابی خریدها» را بزن.",
-  "proF1": "پیشنهاد هوشمند پیشرفته",
-  "proF2": "فیلترها و جستجوی پیشرفته",
+  "proTamper": "اطلاعات اشتراک درست نبود و پاک شد. اگه خرید کرده بودی «بازیابی خریدها» رو بزن.",
+  "proF1": "قرعه‌ی هوشمند و صندوق ورودی هوشمند",
+  "proF2": "جستجو و فیلتر پیشرفته",
   "proF3": "آمار و تاریخچه‌ی کامل",
-  "proF4": "دسته‌های سفارشی بیشتر",
-  "proF5": "یادآوری تکرارشونده و پیشرفته",
-  "proF6": "ویجت‌های پیشرفته",
-  "proF7": "تم‌ها و آیکون‌های بیشتر",
-  "proF8": "پشتیبان خودکار و خروجی‌های بیشتر",
+  "proF4": "دسته‌ی سفارشی بیشتر",
+  "proF5": "یادآوری تکرارشونده",
+  "proF6": "ویجت لیستی",
+  "proF7": "رنگ و آیکون بیشتر",
+  "proF8": "پشتیبان خودکار و خروجی CSV",
   "proLockedTitle": "این امکان مخصوص Pro است",
-  "proLockedBody": "با Pro این و چند امکان دیگر باز می‌شود. نسخه‌ی رایگان همچنان کامل است.",
+  "proLockedBody": "این یکی مال Pro ـه. بقیه‌ی برنامه بدون Pro هم کامل کار می‌کنه.",
   "proSeePlans": "دیدن پلن‌ها",
   "notNow": "حالا نه",
   "qaTitle": "ابزار تست (فقط نسخه‌ی آزمایشی)",
@@ -664,7 +664,7 @@
   "notifBodyGeneric": "بعداً",
   "notifTestTitle": "اعلان آزمایشی",
   "notifTestBody": "اگر این را می‌بینی، اعلان‌ها کار می‌کنند ✓",
-  "reminderPermissionBanner": "اجازه‌ی اعلان داده نشده؛ یادآوری‌ها نمایش داده نمی‌شوند.",
+  "reminderPermissionBanner": "اجازه‌ی اعلان داده نشده، برای همین یادآوری‌ها نمایش داده نمی‌شن.",
   "reminderSyncFailed": "برخی یادآوری‌ها ثبت نشدند.",
   "reminderApproximate": "یادآوری‌ها تقریبی‌اند؛ برای دقت بیشتر «هشدار دقیق» را مجاز کن.",
   "permissionDeniedTitle": "اجازه‌ی اعلان لازم است",
@@ -694,5 +694,411 @@
   "shortcutAdd": "اضافه کردن",
   "shortcutPick": "یه مورد بهم بده",
   "shortcutSearch": "جستجو",
-  "licensesLegalese": "ساخته‌شده با فلاتر. فونت وزیرمتن (مجوز OFL)."
+  "licensesLegalese": "ساخته‌شده با فلاتر. فونت وزیرمتن (مجوز OFL).",
+  "repeatYearly": "هر سال",
+  "defaultCapsuleTitle": "کپسول بی‌نام",
+  "defaultMessageTitle": "پیام بی‌نام",
+  "typeName": "{id, select, task{کار} read{مقاله} watch{ویدیو} wishlist{خرید} idea{ایده} person{آدم} capsule{کپسول} future{پیام} other{مورد}}",
+  "@typeName": {
+    "placeholders": {
+      "id": {
+        "type": "String"
+      }
+    }
+  },
+  "daysAgo": "{n} روز پیش",
+  "@daysAgo": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      }
+    }
+  },
+  "dashRoulette": "قرعه بعداً",
+  "dashInbox": "صندوق ورودی",
+  "dashInboxCount": "{n} مورد منتظر مرتب شدنه",
+  "@dashInboxCount": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      }
+    }
+  },
+  "dashInboxEmpty": "صندوقت خالیه",
+  "dashShelves": "قفسه‌ها",
+  "shelfReadTitle": "بعداً بخون",
+  "shelfWatchTitle": "بعداً ببین",
+  "shelfWishTitle": "بعداً بخر",
+  "shelfIdeaTitle": "ایده‌ها",
+  "shelfPeopleTitle": "آدم‌ها",
+  "shelfFutureTitle": "آینده",
+  "returnedBanner": "یه چیز از گذشته برگشته",
+  "returnedBannerBody": "بازش کن ببین چی بوده.",
+  "ideaReviewBanner": "{n} ایده وقت مرور دارن",
+  "@ideaReviewBanner": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      }
+    }
+  },
+  "searchEverywhere": "جستجو در همه‌چیز",
+  "searchEverywhereHint": "کار، مقاله، ایده، آدم…",
+  "searchNothing": "چیزی پیدا نشد",
+  "searchStartTyping": "یه کلمه بنویس.",
+  "searchDone": "انجام‌شده",
+  "addTypeLabel": "این چیه؟",
+  "addTypeAuto": "بعداً مرتبش می‌کنم",
+  "fieldPrice": "قیمت",
+  "fieldCurrency": "واحد پول",
+  "currencyDefault": "تومان",
+  "fieldWatchKind": "نوع",
+  "kindVideo": "ویدیو",
+  "kindMovie": "فیلم",
+  "kindSeries": "سریال",
+  "kindOther": "دیگر",
+  "stageUnread": "نخونده",
+  "stageReading": "دارم می‌خونم",
+  "stageRead": "خونده",
+  "stageArchived": "بایگانی",
+  "stageUnwatched": "ندیده",
+  "stageWatching": "دارم می‌بینم",
+  "stageWatched": "دیده",
+  "stageInterested": "می‌خوامش",
+  "stageMaybe": "شاید",
+  "stageBought": "خریدم",
+  "stageNotInterested": "دیگه نمی‌خوامش",
+  "stageIdeaNew": "تازه",
+  "stageThinking": "دارم فکر می‌کنم",
+  "stageDeveloping": "دارم پرورشش می‌دم",
+  "stageIdeaArchived": "بایگانی",
+  "stageIdeaDropped": "ولش کردم",
+  "stageSealed": "قفل",
+  "stageOpened": "باز شده",
+  "markAsRead": "خوندم",
+  "markAsWatched": "دیدم",
+  "markAsBought": "خریدم",
+  "itemStage": "وضعیت",
+  "moveToShelf": "منتقل کن به…",
+  "movedTo": "رفت به «{shelf}»",
+  "@movedTo": {
+    "placeholders": {
+      "shelf": {
+        "type": "String"
+      }
+    }
+  },
+  "shelfEmptyReadTitle": "هنوز چیزی برای خوندن نذاشتی",
+  "shelfEmptyReadBody": "لینک مقاله رو با «اشتراک‌گذاری» بفرست به بعداً.",
+  "shelfEmptyWatchTitle": "هنوز ویدیویی نذاشتی",
+  "shelfEmptyWatchBody": "لینک یوتیوب یا اسم یه فیلم رو اینجا نگه دار.",
+  "shelfEmptyWishTitle": "فهرست خریدت خالیه",
+  "shelfEmptyWishBody": "چیزی که شاید بخوای بخری رو اینجا بذار. بعد از یه مدت می‌پرسم هنوز می‌خوایش یا نه.",
+  "shelfEmptyIdeaTitle": "هنوز ایده‌ای نذاشتی",
+  "shelfEmptyIdeaBody": "ایده‌ها اینجا می‌مونن تا وقتش برسه.",
+  "shelfWaiting": "در انتظار",
+  "shelfHistory": "تاریخچه",
+  "shelfAllStages": "همه",
+  "shelfStatsTitle": "آمار",
+  "shelfAdvancedFilters": "فیلتر پیشرفته",
+  "shelfHistoryPro": "تاریخچه‌ی این قفسه با Pro",
+  "shelfCollections": "فهرست‌ها",
+  "shelfCollectionMain": "اصلی",
+  "collectionNew": "فهرست جدید",
+  "collectionName": "اسم فهرست",
+  "collectionProHint": "چند فهرست جدا با Pro",
+  "sortByPrice": "قیمت",
+  "sortByScore": "امتیاز",
+  "sortByTime": "زمان تخمینی",
+  "statsWaiting": "در انتظار",
+  "statsFinished": "تموم‌شده",
+  "statsThisMonth": "این ماه",
+  "statsMinutesWaiting": "زمان کل منتظر",
+  "statsAvgFinish": "میانگین تا تموم شدن",
+  "statsTotalPrice": "جمع قیمت‌ها",
+  "readTimeEstimate": "حدود {n} دقیقه",
+  "@readTimeEstimate": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      }
+    }
+  },
+  "linkHost": "از {host}",
+  "@linkHost": {
+    "placeholders": {
+      "host": {
+        "type": "String"
+      }
+    }
+  },
+  "priceNow": "قیمت",
+  "priceSetNew": "ثبت قیمت تازه",
+  "priceTarget": "قیمت هدف",
+  "priceTargetReached": "به قیمت هدفت رسیده",
+  "priceHistoryTitle": "تاریخچه‌ی قیمت",
+  "priceHistoryEmpty": "هنوز قیمتی ثبت نشده.",
+  "priceHint": "مثلاً ۱۲۰۰۰۰۰",
+  "wishProHint": "قیمت هدف و تاریخچه‌ی قیمت با Pro",
+  "wishReviewTitle": "واقعاً هنوز می‌خوایش؟",
+  "wishReviewQuestion": "این {days} روزه تو فهرستته.\nهنوز می‌خوای بخریش؟",
+  "@wishReviewQuestion": {
+    "placeholders": {
+      "days": {
+        "type": "String"
+      }
+    }
+  },
+  "wishStill": "هنوز می‌خوام",
+  "wishUnsure": "مطمئن نیستم",
+  "wishNo": "دیگه نمی‌خوام",
+  "ideaReviewTitle": "مرور ایده‌ها",
+  "ideaReviewNone": "چیزی برای مرور نیست.",
+  "ideaReviewIntro": "هر ایده رو یه نگاه بنداز و بگو چیکارش کنیم.",
+  "ideaScore": "امتیاز",
+  "ideaLinks": "ایده‌های مرتبط",
+  "ideaAddLink": "وصل کن به یه ایده‌ی دیگه",
+  "ideaToTask": "تبدیل به کار",
+  "ideaConverted": "حالا یه کاره",
+  "ideaKeepThinking": "هنوز فکر می‌کنم",
+  "ideaDevelop": "می‌خوام پرورشش بدم",
+  "ideaArchiveIt": "بایگانی",
+  "ideaDropIt": "ولش کن",
+  "ideaLastReviewed": "آخرین مرور: {when}",
+  "@ideaLastReviewed": {
+    "placeholders": {
+      "when": {
+        "type": "String"
+      }
+    }
+  },
+  "ideaNeverReviewed": "هنوز مرور نشده",
+  "ideaProHint": "امتیاز، اتصال ایده‌ها و مرور با Pro",
+  "peopleTitle": "آدم‌ها",
+  "peopleEmptyTitle": "هنوز کسی رو اضافه نکردی",
+  "peopleEmptyBody": "مثلاً «بعداً به علی زنگ بزن». آدم رو از مخاطب‌ها انتخاب کن یا اسمش رو بنویس.",
+  "personAdd": "آدم جدید",
+  "personFromContacts": "انتخاب از مخاطب‌ها",
+  "personTypeName": "فقط اسم بنویسم",
+  "personName": "اسم",
+  "personNote": "یادداشت",
+  "personLast": "آخرین ارتباط: {when}",
+  "@personLast": {
+    "placeholders": {
+      "when": {
+        "type": "String"
+      }
+    }
+  },
+  "personNever": "هنوز ارتباطی ثبت نشده",
+  "personNext": "بعدی: {when}",
+  "@personNext": {
+    "placeholders": {
+      "when": {
+        "type": "String"
+      }
+    }
+  },
+  "personNoNext": "یادآوری‌ای نداره",
+  "personTalked": "همین الان صحبت کردیم",
+  "personAddReminder": "یادآوری تازه",
+  "personReminderHint": "مثلاً: پیام بده",
+  "personOpenContact": "باز کردن مخاطب",
+  "personDeleteTitle": "این آدم حذف بشه؟",
+  "personDeleteBody": "یادآوری‌هاش می‌مونن ولی دیگه به این آدم وصل نیستن.",
+  "personHistory": "تاریخچه‌ی ارتباط",
+  "personFollowUp": "پیگیری",
+  "personFollowUpDays": "بعد از {n} روز یادم بنداز",
+  "@personFollowUpDays": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      }
+    }
+  },
+  "personGroup": "گروه",
+  "personDueTitle": "باید سر بزنی",
+  "personLinked": "یادآوری‌ها",
+  "personPickerFailed": "انتخاب مخاطب انجام نشد. اسم رو دستی بنویس.",
+  "interactionNoteHint": "چی گفتید؟ (اختیاری)",
+  "peopleProHint": "تاریخچه، پیگیری و «باید سر بزنی» با Pro",
+  "personContactRef": "از مخاطب‌های گوشی",
+  "futureTitle": "آینده",
+  "futureTabCapsules": "کپسول زمانی",
+  "futureTabMessages": "پیام به خودم",
+  "capsuleEmptyTitle": "کپسولی نداری",
+  "capsuleEmptyBody": "چیزی رو تا یه تاریخ از جلوی چشمت بردار. همون روز برمی‌گرده.",
+  "messageEmptyTitle": "پیامی ننوشتی",
+  "messageEmptyBody": "برای خودِ آینده‌ات بنویس.",
+  "capsuleNew": "کپسول جدید",
+  "messageNew": "پیام جدید",
+  "sealTitleHint": "عنوان",
+  "capsuleBodyHint": "چی رو می‌خوای بعداً ببینی؟",
+  "messageBodyHint": "به خودِ آینده‌ات چی می‌گی؟",
+  "sealOpenOn": "باز می‌شه: {date}",
+  "@sealOpenOn": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "sealPickDate": "تاریخ باز شدن",
+  "sealQuick1m": "۱ ماه دیگه",
+  "sealQuick3m": "۳ ماه دیگه",
+  "sealQuick6m": "۶ ماه دیگه",
+  "sealQuick1y": "۱ سال دیگه",
+  "sealSaved": "قفل شد. تا {date} دیده نمی‌شه.",
+  "@sealSaved": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "sealLimitFree": "نسخه‌ی رایگان همزمان تا {n} مورد قفل‌شده داره. با Pro نامحدوده.",
+  "@sealLimitFree": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      }
+    }
+  },
+  "sealNeedsFuture": "تاریخ باید توی آینده باشه.",
+  "lockedUntil": "تا {date} قفله",
+  "@lockedUntil": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "openIt": "بازش کن",
+  "returnedTitle": "یه چیز از گذشته برای تو برگشته",
+  "messageReturnedTitle": "پیامی از خودِ گذشته‌ات داری",
+  "writtenOn": "نوشته‌شده در {date}",
+  "@writtenOn": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "sealRepeat": "تکرار",
+  "sealAttach": "پیوست",
+  "sealAttachAdd": "افزودن عکس یا فایل",
+  "sealAttachLimit": "تا {n} فایل، هر کدوم حداکثر {mb} مگابایت. فقط روی همین گوشی می‌مونه.",
+  "@sealAttachLimit": {
+    "placeholders": {
+      "mb": {
+        "type": "String"
+      },
+      "n": {
+        "type": "String"
+      }
+    }
+  },
+  "sealAttachTooBig": "این فایل از حد مجاز بزرگ‌تره.",
+  "sealAttachFailed": "فایل اضافه نشد.",
+  "sealProHint": "کپسول و پیام نامحدود، پیوست، برچسب و تکرار با Pro",
+  "sealThisItem": "برای آینده نگه دار",
+  "sealItemQuestion": "تا کِی نبینمش؟",
+  "timelineOpened": "باز شده در {date}",
+  "@timelineOpened": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "notifCapsuleTitle": "یه چیز از گذشته برای تو برگشته",
+  "notifCapsuleBody": "بازش کن ببین چی بوده.",
+  "notifFutureTitle": "پیامی از خودِ گذشته‌ات داری",
+  "notifFutureBody": "بازش کن و بخونش.",
+  "notifIdeaReviewTitle": "وقت مرور ایده‌هاست",
+  "notifIdeaReviewBody": "چند تا ایده منتظر یه نگاه دوباره‌ان.",
+  "inboxTitle": "صندوق ورودی",
+  "inboxIntro": "هر چی سریع ذخیره کردی اینجا می‌مونه تا تکلیفش رو روشن کنی.",
+  "inboxEmptyTitle": "صندوق خالیه",
+  "inboxEmptyBody": "همه‌چیز جای خودشه.",
+  "triageToday": "امروز",
+  "triageWeek": "این هفته",
+  "triageNoDate": "بدون تاریخ",
+  "triageRead": "بعداً بخون",
+  "triageWatch": "بعداً ببین",
+  "triageWish": "بعداً بخر",
+  "triageIdea": "ایده",
+  "triageDone": "انجام شد",
+  "triageDelete": "حذف",
+  "inboxSuggest": "شبیه {what} به نظر می‌رسه. منتقل بشه؟",
+  "@inboxSuggest": {
+    "placeholders": {
+      "what": {
+        "type": "String"
+      }
+    }
+  },
+  "inboxSuggestYes": "آره، منتقل کن",
+  "suggestWhatRead": "یه مقاله",
+  "suggestWhatWatch": "یه ویدیو",
+  "suggestWhatWish": "یه چیز برای خرید",
+  "suggestWhatIdea": "یه ایده",
+  "suggestWhatPerson": "یه یادآوری برای یه آدم",
+  "inboxProHint": "پیشنهاد خودکار مقصد با Pro",
+  "rouletteTitle": "قرعه بعداً",
+  "roulettePick": "انتخاب کن",
+  "rouletteSpinning": "دارم انتخاب می‌کنم…",
+  "rouletteStart": "شروع",
+  "rouletteLater": "بعداً",
+  "rouletteAgain": "یکی دیگه",
+  "rouletteEmptyTitle": "چیزی برای قرعه نیست",
+  "rouletteEmptyBody": "لیستت خالیه یا چیزی با این فیلترها نمی‌خونه.",
+  "rouletteFilters": "فیلترها",
+  "rouletteTime": "وقت",
+  "rouletteEnergy": "حال و انرژی",
+  "energyLow": "کم‌حالم",
+  "energyHigh": "سرحالم",
+  "rouletteCats": "دسته‌های قرعه",
+  "rouletteHistoryTitle": "تاریخچه‌ی قرعه",
+  "rouletteHistoryEmpty": "هنوز قرعه‌ای نزدی.",
+  "rouletteProHint": "فیلتر وقت، دسته، اولویت و انرژی و تاریخچه‌ی قرعه با Pro",
+  "rouletteOpenLink": "باز کردن لینک",
+  "shareWhere": "کجا نگهش دارم؟",
+  "shareInbox": "صندوق ورودی",
+  "shareSavedInbox": "تو صندوق ورودی ذخیره شد.",
+  "shareSuggested": "پیشنهاد",
+  "proWhatYouGet": "با Pro چی می‌گیری",
+  "proFreeHeader": "تو نسخه‌ی رایگان هم داری",
+  "proFreeList": "ذخیره‌ی نامحدود، صندوق ورودی، قرعه‌ی پایه، بعداً بخون / ببین / بخر، ایده‌ها، آدم‌ها، کپسول و پیام (تا ۲ تا)، جستجو، یادآوری، اشتراک‌گذاری، تم روشن و تیره، پشتیبان‌گیری.",
+  "proFT1": "قرعه‌ی هوشمند",
+  "proFD1": "فقط از دسته‌های دلخواه، بر اساس وقت، اولویت و حال و انرژی‌ات انتخاب می‌کنه و تاریخچه‌ی قرعه‌ها رو نگه می‌داره.",
+  "proFT2": "صندوق ورودی هوشمند",
+  "proFD2": "برای هر مورد مقصد پیشنهاد می‌ده (مقاله، ویدیو، خرید، ایده). همیشه تأیید آخر با خودته.",
+  "proFT3": "قفسه‌های کامل‌تر",
+  "proFD3": "تاریخچه و آمار خوندن و دیدن، فیلتر و مرتب‌سازی پیشرفته، چند فهرست جدا.",
+  "proFT4": "خرید حساب‌شده",
+  "proFD4": "قیمت هدف، تاریخچه‌ی قیمتی که خودت ثبت کردی، آمار و یادآوری بررسی دوباره.",
+  "proFT5": "ایده‌ها با مرور",
+  "proFD5": "امتیاز، وصل کردن ایده‌ها به هم، مرور دوره‌ای، یادآوری ماهانه و تبدیل ایده به کار.",
+  "proFT6": "آدم‌های مهم",
+  "proFD6": "تاریخچه‌ی ارتباط، پیگیری خودکار، گروه‌های دلخواه و لیست «باید سر بزنی».",
+  "proFT7": "آینده‌ی بیشتر",
+  "proFD7": "کپسول و پیام بی‌شمار، پیوست عکس و فایل کوچک، برچسب و تکرار (مثلاً هر سال).",
+  "proFT8": "جستجو و فیلتر",
+  "proFD8": "جستجو تو برچسب، لینک و یادداشت و فیلتر «مانده‌ها».",
+  "proFT9": "آمار و تاریخچه‌ی کامل",
+  "proFD9": "همه‌ی ماه‌ها و آمار کامل، به‌جای فقط ۷ روز اخیر.",
+  "proFT10": "یادآوری تکرارشونده",
+  "proFD10": "روزانه، هفتگی، ماهانه یا سالانه، تا وقتی انجامش بدی.",
+  "proFT11": "ظاهر و ویجت",
+  "proFD11": "چند رنگ و آیکون دیگه و ویجت لیستی برای صفحه‌ی اصلی گوشی.",
+  "proFT12": "پشتیبان‌گیری بیشتر",
+  "proFD12": "پشتیبان خودکار هفتگی و خروجی CSV و متن.",
+  "settingsRouletteCats": "دسته‌های قرعه",
+  "settingsRouletteCatsAll": "همه‌ی دسته‌ها",
+  "wishlistReviewAfter": "پرسیدن «هنوز می‌خوایش؟» بعد از",
+  "askWhereOnShare": "بعد از اشتراک‌گذاری بپرس کجا بره",
+  "askWhereOnShareSub": "اگه خاموشه، همه‌چیز می‌ره تو صندوق ورودی.",
+  "ideaReviewEvery": "مرور ایده‌ها هر",
+  "ideaReviewMonthly": "یادآوری مرور ماهانه"
 }

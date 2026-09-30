@@ -192,7 +192,7 @@ class FlutterNotificationGateway implements NotificationGateway {
   Future<Set<int>> pendingIds() async =>
       (await _plugin.pendingNotificationRequests()).map((e) => e.id).toSet();
 
-  NotificationDetails _details(NotificationTexts t, {required bool privateMode}) =>
+  NotificationDetails _details(NotificationTexts t, {required bool privateMode, bool noActions = false}) =>
       NotificationDetails(
         android: AndroidNotificationDetails(
           kReminderChannelId,
@@ -205,7 +205,7 @@ class FlutterNotificationGateway implements NotificationGateway {
               ? NotificationVisibility.private
               : NotificationVisibility.public,
           autoCancel: true,
-          actions: privateMode
+          actions: privateMode || noActions
               ? null
               : [
                   AndroidNotificationAction(
@@ -242,13 +242,15 @@ class FlutterNotificationGateway implements NotificationGateway {
         match = DateTimeComponents.dayOfWeekAndTime;
       case RepeatRule.monthly:
         match = DateTimeComponents.dayOfMonthAndTime;
+      case RepeatRule.yearly:
+        match = DateTimeComponents.dateAndTime;
     }
     await _plugin.zonedSchedule(
       id: r.notificationId,
-      title: privateMode ? texts.privateTitle : r.title,
-      body: privateMode ? texts.privateBody : r.body,
+      title: privateMode && !r.sealed ? texts.privateTitle : r.title,
+      body: privateMode && !r.sealed ? texts.privateBody : r.body,
       scheduledDate: when,
-      notificationDetails: _details(texts, privateMode: privateMode),
+      notificationDetails: _details(texts, privateMode: privateMode && !r.sealed, noActions: r.sealed),
       androidScheduleMode: exact
           ? AndroidScheduleMode.exactAllowWhileIdle
           : AndroidScheduleMode.inexactAllowWhileIdle,
@@ -378,6 +380,9 @@ class ReminderService {
     required NotificationTexts texts,
     required String Function(LaterItem) titleOf,
     required String Function(LaterItem) bodyOf,
+    String Function(LaterItem)? unlockTitleOf,
+    String Function(LaterItem)? unlockBodyOf,
+    List<PlannedReminder> extra = const [],
   }) async {
     try {
       await _gateway.cancelAll();
@@ -390,7 +395,10 @@ class ReminderService {
         max: maxScheduled,
         titleOf: titleOf,
         bodyOf: bodyOf,
+        unlockTitleOf: unlockTitleOf,
+        unlockBodyOf: unlockBodyOf,
       );
+      plan.addAll(extra);
       if (plan.isEmpty) return ReminderSyncResult.empty;
       final perm = await _gateway.permission();
       final exact = await _gateway.exactAlarmsAllowed();

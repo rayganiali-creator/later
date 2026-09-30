@@ -6,7 +6,9 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.provider.ContactsContract
 import android.provider.Settings
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.pm.ShortcutInfoCompat
 import androidx.core.content.pm.ShortcutManagerCompat
 import androidx.core.graphics.drawable.IconCompat
@@ -33,6 +35,42 @@ class MainActivity : FlutterFragmentActivity() {
     private var pendingShare: Map<String, String?>? = null
     private var pendingAction: String? = null
     private var dartReady = false
+
+    // Contact picker. The system picker returns a one-time read grant for the
+    // single contact the user chose, so no READ_CONTACTS permission is needed.
+    private var pendingContact: MethodChannel.Result? = null
+    private val contactPicker = registerForActivityResult(ActivityResultContracts.PickContact()) { uri ->
+        val cb = pendingContact
+        pendingContact = null
+        if (cb == null) return@registerForActivityResult
+        if (uri == null) {
+            cb.success(null)
+            return@registerForActivityResult
+        }
+        try {
+            contentResolver.query(
+                uri,
+                arrayOf(
+                    ContactsContract.Contacts.DISPLAY_NAME,
+                    ContactsContract.Contacts.LOOKUP_KEY,
+                    ContactsContract.Contacts._ID,
+                ),
+                null, null, null,
+            )?.use { c ->
+                if (c.moveToFirst()) {
+                    val name = c.getString(0) ?: ""
+                    val lookup = c.getString(1)
+                    val id = c.getLong(2)
+                    val ref = if (lookup != null) ContactsContract.Contacts.getLookupUri(id, lookup).toString() else uri.toString()
+                    cb.success(mapOf("name" to name, "uri" to ref))
+                    return@registerForActivityResult
+                }
+            }
+            cb.success(null)
+        } catch (e: Exception) {
+            cb.success(null)
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -120,6 +158,20 @@ class MainActivity : FlutterFragmentActivity() {
                     result.success(true)
                 }
             }
+            "pickContact" -> {
+                if (pendingContact != null) {
+                    result.success(null)
+                } else {
+                    pendingContact = result
+                    try {
+                        contactPicker.launch(null)
+                    } catch (e: Exception) {
+                        pendingContact = null
+                        result.success(null)
+                    }
+                }
+            }
+            "openContact" -> result.success(openContact(call.arguments as? String))
             "openBatterySettings" -> result.success(openBatterySettings())
             "openExactAlarmSettings" -> result.success(openExactAlarmSettings())
             "setLauncherIcon" -> result.success(setLauncherIcon(call.arguments as? String))
@@ -145,6 +197,17 @@ class MainActivity : FlutterFragmentActivity() {
             }
         }
         return false
+    }
+
+    /** Only address-book URIs are ever opened. */
+    private fun openContact(uri: String?): Boolean {
+        if (uri == null || !uri.startsWith("content://com.android.contacts/")) return false
+        return try {
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(uri)).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
+            true
+        } catch (_: Exception) {
+            false
+        }
     }
 
     private fun openExactAlarmSettings(): Boolean {

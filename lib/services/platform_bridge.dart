@@ -63,6 +63,19 @@ abstract class PlatformBridge {
   Future<bool> openExactAlarmSettings();
   Future<bool> setLauncherIcon(IconVariant variant);
   Future<void> configureShortcuts(Map<String, String> labels);
+
+  /// Opens the system contact picker (no contacts permission needed: the user
+  /// picks one entry and only that entry is shared with the app).
+  Future<PickedContact?> pickContact();
+
+  /// Opens a contact in the address book app.
+  Future<bool> openContact(String contactUri);
+}
+
+class PickedContact {
+  const PickedContact({required this.name, required this.uri});
+  final String name;
+  final String uri;
 }
 
 class MethodChannelPlatformBridge implements PlatformBridge {
@@ -160,6 +173,28 @@ class MethodChannelPlatformBridge implements PlatformBridge {
   Future<void> configureShortcuts(Map<String, String> labels) async {
     await _bool('configureShortcuts', labels);
   }
+
+  @override
+  Future<PickedContact?> pickContact() async {
+    try {
+      final r = await _channel.invokeMethod<Map<Object?, Object?>>('pickContact');
+      if (r == null) return null;
+      final name = r['name'];
+      final uri = r['uri'];
+      if (name is! String || name.trim().isEmpty) return null;
+      return PickedContact(
+        name: name.trim(),
+        uri: uri is String && uri.startsWith('content://com.android.contacts/') ? uri : '',
+      );
+    } on PlatformException {
+      return null;
+    } on MissingPluginException {
+      return null;
+    }
+  }
+
+  @override
+  Future<bool> openContact(String contactUri) => _bool('openContact', contactUri);
 }
 
 /// No-op implementation for tests / unsupported platforms.
@@ -204,4 +239,10 @@ class NullPlatformBridge implements PlatformBridge {
 
   @override
   Future<void> configureShortcuts(Map<String, String> labels) async {}
+
+  PickedContact? nextContact;
+  @override
+  Future<PickedContact?> pickContact() async => nextContact;
+  @override
+  Future<bool> openContact(String contactUri) async => true;
 }

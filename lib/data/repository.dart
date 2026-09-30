@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:sqflite/sqflite.dart';
 
 import '../domain/models.dart';
@@ -11,12 +13,25 @@ class LaterSnapshot {
     required this.categories,
     required this.events,
     required this.settings,
+    this.people = const [],
+    this.interactions = const [],
+    this.collections = const [],
+    this.attachments = const [],
+    this.attachmentBytes = const {},
   });
 
   final List<LaterItem> items;
   final List<ItemCategory> categories;
   final List<ItemEvent> events;
   final Map<String, String> settings;
+  final List<Person> people;
+  final List<Interaction> interactions;
+  final List<ItemCollection> collections;
+  final List<Attachment> attachments;
+
+  /// Attachment id -> bytes. Only filled when exporting/importing backups
+  /// (in normal operation the bytes live in files).
+  final Map<String, Uint8List> attachmentBytes;
 }
 
 class StatsData {
@@ -63,8 +78,51 @@ class LaterRepository {
       categories: cats,
       events: events,
       settings: await loadSettingsMap(),
+      people: (await _db.query('people', orderBy: 'created_at')).map(Person.fromDb).toList(),
+      interactions: (await _db.query('interactions', orderBy: 'id')).map(Interaction.fromDb).toList(),
+      collections: (await _db.query('collections', orderBy: 'sort_order, created_at'))
+          .map(ItemCollection.fromDb)
+          .toList(),
+      attachments: (await _db.query('attachments', orderBy: 'created_at')).map(Attachment.fromDb).toList(),
     );
   }
+
+  // ---------------------------------------------------------------- people
+
+  Future<void> upsertPerson(Person p) =>
+      _db.insert('people', p.toDb(), conflictAlgorithm: ConflictAlgorithm.replace);
+
+  /// Deletes a person, their interaction log; items keep existing but lose the link.
+  Future<void> deletePerson(String id) => _db.transaction((txn) async {
+        await txn.delete('people', where: 'id = ?', whereArgs: [id]);
+        await txn.delete('interactions', where: 'person_id = ?', whereArgs: [id]);
+        await txn.update('items', {'person_id': null}, where: 'person_id = ?', whereArgs: [id]);
+      });
+
+  Future<int> addInteraction(Interaction i) => _db.insert('interactions', i.toDb());
+
+  Future<List<Interaction>> interactionsOf(String personId) async =>
+      (await _db.query('interactions', where: 'person_id = ?', whereArgs: [personId], orderBy: 'at DESC'))
+          .map(Interaction.fromDb)
+          .toList();
+
+  // ----------------------------------------------------------- collections
+
+  Future<void> upsertCollection(ItemCollection c) =>
+      _db.insert('collections', c.toDb(), conflictAlgorithm: ConflictAlgorithm.replace);
+
+  Future<void> deleteCollection(String id) => _db.transaction((txn) async {
+        await txn.update('items', {'collection_id': null}, where: 'collection_id = ?', whereArgs: [id]);
+        await txn.delete('collections', where: 'id = ?', whereArgs: [id]);
+      });
+
+  // ----------------------------------------------------------- attachments
+
+  Future<void> upsertAttachment(Attachment a) =>
+      _db.insert('attachments', a.toDb(), conflictAlgorithm: ConflictAlgorithm.replace);
+
+  Future<void> deleteAttachment(String id) =>
+      _db.delete('attachments', where: 'id = ?', whereArgs: [id]);
 
   Future<List<LaterItem>> loadItems() async =>
       (await _db.query('items')).map(LaterItem.fromDb).toList();
@@ -212,9 +270,25 @@ class LaterRepository {
         await txn.delete('events');
         await txn.delete('categories');
         await txn.delete('settings');
+        await txn.delete('people');
+        await txn.delete('interactions');
+        await txn.delete('collections');
+        await txn.delete('attachments');
         final b = txn.batch();
         for (final c in s.categories) {
           b.insert('categories', c.toDb());
+        }
+        for (final p in s.people) {
+          b.insert('people', p.toDb());
+        }
+        for (final i in s.interactions) {
+          b.insert('interactions', i.toDb());
+        }
+        for (final c in s.collections) {
+          b.insert('collections', c.toDb());
+        }
+        for (final a in s.attachments) {
+          b.insert('attachments', a.toDb());
         }
         for (final i in s.items) {
           b.insert('items', i.toDb());

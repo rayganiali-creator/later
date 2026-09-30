@@ -21,6 +21,8 @@ class Transitions {
   static Transition complete(LaterItem i, DateTime now) => Transition(
         i.copyWith(
           status: ItemStatus.done,
+          stage: ItemStages.doneStage(i.type),
+          inbox: false,
           completedAt: now,
           droppedAt: null,
           updatedAt: now,
@@ -38,6 +40,8 @@ class Transitions {
   static Transition drop(LaterItem i, DateTime now) => Transition(
         i.copyWith(
           status: ItemStatus.dropped,
+          stage: ItemStages.dropStage(i.type),
+          inbox: false,
           droppedAt: now,
           completedAt: null,
           updatedAt: now,
@@ -49,6 +53,71 @@ class Transitions {
           categoryId: i.categoryId,
           daysWaited: _waited(i, now),
         ),
+      );
+
+  /// Moves a typed item to another stage (read -> reading, idea -> thinking...)
+  /// keeping the generic status, timestamps and history in sync.
+  static Transition setStage(LaterItem i, int stage, DateTime now) {
+    final status = ItemStages.statusFor(i.type, stage);
+    final base = i.copyWith(
+      stage: stage,
+      status: status,
+      inbox: false,
+      completedAt: status == ItemStatus.done ? (i.completedAt ?? now) : null,
+      droppedAt: status == ItemStatus.dropped ? (i.droppedAt ?? now) : null,
+      updatedAt: now,
+    );
+    final type = switch (status) {
+      ItemStatus.done => EventType.completed,
+      ItemStatus.dropped => EventType.dropped,
+      ItemStatus.active => i.status == ItemStatus.active ? EventType.moved : EventType.reopened,
+    };
+    return Transition(
+      base,
+      ItemEvent(
+        itemId: i.id,
+        type: type,
+        at: now,
+        categoryId: i.categoryId,
+        daysWaited: type == EventType.moved || type == EventType.reopened ? null : _waited(i, now),
+      ),
+    );
+  }
+
+  /// Puts an item on another shelf ("this is actually a wishlist item").
+  static Transition moveToType(LaterItem i, ItemType type, DateTime now) => Transition(
+        i.copyWith(
+          type: type,
+          stage: 0,
+          status: ItemStatus.active,
+          inbox: false,
+          completedAt: null,
+          droppedAt: null,
+          updatedAt: now,
+        ),
+        ItemEvent(itemId: i.id, type: EventType.moved, at: now, categoryId: i.categoryId),
+      );
+
+  /// Opening a capsule / future message. Repeating messages re-arm themselves.
+  static Transition openSealed(LaterItem i, DateTime now, {DateTime? nextUnlock}) {
+    if (nextUnlock != null && i.repeat != RepeatRule.none) {
+      return Transition(
+        i.copyWith(unlockAt: nextUnlock, stage: ItemStages.sealed, status: ItemStatus.active,
+            completedAt: null, updatedAt: now, lastReviewedAt: now),
+        ItemEvent(itemId: i.id, type: EventType.unlocked, at: now, categoryId: i.categoryId),
+      );
+    }
+    return Transition(
+      i.copyWith(stage: ItemStages.opened, status: ItemStatus.done, completedAt: now, updatedAt: now,
+          lastReviewedAt: now),
+      ItemEvent(itemId: i.id, type: EventType.unlocked, at: now, categoryId: i.categoryId),
+    );
+  }
+
+  /// Marks an idea/wishlist item as reviewed (restarts its review clock).
+  static Transition review(LaterItem i, DateTime now) => Transition(
+        i.copyWith(lastReviewedAt: now, lastKeptAt: now, updatedAt: now),
+        ItemEvent(itemId: i.id, type: EventType.kept, at: now, categoryId: i.categoryId),
       );
 
   static Transition snooze(LaterItem i, SnoozeTarget target, DateTime now) =>
@@ -84,6 +153,7 @@ class Transitions {
 
   static LaterItem reopen(LaterItem i, DateTime now) => i.copyWith(
         status: ItemStatus.active,
+        stage: 0,
         completedAt: null,
         droppedAt: null,
         updatedAt: now,

@@ -58,8 +58,66 @@ class AppDatabase {
 
   /// oldVersion -> migration to oldVersion + 1.
   static final Map<int, Future<void> Function(Database)> _migrations = {
-    // 1: (db) async { await db.execute('ALTER TABLE items ADD COLUMN ...'); },
+    // v1 -> v2: item types/stages, inbox, sealed items, people, collections,
+    // attachments. Every existing row becomes a plain task with defaults.
+    1: (db) async {
+      const cols = [
+        'item_type INTEGER NOT NULL DEFAULT 0',
+        'stage INTEGER NOT NULL DEFAULT 0',
+        'inbox INTEGER NOT NULL DEFAULT 0',
+        'unlock_at INTEGER',
+        'person_id TEXT',
+        'collection_id TEXT',
+        'last_reviewed_at INTEGER',
+        "extra TEXT NOT NULL DEFAULT '{}'",
+      ];
+      for (final c in cols) {
+        await db.execute('ALTER TABLE items ADD COLUMN $c');
+      }
+      await db.execute('CREATE INDEX idx_items_type ON items(item_type)');
+      await _createV2Tables(db);
+    },
   };
+
+  static Future<void> _createV2Tables(Database db) async {
+    await db.execute('''
+CREATE TABLE people (
+  id TEXT PRIMARY KEY,
+  name TEXT NOT NULL,
+  contact_uri TEXT,
+  note TEXT NOT NULL DEFAULT '',
+  group_name TEXT NOT NULL DEFAULT '',
+  last_interaction_at INTEGER,
+  created_at INTEGER NOT NULL,
+  updated_at INTEGER NOT NULL
+)''');
+    await db.execute('''
+CREATE TABLE interactions (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  person_id TEXT NOT NULL,
+  at INTEGER NOT NULL,
+  note TEXT NOT NULL DEFAULT ''
+)''');
+    await db.execute('CREATE INDEX idx_interactions_person ON interactions(person_id)');
+    await db.execute('''
+CREATE TABLE collections (
+  id TEXT PRIMARY KEY,
+  name TEXT NOT NULL,
+  item_type INTEGER NOT NULL,
+  sort_order INTEGER NOT NULL DEFAULT 0,
+  created_at INTEGER NOT NULL
+)''');
+    await db.execute('''
+CREATE TABLE attachments (
+  id TEXT PRIMARY KEY,
+  item_id TEXT NOT NULL,
+  name TEXT NOT NULL,
+  mime TEXT NOT NULL,
+  size INTEGER NOT NULL,
+  created_at INTEGER NOT NULL
+)''');
+    await db.execute('CREATE INDEX idx_attachments_item ON attachments(item_id)');
+  }
 
   static Future<void> _create(Database db, DateTime now) async {
     final batch = db.batch();
@@ -86,8 +144,17 @@ CREATE TABLE items (
   dropped_at INTEGER,
   snooze_count INTEGER NOT NULL DEFAULT 0,
   last_kept_at INTEGER,
-  source TEXT
+  source TEXT,
+  item_type INTEGER NOT NULL DEFAULT 0,
+  stage INTEGER NOT NULL DEFAULT 0,
+  inbox INTEGER NOT NULL DEFAULT 0,
+  unlock_at INTEGER,
+  person_id TEXT,
+  collection_id TEXT,
+  last_reviewed_at INTEGER,
+  extra TEXT NOT NULL DEFAULT '{}'
 )''');
+    batch.execute('CREATE INDEX idx_items_type ON items(item_type)');
     batch.execute('CREATE INDEX idx_items_status ON items(status)');
     batch.execute('CREATE INDEX idx_items_due ON items(due_at)');
     batch.execute('''
@@ -118,6 +185,7 @@ CREATE TABLE settings (
       batch.insert('categories', c.toDb());
     }
     await batch.commit(noResult: true);
+    await _createV2Tables(db);
   }
 
   Future<void> close() => db.close();
@@ -129,6 +197,10 @@ CREATE TABLE settings (
       await txn.delete('events');
       await txn.delete('categories');
       await txn.delete('settings');
+      await txn.delete('people');
+      await txn.delete('interactions');
+      await txn.delete('collections');
+      await txn.delete('attachments');
       for (final c in BuiltinCategories.create(now)) {
         await txn.insert('categories', c.toDb());
       }

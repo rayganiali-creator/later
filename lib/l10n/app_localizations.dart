@@ -220,7 +220,7 @@ abstract class AppL10n {
   /// No description provided for @errorGeneric.
   ///
   /// In fa, this message translates to:
-  /// **'یه مشکلی پیش اومد. دوباره تلاش کن.'**
+  /// **'یه مشکلی پیش اومد. دوباره امتحان کن.'**
   String get errorGeneric;
 
   /// No description provided for @errorLoad.
@@ -268,7 +268,7 @@ abstract class AppL10n {
   /// No description provided for @onb1Body.
   ///
   /// In fa, this message translates to:
-  /// **'ذهنت را از هزارتا کار نیمه‌کاره خالی کن.'**
+  /// **'لازم نیست همه‌چیز همین الان تموم بشه. چیزی که وقتش نیست رو بذار کنار.'**
   String get onb1Body;
 
   /// No description provided for @onb2Title.
@@ -280,7 +280,7 @@ abstract class AppL10n {
   /// No description provided for @onb2Body.
   ///
   /// In fa, this message translates to:
-  /// **'مقاله، فیلم، خرید، ایده، لینک، یه تماس… فقط بنویس یا از هر برنامه‌ای «اشتراک‌گذاری» کن.'**
+  /// **'مقاله، فیلم، خرید، ایده، یه تماس. بنویس، یا از هر برنامه‌ای «اشتراک‌گذاری» رو بزن.'**
   String get onb2Body;
 
   /// No description provided for @onb3Title.
@@ -292,7 +292,7 @@ abstract class AppL10n {
   /// No description provided for @onb3Body.
   ///
   /// In fa, this message translates to:
-  /// **'یه تاریخ و ساعت بده؛ یا نده و هر وقت وقت آزاد داشتی بگو «یه مورد بهم بده».'**
+  /// **'تاریخ و ساعت بده تا خودش یادآوری کنه. ندادی هم مهم نیست، وقتی وقت داشتی قرعه بزن.'**
   String get onb3Body;
 
   /// No description provided for @onb4Title.
@@ -304,7 +304,7 @@ abstract class AppL10n {
   /// No description provided for @onb4Body.
   ///
   /// In fa, this message translates to:
-  /// **'اطلاعاتت فقط روی دستگاه خودت می‌ماند و حتی بدون اینترنت کار می‌کند.'**
+  /// **'اطلاعاتت فقط روی گوشی خودته و بدون اینترنت هم کار می‌کنه.'**
   String get onb4Body;
 
   /// No description provided for @onb5Title.
@@ -316,7 +316,7 @@ abstract class AppL10n {
   /// No description provided for @onb5Body.
   ///
   /// In fa, this message translates to:
-  /// **'هر چیزی که الان وقتش نیست را همین‌جا بگذار.'**
+  /// **'هر چی الان وقتش نیست رو همین‌جا بذار.'**
   String get onb5Body;
 
   /// No description provided for @onbStart.
@@ -334,7 +334,7 @@ abstract class AppL10n {
   /// No description provided for @legalIntro.
   ///
   /// In fa, this message translates to:
-  /// **'لطفاً قوانین استفاده و سیاست حریم خصوصی را بخوان و تأیید کن.'**
+  /// **'قبل از شروع، قوانین استفاده و سیاست حریم خصوصی رو بخون و تأیید کن.'**
   String get legalIntro;
 
   /// No description provided for @termsTitle.
@@ -376,13 +376,13 @@ abstract class AppL10n {
   /// No description provided for @homeWaiting.
   ///
   /// In fa, this message translates to:
-  /// **'{count} مورد منتظر توست'**
+  /// **'{count} چیز منتظرته'**
   String homeWaiting(String count);
 
   /// No description provided for @homeWaitingOne.
   ///
   /// In fa, this message translates to:
-  /// **'یک مورد منتظر توست'**
+  /// **'یه چیز منتظرته'**
   String get homeWaitingOne;
 
   /// No description provided for @homeEmptyTitle.
@@ -436,13 +436,13 @@ abstract class AppL10n {
   /// No description provided for @pickCardTitle.
   ///
   /// In fa, this message translates to:
-  /// **'🎯 یه مورد بهم بده'**
+  /// **'قرعه بعداً'**
   String get pickCardTitle;
 
   /// No description provided for @pickCardSub.
   ///
   /// In fa, this message translates to:
-  /// **'نمی‌دونی الان چی کار کنی؟ من انتخاب می‌کنم.'**
+  /// **'نمی‌دونی الان چی‌کار کنی؟ بذار قرعه تصمیم بگیره.'**
   String get pickCardSub;
 
   /// No description provided for @timeCardTitle.
@@ -508,7 +508,7 @@ abstract class AppL10n {
   /// No description provided for @decideLabel.
   ///
   /// In fa, this message translates to:
-  /// **'🎯 پیشنهاد بعدی تو:'**
+  /// **'قرعه این شد'**
   String get decideLabel;
 
   /// No description provided for @decideAbout.
@@ -556,7 +556,7 @@ abstract class AppL10n {
   /// No description provided for @decideDoneToast.
   ///
   /// In fa, this message translates to:
-  /// **'آفرین! انجام شد ✓'**
+  /// **'انجام شد ✓'**
   String get decideDoneToast;
 
   /// No description provided for @smartPickTitle.
@@ -592,7 +592,7 @@ abstract class AppL10n {
   /// No description provided for @smartPickProHint.
   ///
   /// In fa, this message translates to:
-  /// **'پیشنهاد پیشرفته (اولویت و فیلتر دسته) با Pro'**
+  /// **'فیلتر دسته و اولویت با Pro'**
   String get smartPickProHint;
 
   /// No description provided for @smartPickCategory.
@@ -1252,7 +1252,7 @@ abstract class AppL10n {
   /// No description provided for @staleQuestion.
   ///
   /// In fa, this message translates to:
-  /// **'این مورد {days} روز است منتظر توست.\nهنوز می‌خواهی نگهش داری؟'**
+  /// **'این {days} روزه منتظرته.\nهنوز می‌خوای نگهش داری؟'**
   String staleQuestion(String days);
 
   /// No description provided for @staleKeep.
@@ -1288,7 +1288,7 @@ abstract class AppL10n {
   /// No description provided for @staleAllDone.
   ///
   /// In fa, this message translates to:
-  /// **'همه‌چی مرتبه ✨'**
+  /// **'همه‌چی مرتبه'**
   String get staleAllDone;
 
   /// No description provided for @staleAllDoneBody.
@@ -1300,7 +1300,7 @@ abstract class AppL10n {
   /// No description provided for @staleNoPressure.
   ///
   /// In fa, this message translates to:
-  /// **'بدون عجله؛ هیچ تصمیمی اشتباه نیست.'**
+  /// **'عجله‌ای نیست. هر تصمیمی بگیری درسته.'**
   String get staleNoPressure;
 
   /// No description provided for @historyTitle.
@@ -1366,7 +1366,7 @@ abstract class AppL10n {
   /// No description provided for @historyProNote.
   ///
   /// In fa, this message translates to:
-  /// **'تاریخچه‌ی کامل (ماه و همه) با Pro'**
+  /// **'تاریخچه‌ی کامل (ماه و همه‌ی زمان‌ها) با Pro'**
   String get historyProNote;
 
   /// No description provided for @historyDisabled.
@@ -1708,7 +1708,7 @@ abstract class AppL10n {
   /// No description provided for @keepHistorySub.
   ///
   /// In fa, this message translates to:
-  /// **'موردهای انجام‌شده و کنار گذاشته‌شده در آرشیو بمانند.'**
+  /// **'کارهای انجام‌شده و کنار گذاشته‌شده تو تاریخچه بمونن.'**
   String get keepHistorySub;
 
   /// No description provided for @staleAfter.
@@ -1774,7 +1774,7 @@ abstract class AppL10n {
   /// No description provided for @aboutBody.
   ///
   /// In fa, this message translates to:
-  /// **'بعداً یک برنامه‌ی کوچک و سریع برای نگه‌داشتن چیزهایی است که الان وقتشان نیست؛ بدون حساب کاربری و بدون سرور.'**
+  /// **'بعداً جای چیزهاییه که الان وقتشون نیست. بدون حساب کاربری، بدون سرور.'**
   String get aboutBody;
 
   /// No description provided for @aboutOffline.
@@ -1828,7 +1828,7 @@ abstract class AppL10n {
   /// No description provided for @resetConfirmBody.
   ///
   /// In fa, this message translates to:
-  /// **'همه‌ی موردها، دسته‌ها، تاریخچه و تنظیمات این برنامه برای همیشه پاک می‌شود. این کار قابل بازگشت نیست.\n(اشتراک Pro از بین نمی‌رود.)\nپیشنهاد می‌کنیم اول پشتیبان بگیری.'**
+  /// **'همه‌ی موردها، دسته‌ها، تاریخچه و تنظیمات این برنامه برای همیشه پاک می‌شه و برنمی‌گرده. اشتراک Pro از بین نمی‌ره. بهتره اول یه پشتیبان بگیری.'**
   String get resetConfirmBody;
 
   /// No description provided for @resetTypeHint.
@@ -1888,7 +1888,7 @@ abstract class AppL10n {
   /// No description provided for @categoryLimit.
   ///
   /// In fa, this message translates to:
-  /// **'در نسخه‌ی رایگان تا {free} دسته‌ی سفارشی می‌توانی بسازی؛ Pro تا {pro} دسته.'**
+  /// **'نسخه‌ی رایگان {free} دسته‌ی سفارشی داره. با Pro تا {pro} تا می‌شه.'**
   String categoryLimit(String free, String pro);
 
   /// No description provided for @categoryDeleteTitle.
@@ -1918,7 +1918,7 @@ abstract class AppL10n {
   /// No description provided for @backupIntro.
   ///
   /// In fa, this message translates to:
-  /// **'اطلاعات فقط روی همین دستگاه است. برای جابه‌جایی یا نصب مجدد، از آن‌ها فایل پشتیبان بگیر.'**
+  /// **'اطلاعاتت فقط روی همین گوشیه. قبل از عوض کردن گوشی یا نصب دوباره، یه فایل پشتیبان بگیر.'**
   String get backupIntro;
 
   /// No description provided for @backupExport.
@@ -2116,13 +2116,13 @@ abstract class AppL10n {
   /// No description provided for @proHeadline.
   ///
   /// In fa, this message translates to:
-  /// **'امکانات بیشتر برای کسانی که «بعداً» را زیاد استفاده می‌کنند.'**
+  /// **'اگه زیاد از «بعداً» استفاده می‌کنی، Pro کارت رو راحت‌تر می‌کنه.'**
   String get proHeadline;
 
   /// No description provided for @proFreeNote.
   ///
   /// In fa, this message translates to:
-  /// **'نسخه‌ی رایگان همچنان کامل قابل استفاده است و هیچ اطلاعاتی محدود یا حذف نمی‌شود.'**
+  /// **'نسخه‌ی رایگان ناقص نیست. اگه Pro تموم بشه هم چیزی از اطلاعاتت پاک یا قفل نمی‌شه.'**
   String get proFreeNote;
 
   /// No description provided for @proActiveUntil.
@@ -2140,7 +2140,7 @@ abstract class AppL10n {
   /// No description provided for @proExpiredNote.
   ///
   /// In fa, this message translates to:
-  /// **'اشتراک Pro تمام شده؛ اطلاعاتت سالم است و فقط امکانات Pro غیرفعال شده‌اند.'**
+  /// **'اشتراک Pro تموم شده. اطلاعاتت سر جاشه؛ فقط قابلیت‌های Pro خاموش شدن.'**
   String get proExpiredNote;
 
   /// No description provided for @proPlan1.
@@ -2194,7 +2194,7 @@ abstract class AppL10n {
   /// No description provided for @proStackNote.
   ///
   /// In fa, this message translates to:
-  /// **'با خرید جدید، روزهای باقی‌مانده حفظ می‌شود و مدت تازه به آن اضافه می‌شود.'**
+  /// **'اگه وسط اشتراک دوباره بخری، روزهای مونده از بین نمی‌رن؛ مدت جدید بهشون اضافه می‌شه.'**
   String get proStackNote;
 
   /// No description provided for @proRestore.
@@ -2206,7 +2206,7 @@ abstract class AppL10n {
   /// No description provided for @proRestored.
   ///
   /// In fa, this message translates to:
-  /// **'{n} خرید بازیابی شد'**
+  /// **'{n} خرید برگشت'**
   String proRestored(String n);
 
   /// No description provided for @proNothingToRestore.
@@ -2218,7 +2218,7 @@ abstract class AppL10n {
   /// No description provided for @proPurchaseSuccess.
   ///
   /// In fa, this message translates to:
-  /// **'Pro فعال شد 🎉'**
+  /// **'Pro فعال شد'**
   String get proPurchaseSuccess;
 
   /// No description provided for @proPurchaseCancelled.
@@ -2242,19 +2242,19 @@ abstract class AppL10n {
   /// No description provided for @proTamper.
   ///
   /// In fa, this message translates to:
-  /// **'اطلاعات اشتراک معتبر نبود و بازنشانی شد. اگر خرید کرده‌ای، «بازیابی خریدها» را بزن.'**
+  /// **'اطلاعات اشتراک درست نبود و پاک شد. اگه خرید کرده بودی «بازیابی خریدها» رو بزن.'**
   String get proTamper;
 
   /// No description provided for @proF1.
   ///
   /// In fa, this message translates to:
-  /// **'پیشنهاد هوشمند پیشرفته'**
+  /// **'قرعه‌ی هوشمند و صندوق ورودی هوشمند'**
   String get proF1;
 
   /// No description provided for @proF2.
   ///
   /// In fa, this message translates to:
-  /// **'فیلترها و جستجوی پیشرفته'**
+  /// **'جستجو و فیلتر پیشرفته'**
   String get proF2;
 
   /// No description provided for @proF3.
@@ -2266,31 +2266,31 @@ abstract class AppL10n {
   /// No description provided for @proF4.
   ///
   /// In fa, this message translates to:
-  /// **'دسته‌های سفارشی بیشتر'**
+  /// **'دسته‌ی سفارشی بیشتر'**
   String get proF4;
 
   /// No description provided for @proF5.
   ///
   /// In fa, this message translates to:
-  /// **'یادآوری تکرارشونده و پیشرفته'**
+  /// **'یادآوری تکرارشونده'**
   String get proF5;
 
   /// No description provided for @proF6.
   ///
   /// In fa, this message translates to:
-  /// **'ویجت‌های پیشرفته'**
+  /// **'ویجت لیستی'**
   String get proF6;
 
   /// No description provided for @proF7.
   ///
   /// In fa, this message translates to:
-  /// **'تم‌ها و آیکون‌های بیشتر'**
+  /// **'رنگ و آیکون بیشتر'**
   String get proF7;
 
   /// No description provided for @proF8.
   ///
   /// In fa, this message translates to:
-  /// **'پشتیبان خودکار و خروجی‌های بیشتر'**
+  /// **'پشتیبان خودکار و خروجی CSV'**
   String get proF8;
 
   /// No description provided for @proLockedTitle.
@@ -2302,7 +2302,7 @@ abstract class AppL10n {
   /// No description provided for @proLockedBody.
   ///
   /// In fa, this message translates to:
-  /// **'با Pro این و چند امکان دیگر باز می‌شود. نسخه‌ی رایگان همچنان کامل است.'**
+  /// **'این یکی مال Pro ـه. بقیه‌ی برنامه بدون Pro هم کامل کار می‌کنه.'**
   String get proLockedBody;
 
   /// No description provided for @proSeePlans.
@@ -2440,7 +2440,7 @@ abstract class AppL10n {
   /// No description provided for @reminderPermissionBanner.
   ///
   /// In fa, this message translates to:
-  /// **'اجازه‌ی اعلان داده نشده؛ یادآوری‌ها نمایش داده نمی‌شوند.'**
+  /// **'اجازه‌ی اعلان داده نشده، برای همین یادآوری‌ها نمایش داده نمی‌شن.'**
   String get reminderPermissionBanner;
 
   /// No description provided for @reminderSyncFailed.
@@ -2538,6 +2538,1584 @@ abstract class AppL10n {
   /// In fa, this message translates to:
   /// **'ساخته‌شده با فلاتر. فونت وزیرمتن (مجوز OFL).'**
   String get licensesLegalese;
+
+  /// No description provided for @repeatYearly.
+  ///
+  /// In fa, this message translates to:
+  /// **'هر سال'**
+  String get repeatYearly;
+
+  /// No description provided for @defaultCapsuleTitle.
+  ///
+  /// In fa, this message translates to:
+  /// **'کپسول بی‌نام'**
+  String get defaultCapsuleTitle;
+
+  /// No description provided for @defaultMessageTitle.
+  ///
+  /// In fa, this message translates to:
+  /// **'پیام بی‌نام'**
+  String get defaultMessageTitle;
+
+  /// No description provided for @typeName.
+  ///
+  /// In fa, this message translates to:
+  /// **'{id, select, task{کار} read{مقاله} watch{ویدیو} wishlist{خرید} idea{ایده} person{آدم} capsule{کپسول} future{پیام} other{مورد}}'**
+  String typeName(String id);
+
+  /// No description provided for @daysAgo.
+  ///
+  /// In fa, this message translates to:
+  /// **'{n} روز پیش'**
+  String daysAgo(String n);
+
+  /// No description provided for @dashRoulette.
+  ///
+  /// In fa, this message translates to:
+  /// **'قرعه بعداً'**
+  String get dashRoulette;
+
+  /// No description provided for @dashInbox.
+  ///
+  /// In fa, this message translates to:
+  /// **'صندوق ورودی'**
+  String get dashInbox;
+
+  /// No description provided for @dashInboxCount.
+  ///
+  /// In fa, this message translates to:
+  /// **'{n} مورد منتظر مرتب شدنه'**
+  String dashInboxCount(String n);
+
+  /// No description provided for @dashInboxEmpty.
+  ///
+  /// In fa, this message translates to:
+  /// **'صندوقت خالیه'**
+  String get dashInboxEmpty;
+
+  /// No description provided for @dashShelves.
+  ///
+  /// In fa, this message translates to:
+  /// **'قفسه‌ها'**
+  String get dashShelves;
+
+  /// No description provided for @shelfReadTitle.
+  ///
+  /// In fa, this message translates to:
+  /// **'بعداً بخون'**
+  String get shelfReadTitle;
+
+  /// No description provided for @shelfWatchTitle.
+  ///
+  /// In fa, this message translates to:
+  /// **'بعداً ببین'**
+  String get shelfWatchTitle;
+
+  /// No description provided for @shelfWishTitle.
+  ///
+  /// In fa, this message translates to:
+  /// **'بعداً بخر'**
+  String get shelfWishTitle;
+
+  /// No description provided for @shelfIdeaTitle.
+  ///
+  /// In fa, this message translates to:
+  /// **'ایده‌ها'**
+  String get shelfIdeaTitle;
+
+  /// No description provided for @shelfPeopleTitle.
+  ///
+  /// In fa, this message translates to:
+  /// **'آدم‌ها'**
+  String get shelfPeopleTitle;
+
+  /// No description provided for @shelfFutureTitle.
+  ///
+  /// In fa, this message translates to:
+  /// **'آینده'**
+  String get shelfFutureTitle;
+
+  /// No description provided for @returnedBanner.
+  ///
+  /// In fa, this message translates to:
+  /// **'یه چیز از گذشته برگشته'**
+  String get returnedBanner;
+
+  /// No description provided for @returnedBannerBody.
+  ///
+  /// In fa, this message translates to:
+  /// **'بازش کن ببین چی بوده.'**
+  String get returnedBannerBody;
+
+  /// No description provided for @ideaReviewBanner.
+  ///
+  /// In fa, this message translates to:
+  /// **'{n} ایده وقت مرور دارن'**
+  String ideaReviewBanner(String n);
+
+  /// No description provided for @searchEverywhere.
+  ///
+  /// In fa, this message translates to:
+  /// **'جستجو در همه‌چیز'**
+  String get searchEverywhere;
+
+  /// No description provided for @searchEverywhereHint.
+  ///
+  /// In fa, this message translates to:
+  /// **'کار، مقاله، ایده، آدم…'**
+  String get searchEverywhereHint;
+
+  /// No description provided for @searchNothing.
+  ///
+  /// In fa, this message translates to:
+  /// **'چیزی پیدا نشد'**
+  String get searchNothing;
+
+  /// No description provided for @searchStartTyping.
+  ///
+  /// In fa, this message translates to:
+  /// **'یه کلمه بنویس.'**
+  String get searchStartTyping;
+
+  /// No description provided for @searchDone.
+  ///
+  /// In fa, this message translates to:
+  /// **'انجام‌شده'**
+  String get searchDone;
+
+  /// No description provided for @addTypeLabel.
+  ///
+  /// In fa, this message translates to:
+  /// **'این چیه؟'**
+  String get addTypeLabel;
+
+  /// No description provided for @addTypeAuto.
+  ///
+  /// In fa, this message translates to:
+  /// **'بعداً مرتبش می‌کنم'**
+  String get addTypeAuto;
+
+  /// No description provided for @fieldPrice.
+  ///
+  /// In fa, this message translates to:
+  /// **'قیمت'**
+  String get fieldPrice;
+
+  /// No description provided for @fieldCurrency.
+  ///
+  /// In fa, this message translates to:
+  /// **'واحد پول'**
+  String get fieldCurrency;
+
+  /// No description provided for @currencyDefault.
+  ///
+  /// In fa, this message translates to:
+  /// **'تومان'**
+  String get currencyDefault;
+
+  /// No description provided for @fieldWatchKind.
+  ///
+  /// In fa, this message translates to:
+  /// **'نوع'**
+  String get fieldWatchKind;
+
+  /// No description provided for @kindVideo.
+  ///
+  /// In fa, this message translates to:
+  /// **'ویدیو'**
+  String get kindVideo;
+
+  /// No description provided for @kindMovie.
+  ///
+  /// In fa, this message translates to:
+  /// **'فیلم'**
+  String get kindMovie;
+
+  /// No description provided for @kindSeries.
+  ///
+  /// In fa, this message translates to:
+  /// **'سریال'**
+  String get kindSeries;
+
+  /// No description provided for @kindOther.
+  ///
+  /// In fa, this message translates to:
+  /// **'دیگر'**
+  String get kindOther;
+
+  /// No description provided for @stageUnread.
+  ///
+  /// In fa, this message translates to:
+  /// **'نخونده'**
+  String get stageUnread;
+
+  /// No description provided for @stageReading.
+  ///
+  /// In fa, this message translates to:
+  /// **'دارم می‌خونم'**
+  String get stageReading;
+
+  /// No description provided for @stageRead.
+  ///
+  /// In fa, this message translates to:
+  /// **'خونده'**
+  String get stageRead;
+
+  /// No description provided for @stageArchived.
+  ///
+  /// In fa, this message translates to:
+  /// **'بایگانی'**
+  String get stageArchived;
+
+  /// No description provided for @stageUnwatched.
+  ///
+  /// In fa, this message translates to:
+  /// **'ندیده'**
+  String get stageUnwatched;
+
+  /// No description provided for @stageWatching.
+  ///
+  /// In fa, this message translates to:
+  /// **'دارم می‌بینم'**
+  String get stageWatching;
+
+  /// No description provided for @stageWatched.
+  ///
+  /// In fa, this message translates to:
+  /// **'دیده'**
+  String get stageWatched;
+
+  /// No description provided for @stageInterested.
+  ///
+  /// In fa, this message translates to:
+  /// **'می‌خوامش'**
+  String get stageInterested;
+
+  /// No description provided for @stageMaybe.
+  ///
+  /// In fa, this message translates to:
+  /// **'شاید'**
+  String get stageMaybe;
+
+  /// No description provided for @stageBought.
+  ///
+  /// In fa, this message translates to:
+  /// **'خریدم'**
+  String get stageBought;
+
+  /// No description provided for @stageNotInterested.
+  ///
+  /// In fa, this message translates to:
+  /// **'دیگه نمی‌خوامش'**
+  String get stageNotInterested;
+
+  /// No description provided for @stageIdeaNew.
+  ///
+  /// In fa, this message translates to:
+  /// **'تازه'**
+  String get stageIdeaNew;
+
+  /// No description provided for @stageThinking.
+  ///
+  /// In fa, this message translates to:
+  /// **'دارم فکر می‌کنم'**
+  String get stageThinking;
+
+  /// No description provided for @stageDeveloping.
+  ///
+  /// In fa, this message translates to:
+  /// **'دارم پرورشش می‌دم'**
+  String get stageDeveloping;
+
+  /// No description provided for @stageIdeaArchived.
+  ///
+  /// In fa, this message translates to:
+  /// **'بایگانی'**
+  String get stageIdeaArchived;
+
+  /// No description provided for @stageIdeaDropped.
+  ///
+  /// In fa, this message translates to:
+  /// **'ولش کردم'**
+  String get stageIdeaDropped;
+
+  /// No description provided for @stageSealed.
+  ///
+  /// In fa, this message translates to:
+  /// **'قفل'**
+  String get stageSealed;
+
+  /// No description provided for @stageOpened.
+  ///
+  /// In fa, this message translates to:
+  /// **'باز شده'**
+  String get stageOpened;
+
+  /// No description provided for @markAsRead.
+  ///
+  /// In fa, this message translates to:
+  /// **'خوندم'**
+  String get markAsRead;
+
+  /// No description provided for @markAsWatched.
+  ///
+  /// In fa, this message translates to:
+  /// **'دیدم'**
+  String get markAsWatched;
+
+  /// No description provided for @markAsBought.
+  ///
+  /// In fa, this message translates to:
+  /// **'خریدم'**
+  String get markAsBought;
+
+  /// No description provided for @itemStage.
+  ///
+  /// In fa, this message translates to:
+  /// **'وضعیت'**
+  String get itemStage;
+
+  /// No description provided for @moveToShelf.
+  ///
+  /// In fa, this message translates to:
+  /// **'منتقل کن به…'**
+  String get moveToShelf;
+
+  /// No description provided for @movedTo.
+  ///
+  /// In fa, this message translates to:
+  /// **'رفت به «{shelf}»'**
+  String movedTo(String shelf);
+
+  /// No description provided for @shelfEmptyReadTitle.
+  ///
+  /// In fa, this message translates to:
+  /// **'هنوز چیزی برای خوندن نذاشتی'**
+  String get shelfEmptyReadTitle;
+
+  /// No description provided for @shelfEmptyReadBody.
+  ///
+  /// In fa, this message translates to:
+  /// **'لینک مقاله رو با «اشتراک‌گذاری» بفرست به بعداً.'**
+  String get shelfEmptyReadBody;
+
+  /// No description provided for @shelfEmptyWatchTitle.
+  ///
+  /// In fa, this message translates to:
+  /// **'هنوز ویدیویی نذاشتی'**
+  String get shelfEmptyWatchTitle;
+
+  /// No description provided for @shelfEmptyWatchBody.
+  ///
+  /// In fa, this message translates to:
+  /// **'لینک یوتیوب یا اسم یه فیلم رو اینجا نگه دار.'**
+  String get shelfEmptyWatchBody;
+
+  /// No description provided for @shelfEmptyWishTitle.
+  ///
+  /// In fa, this message translates to:
+  /// **'فهرست خریدت خالیه'**
+  String get shelfEmptyWishTitle;
+
+  /// No description provided for @shelfEmptyWishBody.
+  ///
+  /// In fa, this message translates to:
+  /// **'چیزی که شاید بخوای بخری رو اینجا بذار. بعد از یه مدت می‌پرسم هنوز می‌خوایش یا نه.'**
+  String get shelfEmptyWishBody;
+
+  /// No description provided for @shelfEmptyIdeaTitle.
+  ///
+  /// In fa, this message translates to:
+  /// **'هنوز ایده‌ای نذاشتی'**
+  String get shelfEmptyIdeaTitle;
+
+  /// No description provided for @shelfEmptyIdeaBody.
+  ///
+  /// In fa, this message translates to:
+  /// **'ایده‌ها اینجا می‌مونن تا وقتش برسه.'**
+  String get shelfEmptyIdeaBody;
+
+  /// No description provided for @shelfWaiting.
+  ///
+  /// In fa, this message translates to:
+  /// **'در انتظار'**
+  String get shelfWaiting;
+
+  /// No description provided for @shelfHistory.
+  ///
+  /// In fa, this message translates to:
+  /// **'تاریخچه'**
+  String get shelfHistory;
+
+  /// No description provided for @shelfAllStages.
+  ///
+  /// In fa, this message translates to:
+  /// **'همه'**
+  String get shelfAllStages;
+
+  /// No description provided for @shelfStatsTitle.
+  ///
+  /// In fa, this message translates to:
+  /// **'آمار'**
+  String get shelfStatsTitle;
+
+  /// No description provided for @shelfAdvancedFilters.
+  ///
+  /// In fa, this message translates to:
+  /// **'فیلتر پیشرفته'**
+  String get shelfAdvancedFilters;
+
+  /// No description provided for @shelfHistoryPro.
+  ///
+  /// In fa, this message translates to:
+  /// **'تاریخچه‌ی این قفسه با Pro'**
+  String get shelfHistoryPro;
+
+  /// No description provided for @shelfCollections.
+  ///
+  /// In fa, this message translates to:
+  /// **'فهرست‌ها'**
+  String get shelfCollections;
+
+  /// No description provided for @shelfCollectionMain.
+  ///
+  /// In fa, this message translates to:
+  /// **'اصلی'**
+  String get shelfCollectionMain;
+
+  /// No description provided for @collectionNew.
+  ///
+  /// In fa, this message translates to:
+  /// **'فهرست جدید'**
+  String get collectionNew;
+
+  /// No description provided for @collectionName.
+  ///
+  /// In fa, this message translates to:
+  /// **'اسم فهرست'**
+  String get collectionName;
+
+  /// No description provided for @collectionProHint.
+  ///
+  /// In fa, this message translates to:
+  /// **'چند فهرست جدا با Pro'**
+  String get collectionProHint;
+
+  /// No description provided for @sortByPrice.
+  ///
+  /// In fa, this message translates to:
+  /// **'قیمت'**
+  String get sortByPrice;
+
+  /// No description provided for @sortByScore.
+  ///
+  /// In fa, this message translates to:
+  /// **'امتیاز'**
+  String get sortByScore;
+
+  /// No description provided for @sortByTime.
+  ///
+  /// In fa, this message translates to:
+  /// **'زمان تخمینی'**
+  String get sortByTime;
+
+  /// No description provided for @statsWaiting.
+  ///
+  /// In fa, this message translates to:
+  /// **'در انتظار'**
+  String get statsWaiting;
+
+  /// No description provided for @statsFinished.
+  ///
+  /// In fa, this message translates to:
+  /// **'تموم‌شده'**
+  String get statsFinished;
+
+  /// No description provided for @statsThisMonth.
+  ///
+  /// In fa, this message translates to:
+  /// **'این ماه'**
+  String get statsThisMonth;
+
+  /// No description provided for @statsMinutesWaiting.
+  ///
+  /// In fa, this message translates to:
+  /// **'زمان کل منتظر'**
+  String get statsMinutesWaiting;
+
+  /// No description provided for @statsAvgFinish.
+  ///
+  /// In fa, this message translates to:
+  /// **'میانگین تا تموم شدن'**
+  String get statsAvgFinish;
+
+  /// No description provided for @statsTotalPrice.
+  ///
+  /// In fa, this message translates to:
+  /// **'جمع قیمت‌ها'**
+  String get statsTotalPrice;
+
+  /// No description provided for @readTimeEstimate.
+  ///
+  /// In fa, this message translates to:
+  /// **'حدود {n} دقیقه'**
+  String readTimeEstimate(String n);
+
+  /// No description provided for @linkHost.
+  ///
+  /// In fa, this message translates to:
+  /// **'از {host}'**
+  String linkHost(String host);
+
+  /// No description provided for @priceNow.
+  ///
+  /// In fa, this message translates to:
+  /// **'قیمت'**
+  String get priceNow;
+
+  /// No description provided for @priceSetNew.
+  ///
+  /// In fa, this message translates to:
+  /// **'ثبت قیمت تازه'**
+  String get priceSetNew;
+
+  /// No description provided for @priceTarget.
+  ///
+  /// In fa, this message translates to:
+  /// **'قیمت هدف'**
+  String get priceTarget;
+
+  /// No description provided for @priceTargetReached.
+  ///
+  /// In fa, this message translates to:
+  /// **'به قیمت هدفت رسیده'**
+  String get priceTargetReached;
+
+  /// No description provided for @priceHistoryTitle.
+  ///
+  /// In fa, this message translates to:
+  /// **'تاریخچه‌ی قیمت'**
+  String get priceHistoryTitle;
+
+  /// No description provided for @priceHistoryEmpty.
+  ///
+  /// In fa, this message translates to:
+  /// **'هنوز قیمتی ثبت نشده.'**
+  String get priceHistoryEmpty;
+
+  /// No description provided for @priceHint.
+  ///
+  /// In fa, this message translates to:
+  /// **'مثلاً ۱۲۰۰۰۰۰'**
+  String get priceHint;
+
+  /// No description provided for @wishProHint.
+  ///
+  /// In fa, this message translates to:
+  /// **'قیمت هدف و تاریخچه‌ی قیمت با Pro'**
+  String get wishProHint;
+
+  /// No description provided for @wishReviewTitle.
+  ///
+  /// In fa, this message translates to:
+  /// **'واقعاً هنوز می‌خوایش؟'**
+  String get wishReviewTitle;
+
+  /// No description provided for @wishReviewQuestion.
+  ///
+  /// In fa, this message translates to:
+  /// **'این {days} روزه تو فهرستته.\nهنوز می‌خوای بخریش؟'**
+  String wishReviewQuestion(String days);
+
+  /// No description provided for @wishStill.
+  ///
+  /// In fa, this message translates to:
+  /// **'هنوز می‌خوام'**
+  String get wishStill;
+
+  /// No description provided for @wishUnsure.
+  ///
+  /// In fa, this message translates to:
+  /// **'مطمئن نیستم'**
+  String get wishUnsure;
+
+  /// No description provided for @wishNo.
+  ///
+  /// In fa, this message translates to:
+  /// **'دیگه نمی‌خوام'**
+  String get wishNo;
+
+  /// No description provided for @ideaReviewTitle.
+  ///
+  /// In fa, this message translates to:
+  /// **'مرور ایده‌ها'**
+  String get ideaReviewTitle;
+
+  /// No description provided for @ideaReviewNone.
+  ///
+  /// In fa, this message translates to:
+  /// **'چیزی برای مرور نیست.'**
+  String get ideaReviewNone;
+
+  /// No description provided for @ideaReviewIntro.
+  ///
+  /// In fa, this message translates to:
+  /// **'هر ایده رو یه نگاه بنداز و بگو چیکارش کنیم.'**
+  String get ideaReviewIntro;
+
+  /// No description provided for @ideaScore.
+  ///
+  /// In fa, this message translates to:
+  /// **'امتیاز'**
+  String get ideaScore;
+
+  /// No description provided for @ideaLinks.
+  ///
+  /// In fa, this message translates to:
+  /// **'ایده‌های مرتبط'**
+  String get ideaLinks;
+
+  /// No description provided for @ideaAddLink.
+  ///
+  /// In fa, this message translates to:
+  /// **'وصل کن به یه ایده‌ی دیگه'**
+  String get ideaAddLink;
+
+  /// No description provided for @ideaToTask.
+  ///
+  /// In fa, this message translates to:
+  /// **'تبدیل به کار'**
+  String get ideaToTask;
+
+  /// No description provided for @ideaConverted.
+  ///
+  /// In fa, this message translates to:
+  /// **'حالا یه کاره'**
+  String get ideaConverted;
+
+  /// No description provided for @ideaKeepThinking.
+  ///
+  /// In fa, this message translates to:
+  /// **'هنوز فکر می‌کنم'**
+  String get ideaKeepThinking;
+
+  /// No description provided for @ideaDevelop.
+  ///
+  /// In fa, this message translates to:
+  /// **'می‌خوام پرورشش بدم'**
+  String get ideaDevelop;
+
+  /// No description provided for @ideaArchiveIt.
+  ///
+  /// In fa, this message translates to:
+  /// **'بایگانی'**
+  String get ideaArchiveIt;
+
+  /// No description provided for @ideaDropIt.
+  ///
+  /// In fa, this message translates to:
+  /// **'ولش کن'**
+  String get ideaDropIt;
+
+  /// No description provided for @ideaLastReviewed.
+  ///
+  /// In fa, this message translates to:
+  /// **'آخرین مرور: {when}'**
+  String ideaLastReviewed(String when);
+
+  /// No description provided for @ideaNeverReviewed.
+  ///
+  /// In fa, this message translates to:
+  /// **'هنوز مرور نشده'**
+  String get ideaNeverReviewed;
+
+  /// No description provided for @ideaProHint.
+  ///
+  /// In fa, this message translates to:
+  /// **'امتیاز، اتصال ایده‌ها و مرور با Pro'**
+  String get ideaProHint;
+
+  /// No description provided for @peopleTitle.
+  ///
+  /// In fa, this message translates to:
+  /// **'آدم‌ها'**
+  String get peopleTitle;
+
+  /// No description provided for @peopleEmptyTitle.
+  ///
+  /// In fa, this message translates to:
+  /// **'هنوز کسی رو اضافه نکردی'**
+  String get peopleEmptyTitle;
+
+  /// No description provided for @peopleEmptyBody.
+  ///
+  /// In fa, this message translates to:
+  /// **'مثلاً «بعداً به علی زنگ بزن». آدم رو از مخاطب‌ها انتخاب کن یا اسمش رو بنویس.'**
+  String get peopleEmptyBody;
+
+  /// No description provided for @personAdd.
+  ///
+  /// In fa, this message translates to:
+  /// **'آدم جدید'**
+  String get personAdd;
+
+  /// No description provided for @personFromContacts.
+  ///
+  /// In fa, this message translates to:
+  /// **'انتخاب از مخاطب‌ها'**
+  String get personFromContacts;
+
+  /// No description provided for @personTypeName.
+  ///
+  /// In fa, this message translates to:
+  /// **'فقط اسم بنویسم'**
+  String get personTypeName;
+
+  /// No description provided for @personName.
+  ///
+  /// In fa, this message translates to:
+  /// **'اسم'**
+  String get personName;
+
+  /// No description provided for @personNote.
+  ///
+  /// In fa, this message translates to:
+  /// **'یادداشت'**
+  String get personNote;
+
+  /// No description provided for @personLast.
+  ///
+  /// In fa, this message translates to:
+  /// **'آخرین ارتباط: {when}'**
+  String personLast(String when);
+
+  /// No description provided for @personNever.
+  ///
+  /// In fa, this message translates to:
+  /// **'هنوز ارتباطی ثبت نشده'**
+  String get personNever;
+
+  /// No description provided for @personNext.
+  ///
+  /// In fa, this message translates to:
+  /// **'بعدی: {when}'**
+  String personNext(String when);
+
+  /// No description provided for @personNoNext.
+  ///
+  /// In fa, this message translates to:
+  /// **'یادآوری‌ای نداره'**
+  String get personNoNext;
+
+  /// No description provided for @personTalked.
+  ///
+  /// In fa, this message translates to:
+  /// **'همین الان صحبت کردیم'**
+  String get personTalked;
+
+  /// No description provided for @personAddReminder.
+  ///
+  /// In fa, this message translates to:
+  /// **'یادآوری تازه'**
+  String get personAddReminder;
+
+  /// No description provided for @personReminderHint.
+  ///
+  /// In fa, this message translates to:
+  /// **'مثلاً: پیام بده'**
+  String get personReminderHint;
+
+  /// No description provided for @personOpenContact.
+  ///
+  /// In fa, this message translates to:
+  /// **'باز کردن مخاطب'**
+  String get personOpenContact;
+
+  /// No description provided for @personDeleteTitle.
+  ///
+  /// In fa, this message translates to:
+  /// **'این آدم حذف بشه؟'**
+  String get personDeleteTitle;
+
+  /// No description provided for @personDeleteBody.
+  ///
+  /// In fa, this message translates to:
+  /// **'یادآوری‌هاش می‌مونن ولی دیگه به این آدم وصل نیستن.'**
+  String get personDeleteBody;
+
+  /// No description provided for @personHistory.
+  ///
+  /// In fa, this message translates to:
+  /// **'تاریخچه‌ی ارتباط'**
+  String get personHistory;
+
+  /// No description provided for @personFollowUp.
+  ///
+  /// In fa, this message translates to:
+  /// **'پیگیری'**
+  String get personFollowUp;
+
+  /// No description provided for @personFollowUpDays.
+  ///
+  /// In fa, this message translates to:
+  /// **'بعد از {n} روز یادم بنداز'**
+  String personFollowUpDays(String n);
+
+  /// No description provided for @personGroup.
+  ///
+  /// In fa, this message translates to:
+  /// **'گروه'**
+  String get personGroup;
+
+  /// No description provided for @personDueTitle.
+  ///
+  /// In fa, this message translates to:
+  /// **'باید سر بزنی'**
+  String get personDueTitle;
+
+  /// No description provided for @personLinked.
+  ///
+  /// In fa, this message translates to:
+  /// **'یادآوری‌ها'**
+  String get personLinked;
+
+  /// No description provided for @personPickerFailed.
+  ///
+  /// In fa, this message translates to:
+  /// **'انتخاب مخاطب انجام نشد. اسم رو دستی بنویس.'**
+  String get personPickerFailed;
+
+  /// No description provided for @interactionNoteHint.
+  ///
+  /// In fa, this message translates to:
+  /// **'چی گفتید؟ (اختیاری)'**
+  String get interactionNoteHint;
+
+  /// No description provided for @peopleProHint.
+  ///
+  /// In fa, this message translates to:
+  /// **'تاریخچه، پیگیری و «باید سر بزنی» با Pro'**
+  String get peopleProHint;
+
+  /// No description provided for @personContactRef.
+  ///
+  /// In fa, this message translates to:
+  /// **'از مخاطب‌های گوشی'**
+  String get personContactRef;
+
+  /// No description provided for @futureTitle.
+  ///
+  /// In fa, this message translates to:
+  /// **'آینده'**
+  String get futureTitle;
+
+  /// No description provided for @futureTabCapsules.
+  ///
+  /// In fa, this message translates to:
+  /// **'کپسول زمانی'**
+  String get futureTabCapsules;
+
+  /// No description provided for @futureTabMessages.
+  ///
+  /// In fa, this message translates to:
+  /// **'پیام به خودم'**
+  String get futureTabMessages;
+
+  /// No description provided for @capsuleEmptyTitle.
+  ///
+  /// In fa, this message translates to:
+  /// **'کپسولی نداری'**
+  String get capsuleEmptyTitle;
+
+  /// No description provided for @capsuleEmptyBody.
+  ///
+  /// In fa, this message translates to:
+  /// **'چیزی رو تا یه تاریخ از جلوی چشمت بردار. همون روز برمی‌گرده.'**
+  String get capsuleEmptyBody;
+
+  /// No description provided for @messageEmptyTitle.
+  ///
+  /// In fa, this message translates to:
+  /// **'پیامی ننوشتی'**
+  String get messageEmptyTitle;
+
+  /// No description provided for @messageEmptyBody.
+  ///
+  /// In fa, this message translates to:
+  /// **'برای خودِ آینده‌ات بنویس.'**
+  String get messageEmptyBody;
+
+  /// No description provided for @capsuleNew.
+  ///
+  /// In fa, this message translates to:
+  /// **'کپسول جدید'**
+  String get capsuleNew;
+
+  /// No description provided for @messageNew.
+  ///
+  /// In fa, this message translates to:
+  /// **'پیام جدید'**
+  String get messageNew;
+
+  /// No description provided for @sealTitleHint.
+  ///
+  /// In fa, this message translates to:
+  /// **'عنوان'**
+  String get sealTitleHint;
+
+  /// No description provided for @capsuleBodyHint.
+  ///
+  /// In fa, this message translates to:
+  /// **'چی رو می‌خوای بعداً ببینی؟'**
+  String get capsuleBodyHint;
+
+  /// No description provided for @messageBodyHint.
+  ///
+  /// In fa, this message translates to:
+  /// **'به خودِ آینده‌ات چی می‌گی؟'**
+  String get messageBodyHint;
+
+  /// No description provided for @sealOpenOn.
+  ///
+  /// In fa, this message translates to:
+  /// **'باز می‌شه: {date}'**
+  String sealOpenOn(String date);
+
+  /// No description provided for @sealPickDate.
+  ///
+  /// In fa, this message translates to:
+  /// **'تاریخ باز شدن'**
+  String get sealPickDate;
+
+  /// No description provided for @sealQuick1m.
+  ///
+  /// In fa, this message translates to:
+  /// **'۱ ماه دیگه'**
+  String get sealQuick1m;
+
+  /// No description provided for @sealQuick3m.
+  ///
+  /// In fa, this message translates to:
+  /// **'۳ ماه دیگه'**
+  String get sealQuick3m;
+
+  /// No description provided for @sealQuick6m.
+  ///
+  /// In fa, this message translates to:
+  /// **'۶ ماه دیگه'**
+  String get sealQuick6m;
+
+  /// No description provided for @sealQuick1y.
+  ///
+  /// In fa, this message translates to:
+  /// **'۱ سال دیگه'**
+  String get sealQuick1y;
+
+  /// No description provided for @sealSaved.
+  ///
+  /// In fa, this message translates to:
+  /// **'قفل شد. تا {date} دیده نمی‌شه.'**
+  String sealSaved(String date);
+
+  /// No description provided for @sealLimitFree.
+  ///
+  /// In fa, this message translates to:
+  /// **'نسخه‌ی رایگان همزمان تا {n} مورد قفل‌شده داره. با Pro نامحدوده.'**
+  String sealLimitFree(String n);
+
+  /// No description provided for @sealNeedsFuture.
+  ///
+  /// In fa, this message translates to:
+  /// **'تاریخ باید توی آینده باشه.'**
+  String get sealNeedsFuture;
+
+  /// No description provided for @lockedUntil.
+  ///
+  /// In fa, this message translates to:
+  /// **'تا {date} قفله'**
+  String lockedUntil(String date);
+
+  /// No description provided for @openIt.
+  ///
+  /// In fa, this message translates to:
+  /// **'بازش کن'**
+  String get openIt;
+
+  /// No description provided for @returnedTitle.
+  ///
+  /// In fa, this message translates to:
+  /// **'یه چیز از گذشته برای تو برگشته'**
+  String get returnedTitle;
+
+  /// No description provided for @messageReturnedTitle.
+  ///
+  /// In fa, this message translates to:
+  /// **'پیامی از خودِ گذشته‌ات داری'**
+  String get messageReturnedTitle;
+
+  /// No description provided for @writtenOn.
+  ///
+  /// In fa, this message translates to:
+  /// **'نوشته‌شده در {date}'**
+  String writtenOn(String date);
+
+  /// No description provided for @sealRepeat.
+  ///
+  /// In fa, this message translates to:
+  /// **'تکرار'**
+  String get sealRepeat;
+
+  /// No description provided for @sealAttach.
+  ///
+  /// In fa, this message translates to:
+  /// **'پیوست'**
+  String get sealAttach;
+
+  /// No description provided for @sealAttachAdd.
+  ///
+  /// In fa, this message translates to:
+  /// **'افزودن عکس یا فایل'**
+  String get sealAttachAdd;
+
+  /// No description provided for @sealAttachLimit.
+  ///
+  /// In fa, this message translates to:
+  /// **'تا {n} فایل، هر کدوم حداکثر {mb} مگابایت. فقط روی همین گوشی می‌مونه.'**
+  String sealAttachLimit(String mb, String n);
+
+  /// No description provided for @sealAttachTooBig.
+  ///
+  /// In fa, this message translates to:
+  /// **'این فایل از حد مجاز بزرگ‌تره.'**
+  String get sealAttachTooBig;
+
+  /// No description provided for @sealAttachFailed.
+  ///
+  /// In fa, this message translates to:
+  /// **'فایل اضافه نشد.'**
+  String get sealAttachFailed;
+
+  /// No description provided for @sealProHint.
+  ///
+  /// In fa, this message translates to:
+  /// **'کپسول و پیام نامحدود، پیوست، برچسب و تکرار با Pro'**
+  String get sealProHint;
+
+  /// No description provided for @sealThisItem.
+  ///
+  /// In fa, this message translates to:
+  /// **'برای آینده نگه دار'**
+  String get sealThisItem;
+
+  /// No description provided for @sealItemQuestion.
+  ///
+  /// In fa, this message translates to:
+  /// **'تا کِی نبینمش؟'**
+  String get sealItemQuestion;
+
+  /// No description provided for @timelineOpened.
+  ///
+  /// In fa, this message translates to:
+  /// **'باز شده در {date}'**
+  String timelineOpened(String date);
+
+  /// No description provided for @notifCapsuleTitle.
+  ///
+  /// In fa, this message translates to:
+  /// **'یه چیز از گذشته برای تو برگشته'**
+  String get notifCapsuleTitle;
+
+  /// No description provided for @notifCapsuleBody.
+  ///
+  /// In fa, this message translates to:
+  /// **'بازش کن ببین چی بوده.'**
+  String get notifCapsuleBody;
+
+  /// No description provided for @notifFutureTitle.
+  ///
+  /// In fa, this message translates to:
+  /// **'پیامی از خودِ گذشته‌ات داری'**
+  String get notifFutureTitle;
+
+  /// No description provided for @notifFutureBody.
+  ///
+  /// In fa, this message translates to:
+  /// **'بازش کن و بخونش.'**
+  String get notifFutureBody;
+
+  /// No description provided for @notifIdeaReviewTitle.
+  ///
+  /// In fa, this message translates to:
+  /// **'وقت مرور ایده‌هاست'**
+  String get notifIdeaReviewTitle;
+
+  /// No description provided for @notifIdeaReviewBody.
+  ///
+  /// In fa, this message translates to:
+  /// **'چند تا ایده منتظر یه نگاه دوباره‌ان.'**
+  String get notifIdeaReviewBody;
+
+  /// No description provided for @inboxTitle.
+  ///
+  /// In fa, this message translates to:
+  /// **'صندوق ورودی'**
+  String get inboxTitle;
+
+  /// No description provided for @inboxIntro.
+  ///
+  /// In fa, this message translates to:
+  /// **'هر چی سریع ذخیره کردی اینجا می‌مونه تا تکلیفش رو روشن کنی.'**
+  String get inboxIntro;
+
+  /// No description provided for @inboxEmptyTitle.
+  ///
+  /// In fa, this message translates to:
+  /// **'صندوق خالیه'**
+  String get inboxEmptyTitle;
+
+  /// No description provided for @inboxEmptyBody.
+  ///
+  /// In fa, this message translates to:
+  /// **'همه‌چیز جای خودشه.'**
+  String get inboxEmptyBody;
+
+  /// No description provided for @triageToday.
+  ///
+  /// In fa, this message translates to:
+  /// **'امروز'**
+  String get triageToday;
+
+  /// No description provided for @triageWeek.
+  ///
+  /// In fa, this message translates to:
+  /// **'این هفته'**
+  String get triageWeek;
+
+  /// No description provided for @triageNoDate.
+  ///
+  /// In fa, this message translates to:
+  /// **'بدون تاریخ'**
+  String get triageNoDate;
+
+  /// No description provided for @triageRead.
+  ///
+  /// In fa, this message translates to:
+  /// **'بعداً بخون'**
+  String get triageRead;
+
+  /// No description provided for @triageWatch.
+  ///
+  /// In fa, this message translates to:
+  /// **'بعداً ببین'**
+  String get triageWatch;
+
+  /// No description provided for @triageWish.
+  ///
+  /// In fa, this message translates to:
+  /// **'بعداً بخر'**
+  String get triageWish;
+
+  /// No description provided for @triageIdea.
+  ///
+  /// In fa, this message translates to:
+  /// **'ایده'**
+  String get triageIdea;
+
+  /// No description provided for @triageDone.
+  ///
+  /// In fa, this message translates to:
+  /// **'انجام شد'**
+  String get triageDone;
+
+  /// No description provided for @triageDelete.
+  ///
+  /// In fa, this message translates to:
+  /// **'حذف'**
+  String get triageDelete;
+
+  /// No description provided for @inboxSuggest.
+  ///
+  /// In fa, this message translates to:
+  /// **'شبیه {what} به نظر می‌رسه. منتقل بشه؟'**
+  String inboxSuggest(String what);
+
+  /// No description provided for @inboxSuggestYes.
+  ///
+  /// In fa, this message translates to:
+  /// **'آره، منتقل کن'**
+  String get inboxSuggestYes;
+
+  /// No description provided for @suggestWhatRead.
+  ///
+  /// In fa, this message translates to:
+  /// **'یه مقاله'**
+  String get suggestWhatRead;
+
+  /// No description provided for @suggestWhatWatch.
+  ///
+  /// In fa, this message translates to:
+  /// **'یه ویدیو'**
+  String get suggestWhatWatch;
+
+  /// No description provided for @suggestWhatWish.
+  ///
+  /// In fa, this message translates to:
+  /// **'یه چیز برای خرید'**
+  String get suggestWhatWish;
+
+  /// No description provided for @suggestWhatIdea.
+  ///
+  /// In fa, this message translates to:
+  /// **'یه ایده'**
+  String get suggestWhatIdea;
+
+  /// No description provided for @suggestWhatPerson.
+  ///
+  /// In fa, this message translates to:
+  /// **'یه یادآوری برای یه آدم'**
+  String get suggestWhatPerson;
+
+  /// No description provided for @inboxProHint.
+  ///
+  /// In fa, this message translates to:
+  /// **'پیشنهاد خودکار مقصد با Pro'**
+  String get inboxProHint;
+
+  /// No description provided for @rouletteTitle.
+  ///
+  /// In fa, this message translates to:
+  /// **'قرعه بعداً'**
+  String get rouletteTitle;
+
+  /// No description provided for @roulettePick.
+  ///
+  /// In fa, this message translates to:
+  /// **'انتخاب کن'**
+  String get roulettePick;
+
+  /// No description provided for @rouletteSpinning.
+  ///
+  /// In fa, this message translates to:
+  /// **'دارم انتخاب می‌کنم…'**
+  String get rouletteSpinning;
+
+  /// No description provided for @rouletteStart.
+  ///
+  /// In fa, this message translates to:
+  /// **'شروع'**
+  String get rouletteStart;
+
+  /// No description provided for @rouletteLater.
+  ///
+  /// In fa, this message translates to:
+  /// **'بعداً'**
+  String get rouletteLater;
+
+  /// No description provided for @rouletteAgain.
+  ///
+  /// In fa, this message translates to:
+  /// **'یکی دیگه'**
+  String get rouletteAgain;
+
+  /// No description provided for @rouletteEmptyTitle.
+  ///
+  /// In fa, this message translates to:
+  /// **'چیزی برای قرعه نیست'**
+  String get rouletteEmptyTitle;
+
+  /// No description provided for @rouletteEmptyBody.
+  ///
+  /// In fa, this message translates to:
+  /// **'لیستت خالیه یا چیزی با این فیلترها نمی‌خونه.'**
+  String get rouletteEmptyBody;
+
+  /// No description provided for @rouletteFilters.
+  ///
+  /// In fa, this message translates to:
+  /// **'فیلترها'**
+  String get rouletteFilters;
+
+  /// No description provided for @rouletteTime.
+  ///
+  /// In fa, this message translates to:
+  /// **'وقت'**
+  String get rouletteTime;
+
+  /// No description provided for @rouletteEnergy.
+  ///
+  /// In fa, this message translates to:
+  /// **'حال و انرژی'**
+  String get rouletteEnergy;
+
+  /// No description provided for @energyLow.
+  ///
+  /// In fa, this message translates to:
+  /// **'کم‌حالم'**
+  String get energyLow;
+
+  /// No description provided for @energyHigh.
+  ///
+  /// In fa, this message translates to:
+  /// **'سرحالم'**
+  String get energyHigh;
+
+  /// No description provided for @rouletteCats.
+  ///
+  /// In fa, this message translates to:
+  /// **'دسته‌های قرعه'**
+  String get rouletteCats;
+
+  /// No description provided for @rouletteHistoryTitle.
+  ///
+  /// In fa, this message translates to:
+  /// **'تاریخچه‌ی قرعه'**
+  String get rouletteHistoryTitle;
+
+  /// No description provided for @rouletteHistoryEmpty.
+  ///
+  /// In fa, this message translates to:
+  /// **'هنوز قرعه‌ای نزدی.'**
+  String get rouletteHistoryEmpty;
+
+  /// No description provided for @rouletteProHint.
+  ///
+  /// In fa, this message translates to:
+  /// **'فیلتر وقت، دسته، اولویت و انرژی و تاریخچه‌ی قرعه با Pro'**
+  String get rouletteProHint;
+
+  /// No description provided for @rouletteOpenLink.
+  ///
+  /// In fa, this message translates to:
+  /// **'باز کردن لینک'**
+  String get rouletteOpenLink;
+
+  /// No description provided for @shareWhere.
+  ///
+  /// In fa, this message translates to:
+  /// **'کجا نگهش دارم؟'**
+  String get shareWhere;
+
+  /// No description provided for @shareInbox.
+  ///
+  /// In fa, this message translates to:
+  /// **'صندوق ورودی'**
+  String get shareInbox;
+
+  /// No description provided for @shareSavedInbox.
+  ///
+  /// In fa, this message translates to:
+  /// **'تو صندوق ورودی ذخیره شد.'**
+  String get shareSavedInbox;
+
+  /// No description provided for @shareSuggested.
+  ///
+  /// In fa, this message translates to:
+  /// **'پیشنهاد'**
+  String get shareSuggested;
+
+  /// No description provided for @proWhatYouGet.
+  ///
+  /// In fa, this message translates to:
+  /// **'با Pro چی می‌گیری'**
+  String get proWhatYouGet;
+
+  /// No description provided for @proFreeHeader.
+  ///
+  /// In fa, this message translates to:
+  /// **'تو نسخه‌ی رایگان هم داری'**
+  String get proFreeHeader;
+
+  /// No description provided for @proFreeList.
+  ///
+  /// In fa, this message translates to:
+  /// **'ذخیره‌ی نامحدود، صندوق ورودی، قرعه‌ی پایه، بعداً بخون / ببین / بخر، ایده‌ها، آدم‌ها، کپسول و پیام (تا ۲ تا)، جستجو، یادآوری، اشتراک‌گذاری، تم روشن و تیره، پشتیبان‌گیری.'**
+  String get proFreeList;
+
+  /// No description provided for @proFT1.
+  ///
+  /// In fa, this message translates to:
+  /// **'قرعه‌ی هوشمند'**
+  String get proFT1;
+
+  /// No description provided for @proFD1.
+  ///
+  /// In fa, this message translates to:
+  /// **'فقط از دسته‌های دلخواه، بر اساس وقت، اولویت و حال و انرژی‌ات انتخاب می‌کنه و تاریخچه‌ی قرعه‌ها رو نگه می‌داره.'**
+  String get proFD1;
+
+  /// No description provided for @proFT2.
+  ///
+  /// In fa, this message translates to:
+  /// **'صندوق ورودی هوشمند'**
+  String get proFT2;
+
+  /// No description provided for @proFD2.
+  ///
+  /// In fa, this message translates to:
+  /// **'برای هر مورد مقصد پیشنهاد می‌ده (مقاله، ویدیو، خرید، ایده). همیشه تأیید آخر با خودته.'**
+  String get proFD2;
+
+  /// No description provided for @proFT3.
+  ///
+  /// In fa, this message translates to:
+  /// **'قفسه‌های کامل‌تر'**
+  String get proFT3;
+
+  /// No description provided for @proFD3.
+  ///
+  /// In fa, this message translates to:
+  /// **'تاریخچه و آمار خوندن و دیدن، فیلتر و مرتب‌سازی پیشرفته، چند فهرست جدا.'**
+  String get proFD3;
+
+  /// No description provided for @proFT4.
+  ///
+  /// In fa, this message translates to:
+  /// **'خرید حساب‌شده'**
+  String get proFT4;
+
+  /// No description provided for @proFD4.
+  ///
+  /// In fa, this message translates to:
+  /// **'قیمت هدف، تاریخچه‌ی قیمتی که خودت ثبت کردی، آمار و یادآوری بررسی دوباره.'**
+  String get proFD4;
+
+  /// No description provided for @proFT5.
+  ///
+  /// In fa, this message translates to:
+  /// **'ایده‌ها با مرور'**
+  String get proFT5;
+
+  /// No description provided for @proFD5.
+  ///
+  /// In fa, this message translates to:
+  /// **'امتیاز، وصل کردن ایده‌ها به هم، مرور دوره‌ای، یادآوری ماهانه و تبدیل ایده به کار.'**
+  String get proFD5;
+
+  /// No description provided for @proFT6.
+  ///
+  /// In fa, this message translates to:
+  /// **'آدم‌های مهم'**
+  String get proFT6;
+
+  /// No description provided for @proFD6.
+  ///
+  /// In fa, this message translates to:
+  /// **'تاریخچه‌ی ارتباط، پیگیری خودکار، گروه‌های دلخواه و لیست «باید سر بزنی».'**
+  String get proFD6;
+
+  /// No description provided for @proFT7.
+  ///
+  /// In fa, this message translates to:
+  /// **'آینده‌ی بیشتر'**
+  String get proFT7;
+
+  /// No description provided for @proFD7.
+  ///
+  /// In fa, this message translates to:
+  /// **'کپسول و پیام بی‌شمار، پیوست عکس و فایل کوچک، برچسب و تکرار (مثلاً هر سال).'**
+  String get proFD7;
+
+  /// No description provided for @proFT8.
+  ///
+  /// In fa, this message translates to:
+  /// **'جستجو و فیلتر'**
+  String get proFT8;
+
+  /// No description provided for @proFD8.
+  ///
+  /// In fa, this message translates to:
+  /// **'جستجو تو برچسب، لینک و یادداشت و فیلتر «مانده‌ها».'**
+  String get proFD8;
+
+  /// No description provided for @proFT9.
+  ///
+  /// In fa, this message translates to:
+  /// **'آمار و تاریخچه‌ی کامل'**
+  String get proFT9;
+
+  /// No description provided for @proFD9.
+  ///
+  /// In fa, this message translates to:
+  /// **'همه‌ی ماه‌ها و آمار کامل، به‌جای فقط ۷ روز اخیر.'**
+  String get proFD9;
+
+  /// No description provided for @proFT10.
+  ///
+  /// In fa, this message translates to:
+  /// **'یادآوری تکرارشونده'**
+  String get proFT10;
+
+  /// No description provided for @proFD10.
+  ///
+  /// In fa, this message translates to:
+  /// **'روزانه، هفتگی، ماهانه یا سالانه، تا وقتی انجامش بدی.'**
+  String get proFD10;
+
+  /// No description provided for @proFT11.
+  ///
+  /// In fa, this message translates to:
+  /// **'ظاهر و ویجت'**
+  String get proFT11;
+
+  /// No description provided for @proFD11.
+  ///
+  /// In fa, this message translates to:
+  /// **'چند رنگ و آیکون دیگه و ویجت لیستی برای صفحه‌ی اصلی گوشی.'**
+  String get proFD11;
+
+  /// No description provided for @proFT12.
+  ///
+  /// In fa, this message translates to:
+  /// **'پشتیبان‌گیری بیشتر'**
+  String get proFT12;
+
+  /// No description provided for @proFD12.
+  ///
+  /// In fa, this message translates to:
+  /// **'پشتیبان خودکار هفتگی و خروجی CSV و متن.'**
+  String get proFD12;
+
+  /// No description provided for @settingsRouletteCats.
+  ///
+  /// In fa, this message translates to:
+  /// **'دسته‌های قرعه'**
+  String get settingsRouletteCats;
+
+  /// No description provided for @settingsRouletteCatsAll.
+  ///
+  /// In fa, this message translates to:
+  /// **'همه‌ی دسته‌ها'**
+  String get settingsRouletteCatsAll;
+
+  /// No description provided for @wishlistReviewAfter.
+  ///
+  /// In fa, this message translates to:
+  /// **'پرسیدن «هنوز می‌خوایش؟» بعد از'**
+  String get wishlistReviewAfter;
+
+  /// No description provided for @askWhereOnShare.
+  ///
+  /// In fa, this message translates to:
+  /// **'بعد از اشتراک‌گذاری بپرس کجا بره'**
+  String get askWhereOnShare;
+
+  /// No description provided for @askWhereOnShareSub.
+  ///
+  /// In fa, this message translates to:
+  /// **'اگه خاموشه، همه‌چیز می‌ره تو صندوق ورودی.'**
+  String get askWhereOnShareSub;
+
+  /// No description provided for @ideaReviewEvery.
+  ///
+  /// In fa, this message translates to:
+  /// **'مرور ایده‌ها هر'**
+  String get ideaReviewEvery;
+
+  /// No description provided for @ideaReviewMonthly.
+  ///
+  /// In fa, this message translates to:
+  /// **'یادآوری مرور ماهانه'**
+  String get ideaReviewMonthly;
 }
 
 class _AppL10nDelegate extends LocalizationsDelegate<AppL10n> {

@@ -61,8 +61,22 @@ typedef BackupMigration = Map<String, Object?> Function(Map<String, Object?>);
 
 class BackupMigrator {
   BackupMigrator({Map<int, BackupMigration>? steps, int? target})
-      : _steps = steps ?? const {},
+      : _steps = steps ?? builtinSteps,
         target = target ?? AppConfig.backupSchemaVersion;
+
+  /// Released migrations. Never edit a released step; add a new one.
+  static final Map<int, BackupMigration> builtinSteps = {
+    // v1 -> v2: item types, people, collections, attachments were added.
+    // Old files simply have none of them: add the empty sections.
+    1: (doc) {
+      final data = Map<String, Object?>.from(doc['data']! as Map);
+      data.putIfAbsent('people', () => <Object?>[]);
+      data.putIfAbsent('interactions', () => <Object?>[]);
+      data.putIfAbsent('collections', () => <Object?>[]);
+      data.putIfAbsent('attachments', () => <Object?>[]);
+      return {...doc, 'data': data};
+    },
+  };
 
   final Map<int, BackupMigration> _steps;
   final int target;
@@ -119,6 +133,14 @@ class BackupCodec {
         for (final e in s.events) (e.toDb()..remove('id')),
       ],
       'settings': s.settings,
+      'people': [for (final x in s.people) x.toDb()],
+      'interactions': [for (final x in s.interactions) (x.toDb()..remove('id'))],
+      'collections': [for (final x in s.collections) x.toDb()],
+      'attachments': [
+        for (final a in s.attachments)
+          if (s.attachmentBytes[a.id] != null)
+            {...a.toDb(), 'data': base64Encode(s.attachmentBytes[a.id]!)},
+      ],
       'pro': ?proBlob,
     };
     final dataJson = jsonEncode(data);
@@ -288,8 +310,130 @@ class BackupCodec {
     // Normalize through the lenient parser: drops unknown keys/invalid values.
     final clean = AppSettings.fromMap(settings).toMap();
 
+    final peopleRaw = d['people'];
+    final interRaw = d['interactions'];
+    final colRaw = d['collections'];
+    final attRaw = d['attachments'];
+    if (peopleRaw is! List || interRaw is! List || colRaw is! List || attRaw is! List) {
+      throw const BackupException(BackupError.missingFields, 'v2 sections');
+    }
+    if (peopleRaw.length > 100000 || interRaw.length > 500000 || colRaw.length > 10000 || attRaw.length > 20000) {
+      throw const BackupException(BackupError.invalidData, 'too many records');
+    }
+    final people = <Person>[];
+    final personIds = <String>{};
+    for (final raw in peopleRaw) {
+      final p = _parsePerson(raw);
+      if (!personIds.add(p.id)) _bad('duplicate person');
+      people.add(p);
+    }
+    final collections = <ItemCollection>[];
+    final colIds = <String>{};
+    for (final raw in colRaw) {
+      final c = _parseCollection(raw);
+      if (!colIds.add(c.id)) _bad('duplicate collection');
+      collections.add(c);
+    }
+    final interactions = <Interaction>[];
+    for (final raw in interRaw) {
+      final i = _parseInteraction(raw);
+      if (personIds.contains(i.personId)) interactions.add(i);
+    }
+    final attachments = <Attachment>[];
+    final bytes = <String, Uint8List>{};
+    for (final raw in attRaw) {
+      if (raw is! Map) _bad('attachment');
+      final a = _parseAttachment(raw);
+      final data = raw['data'];
+      if (data is! String || data.length > 4 * 1024 * 1024 * 4 ~/ 3 + 16) _bad('attachment.data');
+      final b = base64Decode(data);
+      if (b.length > 3 * 1024 * 1024) _bad('attachment.size');
+      if (!itemIds.contains(a.itemId) || attachments.any((x) => x.id == a.id)) continue;
+      attachments.add(Attachment(
+          id: a.id, itemId: a.itemId, name: a.name, mime: a.mime, size: b.length, createdAt: a.createdAt));
+      bytes[a.id] = b;
+    }
+    // Drop dangling links instead of failing the whole restore.
+    final cleanedItems = [
+      for (final i in items)
+        i.copyWith(
+          personId: i.personId != null && !personIds.contains(i.personId) ? null : i.personId,
+          collectionId: i.collectionId != null && !colIds.contains(i.collectionId) ? null : i.collectionId,
+        ),
+    ];
     return LaterSnapshot(
-        items: items, categories: cats, events: events, settings: clean);
+      items: cleanedItems,
+      categories: cats,
+      events: events,
+      settings: clean,
+      people: people,
+      interactions: interactions,
+      collections: collections,
+      attachments: attachments,
+      attachmentBytes: bytes,
+    );
+  }
+
+  Person _parsePerson(Object? raw) {
+    if (raw is! Map) _bad('person');
+    final id = raw['id'];
+    if (id is! String || !isValidId(id)) _bad('person.id');
+    final name = cleanText(raw['name'] as String?, 200);
+    if (name.isEmpty) _bad('person.name');
+    final uri = raw['contact_uri'];
+    return Person(
+      id: id,
+      name: name,
+      contactUri: uri is String && uri.startsWith('content://com.android.contacts/') && uri.length < 500 ? uri : null,
+      note: cleanText(raw['note'] as String?, AppConfig.maxTextLength),
+      group: cleanText(raw['group_name'] as String?, 60),
+      lastInteractionAt: _dateOpt(raw['last_interaction_at'], 'person.last'),
+      createdAt: _date(raw['created_at'], 'person.created'),
+      updatedAt: _date(raw['updated_at'], 'person.updated'),
+    );
+  }
+
+  Interaction _parseInteraction(Object? raw) {
+    if (raw is! Map) _bad('interaction');
+    final pid = raw['person_id'];
+    if (pid is! String || !isValidId(pid)) _bad('interaction.person');
+    return Interaction(
+      personId: pid,
+      at: _date(raw['at'], 'interaction.at'),
+      note: cleanText(raw['note'] as String?, 2000),
+    );
+  }
+
+  ItemCollection _parseCollection(Object? raw) {
+    if (raw is! Map) _bad('collection');
+    final id = raw['id'];
+    if (id is! String || !isValidId(id)) _bad('collection.id');
+    final name = cleanText(raw['name'] as String?, 60);
+    if (name.isEmpty) _bad('collection.name');
+    final t = _intOpt(raw['item_type'], 0, ItemType.values.length - 1, 'collection.type');
+    return ItemCollection(
+      id: id,
+      name: name,
+      type: ItemType.values[t ?? 0],
+      sortOrder: raw['sort_order'] is int ? raw['sort_order'] as int : 0,
+      createdAt: _date(raw['created_at'], 'collection.created'),
+    );
+  }
+
+  Attachment _parseAttachment(Map raw) {
+    final id = raw['id'];
+    final itemId = raw['item_id'];
+    if (id is! String || !isValidId(id) || itemId is! String || !isValidId(itemId)) _bad('attachment.id');
+    final name = cleanText(raw['name'] as String?, 120).replaceAll(RegExp(r'[\\/:*?"<>|]'), '_');
+    final mime = cleanText(raw['mime'] as String?, 80);
+    return Attachment(
+      id: id,
+      itemId: itemId,
+      name: name.isEmpty ? 'file' : name,
+      mime: RegExp(r'^[a-z0-9.+-]+/[a-z0-9.+-]+$').hasMatch(mime) ? mime : 'application/octet-stream',
+      size: 0,
+      createdAt: _date(raw['created_at'], 'attachment.created'),
+    );
   }
 
   Never _bad(String what) => throw BackupException(BackupError.invalidData, what);
@@ -358,7 +502,21 @@ class BackupCodec {
     final url = raw['url'] == null ? null : sanitizeUrl(raw['url'] as String?);
     final status = _intOpt(raw['status'], 0, ItemStatus.values.length - 1, 'item.status') ?? 0;
     final priority = _intOpt(raw['priority'], 0, 2, 'item.priority') ?? 1;
-    final repeat = _intOpt(raw['repeat_rule'], 0, 3, 'item.repeat') ?? 0;
+    final repeat = _intOpt(raw['repeat_rule'], 0, RepeatRule.values.length - 1, 'item.repeat') ?? 0;
+    final type = _intOpt(raw['item_type'], 0, ItemType.values.length - 1, 'item.type') ?? 0;
+    final stage = _intOpt(raw['stage'], 0, 20, 'item.stage') ?? 0;
+    var extra = <String, Object?>{};
+    final extraRaw = raw['extra'];
+    if (extraRaw is String && extraRaw.length < 20000) {
+      try {
+        final e = jsonDecode(extraRaw);
+        if (e is Map) extra = _cleanExtra(e.cast<String, Object?>());
+      } catch (_) {
+        _bad('item.extra');
+      }
+    }
+    final personId = raw['person_id'];
+    final collectionId = raw['collection_id'];
     final created = _date(raw['created_at'], 'item.created_at');
     return LaterItem(
       id: id,
@@ -386,7 +544,39 @@ class BackupCodec {
       source: cleanText(raw['source'] as String?, 20).isEmpty
           ? null
           : cleanText(raw['source'] as String?, 20),
+      type: ItemType.values[type],
+      stage: stage,
+      inbox: raw['inbox'] == 1,
+      unlockAt: _dateOpt(raw['unlock_at'], 'item.unlock_at'),
+      personId: personId is String && isValidId(personId) ? personId : null,
+      collectionId: collectionId is String && isValidId(collectionId) ? collectionId : null,
+      lastReviewedAt: _dateOpt(raw['last_reviewed_at'], 'item.last_reviewed_at'),
+      extra: extra,
     );
+  }
+
+  /// Keeps only known, well-typed keys of the free-form `extra` map.
+  Map<String, Object?> _cleanExtra(Map<String, Object?> m) {
+    final out = <String, Object?>{};
+    num? n(Object? v) => v is num && v.isFinite && v.abs() < 1e15 ? v : null;
+    if (n(m['price']) != null) out['price'] = n(m['price']);
+    if (n(m['targetPrice']) != null) out['targetPrice'] = n(m['targetPrice']);
+    if (m['currency'] is String) out['currency'] = cleanText(m['currency'] as String, 12);
+    if (m['watchKind'] is String) out['watchKind'] = cleanText(m['watchKind'] as String, 12);
+    final score = n(m['score']);
+    if (score != null && score >= 0 && score <= 10) out['score'] = score.toInt();
+    final links = m['links'];
+    if (links is List) {
+      out['links'] = links.whereType<String>().where(isValidId).take(50).toList();
+    }
+    final hist = m['priceHistory'];
+    if (hist is List) {
+      out['priceHistory'] = [
+        for (final e in hist.take(500))
+          if (e is List && e.length == 2 && n(e[0]) != null && n(e[1]) != null) [n(e[0]), n(e[1])],
+      ];
+    }
+    return out;
   }
 
   ItemEvent _parseEvent(Object? raw) {

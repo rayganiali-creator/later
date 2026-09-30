@@ -11,6 +11,8 @@ enum FilterKind {
   highPriority,
   stale,
   category,
+  inbox,
+  type,
 }
 
 class ItemFilter {
@@ -61,6 +63,13 @@ DateTime? effectiveDue(LaterItem i, DateTime now) {
       while (d.isBefore(today) && k < 2400) {
         k++;
         d = Dates.addMonths(due, k, CalendarSystem.gregorian);
+      }
+      return d;
+    case RepeatRule.yearly:
+      var k = 0;
+      while (d.isBefore(today) && k < 200) {
+        k++;
+        d = Dates.addMonths(due, 12 * k, CalendarSystem.gregorian);
       }
       return d;
     case RepeatRule.none:
@@ -127,6 +136,10 @@ bool matchesFilter(
       return isStale(i, now, staleDays);
     case FilterKind.category:
       return i.categoryId == f.categoryId;
+    case FilterKind.inbox:
+      return i.inbox;
+    case FilterKind.type:
+      return i.type.name == f.categoryId;
   }
 }
 

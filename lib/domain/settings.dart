@@ -31,7 +31,27 @@ class AppSettings {
     this.iconVariant = IconVariant.classic,
     this.lastAutoBackupAt,
     this.lastBackupAt,
+    this.rouletteCategories = const {},
+    this.wishlistReviewDays = 30,
+    this.ideaReviewDays = 30,
+    this.ideaReviewReminder = false,
+    this.askWhereOnShare = true,
   });
+
+  /// Categories that take part in the roulette (empty = all). Pro to change.
+  final Set<String> rouletteCategories;
+
+  /// A wishlist item older than this is asked about ("still want it?").
+  final int wishlistReviewDays;
+
+  /// Ideas not reviewed for this long show up in the idea review (Pro).
+  final int ideaReviewDays;
+
+  /// Monthly "time to review your ideas" notification (Pro).
+  final bool ideaReviewReminder;
+
+  /// Ask where a shared item should go (otherwise it just lands in the inbox).
+  final bool askWhereOnShare;
 
   final ThemeMode themeMode;
   final AccentPalette accent;
@@ -83,8 +103,18 @@ class AppSettings {
     IconVariant? iconVariant,
     DateTime? lastAutoBackupAt,
     DateTime? lastBackupAt,
+    Set<String>? rouletteCategories,
+    int? wishlistReviewDays,
+    int? ideaReviewDays,
+    bool? ideaReviewReminder,
+    bool? askWhereOnShare,
   }) =>
       AppSettings(
+        rouletteCategories: rouletteCategories ?? this.rouletteCategories,
+        wishlistReviewDays: wishlistReviewDays ?? this.wishlistReviewDays,
+        ideaReviewDays: ideaReviewDays ?? this.ideaReviewDays,
+        ideaReviewReminder: ideaReviewReminder ?? this.ideaReviewReminder,
+        askWhereOnShare: askWhereOnShare ?? this.askWhereOnShare,
         themeMode: themeMode ?? this.themeMode,
         accent: accent ?? this.accent,
         languageCode: languageCode ?? this.languageCode,
@@ -134,6 +164,11 @@ class AppSettings {
           'lastAutoBackupAt': '${lastAutoBackupAt!.millisecondsSinceEpoch}',
         if (lastBackupAt != null)
           'lastBackupAt': '${lastBackupAt!.millisecondsSinceEpoch}',
+        'rouletteCategories': (rouletteCategories.toList()..sort()).join(','),
+        'wishlistReviewDays': '$wishlistReviewDays',
+        'ideaReviewDays': '$ideaReviewDays',
+        'ideaReviewReminder': '$ideaReviewReminder',
+        'askWhereOnShare': '$askWhereOnShare',
       };
 
   /// Lenient parser: unknown/invalid values fall back to defaults.
@@ -189,6 +224,15 @@ class AppSettings {
       iconVariant: enumOf(IconVariant.values, m['iconVariant'], d.iconVariant),
       lastAutoBackupAt: dateOf(m['lastAutoBackupAt']),
       lastBackupAt: dateOf(m['lastBackupAt']),
+      rouletteCategories: (m['rouletteCategories'] ?? '')
+          .split(',')
+          .where((e) => RegExp(r'^[A-Za-z0-9_\-]{1,64}$').hasMatch(e))
+          .take(200)
+          .toSet(),
+      wishlistReviewDays: intOf(m['wishlistReviewDays'], d.wishlistReviewDays, min: 3, max: 3650),
+      ideaReviewDays: intOf(m['ideaReviewDays'], d.ideaReviewDays, min: 3, max: 3650),
+      ideaReviewReminder: boolOf(m['ideaReviewReminder'], d.ideaReviewReminder),
+      askWhereOnShare: boolOf(m['askWhereOnShare'], d.askWhereOnShare),
     );
   }
 }

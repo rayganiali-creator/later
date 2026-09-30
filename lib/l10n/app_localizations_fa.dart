@@ -70,7 +70,7 @@ class AppL10nFa extends AppL10n {
   String get loading => 'در حال بارگذاری…';
 
   @override
-  String get errorGeneric => 'یه مشکلی پیش اومد. دوباره تلاش کن.';
+  String get errorGeneric => 'یه مشکلی پیش اومد. دوباره امتحان کن.';
 
   @override
   String get errorLoad => 'بارگذاری اطلاعات ناموفق بود.';
@@ -94,34 +94,35 @@ class AppL10nFa extends AppL10n {
   String get onb1Title => 'الان لازم نیست.';
 
   @override
-  String get onb1Body => 'ذهنت را از هزارتا کار نیمه‌کاره خالی کن.';
+  String get onb1Body =>
+      'لازم نیست همه‌چیز همین الان تموم بشه. چیزی که وقتش نیست رو بذار کنار.';
 
   @override
   String get onb2Title => 'هر چیزی را که نمی‌خواهی فراموش کنی، اینجا نگه دار.';
 
   @override
   String get onb2Body =>
-      'مقاله، فیلم، خرید، ایده، لینک، یه تماس… فقط بنویس یا از هر برنامه‌ای «اشتراک‌گذاری» کن.';
+      'مقاله، فیلم، خرید، ایده، یه تماس. بنویس، یا از هر برنامه‌ای «اشتراک‌گذاری» رو بزن.';
 
   @override
   String get onb3Title => 'بعداً خودش به تو یادآوری می‌کند.';
 
   @override
   String get onb3Body =>
-      'یه تاریخ و ساعت بده؛ یا نده و هر وقت وقت آزاد داشتی بگو «یه مورد بهم بده».';
+      'تاریخ و ساعت بده تا خودش یادآوری کنه. ندادی هم مهم نیست، وقتی وقت داشتی قرعه بزن.';
 
   @override
   String get onb4Title => 'بدون حساب کاربری، بدون سرور.';
 
   @override
   String get onb4Body =>
-      'اطلاعاتت فقط روی دستگاه خودت می‌ماند و حتی بدون اینترنت کار می‌کند.';
+      'اطلاعاتت فقط روی گوشی خودته و بدون اینترنت هم کار می‌کنه.';
 
   @override
   String get onb5Title => 'آماده‌ای؟';
 
   @override
-  String get onb5Body => 'هر چیزی که الان وقتش نیست را همین‌جا بگذار.';
+  String get onb5Body => 'هر چی الان وقتش نیست رو همین‌جا بذار.';
 
   @override
   String get onbStart => 'بزن بریم';
@@ -131,7 +132,7 @@ class AppL10nFa extends AppL10n {
 
   @override
   String get legalIntro =>
-      'لطفاً قوانین استفاده و سیاست حریم خصوصی را بخوان و تأیید کن.';
+      'قبل از شروع، قوانین استفاده و سیاست حریم خصوصی رو بخون و تأیید کن.';
 
   @override
   String get termsTitle => 'قوانین استفاده';
@@ -154,11 +155,11 @@ class AppL10nFa extends AppL10n {
 
   @override
   String homeWaiting(String count) {
-    return '$count مورد منتظر توست';
+    return '$count چیز منتظرته';
   }
 
   @override
-  String get homeWaitingOne => 'یک مورد منتظر توست';
+  String get homeWaitingOne => 'یه چیز منتظرته';
 
   @override
   String get homeEmptyTitle => 'هنوز چیزی برای بعداً نداری.';
@@ -185,10 +186,10 @@ class AppL10nFa extends AppL10n {
   String get statStale => 'مانده‌ها';
 
   @override
-  String get pickCardTitle => '🎯 یه مورد بهم بده';
+  String get pickCardTitle => 'قرعه بعداً';
 
   @override
-  String get pickCardSub => 'نمی‌دونی الان چی کار کنی؟ من انتخاب می‌کنم.';
+  String get pickCardSub => 'نمی‌دونی الان چی‌کار کنی؟ بذار قرعه تصمیم بگیره.';
 
   @override
   String get timeCardTitle => 'الان چقدر وقت داری؟';
@@ -225,7 +226,7 @@ class AppL10nFa extends AppL10n {
   String get decideIntro => 'نمی‌دونم الان چی کار کنم.';
 
   @override
-  String get decideLabel => '🎯 پیشنهاد بعدی تو:';
+  String get decideLabel => 'قرعه این شد';
 
   @override
   String decideAbout(String n) {
@@ -251,7 +252,7 @@ class AppL10nFa extends AppL10n {
   String get decideNoMore => 'مورد دیگری نمانده.';
 
   @override
-  String get decideDoneToast => 'آفرین! انجام شد ✓';
+  String get decideDoneToast => 'انجام شد ✓';
 
   @override
   String get smartPickTitle => 'پیشنهاد هوشمند';
@@ -271,7 +272,7 @@ class AppL10nFa extends AppL10n {
   String get smartPickEmpty => 'برای این مدت چیزی پیدا نکردم.';
 
   @override
-  String get smartPickProHint => 'پیشنهاد پیشرفته (اولویت و فیلتر دسته) با Pro';
+  String get smartPickProHint => 'فیلتر دسته و اولویت با Pro';
 
   @override
   String get smartPickCategory => 'فقط از دسته‌ی…';
@@ -617,7 +618,7 @@ class AppL10nFa extends AppL10n {
 
   @override
   String staleQuestion(String days) {
-    return 'این مورد $days روز است منتظر توست.\nهنوز می‌خواهی نگهش داری؟';
+    return 'این $days روزه منتظرته.\nهنوز می‌خوای نگهش داری؟';
   }
 
   @override
@@ -638,13 +639,13 @@ class AppL10nFa extends AppL10n {
   }
 
   @override
-  String get staleAllDone => 'همه‌چی مرتبه ✨';
+  String get staleAllDone => 'همه‌چی مرتبه';
 
   @override
   String get staleAllDoneBody => 'لیستت سبک‌تر شد.';
 
   @override
-  String get staleNoPressure => 'بدون عجله؛ هیچ تصمیمی اشتباه نیست.';
+  String get staleNoPressure => 'عجله‌ای نیست. هر تصمیمی بگیری درسته.';
 
   @override
   String get historyTitle => 'تاریخچه';
@@ -682,7 +683,7 @@ class AppL10nFa extends AppL10n {
   String get historyRestore => 'برگردان به لیست';
 
   @override
-  String get historyProNote => 'تاریخچه‌ی کامل (ماه و همه) با Pro';
+  String get historyProNote => 'تاریخچه‌ی کامل (ماه و همه‌ی زمان‌ها) با Pro';
 
   @override
   String get historyDisabled =>
@@ -860,7 +861,7 @@ class AppL10nFa extends AppL10n {
 
   @override
   String get keepHistorySub =>
-      'موردهای انجام‌شده و کنار گذاشته‌شده در آرشیو بمانند.';
+      'کارهای انجام‌شده و کنار گذاشته‌شده تو تاریخچه بمونن.';
 
   @override
   String get staleAfter => 'مرور مانده‌ها بعد از';
@@ -898,7 +899,7 @@ class AppL10nFa extends AppL10n {
 
   @override
   String get aboutBody =>
-      'بعداً یک برنامه‌ی کوچک و سریع برای نگه‌داشتن چیزهایی است که الان وقتشان نیست؛ بدون حساب کاربری و بدون سرور.';
+      'بعداً جای چیزهاییه که الان وقتشون نیست. بدون حساب کاربری، بدون سرور.';
 
   @override
   String get aboutOffline => 'همه‌ی اطلاعات فقط روی دستگاه تو ذخیره می‌شود.';
@@ -928,7 +929,7 @@ class AppL10nFa extends AppL10n {
 
   @override
   String get resetConfirmBody =>
-      'همه‌ی موردها، دسته‌ها، تاریخچه و تنظیمات این برنامه برای همیشه پاک می‌شود. این کار قابل بازگشت نیست.\n(اشتراک Pro از بین نمی‌رود.)\nپیشنهاد می‌کنیم اول پشتیبان بگیری.';
+      'همه‌ی موردها، دسته‌ها، تاریخچه و تنظیمات این برنامه برای همیشه پاک می‌شه و برنمی‌گرده. اشتراک Pro از بین نمی‌ره. بهتره اول یه پشتیبان بگیری.';
 
   @override
   String resetTypeHint(String word) {
@@ -973,7 +974,7 @@ class AppL10nFa extends AppL10n {
 
   @override
   String categoryLimit(String free, String pro) {
-    return 'در نسخه‌ی رایگان تا $free دسته‌ی سفارشی می‌توانی بسازی؛ Pro تا $pro دسته.';
+    return 'نسخه‌ی رایگان $free دسته‌ی سفارشی داره. با Pro تا $pro تا می‌شه.';
   }
 
   @override
@@ -990,7 +991,7 @@ class AppL10nFa extends AppL10n {
 
   @override
   String get backupIntro =>
-      'اطلاعات فقط روی همین دستگاه است. برای جابه‌جایی یا نصب مجدد، از آن‌ها فایل پشتیبان بگیر.';
+      'اطلاعاتت فقط روی همین گوشیه. قبل از عوض کردن گوشی یا نصب دوباره، یه فایل پشتیبان بگیر.';
 
   @override
   String get backupExport => 'خروجی گرفتن از اطلاعات';
@@ -1100,11 +1101,11 @@ class AppL10nFa extends AppL10n {
 
   @override
   String get proHeadline =>
-      'امکانات بیشتر برای کسانی که «بعداً» را زیاد استفاده می‌کنند.';
+      'اگه زیاد از «بعداً» استفاده می‌کنی، Pro کارت رو راحت‌تر می‌کنه.';
 
   @override
   String get proFreeNote =>
-      'نسخه‌ی رایگان همچنان کامل قابل استفاده است و هیچ اطلاعاتی محدود یا حذف نمی‌شود.';
+      'نسخه‌ی رایگان ناقص نیست. اگه Pro تموم بشه هم چیزی از اطلاعاتت پاک یا قفل نمی‌شه.';
 
   @override
   String proActiveUntil(String date) {
@@ -1118,7 +1119,7 @@ class AppL10nFa extends AppL10n {
 
   @override
   String get proExpiredNote =>
-      'اشتراک Pro تمام شده؛ اطلاعاتت سالم است و فقط امکانات Pro غیرفعال شده‌اند.';
+      'اشتراک Pro تموم شده. اطلاعاتت سر جاشه؛ فقط قابلیت‌های Pro خاموش شدن.';
 
   @override
   String get proPlan1 => '۱ ماهه';
@@ -1148,21 +1149,21 @@ class AppL10nFa extends AppL10n {
 
   @override
   String get proStackNote =>
-      'با خرید جدید، روزهای باقی‌مانده حفظ می‌شود و مدت تازه به آن اضافه می‌شود.';
+      'اگه وسط اشتراک دوباره بخری، روزهای مونده از بین نمی‌رن؛ مدت جدید بهشون اضافه می‌شه.';
 
   @override
   String get proRestore => 'بازیابی خریدها';
 
   @override
   String proRestored(String n) {
-    return '$n خرید بازیابی شد';
+    return '$n خرید برگشت';
   }
 
   @override
   String get proNothingToRestore => 'خرید بازیابی‌نشده‌ای پیدا نشد.';
 
   @override
-  String get proPurchaseSuccess => 'Pro فعال شد 🎉';
+  String get proPurchaseSuccess => 'Pro فعال شد';
 
   @override
   String get proPurchaseCancelled => 'خرید لغو شد.';
@@ -1176,38 +1177,38 @@ class AppL10nFa extends AppL10n {
 
   @override
   String get proTamper =>
-      'اطلاعات اشتراک معتبر نبود و بازنشانی شد. اگر خرید کرده‌ای، «بازیابی خریدها» را بزن.';
+      'اطلاعات اشتراک درست نبود و پاک شد. اگه خرید کرده بودی «بازیابی خریدها» رو بزن.';
 
   @override
-  String get proF1 => 'پیشنهاد هوشمند پیشرفته';
+  String get proF1 => 'قرعه‌ی هوشمند و صندوق ورودی هوشمند';
 
   @override
-  String get proF2 => 'فیلترها و جستجوی پیشرفته';
+  String get proF2 => 'جستجو و فیلتر پیشرفته';
 
   @override
   String get proF3 => 'آمار و تاریخچه‌ی کامل';
 
   @override
-  String get proF4 => 'دسته‌های سفارشی بیشتر';
+  String get proF4 => 'دسته‌ی سفارشی بیشتر';
 
   @override
-  String get proF5 => 'یادآوری تکرارشونده و پیشرفته';
+  String get proF5 => 'یادآوری تکرارشونده';
 
   @override
-  String get proF6 => 'ویجت‌های پیشرفته';
+  String get proF6 => 'ویجت لیستی';
 
   @override
-  String get proF7 => 'تم‌ها و آیکون‌های بیشتر';
+  String get proF7 => 'رنگ و آیکون بیشتر';
 
   @override
-  String get proF8 => 'پشتیبان خودکار و خروجی‌های بیشتر';
+  String get proF8 => 'پشتیبان خودکار و خروجی CSV';
 
   @override
   String get proLockedTitle => 'این امکان مخصوص Pro است';
 
   @override
   String get proLockedBody =>
-      'با Pro این و چند امکان دیگر باز می‌شود. نسخه‌ی رایگان همچنان کامل است.';
+      'این یکی مال Pro ـه. بقیه‌ی برنامه بدون Pro هم کامل کار می‌کنه.';
 
   @override
   String get proSeePlans => 'دیدن پلن‌ها';
@@ -1292,7 +1293,7 @@ class AppL10nFa extends AppL10n {
 
   @override
   String get reminderPermissionBanner =>
-      'اجازه‌ی اعلان داده نشده؛ یادآوری‌ها نمایش داده نمی‌شوند.';
+      'اجازه‌ی اعلان داده نشده، برای همین یادآوری‌ها نمایش داده نمی‌شن.';
 
   @override
   String get reminderSyncFailed => 'برخی یادآوری‌ها ثبت نشدند.';
@@ -1347,4 +1348,862 @@ class AppL10nFa extends AppL10n {
 
   @override
   String get licensesLegalese => 'ساخته‌شده با فلاتر. فونت وزیرمتن (مجوز OFL).';
+
+  @override
+  String get repeatYearly => 'هر سال';
+
+  @override
+  String get defaultCapsuleTitle => 'کپسول بی‌نام';
+
+  @override
+  String get defaultMessageTitle => 'پیام بی‌نام';
+
+  @override
+  String typeName(String id) {
+    String _temp0 = intl.Intl.selectLogic(id, {
+      'task': 'کار',
+      'read': 'مقاله',
+      'watch': 'ویدیو',
+      'wishlist': 'خرید',
+      'idea': 'ایده',
+      'person': 'آدم',
+      'capsule': 'کپسول',
+      'future': 'پیام',
+      'other': 'مورد',
+    });
+    return '$_temp0';
+  }
+
+  @override
+  String daysAgo(String n) {
+    return '$n روز پیش';
+  }
+
+  @override
+  String get dashRoulette => 'قرعه بعداً';
+
+  @override
+  String get dashInbox => 'صندوق ورودی';
+
+  @override
+  String dashInboxCount(String n) {
+    return '$n مورد منتظر مرتب شدنه';
+  }
+
+  @override
+  String get dashInboxEmpty => 'صندوقت خالیه';
+
+  @override
+  String get dashShelves => 'قفسه‌ها';
+
+  @override
+  String get shelfReadTitle => 'بعداً بخون';
+
+  @override
+  String get shelfWatchTitle => 'بعداً ببین';
+
+  @override
+  String get shelfWishTitle => 'بعداً بخر';
+
+  @override
+  String get shelfIdeaTitle => 'ایده‌ها';
+
+  @override
+  String get shelfPeopleTitle => 'آدم‌ها';
+
+  @override
+  String get shelfFutureTitle => 'آینده';
+
+  @override
+  String get returnedBanner => 'یه چیز از گذشته برگشته';
+
+  @override
+  String get returnedBannerBody => 'بازش کن ببین چی بوده.';
+
+  @override
+  String ideaReviewBanner(String n) {
+    return '$n ایده وقت مرور دارن';
+  }
+
+  @override
+  String get searchEverywhere => 'جستجو در همه‌چیز';
+
+  @override
+  String get searchEverywhereHint => 'کار، مقاله، ایده، آدم…';
+
+  @override
+  String get searchNothing => 'چیزی پیدا نشد';
+
+  @override
+  String get searchStartTyping => 'یه کلمه بنویس.';
+
+  @override
+  String get searchDone => 'انجام‌شده';
+
+  @override
+  String get addTypeLabel => 'این چیه؟';
+
+  @override
+  String get addTypeAuto => 'بعداً مرتبش می‌کنم';
+
+  @override
+  String get fieldPrice => 'قیمت';
+
+  @override
+  String get fieldCurrency => 'واحد پول';
+
+  @override
+  String get currencyDefault => 'تومان';
+
+  @override
+  String get fieldWatchKind => 'نوع';
+
+  @override
+  String get kindVideo => 'ویدیو';
+
+  @override
+  String get kindMovie => 'فیلم';
+
+  @override
+  String get kindSeries => 'سریال';
+
+  @override
+  String get kindOther => 'دیگر';
+
+  @override
+  String get stageUnread => 'نخونده';
+
+  @override
+  String get stageReading => 'دارم می‌خونم';
+
+  @override
+  String get stageRead => 'خونده';
+
+  @override
+  String get stageArchived => 'بایگانی';
+
+  @override
+  String get stageUnwatched => 'ندیده';
+
+  @override
+  String get stageWatching => 'دارم می‌بینم';
+
+  @override
+  String get stageWatched => 'دیده';
+
+  @override
+  String get stageInterested => 'می‌خوامش';
+
+  @override
+  String get stageMaybe => 'شاید';
+
+  @override
+  String get stageBought => 'خریدم';
+
+  @override
+  String get stageNotInterested => 'دیگه نمی‌خوامش';
+
+  @override
+  String get stageIdeaNew => 'تازه';
+
+  @override
+  String get stageThinking => 'دارم فکر می‌کنم';
+
+  @override
+  String get stageDeveloping => 'دارم پرورشش می‌دم';
+
+  @override
+  String get stageIdeaArchived => 'بایگانی';
+
+  @override
+  String get stageIdeaDropped => 'ولش کردم';
+
+  @override
+  String get stageSealed => 'قفل';
+
+  @override
+  String get stageOpened => 'باز شده';
+
+  @override
+  String get markAsRead => 'خوندم';
+
+  @override
+  String get markAsWatched => 'دیدم';
+
+  @override
+  String get markAsBought => 'خریدم';
+
+  @override
+  String get itemStage => 'وضعیت';
+
+  @override
+  String get moveToShelf => 'منتقل کن به…';
+
+  @override
+  String movedTo(String shelf) {
+    return 'رفت به «$shelf»';
+  }
+
+  @override
+  String get shelfEmptyReadTitle => 'هنوز چیزی برای خوندن نذاشتی';
+
+  @override
+  String get shelfEmptyReadBody =>
+      'لینک مقاله رو با «اشتراک‌گذاری» بفرست به بعداً.';
+
+  @override
+  String get shelfEmptyWatchTitle => 'هنوز ویدیویی نذاشتی';
+
+  @override
+  String get shelfEmptyWatchBody =>
+      'لینک یوتیوب یا اسم یه فیلم رو اینجا نگه دار.';
+
+  @override
+  String get shelfEmptyWishTitle => 'فهرست خریدت خالیه';
+
+  @override
+  String get shelfEmptyWishBody =>
+      'چیزی که شاید بخوای بخری رو اینجا بذار. بعد از یه مدت می‌پرسم هنوز می‌خوایش یا نه.';
+
+  @override
+  String get shelfEmptyIdeaTitle => 'هنوز ایده‌ای نذاشتی';
+
+  @override
+  String get shelfEmptyIdeaBody => 'ایده‌ها اینجا می‌مونن تا وقتش برسه.';
+
+  @override
+  String get shelfWaiting => 'در انتظار';
+
+  @override
+  String get shelfHistory => 'تاریخچه';
+
+  @override
+  String get shelfAllStages => 'همه';
+
+  @override
+  String get shelfStatsTitle => 'آمار';
+
+  @override
+  String get shelfAdvancedFilters => 'فیلتر پیشرفته';
+
+  @override
+  String get shelfHistoryPro => 'تاریخچه‌ی این قفسه با Pro';
+
+  @override
+  String get shelfCollections => 'فهرست‌ها';
+
+  @override
+  String get shelfCollectionMain => 'اصلی';
+
+  @override
+  String get collectionNew => 'فهرست جدید';
+
+  @override
+  String get collectionName => 'اسم فهرست';
+
+  @override
+  String get collectionProHint => 'چند فهرست جدا با Pro';
+
+  @override
+  String get sortByPrice => 'قیمت';
+
+  @override
+  String get sortByScore => 'امتیاز';
+
+  @override
+  String get sortByTime => 'زمان تخمینی';
+
+  @override
+  String get statsWaiting => 'در انتظار';
+
+  @override
+  String get statsFinished => 'تموم‌شده';
+
+  @override
+  String get statsThisMonth => 'این ماه';
+
+  @override
+  String get statsMinutesWaiting => 'زمان کل منتظر';
+
+  @override
+  String get statsAvgFinish => 'میانگین تا تموم شدن';
+
+  @override
+  String get statsTotalPrice => 'جمع قیمت‌ها';
+
+  @override
+  String readTimeEstimate(String n) {
+    return 'حدود $n دقیقه';
+  }
+
+  @override
+  String linkHost(String host) {
+    return 'از $host';
+  }
+
+  @override
+  String get priceNow => 'قیمت';
+
+  @override
+  String get priceSetNew => 'ثبت قیمت تازه';
+
+  @override
+  String get priceTarget => 'قیمت هدف';
+
+  @override
+  String get priceTargetReached => 'به قیمت هدفت رسیده';
+
+  @override
+  String get priceHistoryTitle => 'تاریخچه‌ی قیمت';
+
+  @override
+  String get priceHistoryEmpty => 'هنوز قیمتی ثبت نشده.';
+
+  @override
+  String get priceHint => 'مثلاً ۱۲۰۰۰۰۰';
+
+  @override
+  String get wishProHint => 'قیمت هدف و تاریخچه‌ی قیمت با Pro';
+
+  @override
+  String get wishReviewTitle => 'واقعاً هنوز می‌خوایش؟';
+
+  @override
+  String wishReviewQuestion(String days) {
+    return 'این $days روزه تو فهرستته.\nهنوز می‌خوای بخریش؟';
+  }
+
+  @override
+  String get wishStill => 'هنوز می‌خوام';
+
+  @override
+  String get wishUnsure => 'مطمئن نیستم';
+
+  @override
+  String get wishNo => 'دیگه نمی‌خوام';
+
+  @override
+  String get ideaReviewTitle => 'مرور ایده‌ها';
+
+  @override
+  String get ideaReviewNone => 'چیزی برای مرور نیست.';
+
+  @override
+  String get ideaReviewIntro => 'هر ایده رو یه نگاه بنداز و بگو چیکارش کنیم.';
+
+  @override
+  String get ideaScore => 'امتیاز';
+
+  @override
+  String get ideaLinks => 'ایده‌های مرتبط';
+
+  @override
+  String get ideaAddLink => 'وصل کن به یه ایده‌ی دیگه';
+
+  @override
+  String get ideaToTask => 'تبدیل به کار';
+
+  @override
+  String get ideaConverted => 'حالا یه کاره';
+
+  @override
+  String get ideaKeepThinking => 'هنوز فکر می‌کنم';
+
+  @override
+  String get ideaDevelop => 'می‌خوام پرورشش بدم';
+
+  @override
+  String get ideaArchiveIt => 'بایگانی';
+
+  @override
+  String get ideaDropIt => 'ولش کن';
+
+  @override
+  String ideaLastReviewed(String when) {
+    return 'آخرین مرور: $when';
+  }
+
+  @override
+  String get ideaNeverReviewed => 'هنوز مرور نشده';
+
+  @override
+  String get ideaProHint => 'امتیاز، اتصال ایده‌ها و مرور با Pro';
+
+  @override
+  String get peopleTitle => 'آدم‌ها';
+
+  @override
+  String get peopleEmptyTitle => 'هنوز کسی رو اضافه نکردی';
+
+  @override
+  String get peopleEmptyBody =>
+      'مثلاً «بعداً به علی زنگ بزن». آدم رو از مخاطب‌ها انتخاب کن یا اسمش رو بنویس.';
+
+  @override
+  String get personAdd => 'آدم جدید';
+
+  @override
+  String get personFromContacts => 'انتخاب از مخاطب‌ها';
+
+  @override
+  String get personTypeName => 'فقط اسم بنویسم';
+
+  @override
+  String get personName => 'اسم';
+
+  @override
+  String get personNote => 'یادداشت';
+
+  @override
+  String personLast(String when) {
+    return 'آخرین ارتباط: $when';
+  }
+
+  @override
+  String get personNever => 'هنوز ارتباطی ثبت نشده';
+
+  @override
+  String personNext(String when) {
+    return 'بعدی: $when';
+  }
+
+  @override
+  String get personNoNext => 'یادآوری‌ای نداره';
+
+  @override
+  String get personTalked => 'همین الان صحبت کردیم';
+
+  @override
+  String get personAddReminder => 'یادآوری تازه';
+
+  @override
+  String get personReminderHint => 'مثلاً: پیام بده';
+
+  @override
+  String get personOpenContact => 'باز کردن مخاطب';
+
+  @override
+  String get personDeleteTitle => 'این آدم حذف بشه؟';
+
+  @override
+  String get personDeleteBody =>
+      'یادآوری‌هاش می‌مونن ولی دیگه به این آدم وصل نیستن.';
+
+  @override
+  String get personHistory => 'تاریخچه‌ی ارتباط';
+
+  @override
+  String get personFollowUp => 'پیگیری';
+
+  @override
+  String personFollowUpDays(String n) {
+    return 'بعد از $n روز یادم بنداز';
+  }
+
+  @override
+  String get personGroup => 'گروه';
+
+  @override
+  String get personDueTitle => 'باید سر بزنی';
+
+  @override
+  String get personLinked => 'یادآوری‌ها';
+
+  @override
+  String get personPickerFailed => 'انتخاب مخاطب انجام نشد. اسم رو دستی بنویس.';
+
+  @override
+  String get interactionNoteHint => 'چی گفتید؟ (اختیاری)';
+
+  @override
+  String get peopleProHint => 'تاریخچه، پیگیری و «باید سر بزنی» با Pro';
+
+  @override
+  String get personContactRef => 'از مخاطب‌های گوشی';
+
+  @override
+  String get futureTitle => 'آینده';
+
+  @override
+  String get futureTabCapsules => 'کپسول زمانی';
+
+  @override
+  String get futureTabMessages => 'پیام به خودم';
+
+  @override
+  String get capsuleEmptyTitle => 'کپسولی نداری';
+
+  @override
+  String get capsuleEmptyBody =>
+      'چیزی رو تا یه تاریخ از جلوی چشمت بردار. همون روز برمی‌گرده.';
+
+  @override
+  String get messageEmptyTitle => 'پیامی ننوشتی';
+
+  @override
+  String get messageEmptyBody => 'برای خودِ آینده‌ات بنویس.';
+
+  @override
+  String get capsuleNew => 'کپسول جدید';
+
+  @override
+  String get messageNew => 'پیام جدید';
+
+  @override
+  String get sealTitleHint => 'عنوان';
+
+  @override
+  String get capsuleBodyHint => 'چی رو می‌خوای بعداً ببینی؟';
+
+  @override
+  String get messageBodyHint => 'به خودِ آینده‌ات چی می‌گی؟';
+
+  @override
+  String sealOpenOn(String date) {
+    return 'باز می‌شه: $date';
+  }
+
+  @override
+  String get sealPickDate => 'تاریخ باز شدن';
+
+  @override
+  String get sealQuick1m => '۱ ماه دیگه';
+
+  @override
+  String get sealQuick3m => '۳ ماه دیگه';
+
+  @override
+  String get sealQuick6m => '۶ ماه دیگه';
+
+  @override
+  String get sealQuick1y => '۱ سال دیگه';
+
+  @override
+  String sealSaved(String date) {
+    return 'قفل شد. تا $date دیده نمی‌شه.';
+  }
+
+  @override
+  String sealLimitFree(String n) {
+    return 'نسخه‌ی رایگان همزمان تا $n مورد قفل‌شده داره. با Pro نامحدوده.';
+  }
+
+  @override
+  String get sealNeedsFuture => 'تاریخ باید توی آینده باشه.';
+
+  @override
+  String lockedUntil(String date) {
+    return 'تا $date قفله';
+  }
+
+  @override
+  String get openIt => 'بازش کن';
+
+  @override
+  String get returnedTitle => 'یه چیز از گذشته برای تو برگشته';
+
+  @override
+  String get messageReturnedTitle => 'پیامی از خودِ گذشته‌ات داری';
+
+  @override
+  String writtenOn(String date) {
+    return 'نوشته‌شده در $date';
+  }
+
+  @override
+  String get sealRepeat => 'تکرار';
+
+  @override
+  String get sealAttach => 'پیوست';
+
+  @override
+  String get sealAttachAdd => 'افزودن عکس یا فایل';
+
+  @override
+  String sealAttachLimit(String mb, String n) {
+    return 'تا $n فایل، هر کدوم حداکثر $mb مگابایت. فقط روی همین گوشی می‌مونه.';
+  }
+
+  @override
+  String get sealAttachTooBig => 'این فایل از حد مجاز بزرگ‌تره.';
+
+  @override
+  String get sealAttachFailed => 'فایل اضافه نشد.';
+
+  @override
+  String get sealProHint => 'کپسول و پیام نامحدود، پیوست، برچسب و تکرار با Pro';
+
+  @override
+  String get sealThisItem => 'برای آینده نگه دار';
+
+  @override
+  String get sealItemQuestion => 'تا کِی نبینمش؟';
+
+  @override
+  String timelineOpened(String date) {
+    return 'باز شده در $date';
+  }
+
+  @override
+  String get notifCapsuleTitle => 'یه چیز از گذشته برای تو برگشته';
+
+  @override
+  String get notifCapsuleBody => 'بازش کن ببین چی بوده.';
+
+  @override
+  String get notifFutureTitle => 'پیامی از خودِ گذشته‌ات داری';
+
+  @override
+  String get notifFutureBody => 'بازش کن و بخونش.';
+
+  @override
+  String get notifIdeaReviewTitle => 'وقت مرور ایده‌هاست';
+
+  @override
+  String get notifIdeaReviewBody => 'چند تا ایده منتظر یه نگاه دوباره‌ان.';
+
+  @override
+  String get inboxTitle => 'صندوق ورودی';
+
+  @override
+  String get inboxIntro =>
+      'هر چی سریع ذخیره کردی اینجا می‌مونه تا تکلیفش رو روشن کنی.';
+
+  @override
+  String get inboxEmptyTitle => 'صندوق خالیه';
+
+  @override
+  String get inboxEmptyBody => 'همه‌چیز جای خودشه.';
+
+  @override
+  String get triageToday => 'امروز';
+
+  @override
+  String get triageWeek => 'این هفته';
+
+  @override
+  String get triageNoDate => 'بدون تاریخ';
+
+  @override
+  String get triageRead => 'بعداً بخون';
+
+  @override
+  String get triageWatch => 'بعداً ببین';
+
+  @override
+  String get triageWish => 'بعداً بخر';
+
+  @override
+  String get triageIdea => 'ایده';
+
+  @override
+  String get triageDone => 'انجام شد';
+
+  @override
+  String get triageDelete => 'حذف';
+
+  @override
+  String inboxSuggest(String what) {
+    return 'شبیه $what به نظر می‌رسه. منتقل بشه؟';
+  }
+
+  @override
+  String get inboxSuggestYes => 'آره، منتقل کن';
+
+  @override
+  String get suggestWhatRead => 'یه مقاله';
+
+  @override
+  String get suggestWhatWatch => 'یه ویدیو';
+
+  @override
+  String get suggestWhatWish => 'یه چیز برای خرید';
+
+  @override
+  String get suggestWhatIdea => 'یه ایده';
+
+  @override
+  String get suggestWhatPerson => 'یه یادآوری برای یه آدم';
+
+  @override
+  String get inboxProHint => 'پیشنهاد خودکار مقصد با Pro';
+
+  @override
+  String get rouletteTitle => 'قرعه بعداً';
+
+  @override
+  String get roulettePick => 'انتخاب کن';
+
+  @override
+  String get rouletteSpinning => 'دارم انتخاب می‌کنم…';
+
+  @override
+  String get rouletteStart => 'شروع';
+
+  @override
+  String get rouletteLater => 'بعداً';
+
+  @override
+  String get rouletteAgain => 'یکی دیگه';
+
+  @override
+  String get rouletteEmptyTitle => 'چیزی برای قرعه نیست';
+
+  @override
+  String get rouletteEmptyBody =>
+      'لیستت خالیه یا چیزی با این فیلترها نمی‌خونه.';
+
+  @override
+  String get rouletteFilters => 'فیلترها';
+
+  @override
+  String get rouletteTime => 'وقت';
+
+  @override
+  String get rouletteEnergy => 'حال و انرژی';
+
+  @override
+  String get energyLow => 'کم‌حالم';
+
+  @override
+  String get energyHigh => 'سرحالم';
+
+  @override
+  String get rouletteCats => 'دسته‌های قرعه';
+
+  @override
+  String get rouletteHistoryTitle => 'تاریخچه‌ی قرعه';
+
+  @override
+  String get rouletteHistoryEmpty => 'هنوز قرعه‌ای نزدی.';
+
+  @override
+  String get rouletteProHint =>
+      'فیلتر وقت، دسته، اولویت و انرژی و تاریخچه‌ی قرعه با Pro';
+
+  @override
+  String get rouletteOpenLink => 'باز کردن لینک';
+
+  @override
+  String get shareWhere => 'کجا نگهش دارم؟';
+
+  @override
+  String get shareInbox => 'صندوق ورودی';
+
+  @override
+  String get shareSavedInbox => 'تو صندوق ورودی ذخیره شد.';
+
+  @override
+  String get shareSuggested => 'پیشنهاد';
+
+  @override
+  String get proWhatYouGet => 'با Pro چی می‌گیری';
+
+  @override
+  String get proFreeHeader => 'تو نسخه‌ی رایگان هم داری';
+
+  @override
+  String get proFreeList =>
+      'ذخیره‌ی نامحدود، صندوق ورودی، قرعه‌ی پایه، بعداً بخون / ببین / بخر، ایده‌ها، آدم‌ها، کپسول و پیام (تا ۲ تا)، جستجو، یادآوری، اشتراک‌گذاری، تم روشن و تیره، پشتیبان‌گیری.';
+
+  @override
+  String get proFT1 => 'قرعه‌ی هوشمند';
+
+  @override
+  String get proFD1 =>
+      'فقط از دسته‌های دلخواه، بر اساس وقت، اولویت و حال و انرژی‌ات انتخاب می‌کنه و تاریخچه‌ی قرعه‌ها رو نگه می‌داره.';
+
+  @override
+  String get proFT2 => 'صندوق ورودی هوشمند';
+
+  @override
+  String get proFD2 =>
+      'برای هر مورد مقصد پیشنهاد می‌ده (مقاله، ویدیو، خرید، ایده). همیشه تأیید آخر با خودته.';
+
+  @override
+  String get proFT3 => 'قفسه‌های کامل‌تر';
+
+  @override
+  String get proFD3 =>
+      'تاریخچه و آمار خوندن و دیدن، فیلتر و مرتب‌سازی پیشرفته، چند فهرست جدا.';
+
+  @override
+  String get proFT4 => 'خرید حساب‌شده';
+
+  @override
+  String get proFD4 =>
+      'قیمت هدف، تاریخچه‌ی قیمتی که خودت ثبت کردی، آمار و یادآوری بررسی دوباره.';
+
+  @override
+  String get proFT5 => 'ایده‌ها با مرور';
+
+  @override
+  String get proFD5 =>
+      'امتیاز، وصل کردن ایده‌ها به هم، مرور دوره‌ای، یادآوری ماهانه و تبدیل ایده به کار.';
+
+  @override
+  String get proFT6 => 'آدم‌های مهم';
+
+  @override
+  String get proFD6 =>
+      'تاریخچه‌ی ارتباط، پیگیری خودکار، گروه‌های دلخواه و لیست «باید سر بزنی».';
+
+  @override
+  String get proFT7 => 'آینده‌ی بیشتر';
+
+  @override
+  String get proFD7 =>
+      'کپسول و پیام بی‌شمار، پیوست عکس و فایل کوچک، برچسب و تکرار (مثلاً هر سال).';
+
+  @override
+  String get proFT8 => 'جستجو و فیلتر';
+
+  @override
+  String get proFD8 => 'جستجو تو برچسب، لینک و یادداشت و فیلتر «مانده‌ها».';
+
+  @override
+  String get proFT9 => 'آمار و تاریخچه‌ی کامل';
+
+  @override
+  String get proFD9 => 'همه‌ی ماه‌ها و آمار کامل، به‌جای فقط ۷ روز اخیر.';
+
+  @override
+  String get proFT10 => 'یادآوری تکرارشونده';
+
+  @override
+  String get proFD10 => 'روزانه، هفتگی، ماهانه یا سالانه، تا وقتی انجامش بدی.';
+
+  @override
+  String get proFT11 => 'ظاهر و ویجت';
+
+  @override
+  String get proFD11 =>
+      'چند رنگ و آیکون دیگه و ویجت لیستی برای صفحه‌ی اصلی گوشی.';
+
+  @override
+  String get proFT12 => 'پشتیبان‌گیری بیشتر';
+
+  @override
+  String get proFD12 => 'پشتیبان خودکار هفتگی و خروجی CSV و متن.';
+
+  @override
+  String get settingsRouletteCats => 'دسته‌های قرعه';
+
+  @override
+  String get settingsRouletteCatsAll => 'همه‌ی دسته‌ها';
+
+  @override
+  String get wishlistReviewAfter => 'پرسیدن «هنوز می‌خوایش؟» بعد از';
+
+  @override
+  String get askWhereOnShare => 'بعد از اشتراک‌گذاری بپرس کجا بره';
+
+  @override
+  String get askWhereOnShareSub => 'اگه خاموشه، همه‌چیز می‌ره تو صندوق ورودی.';
+
+  @override
+  String get ideaReviewEvery => 'مرور ایده‌ها هر';
+
+  @override
+  String get ideaReviewMonthly => 'یادآوری مرور ماهانه';
 }
