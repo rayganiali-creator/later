@@ -79,8 +79,16 @@ class EmptyState extends StatelessWidget {
   final Widget? action;
 
   @override
-  Widget build(BuildContext context) => Center(
-        child: Padding(
+  Widget build(BuildContext context) => LayoutBuilder(
+        builder: (context, box) => SingleChildScrollView(
+          child: ConstrainedBox(
+            constraints: BoxConstraints(minHeight: box.hasBoundedHeight ? box.maxHeight : 0),
+            child: Center(child: _content(context)),
+          ),
+        ),
+      );
+
+  Widget _content(BuildContext context) => Padding(
           padding: const EdgeInsets.all(32),
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -106,8 +114,7 @@ class EmptyState extends StatelessWidget {
               if (action != null) ...[const SizedBox(height: 24), action!],
             ],
           ),
-        ),
-      );
+        );
 }
 
 /// Small rounded label.

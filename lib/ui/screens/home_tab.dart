@@ -40,7 +40,7 @@ class HomeTab extends StatelessWidget {
               title: l.homeEmptyTitle,
               body: l.homeEmptyBody,
               action: FilledButton.icon(
-                onPressed: () => showAddEditSheet(context),
+                onPressed: () => addFlow(context),
                 icon: const Icon(Icons.add_rounded),
                 label: Text(l.homeEmptyCta),
               ),

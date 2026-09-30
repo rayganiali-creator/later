@@ -24,72 +24,103 @@ Future<ItemCategory?> showCategoryDialog(BuildContext context, {ItemCategory? ex
     }
     return null;
   }
-  final name = TextEditingController(text: existing?.name ?? '');
-  var emoji = existing?.emoji ?? _emojiChoices.first;
-  final result = await showDialog<ItemCategory?>(
+  return showDialog<ItemCategory?>(
     context: context,
-    builder: (ctx) => StatefulBuilder(builder: (ctx, setState) {
-      return AlertDialog(
-        title: Text(existing == null ? l.categoryNew : l.categoryEdit),
-        content: SingleChildScrollView(
-          child: Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.start, children: [
-            TextField(
-              controller: name,
-              autofocus: true,
-              maxLength: 30,
-              decoration: InputDecoration(hintText: l.categoryNameHint, counterText: ''),
-            ),
-            const SizedBox(height: 12),
-            Text(l.categoryEmojiHint, style: ctx.text.labelLarge),
-            const SizedBox(height: 8),
-            Wrap(spacing: 6, runSpacing: 6, children: [
-              for (final e in _emojiChoices)
-                Semantics(
-                  button: true,
-                  selected: e == emoji,
-                  label: e,
-                  child: InkWell(
-                    borderRadius: BorderRadius.circular(12),
-                    onTap: () => setState(() => emoji = e),
-                    child: Container(
-                      width: 46,
-                      height: 46,
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        color: e == emoji ? ctx.scheme.primaryContainer : ctx.scheme.surfaceContainer,
-                        borderRadius: BorderRadius.circular(12),
-                        border: e == emoji ? Border.all(color: ctx.scheme.primary, width: 1.5) : null,
-                      ),
-                      child: Text(e, style: const TextStyle(fontSize: 22)),
+    builder: (_) => _CategoryDialog(existing: existing),
+  );
+}
+
+class _CategoryDialog extends StatefulWidget {
+  const _CategoryDialog({this.existing});
+  final ItemCategory? existing;
+
+  @override
+  State<_CategoryDialog> createState() => _CategoryDialogState();
+}
+
+class _CategoryDialogState extends State<_CategoryDialog> {
+  late final TextEditingController _name = TextEditingController(text: widget.existing?.name ?? '');
+  late String _emoji = widget.existing?.emoji ?? _emojiChoices.first;
+  bool _saving = false;
+
+  @override
+  void dispose() {
+    _name.dispose();
+    super.dispose();
+  }
+
+  Future<void> _save() async {
+    final text = _name.text.trim();
+    if (text.isEmpty || _saving) return;
+    setState(() => _saving = true);
+    final app = context.appRead;
+    final nav = Navigator.of(context);
+    try {
+      ItemCategory? c;
+      final ex = widget.existing;
+      if (ex == null) {
+        c = await app.addCategory(text, _emoji);
+      } else {
+        await app.updateCategory(ex, name: text, emoji: _emoji);
+        c = app.categoryById(ex.id);
+      }
+      nav.pop(c);
+    } catch (_) {
+      if (mounted) {
+        setState(() => _saving = false);
+        showAppSnack(context, context.l10n.errorGeneric);
+      }
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final l = context.l10n;
+    return AlertDialog(
+      title: Text(widget.existing == null ? l.categoryNew : l.categoryEdit),
+      content: SingleChildScrollView(
+        child: Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.start, children: [
+          TextField(
+            controller: _name,
+            autofocus: true,
+            maxLength: 30,
+            decoration: InputDecoration(hintText: l.categoryNameHint, counterText: ''),
+            onSubmitted: (_) => _save(),
+          ),
+          const SizedBox(height: 12),
+          Text(l.categoryEmojiHint, style: context.text.labelLarge),
+          const SizedBox(height: 8),
+          Wrap(spacing: 6, runSpacing: 6, children: [
+            for (final e in _emojiChoices)
+              Semantics(
+                button: true,
+                selected: e == _emoji,
+                label: e,
+                child: InkWell(
+                  borderRadius: BorderRadius.circular(12),
+                  onTap: () => setState(() => _emoji = e),
+                  child: Container(
+                    width: 46,
+                    height: 46,
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      color: e == _emoji ? context.scheme.primaryContainer : context.scheme.surfaceContainer,
+                      borderRadius: BorderRadius.circular(12),
+                      border: e == _emoji ? Border.all(color: context.scheme.primary, width: 1.5) : null,
                     ),
+                    child: Text(e, style: const TextStyle(fontSize: 22)),
                   ),
                 ),
-            ]),
+              ),
           ]),
-        ),
-        actions: [
-          TextButton(onPressed: () => Navigator.pop(ctx), child: Text(l.cancel)),
-          TextButton(
-            onPressed: () async {
-              final text = name.text.trim();
-              if (text.isEmpty) return;
-              ItemCategory? c;
-              if (existing == null) {
-                c = await app.addCategory(text, emoji);
-              } else {
-                await app.updateCategory(existing, name: text, emoji: emoji);
-                c = app.categoryById(existing.id);
-              }
-              if (ctx.mounted) Navigator.pop(ctx, c);
-            },
-            child: Text(l.save),
-          ),
-        ],
-      );
-    }),
-  );
-  name.dispose();
-  return result;
+        ]),
+      ),
+      actions: [
+        TextButton(onPressed: () => Navigator.pop(context), child: Text(l.cancel)),
+        TextButton(onPressed: _saving ? null : _save, child: Text(l.save)),
+      ],
+    );
+  }
 }
 
 class CategoriesScreen extends StatelessWidget {

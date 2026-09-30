@@ -27,6 +27,13 @@ Future<LaterItem?> showAddEditSheet(
   );
 }
 
+/// Opens the add sheet and confirms with a toast.
+Future<void> addFlow(BuildContext context, {String? presetTitle}) async {
+  final l = context.l10n;
+  final saved = await showAddEditSheet(context, presetTitle: presetTitle);
+  if (saved != null && context.mounted) showAppSnack(context, l.toastAdded);
+}
+
 enum _ReminderChoice { off, atTime, before10, before60, beforeDay }
 
 class AddEditSheet extends StatefulWidget {
@@ -564,29 +571,10 @@ class _AddEditSheetState extends State<AddEditSheet> {
   }
 
   Future<void> _customDuration() async {
-    final l = context.l10n;
-    final ctrl = TextEditingController(text: _minutes?.toString() ?? '');
     final v = await showDialog<int>(
       context: context,
-      builder: (ctx) => AlertDialog(
-        title: Text(l.duration),
-        content: TextField(
-          controller: ctrl,
-          autofocus: true,
-          keyboardType: TextInputType.number,
-          inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[0-9۰-۹٠-٩]'))],
-          decoration: InputDecoration(hintText: l.durationCustomHint),
-        ),
-        actions: [
-          TextButton(onPressed: () => Navigator.pop(ctx), child: Text(l.cancel)),
-          TextButton(
-            onPressed: () => Navigator.pop(ctx, int.tryParse(toEnDigits(ctrl.text))),
-            child: Text(l.ok),
-          ),
-        ],
-      ),
+      builder: (_) => _DurationDialog(initial: _minutes),
     );
-    ctrl.dispose();
     if (v != null && v > 0 && mounted) {
       setState(() {
         _dirty = true;
@@ -599,4 +587,44 @@ class _AddEditSheetState extends State<AddEditSheet> {
         padding: const EdgeInsets.only(bottom: 8),
         child: Text(t, style: context.text.labelLarge?.copyWith(color: context.scheme.onSurfaceVariant)),
       );
+}
+
+class _DurationDialog extends StatefulWidget {
+  const _DurationDialog({this.initial});
+  final int? initial;
+
+  @override
+  State<_DurationDialog> createState() => _DurationDialogState();
+}
+
+class _DurationDialogState extends State<_DurationDialog> {
+  late final TextEditingController _ctrl = TextEditingController(text: widget.initial?.toString() ?? '');
+
+  @override
+  void dispose() {
+    _ctrl.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final l = context.l10n;
+    return AlertDialog(
+      title: Text(l.duration),
+      content: TextField(
+        controller: _ctrl,
+        autofocus: true,
+        keyboardType: TextInputType.number,
+        inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[0-9۰-۹٠-٩]'))],
+        decoration: InputDecoration(hintText: l.durationCustomHint),
+      ),
+      actions: [
+        TextButton(onPressed: () => Navigator.pop(context), child: Text(l.cancel)),
+        TextButton(
+          onPressed: () => Navigator.pop(context, int.tryParse(toEnDigits(_ctrl.text))),
+          child: Text(l.ok),
+        ),
+      ],
+    );
+  }
 }

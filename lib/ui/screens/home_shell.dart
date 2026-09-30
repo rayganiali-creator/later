@@ -7,7 +7,6 @@ import '../app_scope.dart';
 import '../nav_bus.dart';
 import '../sheets/add_edit_sheet.dart';
 import '../sheets/item_detail_sheet.dart';
-import '../widgets/common.dart';
 import 'decide_screen.dart';
 import 'history_tab.dart';
 import 'home_tab.dart';
@@ -91,13 +90,6 @@ class _HomeShellState extends State<HomeShell> {
       ),
     );
   }
-}
-
-/// Opens the add sheet and confirms with a toast.
-Future<void> addFlow(BuildContext context, {String? presetTitle}) async {
-  final l = context.l10n;
-  final saved = await showAddEditSheet(context, presetTitle: presetTitle);
-  if (saved != null && context.mounted) showAppSnack(context, l.toastAdded);
 }
 
 /// Handles quick actions (launcher shortcuts, widget buttons).

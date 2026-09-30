@@ -145,7 +145,7 @@ class _ListTabState extends State<ListTab> {
                       title: l.homeEmptyTitle,
                       body: l.homeEmptyBody,
                       action: FilledButton.icon(
-                        onPressed: () => showAddEditSheet(context),
+                        onPressed: () => addFlow(context),
                         icon: const Icon(Icons.add_rounded),
                         label: Text(l.homeEmptyCta),
                       ),

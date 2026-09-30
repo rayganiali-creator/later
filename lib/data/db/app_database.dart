@@ -24,6 +24,7 @@ class AppDatabase {
     String? path,
     DatabaseFactory? factory,
     DateTime Function()? now,
+    bool singleInstance = true,
   }) async {
     final f = factory ?? databaseFactory;
     final dbPath = path ?? p.join(await f.getDatabasesPath(), fileName);
@@ -31,6 +32,7 @@ class AppDatabase {
     final db = await f.openDatabase(
       dbPath,
       options: OpenDatabaseOptions(
+        singleInstance: singleInstance,
         version: AppConfig.dbSchemaVersion,
         onConfigure: (db) async {
           await db.execute('PRAGMA foreign_keys = ON');

@@ -246,7 +246,7 @@ void main() {
     late LaterRepository repo;
 
     setUp(() async {
-      adb = await AppDatabase.open(path: inMemoryDatabasePath, factory: databaseFactoryFfi, now: () => t0);
+      adb = await AppDatabase.open(path: inMemoryDatabasePath, factory: databaseFactoryFfi, now: () => t0, singleInstance: false);
       repo = LaterRepository(adb);
     });
     tearDown(() => adb.close());
@@ -317,7 +317,7 @@ void main() {
 
   group('Database schema', () {
     test('creates schema v1 with built-in categories', () async {
-      final adb = await AppDatabase.open(path: inMemoryDatabasePath, factory: databaseFactoryFfi, now: () => t0);
+      final adb = await AppDatabase.open(path: inMemoryDatabasePath, factory: databaseFactoryFfi, now: () => t0, singleInstance: false);
       final cats = await LaterRepository(adb).loadCategories();
       expect(cats.map((c) => c.id), BuiltinCategories.ordered);
       expect(await adb.db.getVersion(), AppConfig.dbSchemaVersion);

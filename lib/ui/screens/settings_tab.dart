@@ -348,39 +348,56 @@ class _SettingsTabState extends State<SettingsTab> with WidgetsBindingObserver {
   Future<void> _reset(BuildContext context) async {
     final l = context.l10n;
     final app = context.appRead;
-    final ctrl = TextEditingController();
-    final ok = await showDialog<bool>(
-      context: context,
-      builder: (ctx) => StatefulBuilder(builder: (ctx, setState) {
-        final match = ctrl.text.trim() == l.resetWord;
-        return AlertDialog(
-          icon: Icon(Icons.warning_amber_rounded, color: ctx.scheme.error, size: 36),
-          title: Text(l.resetConfirmTitle),
-          content: SingleChildScrollView(
-            child: Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Text(l.resetConfirmBody),
-              const SizedBox(height: 14),
-              Text(l.resetTypeHint(l.resetWord), style: ctx.text.labelLarge),
-              const SizedBox(height: 8),
-              TextField(controller: ctrl, onChanged: (_) => setState(() {})),
-            ]),
-          ),
-          actions: [
-            TextButton(onPressed: () => Navigator.pop(ctx, false), child: Text(l.cancel)),
-            TextButton(
-              onPressed: match ? () => Navigator.pop(ctx, true) : null,
-              style: TextButton.styleFrom(foregroundColor: ctx.scheme.error),
-              child: Text(l.resetAction),
-            ),
-          ],
-        );
-      }),
-    );
-    ctrl.dispose();
+    final ok = await showDialog<bool>(context: context, builder: (_) => const _ResetDialog());
     if (ok == true && context.mounted) {
       await guarded(context, app.resetAll);
       HapticFeedback.heavyImpact();
       if (context.mounted) showAppSnack(context, l.resetDone);
     }
+  }
+}
+
+/// Confirmation dialog that requires typing a word (owns its controller).
+class _ResetDialog extends StatefulWidget {
+  const _ResetDialog();
+
+  @override
+  State<_ResetDialog> createState() => _ResetDialogState();
+}
+
+class _ResetDialogState extends State<_ResetDialog> {
+  final _ctrl = TextEditingController();
+
+  @override
+  void dispose() {
+    _ctrl.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final l = context.l10n;
+    final match = _ctrl.text.trim() == l.resetWord;
+    return AlertDialog(
+      icon: Icon(Icons.warning_amber_rounded, color: context.scheme.error, size: 36),
+      title: Text(l.resetConfirmTitle),
+      content: SingleChildScrollView(
+        child: Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Text(l.resetConfirmBody),
+          const SizedBox(height: 14),
+          Text(l.resetTypeHint(l.resetWord), style: context.text.labelLarge),
+          const SizedBox(height: 8),
+          TextField(controller: _ctrl, onChanged: (_) => setState(() {})),
+        ]),
+      ),
+      actions: [
+        TextButton(onPressed: () => Navigator.pop(context, false), child: Text(l.cancel)),
+        TextButton(
+          onPressed: match ? () => Navigator.pop(context, true) : null,
+          style: TextButton.styleFrom(foregroundColor: context.scheme.error),
+          child: Text(l.resetAction),
+        ),
+      ],
+    );
   }
 }
