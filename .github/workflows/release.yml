@@ -15,6 +15,11 @@ name: Release (signed store build)
 
 on:
   workflow_dispatch:
+  # GitHub only lists manual workflows that exist on the default branch. Until
+  # this branch is merged, a push whose commit message contains "[release]"
+  # starts the build instead.
+  push:
+    branches: [claude/stoic-hawking-q8lh1i]
 
 env:
   FLUTTER_VERSION: '3.47.5'
@@ -22,6 +27,7 @@ env:
 jobs:
   release:
     name: Build signed AAB / APK
+    if: github.event_name == 'workflow_dispatch' || contains(github.event.head_commit.message, '[release]')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
