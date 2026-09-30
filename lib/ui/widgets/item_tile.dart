@@ -6,8 +6,11 @@ import '../../domain/models.dart';
 import '../../domain/search_filter_sort.dart';
 import '../app_scope.dart';
 import '../item_actions.dart';
+import '../screens/reveal_screen.dart';
 import '../sheets/item_detail_sheet.dart';
 import '../sheets/snooze_sheet.dart';
+import '../sheets/stage_sheet.dart';
+import '../type_info.dart';
 import 'common.dart';
 
 /// One row of the list. Swipe → done, swipe the other way → snooze.
@@ -29,7 +32,19 @@ class ItemTile extends StatelessWidget {
     final waiting = daysWaiting(item, now);
     final stale = item.isActive && isStale(item, now, app.settings.staleDays);
 
+    final host = TypeInfo.host(item.url);
+    final typed = item.type != ItemType.task && item.type != ItemType.person;
     final meta = <Widget>[
+      if (typed && item.stage != 0 && item.type != ItemType.capsule && item.type != ItemType.future)
+        Pill(TypeInfo.stageLabel(l, item.type, item.stage), color: s.primary, background: s.primaryContainer),
+      if (host != null && typed) Pill(host, icon: Icons.link_rounded),
+      if (item.type == ItemType.wishlist && item.price != null)
+        Pill('${fmt.money(item.price!)} ${item.currency.isEmpty ? l.currencyDefault : item.currency}',
+            icon: Icons.sell_outlined),
+      if (item.type == ItemType.capsule || item.type == ItemType.future)
+        Pill(item.isLockedAt(now) ? l.lockedUntil(fmt.date(item.unlockAt!, omitCurrentYear: false)) : l.stageOpened,
+            icon: item.isLockedAt(now) ? Icons.lock_outline_rounded : Icons.lock_open_rounded),
+      if (item.inbox) Pill(l.inboxTitle, icon: Icons.inbox_rounded, color: c.warning),
       if (item.dueAt != null)
         Pill(
           fmt.due(item),
@@ -65,7 +80,9 @@ class ItemTile extends StatelessWidget {
           height: 44,
           decoration: BoxDecoration(color: c.lavender, borderRadius: BorderRadius.circular(14)),
           alignment: Alignment.center,
-          child: Text(app.categoryEmoji(item.categoryId), style: const TextStyle(fontSize: 22)),
+          child: (item.type == ItemType.task || item.type == ItemType.person)
+              ? Text(app.categoryEmoji(item.categoryId), style: const TextStyle(fontSize: 22))
+              : Icon(TypeInfo.icon(item.type), color: s.primary, size: 24),
         ),
         const SizedBox(width: 12),
         Expanded(
@@ -83,20 +100,11 @@ class ItemTile extends StatelessWidget {
             ],
           ]),
         ),
-        if (item.isActive)
-          IconButton(
-            tooltip: l.itemDone,
-            constraints: const BoxConstraints(minWidth: 48, minHeight: 48),
-            onPressed: () {
-              HapticFeedback.lightImpact();
-              ItemActions.complete(context, item);
-            },
-            icon: Icon(Icons.radio_button_unchecked_rounded, color: s.primary),
-          ),
+        if (item.isActive) _trailing(context, item, now),
       ]),
     );
 
-    if (!dismissible || !item.isActive) return card;
+    if (!dismissible || !item.isActive || item.type == ItemType.capsule || item.type == ItemType.future) return card;
 
     return Dismissible(
       key: ValueKey('tile_${item.id}'),
@@ -112,6 +120,43 @@ class ItemTile extends StatelessWidget {
       },
       child: card,
     );
+  }
+
+  Widget _trailing(BuildContext context, LaterItem item, DateTime now) {
+    final l = context.l10n;
+    final s = context.scheme;
+    const box = BoxConstraints(minWidth: 48, minHeight: 48);
+    switch (item.type) {
+      case ItemType.idea:
+        return IconButton(
+          tooltip: l.itemStage,
+          constraints: box,
+          onPressed: () => showStageSheet(context, item),
+          icon: Icon(Icons.tune_rounded, color: s.primary),
+        );
+      case ItemType.capsule:
+      case ItemType.future:
+        if (item.isLockedAt(now)) {
+          return SizedBox(width: 48, child: Icon(Icons.lock_outline_rounded, color: s.onSurfaceVariant));
+        }
+        return IconButton(
+          tooltip: l.openIt,
+          constraints: box,
+          onPressed: () => Navigator.of(context).push(
+              MaterialPageRoute<void>(builder: (_) => RevealScreen(itemId: item.id))),
+          icon: Icon(Icons.lock_open_rounded, color: s.primary),
+        );
+      default:
+        return IconButton(
+          tooltip: TypeInfo.doneLabel(l, item.type),
+          constraints: box,
+          onPressed: () {
+            HapticFeedback.lightImpact();
+            ItemActions.complete(context, item);
+          },
+          icon: Icon(Icons.radio_button_unchecked_rounded, color: s.primary),
+        );
+    }
   }
 
   Widget _swipeBg(BuildContext context, IconData icon, String label, Color color, AlignmentGeometry a) => Container(

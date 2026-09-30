@@ -418,6 +418,7 @@ k('qaAdvance', 'جلو بردن ساعت برنامه: {n} روز', 'Advance app
 k('qaResetTime', 'بازنشانی ساعت شبیه‌سازی‌شده', 'Reset simulated clock')
 k('qaClock', 'ساعت برنامه: {date}', 'App clock: {date}')
 k('qaSeed', 'افزودن {n} مورد نمونه', 'Add {n} sample items')
+k('qaSeedShelves', 'نمونه‌ی قفسه‌ها، آدم‌ها و کپسول', 'Sample shelves, people and capsule')
 k('qaSeeded', '{n} مورد اضافه شد.', '{n} items added.')
 k('qaNotifNow', 'اعلان همین حالا', 'Notification now')
 k('qaNotifIn', 'اعلان تا {s} ثانیه‌ی دیگر', 'Notification in {s} seconds')

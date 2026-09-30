@@ -378,6 +378,7 @@
   "qaResetTime": "Reset simulated clock",
   "qaClock": "App clock: {date}",
   "qaSeed": "Add {n} sample items",
+  "qaSeedShelves": "Sample shelves, people and capsule",
   "qaSeeded": "{n} items added.",
   "qaNotifNow": "Notification now",
   "qaNotifIn": "Notification in {s} seconds",

@@ -11,7 +11,9 @@ import '../app_scope.dart';
 import '../screens/categories_screen.dart';
 import '../widgets/common.dart';
 import '../widgets/date_picker.dart';
+import '../type_info.dart';
 import '../widgets/pro_gate.dart';
+import 'item_detail_sheet.dart' show parsePrice;
 
 /// Opens the add/edit sheet. Returns the saved item (or null if dismissed).
 Future<LaterItem?> showAddEditSheet(
@@ -19,28 +21,31 @@ Future<LaterItem?> showAddEditSheet(
   LaterItem? initial,
   String? presetTitle,
   String? presetCategory,
+  ItemType? presetType,
 }) {
   return showAppSheet<LaterItem>(
     context,
     full: true,
-    builder: (_) => AddEditSheet(initial: initial, presetTitle: presetTitle, presetCategory: presetCategory),
+    builder: (_) => AddEditSheet(
+        initial: initial, presetTitle: presetTitle, presetCategory: presetCategory, presetType: presetType),
   );
 }
 
 /// Opens the add sheet and confirms with a toast.
-Future<void> addFlow(BuildContext context, {String? presetTitle}) async {
+Future<void> addFlow(BuildContext context, {String? presetTitle, ItemType? presetType}) async {
   final l = context.l10n;
-  final saved = await showAddEditSheet(context, presetTitle: presetTitle);
+  final saved = await showAddEditSheet(context, presetTitle: presetTitle, presetType: presetType);
   if (saved != null && context.mounted) showAppSnack(context, l.toastAdded);
 }
 
 enum _ReminderChoice { off, atTime, before10, before60, beforeDay }
 
 class AddEditSheet extends StatefulWidget {
-  const AddEditSheet({super.key, this.initial, this.presetTitle, this.presetCategory});
+  const AddEditSheet({super.key, this.initial, this.presetTitle, this.presetCategory, this.presetType});
   final LaterItem? initial;
   final String? presetTitle;
   final String? presetCategory;
+  final ItemType? presetType;
 
   @override
   State<AddEditSheet> createState() => _AddEditSheetState();
@@ -52,6 +57,8 @@ class _AddEditSheetState extends State<AddEditSheet> {
   final _note = TextEditingController();
   final _url = TextEditingController();
   final _tags = TextEditingController();
+  final _price = TextEditingController();
+  final _currency = TextEditingController();
   final _titleFocus = FocusNode();
   final _formKey = GlobalKey<FormState>();
 
@@ -61,6 +68,8 @@ class _AddEditSheetState extends State<AddEditSheet> {
   _ReminderChoice _reminder = _ReminderChoice.off;
   RepeatRule _repeat = RepeatRule.none;
   ItemPriority _priority = ItemPriority.normal;
+  ItemType? _type; // null = not sorted yet (goes to the inbox)
+  String _watchKind = 'video';
   int? _minutes;
   bool _expanded = false;
   bool _dirty = false;
@@ -85,6 +94,10 @@ class _AddEditSheetState extends State<AddEditSheet> {
       _date = i.dueAt == null ? null : Dates.startOfDay(i.dueAt!);
       _time = i.hasTime && i.dueAt != null ? TimeOfDay(hour: i.dueAt!.hour, minute: i.dueAt!.minute) : null;
       _priority = i.priority;
+      _type = i.inbox ? null : i.type;
+      _watchKind = i.watchKind;
+      _price.text = i.price == null ? '' : i.price!.round().toString();
+      _currency.text = i.currency;
       _minutes = i.estimatedMinutes;
       _repeat = i.repeat;
       if (i.reminderEnabled && i.dueAt != null) {
@@ -104,13 +117,15 @@ class _AddEditSheetState extends State<AddEditSheet> {
           i.priority != ItemPriority.normal ||
           i.dueAt != null;
     } else {
+      _type = widget.presetType;
+      _expanded = widget.presetType == ItemType.wishlist || widget.presetType == ItemType.read || widget.presetType == ItemType.watch;
       _title.text = widget.presetTitle ?? '';
       final cats = context.appRead.categories;
       if (widget.presetCategory != null && cats.any((c) => c.id == widget.presetCategory)) {
         _category = widget.presetCategory!;
       }
     }
-    for (final c in [_title, _desc, _note, _url, _tags]) {
+    for (final c in [_title, _desc, _note, _url, _tags, _price, _currency]) {
       c.addListener(() => _dirty = true);
     }
     if (!_editing) {
@@ -120,7 +135,7 @@ class _AddEditSheetState extends State<AddEditSheet> {
 
   @override
   void dispose() {
-    for (final c in [_title, _desc, _note, _url, _tags]) {
+    for (final c in [_title, _desc, _note, _url, _tags, _price, _currency]) {
       c.dispose();
     }
     _titleFocus.dispose();
@@ -233,6 +248,28 @@ class _AddEditSheetState extends State<AddEditSheet> {
             : DateTime(_date!.year, _date!.month, _date!.day, _time!.hour, _time!.minute);
       }
       final hasReminder = due != null && _reminder != _ReminderChoice.off;
+      final type = _type ?? ItemType.task;
+      final unsorted = _type == null && due == null;
+      final price = parsePrice(_price.text);
+      Map<String, Object?> extraFor(Map<String, Object?> base) {
+        final m = Map<String, Object?>.from(base);
+        if (type == ItemType.wishlist) {
+          if (price != null) {
+            m['price'] = price;
+          } else {
+            m.remove('price');
+          }
+          final cur = _currency.text.trim();
+          if (cur.isNotEmpty) {
+            m['currency'] = cur;
+          } else {
+            m.remove('currency');
+          }
+        }
+        if (type == ItemType.watch) m['watchKind'] = _watchKind;
+        return m;
+      }
+
       LaterItem saved;
       if (_editing) {
         saved = widget.initial!.copyWith(
@@ -249,8 +286,24 @@ class _AddEditSheetState extends State<AddEditSheet> {
           reminderEnabled: hasReminder,
           reminderOffsetMinutes: hasReminder ? _offset : 0,
           repeat: hasReminder ? _repeat : RepeatRule.none,
+          type: type,
+          stage: type == widget.initial!.type ? widget.initial!.stage : 0,
+          inbox: widget.initial!.inbox && unsorted,
+          extra: extraFor(widget.initial!.extra),
         );
-        await app.update(saved);
+        if (price != null && price != widget.initial!.price && type == ItemType.wishlist) {
+          await app.update(saved.copyWith(extra: widget.initial!.extra));
+          await app.setPrice(saved.id, price, currency: _currency.text.trim().isEmpty ? null : _currency.text.trim());
+          saved = app.itemById(saved.id)!;
+          await app.update(saved.copyWith(
+              title: _title.text, description: _desc.text, note: _note.text, url: sanitizeUrl(_url.text),
+              tags: _parseTags(), categoryId: _category, priority: _priority, estimatedMinutes: _minutes,
+              dueAt: due, hasTime: _time != null && due != null, reminderEnabled: hasReminder,
+              reminderOffsetMinutes: hasReminder ? _offset : 0, repeat: hasReminder ? _repeat : RepeatRule.none,
+              type: type, inbox: false));
+        } else {
+          await app.update(saved);
+        }
       } else {
         final n = app.now();
         saved = await app.saveNew(LaterItem(
@@ -271,7 +324,15 @@ class _AddEditSheetState extends State<AddEditSheet> {
           createdAt: n,
           updatedAt: n,
           source: 'manual',
+          type: type,
+          inbox: unsorted,
+          extra: extraFor(const {}),
         ));
+        if (price != null && type == ItemType.wishlist) {
+          // Seed the price history with the first price.
+          final fresh = app.itemById(saved.id);
+          if (fresh != null) await app.update(fresh.withExtra('priceHistory', [[n.millisecondsSinceEpoch, price]]));
+        }
       }
       HapticFeedback.lightImpact();
       nav.pop(saved);
@@ -356,6 +417,38 @@ class _AddEditSheetState extends State<AddEditSheet> {
                 decoration: InputDecoration(hintText: l.titleHint, counterText: ''),
                 validator: (v) => (v == null || v.trim().isEmpty) ? l.titleRequired : null,
                 onFieldSubmitted: (_) => _save(),
+              ),
+              const SizedBox(height: 14),
+              _label(l.addTypeLabel),
+              SizedBox(
+                height: 44,
+                child: ListView(scrollDirection: Axis.horizontal, children: [
+                  Padding(
+                    padding: const EdgeInsetsDirectional.only(end: 8),
+                    child: ChoiceChip(
+                      label: Text(l.addTypeAuto),
+                      selected: _type == null,
+                      onSelected: (_) => setState(() {
+                        _dirty = true;
+                        _type = null;
+                      }),
+                    ),
+                  ),
+                  for (final t in const [ItemType.task, ItemType.read, ItemType.watch, ItemType.wishlist, ItemType.idea])
+                    Padding(
+                      padding: const EdgeInsetsDirectional.only(end: 8),
+                      child: ChoiceChip(
+                        avatar: Icon(TypeInfo.icon(t), size: 18),
+                        label: Text(l.typeName(t.name)),
+                        selected: _type == t,
+                        onSelected: (_) => setState(() {
+                          _dirty = true;
+                          _type = t;
+                          if (t == ItemType.wishlist || t == ItemType.read || t == ItemType.watch) _expanded = true;
+                        }),
+                      ),
+                    ),
+                ]),
               ),
               const SizedBox(height: 16),
               _label(l.fieldCategory),
@@ -473,6 +566,42 @@ class _AddEditSheetState extends State<AddEditSheet> {
                 child: !_expanded
                     ? const SizedBox(width: double.infinity)
                     : Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                        if (_type == ItemType.wishlist) ...[
+                          Row(children: [
+                            Expanded(
+                              flex: 3,
+                              child: TextFormField(
+                                controller: _price,
+                                keyboardType: TextInputType.number,
+                                decoration: InputDecoration(labelText: l.fieldPrice, hintText: l.priceHint),
+                              ),
+                            ),
+                            const SizedBox(width: 10),
+                            Expanded(
+                              flex: 2,
+                              child: TextFormField(
+                                controller: _currency,
+                                decoration: InputDecoration(labelText: l.fieldCurrency, hintText: l.currencyDefault),
+                              ),
+                            ),
+                          ]),
+                          const SizedBox(height: 12),
+                        ],
+                        if (_type == ItemType.watch) ...[
+                          _label(l.fieldWatchKind),
+                          Wrap(spacing: 8, children: [
+                            for (final k in const [('video', 0), ('movie', 1), ('series', 2), ('other', 3)])
+                              ChoiceChip(
+                                label: Text([l.kindVideo, l.kindMovie, l.kindSeries, l.kindOther][k.$2]),
+                                selected: _watchKind == k.$1,
+                                onSelected: (_) => setState(() {
+                                  _dirty = true;
+                                  _watchKind = k.$1;
+                                }),
+                              ),
+                          ]),
+                          const SizedBox(height: 12),
+                        ],
                         TextFormField(
                           controller: _desc,
                           maxLines: 3,

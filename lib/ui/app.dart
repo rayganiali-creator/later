@@ -11,6 +11,7 @@ import '../services/platform_bridge.dart';
 import 'app_scope.dart';
 import 'nav_bus.dart';
 import 'screens/home_shell.dart';
+import 'sheets/share_sheet.dart';
 import 'screens/legal_screens.dart';
 import 'screens/onboarding_screen.dart';
 import 'widgets/common.dart';
@@ -88,9 +89,12 @@ class _LaterAppState extends State<LaterApp> with WidgetsBindingObserver {
       final item = await c.handleShare(s);
       if (item != null) {
         rootMessengerKey.currentState?.hideCurrentSnackBar();
-        rootMessengerKey.currentState?.showSnackBar(SnackBar(
-          content: Text(c.l10n.shareAdded(item.title.length > 60 ? '${item.title.substring(0, 60)}…' : item.title)),
-        ));
+        final ctx = rootNavigatorKey.currentContext;
+        if (c.settings.askWhereOnShare && ctx != null && ctx.mounted && c.settings.onboardingDone && c.settings.legalAccepted) {
+          await showShareDestinationSheet(ctx, item);
+        } else {
+          rootMessengerKey.currentState?.showSnackBar(SnackBar(content: Text(c.l10n.shareSavedInbox)));
+        }
       }
     } catch (_) {
       rootMessengerKey.currentState?.showSnackBar(SnackBar(content: Text(c.l10n.errorGeneric)));

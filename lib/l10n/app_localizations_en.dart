@@ -1249,6 +1249,9 @@ class AppL10nEn extends AppL10n {
   }
 
   @override
+  String get qaSeedShelves => 'Sample shelves, people and capsule';
+
+  @override
   String qaSeeded(String n) {
     return '$n items added.';
   }

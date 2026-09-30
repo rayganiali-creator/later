@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../../core/theme/app_theme.dart';
 import '../../domain/smart_pick.dart';
 import '../app_scope.dart';
-import '../screens/decide_screen.dart';
+import '../screens/roulette_screen.dart';
 import '../widgets/common.dart';
 import '../widgets/item_tile.dart';
 import '../widgets/pro_gate.dart';
@@ -137,7 +137,7 @@ class _SmartPickSheetState extends State<_SmartPickSheet> {
             OutlinedButton.icon(
               onPressed: () {
                 Navigator.pop(context);
-                Navigator.of(context).push(MaterialPageRoute<void>(builder: (_) => DecideScreen(minutes: _minutes)));
+                Navigator.of(context).push(MaterialPageRoute<void>(builder: (_) => RouletteScreen(minutes: _minutes)));
               },
               icon: const Icon(Icons.my_location_rounded),
               label: Text(l.pickCardTitle.replaceAll('🎯 ', '')),

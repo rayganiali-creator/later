@@ -183,11 +183,13 @@ void main() {
       await pumpApp(tester, env);
       await tester.tap(text(fa.pickCardTitle));
       await settle(tester);
+      await tester.tap(text(fa.roulettePick));
+      await settle(tester, rounds: 30);
       expect(text(fa.decideLabel), findsOneWidget);
       final firstShown = find.textContaining('«').evaluate().length;
       expect(firstShown, 1);
-      await tester.tap(text(fa.decideAnother));
-      await settle(tester);
+      await tester.tap(text(fa.rouletteAgain));
+      await settle(tester, rounds: 30);
       expect(find.textContaining('«').evaluate().length, 1);
       await tester.tap(text(fa.decideDo));
       await settle(tester, rounds: 22);

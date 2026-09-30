@@ -58,6 +58,24 @@ class Fmt {
     return l.minutesN(num(n));
   }
 
+  /// 1200000 -> "۱٬۲۰۰٬۰۰۰"
+  String money(double v) {
+    final n = v.round().toString();
+    final b = StringBuffer();
+    for (var i = 0; i < n.length; i++) {
+      if (i > 0 && (n.length - i) % 3 == 0) b.write(fa ? '٬' : ',');
+      b.write(n[i]);
+    }
+    return num(b.toString());
+  }
+
+  /// "۱۵ روز پیش" / "امروز".
+  String ago(DateTime d) {
+    final days = Dates.daysBetween(d, app.now());
+    if (days <= 0) return l.today;
+    return l.daysAgo(num(days));
+  }
+
   String minutesShort(int n) => l.minutesShort(num(n));
 
   /// Human due label: "امروز", "فردا ۹:۰۰", "۱۲ مهر".

@@ -90,7 +90,20 @@ class _ProScreenState extends State<ProScreen> {
     final expired = !active && ent.expiresAt != null;
     final remainingDays = active ? (ent.remainingAt(app.pro.effectiveNow()).inHours / 24).ceil() : 0;
 
-    final features = [l.proF1, l.proF2, l.proF3, l.proF4, l.proF5, l.proF6, l.proF7, l.proF8];
+    final features = [
+      (l.proFT1, l.proFD1),
+      (l.proFT2, l.proFD2),
+      (l.proFT3, l.proFD3),
+      (l.proFT4, l.proFD4),
+      (l.proFT5, l.proFD5),
+      (l.proFT6, l.proFD6),
+      (l.proFT7, l.proFD7),
+      (l.proFT8, l.proFD8),
+      (l.proFT9, l.proFD9),
+      (l.proFT10, l.proFD10),
+      (l.proFT11, l.proFD11),
+      (l.proFT12, l.proFD12),
+    ];
     final plans = [
       ...ProPlans.sellable,
       if (AppConfig.testToolsEnabled) ...[ProPlans.day1, ProPlans.day7],
@@ -138,19 +151,32 @@ class _ProScreenState extends State<ProScreen> {
           AppCard(color: s.error.withValues(alpha: 0.08), child: Text(l.proTamper)),
         ],
         const SizedBox(height: 16),
+        SectionTitle(l.proWhatYouGet),
         AppCard(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
           child: Column(children: [
-            for (final f in features)
+            for (var i = 0; i < features.length; i++) ...[
+              if (i > 0) Divider(height: 1, color: s.outlineVariant),
               Padding(
-                padding: const EdgeInsets.symmetric(vertical: 5),
-                child: Row(children: [
+                padding: const EdgeInsets.symmetric(vertical: 12),
+                child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
                   Icon(Icons.check_circle_rounded, size: 20, color: context.appColors.success),
                   const SizedBox(width: 10),
-                  Expanded(child: Text(f, style: context.text.bodyMedium)),
+                  Expanded(
+                    child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                      Text(features[i].$1, style: context.text.titleSmall),
+                      const SizedBox(height: 2),
+                      Text(features[i].$2,
+                          style: context.text.bodySmall?.copyWith(color: s.onSurfaceVariant, height: 1.5)),
+                    ]),
+                  ),
                 ]),
               ),
+            ],
           ]),
         ),
+        SectionTitle(l.proFreeHeader),
+        AppCard(child: Text(l.proFreeList, style: context.text.bodyMedium?.copyWith(height: 1.6))),
         const SizedBox(height: 10),
         Text(l.proFreeNote, style: context.text.bodySmall?.copyWith(color: s.onSurfaceVariant)),
         const SizedBox(height: 20),

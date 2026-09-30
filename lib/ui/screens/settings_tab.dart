@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import '../../core/config/app_config.dart';
 import '../../core/theme/app_theme.dart';
 import '../../core/util/dates.dart';
+import '../../data/controller.dart';
 import '../../domain/settings.dart';
 import '../../services/notification_service.dart';
 import '../app_scope.dart';
@@ -263,6 +264,52 @@ class _SettingsTabState extends State<SettingsTab> with WidgetsBindingObserver {
                   (d) => l.daysN(fmt.num(d)));
               if (v != null) await app.updateSettings((x) => x.copyWith(staleDays: v));
             }),
+            _tile(Icons.shopping_bag_outlined, l.wishlistReviewAfter, l.daysN(fmt.num(st.wishlistReviewDays)),
+                onTap: () async {
+              final v = await _choose<int>(context, l.wishlistReviewAfter, const [14, 30, 60, 90], st.wishlistReviewDays,
+                  (d) => l.daysN(fmt.num(d)));
+              if (v != null) await app.updateSettings((x) => x.copyWith(wishlistReviewDays: v));
+            }),
+            _tile(Icons.lightbulb_outline_rounded, l.ideaReviewEvery, l.daysN(fmt.num(st.ideaReviewDays)),
+                trailing: app.isPro ? null : const ProTag(), onTap: () async {
+              if (!app.isPro) {
+                await showProSheet(context, featureName: l.ideaProHint);
+                return;
+              }
+              if (!context.mounted) return;
+              final v = await _choose<int>(context, l.ideaReviewEvery, const [14, 30, 60, 90], st.ideaReviewDays,
+                  (d) => l.daysN(fmt.num(d)));
+              if (v != null) await app.updateSettings((x) => x.copyWith(ideaReviewDays: v));
+            }),
+            SwitchListTile(
+              value: st.ideaReviewReminder && app.isPro,
+              title: Row(children: [Flexible(child: Text(l.ideaReviewMonthly)), if (!app.isPro) ...[const SizedBox(width: 8), const ProTag()]]),
+              secondary: const Icon(Icons.event_repeat_rounded),
+              onChanged: (v) async {
+                if (!app.isPro) {
+                  await showProSheet(context, featureName: l.ideaProHint);
+                  return;
+                }
+                await app.updateSettings((x) => x.copyWith(ideaReviewReminder: v));
+              },
+            ),
+            SwitchListTile(
+              value: st.askWhereOnShare,
+              title: Text(l.askWhereOnShare),
+              subtitle: Text(l.askWhereOnShareSub),
+              secondary: const Icon(Icons.ios_share_rounded),
+              onChanged: (v) => app.updateSettings((x) => x.copyWith(askWhereOnShare: v)),
+            ),
+            _tile(Icons.casino_outlined, l.settingsRouletteCats,
+                st.rouletteCategories.isEmpty ? l.settingsRouletteCatsAll : fmt.num(st.rouletteCategories.length),
+                trailing: app.isPro ? null : const ProTag(), onTap: () async {
+              if (!app.isPro) {
+                await showProSheet(context, featureName: l.rouletteProHint);
+                return;
+              }
+              if (!context.mounted) return;
+              await _pickRouletteCats(context);
+            }),
           ]),
 
           _section(l.secData),
@@ -309,13 +356,13 @@ class _SettingsTabState extends State<SettingsTab> with WidgetsBindingObserver {
       );
 
   Widget _tile(IconData icon, String title, String? subtitle,
-      {VoidCallback? onTap, bool danger = false, bool pro = false}) {
+      {VoidCallback? onTap, bool danger = false, bool pro = false, Widget? trailing}) {
     final s = context.scheme;
     return ListTile(
       leading: Icon(icon, color: danger ? s.error : s.onSurfaceVariant),
       title: Text(title, style: danger ? TextStyle(color: s.error) : null),
       subtitle: subtitle == null ? null : Text(subtitle),
-      trailing: pro ? const ProTag() : const Icon(Icons.chevron_left_rounded, size: 20),
+      trailing: trailing ?? (pro ? const ProTag() : const Icon(Icons.chevron_left_rounded, size: 20)),
       onTap: onTap,
     );
   }
@@ -349,6 +396,15 @@ class _SettingsTabState extends State<SettingsTab> with WidgetsBindingObserver {
           ]),
         ),
       ),
+    );
+  }
+
+  Future<void> _pickRouletteCats(BuildContext context) {
+    final app = context.appRead;
+    final l = context.l10n;
+    return showAppSheet<void>(
+      context,
+      builder: (ctx) => _CatPicker(app: app, title: l.settingsRouletteCats),
     );
   }
 
@@ -405,6 +461,48 @@ class _ResetDialogState extends State<_ResetDialog> {
           child: Text(l.resetAction),
         ),
       ],
+    );
+  }
+}
+
+
+class _CatPicker extends StatefulWidget {
+  const _CatPicker({required this.app, required this.title});
+  final LaterController app;
+  final String title;
+
+  @override
+  State<_CatPicker> createState() => _CatPickerState();
+}
+
+class _CatPickerState extends State<_CatPicker> {
+  late final Set<String> _sel = {...widget.app.settings.rouletteCategories};
+
+  @override
+  Widget build(BuildContext context) {
+    final app = widget.app;
+    return SafeArea(
+      child: SingleChildScrollView(
+        child: Column(mainAxisSize: MainAxisSize.min, children: [
+          Padding(
+            padding: const EdgeInsets.fromLTRB(24, 0, 24, 8),
+            child: Align(
+              alignment: AlignmentDirectional.centerStart,
+              child: Text(widget.title, style: context.text.titleLarge),
+            ),
+          ),
+          for (final c in app.categories)
+            CheckboxListTile(
+              value: _sel.contains(c.id),
+              title: Text('${c.emoji} ${app.categoryName(c.id)}'),
+              onChanged: (v) {
+                setState(() => v == true ? _sel.add(c.id) : _sel.remove(c.id));
+                app.updateSettings((x) => x.copyWith(rouletteCategories: {..._sel}));
+              },
+            ),
+          const SizedBox(height: 12),
+        ]),
+      ),
     );
   }
 }

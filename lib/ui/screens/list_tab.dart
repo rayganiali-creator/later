@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 
 import '../../core/theme/app_theme.dart';
+import '../../domain/models.dart';
 import '../../domain/search_filter_sort.dart';
 import '../app_scope.dart';
 import '../nav_bus.dart';
+import '../type_info.dart';
 import '../sheets/add_edit_sheet.dart';
 import '../widgets/common.dart';
 import '../widgets/item_tile.dart';
@@ -132,6 +134,9 @@ class _ListTabState extends State<ListTab> {
               chip(l.filterOverdue, const ItemFilter(FilterKind.overdue)),
               chip(l.filterHigh, const ItemFilter(FilterKind.highPriority)),
               chip(l.filterStale, const ItemFilter(FilterKind.stale)),
+              chip(l.inboxTitle, const ItemFilter(FilterKind.inbox)),
+              for (final t in const [ItemType.read, ItemType.watch, ItemType.wishlist, ItemType.idea])
+                chip(TypeInfo.shelfTitle(l, t), ItemFilter(FilterKind.type, t.name)),
               for (final c in app.categories)
                 chip('${c.emoji} ${app.categoryName(c.id)}', ItemFilter(FilterKind.category, c.id)),
             ],

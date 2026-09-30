@@ -1249,6 +1249,9 @@ class AppL10nFa extends AppL10n {
   }
 
   @override
+  String get qaSeedShelves => 'نمونه‌ی قفسه‌ها، آدم‌ها و کپسول';
+
+  @override
   String qaSeeded(String n) {
     return '$n مورد اضافه شد.';
   }

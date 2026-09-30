@@ -59,6 +59,10 @@ class QaToolsScreen extends StatelessWidget {
             await app.debugSeed(n, withSamples: n <= 40);
             if (context.mounted) showAppSnack(context, '${l.qaSeeded(fmt.num(n))} (${sw.elapsedMilliseconds} ms)');
           }, icon: Icons.dataset_outlined),
+        btn(l.qaSeedShelves, () async {
+          await app.debugSeedShelves();
+          if (context.mounted) showAppSnack(context, l.toastAdded);
+        }, icon: Icons.auto_awesome_motion_outlined),
         const Divider(height: 28),
         btn('Notification diagnostics', () async {
           final d = await app.notificationDiagnostics();

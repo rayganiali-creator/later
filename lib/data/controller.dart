@@ -1629,6 +1629,50 @@ class LaterController extends ChangeNotifier {
     _afterItemsChanged();
   }
 
+  /// QA: a small, realistic set of typed items, a person, a capsule that opens
+  /// tomorrow and a message that is already unlocked.
+  Future<void> debugSeedShelves() async {
+    if (!AppConfig.testToolsEnabled) return;
+    final n = now();
+    LaterItem mk(String title, ItemType t,
+            {String? url, int stage = 0, bool inbox = false, Map<String, Object?> extra = const {}, DateTime? created, String? cat}) =>
+        LaterItem(
+          id: newId(),
+          title: title,
+          categoryId: cat ?? BuiltinCategories.other,
+          createdAt: created ?? n.subtract(const Duration(days: 3)),
+          updatedAt: n,
+          type: t,
+          stage: stage,
+          url: url,
+          inbox: inbox,
+          extra: extra,
+          source: 'sample',
+        );
+    final items = [
+      mk('مقاله‌ی «عادت‌های کوچک»', ItemType.read, url: 'https://example.com/small-habits', cat: BuiltinCategories.link),
+      mk('سخنرانی درباره‌ی تمرکز', ItemType.watch, url: 'https://www.youtube.com/watch?v=abc', cat: BuiltinCategories.link),
+      mk('هدفون بی‌سیم', ItemType.wishlist,
+          extra: {'price': 2400000, 'currency': 'تومان'}, created: n.subtract(const Duration(days: 45))),
+      mk('اپ یادآور آب‌خوردن', ItemType.idea, created: n.subtract(const Duration(days: 40))),
+      mk('لینک ذخیره‌شده‌ی بدون مقصد', ItemType.task, url: 'https://www.digikala.com/product/x', inbox: true),
+      mk('یه فکر سریع', ItemType.task, inbox: true),
+    ];
+    for (final i in items) {
+      await repo.upsertItemWithEvent(
+          i, ItemEvent(itemId: i.id, type: EventType.created, at: i.createdAt, categoryId: i.categoryId));
+    }
+    _items = [..._items, ...items];
+    if (_people.isEmpty) await addPerson('علی نمونه');
+    _afterItemsChanged();
+    if (canSeal(messages: false)) {
+      await seal(title: 'کپسول نمونه', body: 'این متن فردا باز می‌شه.', unlockAt: Dates.startOfDay(Dates.addDays(n, 1)), message: false);
+    }
+    if (canSeal(messages: true)) {
+      await seal(title: 'پیام نمونه', body: 'سلام از گذشته!', unlockAt: Dates.startOfDay(Dates.addDays(n, 1)), message: true);
+    }
+  }
+
   /// Fires a notification right now (permission / channel check). Available
   /// to users in Settings so they can verify notifications work.
   Future<void> showTestNotification() async {

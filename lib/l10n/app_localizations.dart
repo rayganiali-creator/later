@@ -2365,6 +2365,12 @@ abstract class AppL10n {
   /// **'افزودن {n} مورد نمونه'**
   String qaSeed(String n);
 
+  /// No description provided for @qaSeedShelves.
+  ///
+  /// In fa, this message translates to:
+  /// **'نمونه‌ی قفسه‌ها، آدم‌ها و کپسول'**
+  String get qaSeedShelves;
+
   /// No description provided for @qaSeeded.
   ///
   /// In fa, this message translates to:

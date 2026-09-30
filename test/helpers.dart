@@ -21,6 +21,9 @@ LaterItem item(
   int offset = 0,
   RepeatRule repeat = RepeatRule.none,
   DateTime? kept,
+  ItemType type = ItemType.task,
+  int stage = 0,
+  bool inbox = false,
 }) =>
     LaterItem(
       id: id,
@@ -37,6 +40,9 @@ LaterItem item(
       tags: tags,
       description: description,
       note: note,
+      type: type,
+      stage: stage,
+      inbox: inbox,
       url: url,
       reminderEnabled: reminder,
       reminderOffsetMinutes: offset,

@@ -2,12 +2,15 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
+import '../../domain/models.dart';
 import '../../services/platform_bridge.dart';
 import '../app_scope.dart';
 import '../nav_bus.dart';
 import '../sheets/add_edit_sheet.dart';
 import '../sheets/item_detail_sheet.dart';
-import 'decide_screen.dart';
+import 'idea_review_screen.dart';
+import 'reveal_screen.dart';
+import 'roulette_screen.dart';
 import 'history_tab.dart';
 import 'home_tab.dart';
 import 'list_tab.dart';
@@ -50,7 +53,19 @@ class _HomeShellState extends State<HomeShell> {
     final pending = app.takePendingOpenItem();
     if (pending != null) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        if (mounted) showItemDetailSheet(context, pending);
+        if (!mounted) return;
+        final it = app.itemById(pending);
+        if (it != null && (it.type == ItemType.capsule || it.type == ItemType.future)) {
+          Navigator.of(context).push(MaterialPageRoute<void>(builder: (_) => RevealScreen(itemId: pending)));
+        } else {
+          showItemDetailSheet(context, pending);
+        }
+      });
+    }
+    final route = app.takePendingRoute();
+    if (route == 'ideas') {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) Navigator.of(context).push(MaterialPageRoute<void>(builder: (_) => const IdeaReviewScreen()));
       });
     }
 
@@ -94,7 +109,7 @@ void handleQuickAction(BuildContext context, QuickAction a, NavBus bus) {
     case QuickAction.add:
       unawaited(addFlow(context));
     case QuickAction.pick:
-      Navigator.of(context).push(MaterialPageRoute<void>(builder: (_) => const DecideScreen()));
+      Navigator.of(context).push(MaterialPageRoute<void>(builder: (_) => const RouletteScreen()));
     case QuickAction.search:
       bus.focusSearch();
     case QuickAction.open:

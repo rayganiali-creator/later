@@ -631,6 +631,7 @@
       }
     }
   },
+  "qaSeedShelves": "نمونه‌ی قفسه‌ها، آدم‌ها و کپسول",
   "qaSeeded": "{n} مورد اضافه شد.",
   "@qaSeeded": {
     "placeholders": {
