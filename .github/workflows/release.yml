@@ -10,7 +10,8 @@ name: Release (signed store build)
 #   LATER_KEY_ALIAS         (later)
 #   LATER_KEY_PASSWORD
 #   LATER_PRO_SIGNING_KEY   long random string, keep it the same for every release
-#   BAZAAR_RSA_KEY          public key from the Bazaar developer panel
+#   BAZAAR_RSA_KEY          public key from the Bazaar developer panel. Bazaar only shows it
+#                           after the first upload, so leave it out for the first run.
 
 on:
   workflow_dispatch:
@@ -44,9 +45,12 @@ jobs:
           E: ${{ secrets.LATER_PRO_SIGNING_KEY }}
           F: ${{ secrets.BAZAAR_RSA_KEY }}
         run: |
-          for v in A B C D E F; do
+          for v in A B C D E; do
             if [ -z "${!v}" ]; then echo "::error::A required secret is missing (see the comment at the top of release.yml)"; exit 1; fi
           done
+          if [ -z "$F" ]; then
+            echo "::warning::BAZAAR_RSA_KEY is empty: this build is only good for the FIRST upload to Bazaar (purchases will not work in it). Add the key, then run again."
+          fi
 
       - name: Analyze and test
         run: |

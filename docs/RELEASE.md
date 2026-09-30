@@ -33,7 +33,8 @@ R8 minification + resource shrinking are on.
 ## Signed store build from GitHub (no local setup)
 Actions → **Release (signed store build)** → Run workflow. It needs these repository secrets
 (the keystore is stored as base64, never in git): `LATER_KEYSTORE_BASE64` (`base64 -w0 later-release.jks`),
-`LATER_KEYSTORE_PASSWORD`, `LATER_KEY_ALIAS`, `LATER_KEY_PASSWORD`, `LATER_PRO_SIGNING_KEY`, `BAZAAR_RSA_KEY`.
+`LATER_KEYSTORE_PASSWORD`, `LATER_KEY_ALIAS`, `LATER_KEY_PASSWORD`, `LATER_PRO_SIGNING_KEY`, and `BAZAAR_RSA_KEY`.
+`BAZAAR_RSA_KEY` is shown by Bazaar only after the first upload: run once without it (purchases are off in that build), upload, copy the key from the panel, add the secret, run again and upload the new build.
 It runs analyze + tests, builds the AAB and APK, checks the signature and that there is no INTERNET permission,
 and attaches both files to the run (private, 14 days).
 
