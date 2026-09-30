@@ -30,6 +30,13 @@ flutter build apk --release --flavor store   # if the market wants an APK
 Outputs: `build/app/outputs/bundle/storeRelease/app-store-release.aab`, `build/app/outputs/flutter-apk/app-store-release.apk`.
 R8 minification + resource shrinking are on.
 
+## Signed store build from GitHub (no local setup)
+Actions → **Release (signed store build)** → Run workflow. It needs these repository secrets
+(the keystore is stored as base64, never in git): `LATER_KEYSTORE_BASE64` (`base64 -w0 later-release.jks`),
+`LATER_KEYSTORE_PASSWORD`, `LATER_KEY_ALIAS`, `LATER_KEY_PASSWORD`, `LATER_PRO_SIGNING_KEY`, `BAZAAR_RSA_KEY`.
+It runs analyze + tests, builds the AAB and APK, checks the signature and that there is no INTERNET permission,
+and attaches both files to the run (private, 14 days).
+
 ## Versioning
 Edit `version:` in `pubspec.yaml` (`1.0.0+1` = versionName+versionCode). versionCode must increase for every upload.
 

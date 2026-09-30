@@ -26,6 +26,14 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   Future<void> _finish() async {
     if (_busy) return;
     setState(() => _busy = true);
+    // Ask for the notification permission up front, so the first reminder
+    // the user sets already works. Declining is fine: it is asked about again
+    // (with an explanation) when they turn a reminder on.
+    final app = context.appRead;
+    try {
+      await app.ensureNotificationPermission(askExact: false);
+    } catch (_) {}
+    if (!mounted) return;
     await guarded(context, () => context.appRead.updateSettings((s) => s.copyWith(onboardingDone: true)));
     if (mounted) setState(() => _busy = false);
   }

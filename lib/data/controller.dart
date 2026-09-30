@@ -705,10 +705,10 @@ class LaterController extends ChangeNotifier {
 
   /// Asks for the notification permission at the moment the user first turns
   /// a reminder on (never at startup).
-  Future<bool> ensureNotificationPermission() async {
+  Future<bool> ensureNotificationPermission({bool askExact = true}) async {
     var p = await notifications.permission();
     if (p == NotificationPermission.denied) p = await notifications.requestPermission();
-    if (p == NotificationPermission.granted) {
+    if (p == NotificationPermission.granted && askExact) {
       if (!await notifications.exactAlarmsAllowed()) {
         await notifications.requestExactAlarms();
       }
