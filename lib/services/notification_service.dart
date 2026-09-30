@@ -231,7 +231,12 @@ class FlutterNotificationGateway implements NotificationGateway {
   }) async {
     await _ensureTimezone();
     final at = r.fireAt;
-    final when = tz.TZDateTime(tz.local, at.year, at.month, at.day, at.hour, at.minute);
+    // Repeating reminders match on wall-clock components in tz.local. A single
+    // reminder is an absolute instant, so convert it from the device clock:
+    // that stays correct even if the timezone name could not be resolved.
+    final when = r.repeat == RepeatRule.none
+        ? tz.TZDateTime.from(DateTime(at.year, at.month, at.day, at.hour, at.minute), tz.local)
+        : tz.TZDateTime(tz.local, at.year, at.month, at.day, at.hour, at.minute);
     DateTimeComponents? match;
     switch (r.repeat) {
       case RepeatRule.none:
@@ -251,9 +256,11 @@ class FlutterNotificationGateway implements NotificationGateway {
       body: privateMode && !r.sealed ? texts.privateBody : r.body,
       scheduledDate: when,
       notificationDetails: _details(texts, privateMode: privateMode && !r.sealed, noActions: r.sealed),
+      // Without the "exact alarms" permission, an alarm-clock alarm is the one
+      // mode that still fires on time in Doze (it shows a small alarm icon).
       androidScheduleMode: exact
           ? AndroidScheduleMode.exactAllowWhileIdle
-          : AndroidScheduleMode.inexactAllowWhileIdle,
+          : AndroidScheduleMode.alarmClock,
       payload: NotificationTap.payloadFor(r.itemId),
       matchDateTimeComponents: match,
     );

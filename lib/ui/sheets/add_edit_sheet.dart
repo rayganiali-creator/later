@@ -193,6 +193,9 @@ class _AddEditSheetState extends State<AddEditSheet> {
       _dirty = true;
       _time = t;
     });
+    // Choosing a time means "tell me then": turn the reminder on unless the
+    // user already picked one.
+    if (_reminder == _ReminderChoice.off) await _setReminder(_ReminderChoice.atTime);
   }
 
   Future<void> _setReminder(_ReminderChoice c) async {
