@@ -44,7 +44,8 @@ jobs:
             adb install -r build/app/outputs/flutter-apk/app-qa-debug.apk
             adb shell pm grant app.baadan.later.qa android.permission.POST_NOTIFICATIONS || true
             adb shell appops set app.baadan.later.qa SCHEDULE_EXACT_ALARM allow || true
-            flutter test integration_test/device_test.dart --flavor qa --dart-define=LATER_PRO_SIGNING_KEY=qa-only-signing-key -d emulator-5554 2>&1 | tee integration.log
+            flutter drive --driver=test_driver/integration_test.dart --target=integration_test/device_test.dart --flavor qa --dart-define=LATER_PRO_SIGNING_KEY=qa-only-signing-key --keep-app-running -d emulator-5554 2>&1 | tee integration.log
+            adb shell pm list packages | grep app.baadan.later.qa || adb install -r build/app/outputs/flutter-apk/app-qa-debug.apk
             PKG=app.baadan.later.qa REPORT=scenario-report.txt bash tool/ci/android_scenarios.sh
       - uses: actions/upload-artifact@v4
         if: always()
