@@ -47,7 +47,7 @@
 
 ## دارایی‌ها
 `store/assets/icon_512.png`، `store/assets/feature_graphic_1024x500.png`، `store/assets/screenshots/*` (تولید با `SCREENSHOTS=1 flutter test test/screenshots_test.dart`).
-سیاست حریم خصوصی: متن `assets/legal/privacy_fa.txt` را روی یک صفحه‌ی وب عمومی منتشر و نشانی را در پنل بازار وارد کنید (بازار آدرس URL می‌خواهد).
+سیاست حریم خصوصی: https://rayganiali-creator.github.io/later/privacy/ (منبع: `docs/privacy/index.html`).
 
 ## چک‌لیست انتشار
 - [ ] کلید امضا ساخته و پشتیبان‌گیری شد (خارج از git)
