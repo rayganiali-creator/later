@@ -98,7 +98,7 @@ class AppL10nFa extends AppL10n {
       'لازم نیست همه‌چیز همین الان تموم بشه. چیزی که وقتش نیست رو بذار کنار.';
 
   @override
-  String get onb2Title => 'هر چیزی را که نمی‌خواهی فراموش کنی، اینجا نگه دار.';
+  String get onb2Title => 'هر چی نمی‌خوای یادت بره، اینجا بذارش.';
 
   @override
   String get onb2Body =>

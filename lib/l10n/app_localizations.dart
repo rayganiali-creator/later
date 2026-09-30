@@ -274,7 +274,7 @@ abstract class AppL10n {
   /// No description provided for @onb2Title.
   ///
   /// In fa, this message translates to:
-  /// **'هر چیزی را که نمی‌خواهی فراموش کنی، اینجا نگه دار.'**
+  /// **'هر چی نمی‌خوای یادت بره، اینجا بذارش.'**
   String get onb2Title;
 
   /// No description provided for @onb2Body.

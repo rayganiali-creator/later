@@ -41,7 +41,7 @@ k('semAdd', 'افزودن مورد جدید', 'Add a new item')
 # ------------------------------------------------------------- onboarding
 k('onb1Title', 'الان لازم نیست.', "You don't need it now.")
 k('onb1Body', 'ذهنت را از هزارتا کار نیمه‌کاره خالی کن.', 'Free your mind from a thousand half-finished things.')
-k('onb2Title', 'هر چیزی را که نمی‌خواهی فراموش کنی، اینجا نگه دار.', "Keep anything you don't want to forget, right here.")
+k('onb2Title', 'هر چی نمی‌خوای یادت بره، اینجا بذارش.', "Keep anything you don't want to forget, right here.")
 k('onb2Body', 'مقاله، فیلم، خرید، ایده، لینک، یه تماس… فقط بنویس یا از هر برنامه‌ای «اشتراک‌گذاری» کن.', 'An article, a movie, a purchase, an idea, a link, a call… just type it or Share it from any app.')
 k('onb3Title', 'بعداً خودش به تو یادآوری می‌کند.', 'Later reminds you by itself.')
 k('onb3Body', 'یه تاریخ و ساعت بده؛ یا نده و هر وقت وقت آزاد داشتی بگو «یه مورد بهم بده».', 'Give it a date and time — or don\'t, and ask "give me one" whenever you have a moment.')
