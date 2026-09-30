@@ -49,3 +49,4 @@ app.*.map.json
 
 # Local secrets (never commit)
 /keys/
+/store-files.zip
