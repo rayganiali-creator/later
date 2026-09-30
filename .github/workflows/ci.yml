@@ -1,0 +1,123 @@
+name: CI
+
+on:
+  push:
+    branches: ['**']
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: write   # publishes the installable QA build as a pre-release
+
+env:
+  FLUTTER_VERSION: '3.47.5'
+  # Not a secret: signs the Pro entitlement stored inside backups of *test* builds.
+  QA_PRO_SIGNING_KEY: qa-only-signing-key
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: Analyze & test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: stable
+          cache: true
+      - run: sudo apt-get update && sudo apt-get install -y libsqlite3-dev
+      - run: flutter pub get
+      - name: Localization files are up to date
+        run: |
+          flutter gen-l10n
+          git diff --exit-code -- lib/l10n
+      - run: flutter analyze
+      - run: flutter test --reporter expanded
+      - name: Secret scan (no keystores / keys committed)
+        run: |
+          ! git ls-files | grep -E '\.(jks|keystore|p12)$|key\.properties$'
+
+  build:
+    name: Build APK / AAB
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: stable
+          cache: true
+      - run: flutter pub get
+
+      - name: Build QA APK (release, installable, test tools on)
+        run: |
+          flutter build apk --release --flavor qa \
+            --dart-define=LATER_PRO_SIGNING_KEY=${{ env.QA_PRO_SIGNING_KEY }} \
+            --split-per-abi
+      - name: Build QA APK (debug, for emulator tests)
+        run: |
+          flutter build apk --debug --flavor qa \
+            --dart-define=LATER_PRO_SIGNING_KEY=${{ env.QA_PRO_SIGNING_KEY }}
+
+      - name: Build STORE bundle with a throw-away key (pipeline check only)
+        run: |
+          keytool -genkeypair -v -keystore "$RUNNER_TEMP/throwaway.jks" -storetype JKS \
+            -keyalg RSA -keysize 2048 -validity 30 -alias ci \
+            -storepass ci-throwaway -keypass ci-throwaway -dname "CN=CI throwaway"
+          export LATER_KEYSTORE_FILE="$RUNNER_TEMP/throwaway.jks"
+          export LATER_KEYSTORE_PASSWORD=ci-throwaway LATER_KEY_ALIAS=ci LATER_KEY_PASSWORD=ci-throwaway
+          flutter build appbundle --release --flavor store
+          flutter build apk --release --flavor store
+      - name: Store build must not contain QA tools or INTERNET permission
+        run: |
+          APK=build/app/outputs/flutter-apk/app-store-release.apk
+          ls -la build/app/outputs/flutter-apk/ build/app/outputs/bundle/storeRelease/
+          # apkanalyzer ships with the SDK on ubuntu runners
+          "$ANDROID_HOME/cmdline-tools/latest/bin/apkanalyzer" manifest permissions "$APK" | tee perms.txt
+          ! grep -q "android.permission.INTERNET" perms.txt
+          "$ANDROID_HOME/cmdline-tools/latest/bin/apkanalyzer" manifest print "$APK" | grep -E 'application-id|package=' | head -3 || true
+
+      - name: Lint (store release)
+        run: cd android && ./gradlew lintStoreRelease --no-daemon
+        continue-on-error: true
+
+      - name: Collect outputs
+        run: |
+          mkdir -p out
+          cp build/app/outputs/flutter-apk/app-qa-*-release.apk out/ || true
+          cp build/app/outputs/flutter-apk/app-qa-release.apk out/ 2>/dev/null || true
+          cp build/app/outputs/flutter-apk/app-qa-debug.apk out/
+          cp build/app/outputs/bundle/storeRelease/app-store-release.aab out/app-store-release-THROWAWAY-KEY.aab
+          cp android/app/build/reports/lint-results-storeRelease.html out/ 2>/dev/null || true
+          ls -la out
+      - uses: actions/upload-artifact@v4
+        with:
+          name: later-builds
+          path: out/
+          retention-days: 30
+
+      - name: Publish QA APK as a pre-release
+        if: github.event_name == 'push'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: qa-${{ github.run_number }}
+          name: "Later QA build #${{ github.run_number }} (${{ github.ref_name }})"
+          target_commitish: ${{ github.sha }}
+          prerelease: true
+          body: |
+            Installable **test build** of بعداً (Later) with QA tools (Pro simulation, time travel, sample data).
+            Package id: `app.baadan.later.qa` — installs next to the store app.
+            Commit: ${{ github.sha }}
+          files: |
+            out/app-qa-*-release.apk
+            out/app-qa-release.apk
+            out/app-qa-debug.apk

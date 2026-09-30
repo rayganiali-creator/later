@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="widget_small_label">Later — small</string>
+    <string name="widget_list_label">Later — list (Pro)</string>
+    <string name="widget_small_description">Waiting count, quick add and one suggestion</string>
+    <string name="widget_list_description">A few upcoming items; advanced Pro widget</string>
+    <string name="widget_loading">Later</string>
+    <string name="widget_count_template">%1$s waiting</string>
+</resources>

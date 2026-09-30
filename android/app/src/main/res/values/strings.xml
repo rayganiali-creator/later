@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="widget_small_label">بعداً — کوچک</string>
+    <string name="widget_list_label">بعداً — فهرست (Pro)</string>
+    <string name="widget_small_description">تعداد موردهای منتظر، افزودن سریع و پیشنهاد یک مورد</string>
+    <string name="widget_list_description">چند مورد نزدیک؛ ویجت پیشرفته‌ی Pro</string>
+    <string name="widget_loading">بعداً</string>
+    <string name="widget_count_template">%1$s مورد منتظرند</string>
+</resources>

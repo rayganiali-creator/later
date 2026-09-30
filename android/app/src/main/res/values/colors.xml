@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="splash_bg">#F6F5FB</color>
+    <color name="splash_icon_bg">#5B4BDB</color>
+    <color name="widget_bg">#FFFFFF</color>
+    <color name="widget_text">#1B1A24</color>
+    <color name="widget_text_secondary">#6A6779</color>
+    <color name="widget_pill">#E9E5FF</color>
+    <color name="widget_pill_text">#3B3480</color>
+    <color name="widget_accent">#5B4BDB</color>
+</resources>
