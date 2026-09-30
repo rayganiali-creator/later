@@ -31,6 +31,7 @@ void main() {
       ..addFont(Future.value(ByteData.sublistView(
           File('$root/bin/cache/artifacts/material_fonts/MaterialIcons-Regular.otf').readAsBytesSync())));
     await icons.load();
+    FocusManager.instance.highlightStrategy = FocusHighlightStrategy.alwaysTouch;
     final out = Directory('store/assets/screenshots')..createSync(recursive: true);
     final key = GlobalKey();
     Future<void> shot(String name) async {
@@ -62,6 +63,32 @@ void main() {
       await env.controller.complete(items[8].id);
       await env.controller.pro.applyPurchase(ProPlans.month1);
     });
+    await tester.runAsync(() async {
+      final c = env.controller;
+      Future<void> add(String title, ItemType t, {String? url, int stage = 0, Map<String, Object?> extra = const {}, int ago = 3}) async {
+        final n = c.now();
+        final i = LaterItem(
+          id: 's${title.hashCode}',
+          title: title,
+          categoryId: 'other',
+          createdAt: n.subtract(Duration(days: ago)),
+          updatedAt: n,
+          type: t,
+          stage: stage,
+          url: url,
+          extra: extra,
+        );
+        await c.saveNew(i);
+      }
+
+      await add('مقاله‌ی «قدرت عادت‌های کوچک»', ItemType.read, url: 'https://example.com/habits');
+      await add('سخنرانی درباره‌ی تمرکز', ItemType.watch, url: 'https://www.youtube.com/watch?v=abc');
+      await add('هدفون بی‌سیم', ItemType.wishlist, extra: {'price': 2400000, 'currency': 'تومان'}, ago: 40);
+      await add('اپ یادآور آب‌خوردن', ItemType.idea, ago: 20);
+      await c.quickAdd('کتاب فیزیک کوانتوم');
+      await c.addPerson('سارا');
+      await c.seal(title: 'نامه به خودِ یک‌ساله‌ی بعد', body: 'سلام', unlockAt: DateTime(2027, 6, 1));
+    });
     await show(env);
     await shot('01_home');
     await tester.tap(find.text(fa.navList).last);
@@ -69,17 +96,38 @@ void main() {
     await tester.tap(find.text(fa.navHome).last);
     await settle(tester);
     await tester.tap(find.text(fa.pickCardTitle));
-    await shot('03_decide');
+    await settle(tester);
+    await tester.tap(find.text(fa.roulettePick));
+    await settle(tester, rounds: 30);
+    await shot('03_roulette');
+    tester.state<NavigatorState>(find.byType(Navigator).first).pop();
+    await settle(tester);
+    await tester.ensureVisible(find.text(fa.shelfWishTitle).first);
+    await settle(tester);
+    await tester.tap(find.text(fa.shelfWishTitle).first);
+    await settle(tester);
+    await shot('04_wishlist');
+    tester.state<NavigatorState>(find.byType(Navigator).first).pop();
+    await settle(tester);
+    await tester.ensureVisible(find.text(fa.shelfFutureTitle).first);
+    await settle(tester);
+    await tester.tap(find.text(fa.shelfFutureTitle).first);
+    await settle(tester);
+    await shot('05_future');
+    tester.state<NavigatorState>(find.byType(Navigator).first).pop();
+    await settle(tester);
+    await tester.tap(find.text(fa.dashInbox).first);
+    await shot('06_inbox');
     tester.state<NavigatorState>(find.byType(Navigator).first).pop();
     await settle(tester);
     await tester.tap(find.byIcon(Icons.add_rounded).first);
     await settle(tester);
     await tester.enterText(find.byType(TextFormField).first, 'این مقاله رو بخونم');
-    await shot('04_add');
+    await shot('07_add');
     await tester.tapAt(const Offset(200, 40));
     await settle(tester);
     await tester.tap(find.text(fa.navSettings).last);
-    await shot('05_settings');
-    expect(out.listSync().length, greaterThanOrEqualTo(5));
+    await shot('08_settings');
+    expect(out.listSync().length, greaterThanOrEqualTo(8));
   });
 }

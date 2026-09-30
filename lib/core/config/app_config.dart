@@ -38,7 +38,7 @@ class AppConfig {
   static const int privacyVersion = 1;
 
   /// Contact address shown in About / store listing. Leave empty to hide.
-  static const String supportEmail = '';
+  static const String supportEmail = 'manseyed2000@gmail.com';
 
   /// Maximum number of pending notifications kept scheduled with the OS
   /// (Android limits the number of alarms an app may hold).

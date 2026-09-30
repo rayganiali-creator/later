@@ -8,7 +8,7 @@ Later is built so that your data stays with you: no account, no personal-data se
 
 # What the app stores
 
-The items you add (title, description, note, link, tags, category, date and time, priority and estimated duration), custom categories, history and simple usage statistics, and app settings. All of it is stored only in the app's private storage on your device and is never sent to any server.
+The items you add (title, description, note, link, tags, category, date and time, priority, estimated duration, price and score), shelves (articles, videos, wishlist, ideas), people you add (name, note and, if you pick one from your contacts, a reference to that contact), time capsules and messages to your future self together with any attachments you choose, custom categories, history and simple usage statistics, and app settings. All of it is stored only in the app's private storage on your device and is never sent to any server.
 
 # Internet
 
@@ -16,11 +16,11 @@ The store build of Later does not request the internet permission and its core f
 
 # Permissions
 
-Notifications: to show reminders; requested only the first time you set a reminder.
+Notifications: to show reminders; asked at the end of the first-run introduction, and asked again with an explanation when you turn on your first reminder if you declined.
 Exact alarms: to show reminders on time; optional.
 Device restart: so reminders are re-scheduled after the phone reboots.
 Cafe Bazaar communication: only to buy a Pro subscription.
-The app does not ask for contacts, location, microphone, camera or shared storage. Saving and restoring backups uses the system file picker.
+The app does not ask for permission to read your contacts. When you tap "Pick from contacts" the system's own picker opens and only the single contact you choose (its name and a reference to it) is handed to the app; the number and other details are not copied or stored. The app does not ask for location, microphone, camera or shared storage. Saving and restoring backups uses the system file picker.
 
 # Sharing from other apps
 
@@ -49,3 +49,7 @@ The app collects no information about users and is suitable for all ages.
 # Changes to this policy
 
 If this policy changes, the new version is shown in the app and you may be asked to accept it again.
+
+# Contact
+
+Questions about privacy: manseyed2000@gmail.com
