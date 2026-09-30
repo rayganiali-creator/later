@@ -14,3 +14,14 @@ Install the QA APK from the GitHub pre-release. Settings → bottom: **ابزا�
 10. **Themes:** Light / Dark / System; accent (Pro); font size 100% → 200%; TalkBack over Home, list, add sheet.
 11. **Reset:** requires typing the word; Pro remains.
 12. **Performance:** 5000 items → scrolling, search, cold start.
+
+## New sections (v2)
+
+13. **Home vs list:** Home is a dashboard (roulette card, counters, inbox, shelves) and never lists items; the «بعداً» tab is the full list with type/inbox chips.
+14. **Inbox / share:** share a YouTube link and a shop link from Chrome → «کجا نگهش دارم؟» sheet; dismiss → item is in the inbox. On the inbox screen use each triage chip; undo works. Free: no suggestion; QA → simulate Pro → suggestion appears and is never applied without a tap.
+15. **Shelves:** بعداً بخون / ببین / بخر / ایده‌ها: add with the type chips, change stage, finish (history), wishlist price + «هنوز می‌خوایش؟» (QA: advance 31 days). Free: no stats/collections/target price (Pro sheet opens).
+16. **Roulette:** pick, another, later (snooze), start; Free: filters open the Pro sheet; Pro: time/priority/energy/category + history.
+17. **People:** add from contacts (system picker, no permission prompt) and by name; «بعداً به X پیام بده» with a date → notification; open contact. Pro: history, follow-up, groups, «باید سر بزنی».
+18. **Time capsule / message:** create with a date tomorrow (QA: sample button), text hidden while locked (also in search), advance 2 days → notification + reveal screen. Free limit = 2 each; Pro: attachments ≤2 MB, repeat yearly.
+19. **Backup v2:** export with all sections (incl. attachments), reset, restore; also restore an old v1 backup file.
+20. **Pro screen:** every plan lists all 12 features with descriptions; prices unchanged; stacking note.
