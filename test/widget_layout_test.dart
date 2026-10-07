@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter_test/flutter_test.dart';
 
 /// Widgets are inflated by RemoteViews, which only accepts a short list of
-/// view classes (a bare <View> works on Android 12+ only). One unsupported
+/// view classes (a bare View tag works on Android 12+ only). One unsupported
 /// tag makes the widget silently not appear on older phones.
 void main() {
   const allowed = {
