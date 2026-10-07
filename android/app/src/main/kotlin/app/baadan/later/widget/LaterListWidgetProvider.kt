@@ -13,6 +13,11 @@ class LaterListWidgetProvider : AppWidgetProvider() {
         update(context, manager, ids)
     }
 
+    override fun onReceive(context: Context, intent: android.content.Intent) {
+        super.onReceive(context, intent)
+        WidgetActions.handleRefresh(context, intent)
+    }
+
     companion object {
         private val ITEM_IDS = intArrayOf(R.id.widget_item1, R.id.widget_item2, R.id.widget_item3, R.id.widget_item4)
 
@@ -27,7 +32,7 @@ class LaterListWidgetProvider : AppWidgetProvider() {
                     ITEM_IDS.forEach { v.setTextViewText(it, "") }
                 } else {
                     val countText = if (data.count == 0) data.str("empty")
-                    else data.str("waiting", "{n}").replace("{n}", data.count.toString())
+                    else data.str("waiting", "{n}").replace("{n}", data.num(data.count))
                     v.setTextViewText(R.id.widget_count, countText)
                     if (!data.pro) {
                         ITEM_IDS.forEachIndexed { i, rid -> v.setTextViewText(rid, if (i == 0) data.str("proOnly") else "") }
@@ -39,9 +44,9 @@ class LaterListWidgetProvider : AppWidgetProvider() {
                     v.setTextViewText(R.id.widget_add, data.str("add"))
                     v.setTextViewText(R.id.widget_pick, data.str("pick"))
                 }
-                v.setOnClickPendingIntent(R.id.widget_add, LaterWidgetProvider.pending(context, "add", id * 10 + 4))
-                v.setOnClickPendingIntent(R.id.widget_pick, LaterWidgetProvider.pending(context, "pick", id * 10 + 5))
-                v.setOnClickPendingIntent(R.id.widget_root, LaterWidgetProvider.pending(context, "open", id * 10 + 6))
+                v.setOnClickPendingIntent(R.id.widget_add, WidgetActions.open(context, "capture", id * 10 + 4))
+                v.setOnClickPendingIntent(R.id.widget_pick, WidgetActions.open(context, "pick", id * 10 + 5))
+                v.setOnClickPendingIntent(R.id.widget_root, WidgetActions.open(context, "open", id * 10 + 6))
                 manager.updateAppWidget(id, v)
             }
         }

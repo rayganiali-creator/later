@@ -18,15 +18,29 @@ class Transitions {
   static int _waited(LaterItem i, DateTime now) =>
       Dates.daysBetween(i.createdAt, now).clamp(0, 100000);
 
+  /// Appends "stage changed to X now" to the item's status history (kept for
+  /// the shelves that show it; capped so it never grows without bound).
+  static LaterItem track(LaterItem i, DateTime now) {
+    if (i.type == ItemType.task || i.type == ItemType.person) return i;
+    final h = [
+      for (final e in i.stageHistory) [e.$1.millisecondsSinceEpoch, e.$2],
+      [now.millisecondsSinceEpoch, i.stage],
+    ];
+    final cut = h.length > 200 ? h.sublist(h.length - 200) : h;
+    return i.withExtra('history', cut);
+  }
+
   static Transition complete(LaterItem i, DateTime now) => Transition(
-        i.copyWith(
-          status: ItemStatus.done,
-          stage: ItemStages.doneStage(i.type),
-          inbox: false,
-          completedAt: now,
-          droppedAt: null,
-          updatedAt: now,
-        ),
+        track(
+            i.copyWith(
+              status: ItemStatus.done,
+              stage: ItemStages.doneStage(i.type),
+              inbox: false,
+              completedAt: now,
+              droppedAt: null,
+              updatedAt: now,
+            ),
+            now),
         ItemEvent(
           itemId: i.id,
           type: EventType.completed,
@@ -38,14 +52,16 @@ class Transitions {
 
   /// "بی‌خیالش شدم": set aside without a feeling of failure.
   static Transition drop(LaterItem i, DateTime now) => Transition(
-        i.copyWith(
-          status: ItemStatus.dropped,
-          stage: ItemStages.dropStage(i.type),
-          inbox: false,
-          droppedAt: now,
-          completedAt: null,
-          updatedAt: now,
-        ),
+        track(
+            i.copyWith(
+              status: ItemStatus.dropped,
+              stage: ItemStages.dropStage(i.type),
+              inbox: false,
+              droppedAt: now,
+              completedAt: null,
+              updatedAt: now,
+            ),
+            now),
         ItemEvent(
           itemId: i.id,
           type: EventType.dropped,
@@ -59,7 +75,7 @@ class Transitions {
   /// keeping the generic status, timestamps and history in sync.
   static Transition setStage(LaterItem i, int stage, DateTime now) {
     final status = ItemStages.statusFor(i.type, stage);
-    final base = i.copyWith(
+    var base = i.copyWith(
       stage: stage,
       status: status,
       inbox: false,
@@ -67,6 +83,11 @@ class Transitions {
       droppedAt: status == ItemStatus.dropped ? (i.droppedAt ?? now) : null,
       updatedAt: now,
     );
+    // Finishing something means 100 %.
+    if (status == ItemStatus.done && (i.type == ItemType.podcast || i.type == ItemType.course)) {
+      base = base.withExtra('progress', 100);
+    }
+    base = track(base, now);
     final type = switch (status) {
       ItemStatus.done => EventType.completed,
       ItemStatus.dropped => EventType.dropped,
@@ -86,15 +107,17 @@ class Transitions {
 
   /// Puts an item on another shelf ("this is actually a wishlist item").
   static Transition moveToType(LaterItem i, ItemType type, DateTime now) => Transition(
-        i.copyWith(
-          type: type,
-          stage: 0,
-          status: ItemStatus.active,
-          inbox: false,
-          completedAt: null,
-          droppedAt: null,
-          updatedAt: now,
-        ),
+        track(
+            i.copyWith(
+              type: type,
+              stage: 0,
+              status: ItemStatus.active,
+              inbox: false,
+              completedAt: null,
+              droppedAt: null,
+              updatedAt: now,
+            ),
+            now),
         ItemEvent(itemId: i.id, type: EventType.moved, at: now, categoryId: i.categoryId),
       );
 

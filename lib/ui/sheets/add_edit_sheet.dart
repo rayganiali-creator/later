@@ -6,11 +6,15 @@ import '../../core/util/dates.dart';
 import '../../core/util/ids.dart';
 import '../../core/util/text.dart';
 import '../../domain/models.dart';
+import '../../domain/pro.dart';
+import '../../l10n/app_localizations.dart';
 import '../../domain/snooze.dart';
+import '../../services/image_processor.dart';
 import '../app_scope.dart';
 import '../screens/categories_screen.dart';
 import '../widgets/common.dart';
 import '../widgets/date_picker.dart';
+import '../widgets/picture_section.dart';
 import '../type_info.dart';
 import '../widgets/pro_gate.dart';
 import 'item_detail_sheet.dart' show parsePrice;
@@ -59,6 +63,16 @@ class _AddEditSheetState extends State<AddEditSheet> {
   final _tags = TextEditingController();
   final _price = TextEditingController();
   final _currency = TextEditingController();
+  final _show = TextEditingController();
+  final _creator = TextEditingController();
+  final _genre = TextEditingController();
+  final _goal = TextEditingController();
+  final _duration = TextEditingController();
+  final _position = TextEditingController();
+  final Set<String> _platforms = {};
+  String _level = '';
+  int _progress = 0;
+  final List<ProcessedImage> _pending = [];
   final _titleFocus = FocusNode();
   final _formKey = GlobalKey<FormState>();
 
@@ -98,6 +112,15 @@ class _AddEditSheetState extends State<AddEditSheet> {
       _watchKind = i.watchKind;
       _price.text = i.price == null ? '' : i.price!.round().toString();
       _currency.text = i.currency;
+      _show.text = i.show;
+      _creator.text = i.creator;
+      _genre.text = i.genre;
+      _goal.text = i.goal;
+      _level = i.level;
+      _progress = i.progress;
+      _platforms.addAll(i.platforms);
+      if (i.durationSec != null) _duration.text = TypeInfo.clock(i.durationSec!);
+      if (i.positionSec != null && i.positionSec! > 0) _position.text = TypeInfo.clock(i.positionSec!);
       _minutes = i.estimatedMinutes;
       _repeat = i.repeat;
       if (i.reminderEnabled && i.dueAt != null) {
@@ -125,7 +148,7 @@ class _AddEditSheetState extends State<AddEditSheet> {
         _category = widget.presetCategory!;
       }
     }
-    for (final c in [_title, _desc, _note, _url, _tags, _price, _currency]) {
+    for (final c in [_title, _desc, _note, _url, _tags, _price, _currency, _show, _creator, _genre, _goal, _duration, _position]) {
       c.addListener(() => _dirty = true);
     }
     if (!_editing) {
@@ -135,7 +158,7 @@ class _AddEditSheetState extends State<AddEditSheet> {
 
   @override
   void dispose() {
-    for (final c in [_title, _desc, _note, _url, _tags, _price, _currency]) {
+    for (final c in [_title, _desc, _note, _url, _tags, _price, _currency, _show, _creator, _genre, _goal, _duration, _position]) {
       c.dispose();
     }
     _titleFocus.dispose();
@@ -254,6 +277,9 @@ class _AddEditSheetState extends State<AddEditSheet> {
       final type = _type ?? ItemType.task;
       final unsorted = _type == null && due == null;
       final price = parsePrice(_price.text);
+      // A podcast / course length gives the "about N minutes" shown in lists.
+      final lenSec = (type == ItemType.podcast || type == ItemType.course) ? TypeInfo.parseClock(_duration.text) : null;
+      final minutes = lenSec != null && lenSec > 0 ? (lenSec / 60).ceil() : _minutes;
       Map<String, Object?> extraFor(Map<String, Object?> base) {
         final m = Map<String, Object?>.from(base);
         if (type == ItemType.wishlist) {
@@ -270,6 +296,44 @@ class _AddEditSheetState extends State<AddEditSheet> {
           }
         }
         if (type == ItemType.watch) m['watchKind'] = _watchKind;
+        void text(String k, TextEditingController c) {
+          final v = c.text.trim();
+          v.isEmpty ? m.remove(k) : m[k] = v;
+        }
+
+        if (type == ItemType.app || type == ItemType.game) {
+          _platforms.isEmpty ? m.remove('platforms') : m['platforms'] = _platforms.toList();
+        }
+        if (type == ItemType.podcast) {
+          text('show', _show);
+          text('creator', _creator);
+        }
+        if (type == ItemType.course) {
+          text('show', _show);
+          text('creator', _creator);
+          text('goal', _goal);
+          _level.isEmpty ? m.remove('level') : m['level'] = _level;
+        }
+        if (type == ItemType.game) text('genre', _genre);
+        if (type == ItemType.podcast || type == ItemType.course) {
+          final dur = TypeInfo.parseClock(_duration.text);
+          if (dur != null && dur > 0) {
+            m['durationSec'] = dur;
+          } else {
+            m.remove('durationSec');
+          }
+          final pos = TypeInfo.parseClock(_position.text);
+          var pct = _progress;
+          if (type == ItemType.podcast && pos != null && dur != null && dur > 0) {
+            pct = (pos.clamp(0, dur) * 100 / dur).round();
+            m['positionSec'] = pos.clamp(0, dur);
+          } else if (type == ItemType.podcast && dur != null && dur > 0 && pct > 0) {
+            m['positionSec'] = (dur * pct / 100).round();
+          } else {
+            m.remove('positionSec');
+          }
+          pct > 0 ? m['progress'] = pct : m.remove('progress');
+        }
         return m;
       }
 
@@ -283,7 +347,7 @@ class _AddEditSheetState extends State<AddEditSheet> {
           tags: _parseTags(),
           categoryId: _category,
           priority: _priority,
-          estimatedMinutes: _minutes,
+          estimatedMinutes: minutes,
           dueAt: due,
           hasTime: _time != null && due != null,
           reminderEnabled: hasReminder,
@@ -318,7 +382,7 @@ class _AddEditSheetState extends State<AddEditSheet> {
           tags: _parseTags(),
           categoryId: _category,
           priority: _priority,
-          estimatedMinutes: _minutes,
+          estimatedMinutes: minutes,
           dueAt: due,
           hasTime: _time != null && due != null,
           reminderEnabled: hasReminder,
@@ -331,6 +395,12 @@ class _AddEditSheetState extends State<AddEditSheet> {
           inbox: unsorted,
           extra: extraFor(const {}),
         ));
+        for (final p in List<ProcessedImage>.of(_pending)) {
+          if (!app.canAddImage(saved.id)) break;
+          try {
+            await app.attachProcessed(saved.id, p);
+          } catch (_) {/* the item is saved; a failed picture must not undo it */}
+        }
         if (price != null && type == ItemType.wishlist) {
           // Seed the price history with the first price.
           final fresh = app.itemById(saved.id);
@@ -437,7 +507,17 @@ class _AddEditSheetState extends State<AddEditSheet> {
                       }),
                     ),
                   ),
-                  for (final t in const [ItemType.task, ItemType.read, ItemType.watch, ItemType.wishlist, ItemType.idea])
+                  for (final t in const [
+                    ItemType.task,
+                    ItemType.read,
+                    ItemType.watch,
+                    ItemType.wishlist,
+                    ItemType.idea,
+                    ItemType.app,
+                    ItemType.podcast,
+                    ItemType.course,
+                    ItemType.game,
+                  ])
                     Padding(
                       padding: const EdgeInsetsDirectional.only(end: 8),
                       child: ChoiceChip(
@@ -452,6 +532,14 @@ class _AddEditSheetState extends State<AddEditSheet> {
                       ),
                     ),
                 ]),
+              ),
+              _typeFields(l, fmt),
+              const SizedBox(height: 16),
+              _label(l.imgGalleryTitle),
+              PictureSection(
+                itemId: _editing ? widget.initial!.id : null,
+                pending: _editing ? null : _pending,
+                onPendingChanged: () => setState(() => _dirty = true),
               ),
               const SizedBox(height: 16),
               _label(l.fieldCategory),
@@ -699,6 +787,131 @@ class _AddEditSheetState extends State<AddEditSheet> {
           ),
         ),
       ),
+    );
+  }
+
+  static const _platformOrder = ['android', 'windows', 'macos', 'linux', 'ios', 'web', 'other'];
+
+  String _platformLabel(AppL10n l, String p) => switch (p) {
+        'android' => l.platAndroid,
+        'windows' => l.platWindows,
+        'macos' => l.platMac,
+        'linux' => l.platLinux,
+        'ios' => l.platIos,
+        'web' => l.platWeb,
+        _ => l.platOther,
+      };
+
+  Widget _platformChips(AppL10n l) {
+    final pro = context.appRead.access.has(ProFeature.appTools);
+    return Wrap(spacing: 8, runSpacing: 8, children: [
+      for (final p in _platformOrder)
+        FilterChip(
+          label: Text(_platformLabel(l, p)),
+          selected: _platforms.contains(p),
+          showCheckmark: false,
+          onSelected: (v) {
+            if (v && !pro && _platforms.isNotEmpty) {
+              showProSheet(context, featureName: l.platformsProHint);
+              return;
+            }
+            setState(() {
+              _dirty = true;
+              v ? _platforms.add(p) : _platforms.remove(p);
+            });
+          },
+        ),
+    ]);
+  }
+
+  /// Fields that only make sense for one shelf.
+  Widget _typeFields(AppL10n l, Fmt fmt) {
+    final t = _type;
+    if (t != ItemType.app && t != ItemType.podcast && t != ItemType.course && t != ItemType.game) {
+      return const SizedBox.shrink();
+    }
+    final color = TypeInfo.color(t!);
+    const gap = SizedBox(height: 12);
+    Widget field(TextEditingController c, String label, {String? hint, TextInputType? kb}) => Padding(
+          padding: const EdgeInsets.only(bottom: 12),
+          child: TextFormField(
+            controller: c,
+            keyboardType: kb,
+            decoration: InputDecoration(labelText: label, hintText: hint),
+          ),
+        );
+    return Container(
+      margin: const EdgeInsets.only(top: 16),
+      padding: const EdgeInsets.all(14),
+      decoration: BoxDecoration(
+        color: color.withValues(alpha: 0.07),
+        borderRadius: BorderRadius.circular(18),
+        border: Border.all(color: color.withValues(alpha: 0.25)),
+      ),
+      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        Row(children: [
+          Icon(TypeInfo.icon(t), color: color, size: 20),
+          const SizedBox(width: 8),
+          Text(TypeInfo.shelfTitle(l, t), style: context.text.titleSmall?.copyWith(color: color)),
+        ]),
+        gap,
+        if (t == ItemType.app || t == ItemType.game) ...[
+          _label(l.fieldPlatforms),
+          _platformChips(l),
+          gap,
+        ],
+        if (t == ItemType.podcast) ...[
+          field(_show, l.fieldShow),
+          field(_creator, l.fieldCreator),
+          field(_duration, l.fieldDurationMin, hint: l.fieldDurationHint2, kb: TextInputType.datetime),
+          field(_position, l.lastPosition, hint: l.fieldPositionHint, kb: TextInputType.datetime),
+        ],
+        if (t == ItemType.course) ...[
+          field(_show, l.fieldCoursePlatform),
+          field(_creator, l.fieldInstructor),
+          _label(l.fieldLevel),
+          Wrap(spacing: 8, children: [
+            for (final k in const [('beginner', 0), ('intermediate', 1), ('advanced', 2)])
+              ChoiceChip(
+                label: Text([l.levelBeginner, l.levelIntermediate, l.levelAdvanced][k.$2]),
+                selected: _level == k.$1,
+                onSelected: (v) => setState(() {
+                  _dirty = true;
+                  _level = v ? k.$1 : '';
+                }),
+              ),
+          ]),
+          gap,
+          field(_duration, l.fieldDurationMin, hint: l.fieldDurationHint2, kb: TextInputType.datetime),
+          field(_goal, l.fieldGoal, hint: l.goalHint),
+        ],
+        if (t == ItemType.game) field(_genre, l.fieldGenre),
+        if (t == ItemType.podcast || t == ItemType.course) ...[
+          Text('${l.fieldProgress}: ${fmt.num(_progress)}٪', style: context.text.labelLarge),
+          Slider(
+            value: _progress.toDouble(),
+            max: 100,
+            divisions: 20,
+            label: '${fmt.num(_progress)}٪',
+            onChanged: (v) => setState(() {
+              _dirty = true;
+              _progress = v.round();
+            }),
+          ),
+        ],
+        // The store / website link is part of the identity of these shelves.
+        TextFormField(
+          controller: _url,
+          keyboardType: TextInputType.url,
+          textDirection: TextDirection.ltr,
+          decoration: InputDecoration(labelText: l.fieldLinkStore, prefixIcon: const Icon(Icons.link_rounded)),
+          validator: (v) {
+            final x = (v ?? '').trim();
+            if (x.isEmpty) return null;
+            return sanitizeUrl(x) == null ? l.urlInvalid : null;
+          },
+        ),
+      ]),
     );
   }
 

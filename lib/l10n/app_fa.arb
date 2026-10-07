@@ -699,7 +699,7 @@
   "repeatYearly": "هر سال",
   "defaultCapsuleTitle": "کپسول بی‌نام",
   "defaultMessageTitle": "پیام بی‌نام",
-  "typeName": "{id, select, task{کار} read{مقاله} watch{ویدیو} wishlist{خرید} idea{ایده} person{آدم} capsule{کپسول} future{پیام} other{مورد}}",
+  "typeName": "{id, select, task{کار} read{مقاله} watch{ویدیو} wishlist{خرید} idea{ایده} person{آدم} capsule{کپسول} future{پیام} app{نرم‌افزار} podcast{پادکست} course{دوره} game{بازی} other{مورد}}",
   "@typeName": {
     "placeholders": {
       "id": {
@@ -1070,7 +1070,7 @@
   "shareSuggested": "پیشنهاد",
   "proWhatYouGet": "با Pro چی می‌گیری",
   "proFreeHeader": "تو نسخه‌ی رایگان هم داری",
-  "proFreeList": "ذخیره‌ی نامحدود، صندوق ورودی، قرعه‌ی پایه، بعداً بخون / ببین / بخر، ایده‌ها، آدم‌ها، کپسول و پیام (تا ۲ تا)، جستجو، یادآوری، اشتراک‌گذاری، تم روشن و تیره، پشتیبان‌گیری.",
+  "proFreeList": "ذخیره‌ی نامحدود، صندوق ورودی، قرعه‌ی پایه، همه‌ی قفسه‌ها (مقاله، ویدیو، خرید، ایده، نرم‌افزار، پادکست، دوره، بازی)، آدم‌ها، کپسول و پیام (تا ۲ تا)، یه عکس برای هر مورد، جستجو، یادآوری، اشتراک‌گذاری، ویجت‌های خانه، تم روشن و تیره، پشتیبان‌گیری.",
   "proFT1": "قرعه‌ی هوشمند",
   "proFD1": "فقط از دسته‌های دلخواه، بر اساس وقت، اولویت و حال و انرژی‌ات انتخاب می‌کنه و تاریخچه‌ی قرعه‌ها رو نگه می‌داره.",
   "proFT2": "صندوق ورودی هوشمند",
@@ -1101,5 +1101,281 @@
   "askWhereOnShare": "بعد از اشتراک‌گذاری بپرس کجا بره",
   "askWhereOnShareSub": "اگه خاموشه، همه‌چیز می‌ره تو صندوق ورودی.",
   "ideaReviewEvery": "مرور ایده‌ها هر",
-  "ideaReviewMonthly": "یادآوری مرور ماهانه"
+  "ideaReviewMonthly": "یادآوری مرور ماهانه",
+  "shelfAppTitle": "بعداً نصب کن",
+  "shelfPodcastTitle": "بعداً گوش بده",
+  "shelfCourseTitle": "بعداً یاد بگیر",
+  "shelfGameTitle": "بعداً بازی کن",
+  "shelfAppSub": "نرم‌افزارهایی که بعداً نصب می‌کنم",
+  "shelfPodcastSub": "پادکست‌هایی که بعداً گوش می‌کنم",
+  "shelfCourseSub": "دوره‌ها و مهارت‌هایی که بعداً یاد می‌گیرم",
+  "shelfGameSub": "بازی‌هایی که بعداً بازی می‌کنم",
+  "shelfEmptyAppTitle": "هنوز نرم‌افزاری نذاشتی",
+  "shelfEmptyAppBody": "لینک Google Play یا بازار رو بفرست به بعداً، تا وقتی نصبش کنی اینجا می‌مونه.",
+  "shelfEmptyPodcastTitle": "هنوز پادکستی نذاشتی",
+  "shelfEmptyPodcastBody": "یه قسمت رو نگه دار تا وقتی وقت داشتی ادامه‌اش بدی.",
+  "shelfEmptyCourseTitle": "هنوز دوره‌ای نذاشتی",
+  "shelfEmptyCourseBody": "دوره یا آموزشی که می‌خوای بعداً یاد بگیری رو اینجا بذار و بنویس چرا.",
+  "shelfEmptyGameTitle": "هنوز بازی‌ای نذاشتی",
+  "shelfEmptyGameBody": "بازی‌هایی که می‌خوای یه روز بازی کنی رو اینجا جمع کن.",
+  "stageNotInstalled": "نصب نشده",
+  "stageWantInstall": "می‌خوام نصب کنم",
+  "stageEvaluating": "در حال بررسی",
+  "stageInstalled": "نصب کردم",
+  "stageAppNotWanted": "دیگه نمی‌خوام",
+  "stageNotListened": "گوش نکرده‌ام",
+  "stageListening": "در حال گوش دادن",
+  "stagePaused": "متوقف شده",
+  "stageListened": "گوش دادم",
+  "stageLearnLater": "بعداً یاد می‌گیرم",
+  "stageLearning": "در حال یادگیری",
+  "stageLearned": "تمام شد",
+  "stageLearnAbandoned": "رها کردم",
+  "stageWantPlay": "می‌خوام بازی کنم",
+  "stagePlaying": "در حال بازی",
+  "stageGameFinished": "تمام شد",
+  "stageGameDropped": "دیگه علاقه ندارم",
+  "markAsInstalled": "نصبش کردم",
+  "markAsListened": "گوش دادم",
+  "markAsLearned": "تمومش کردم",
+  "fieldPlatforms": "پلتفرم",
+  "platAndroid": "اندروید",
+  "platWindows": "ویندوز",
+  "platMac": "macOS",
+  "platLinux": "لینوکس",
+  "platIos": "iOS",
+  "platWeb": "وب",
+  "platOther": "سایر",
+  "platformsProHint": "چند پلتفرم برای یک نرم‌افزار با Pro",
+  "fieldShow": "نام پادکست",
+  "fieldEpisodeHint": "نام قسمت",
+  "fieldCreator": "سازنده",
+  "fieldInstructor": "مدرس یا سازنده",
+  "fieldGenre": "ژانر",
+  "fieldLevel": "سطح",
+  "levelBeginner": "مقدماتی",
+  "levelIntermediate": "متوسط",
+  "levelAdvanced": "پیشرفته",
+  "fieldGoal": "هدف من از یادگیری",
+  "goalHint": "مثلاً: یادگیری Python برای ساخت AI",
+  "fieldDurationMin": "مدت (دقیقه)",
+  "fieldGameMin": "مدت یک دور بازی (دقیقه)",
+  "fieldProgress": "پیشرفت",
+  "podcastProgress": "{p}٪ گوش داده شده",
+  "@podcastProgress": {
+    "placeholders": {
+      "p": {
+        "type": "String"
+      }
+    }
+  },
+  "podcastRemaining": "{t} باقی مانده",
+  "@podcastRemaining": {
+    "placeholders": {
+      "t": {
+        "type": "String"
+      }
+    }
+  },
+  "learnProgress": "{p}٪ پیشرفت",
+  "@learnProgress": {
+    "placeholders": {
+      "p": {
+        "type": "String"
+      }
+    }
+  },
+  "continueListening": "ادامه گوش دادن",
+  "continueFromWhere": "ادامه از جایی که ماندم",
+  "lastPosition": "آخرین نقطه",
+  "lastPositionHint": "مثلاً ۱۸:۳۲",
+  "openLinkApp": "باز کردن لینک",
+  "appStillNeed": "آیا هنوز به این برنامه نیاز دارم؟",
+  "appReviewQuestion": "این {days} روزه تو فهرستته.\nهنوز ارزش نصب کردن داره؟",
+  "@appReviewQuestion": {
+    "placeholders": {
+      "days": {
+        "type": "String"
+      }
+    }
+  },
+  "appAnsInstalled": "نصب کردم",
+  "appAnsStill": "هنوز می‌خوام",
+  "appAnsLater": "بعداً بررسی می‌کنم",
+  "appAnsNo": "بی‌خیالش شدم",
+  "statusHistoryTitle": "تاریخچه‌ی وضعیت",
+  "statusHistoryPro": "تاریخچه‌ی تغییر وضعیت با Pro",
+  "appProHint": "چند پلتفرم، مرور هوشمند، آمار و یادآوری مرور با Pro",
+  "podcastProHint": "صف هوشمند، قسمت‌های کوتاه و آمار گوش‌دادن با Pro",
+  "learnProHint": "هدف و برنامه، ثبت جلسه، رگه‌ی یادگیری و آمار با Pro",
+  "gameProHint": "فیلتر زمان و ژانر و پیشنهاد هوشمند بازی با Pro",
+  "podcastQueueTitle": "صف هوشمند",
+  "shortEpisodes": "کوتاه برای وقت آزاد",
+  "queueEmpty": "قسمتی که به این وقت بخوره نیست.",
+  "continueSection": "ادامه بده",
+  "sessionLog": "ثبت جلسه",
+  "sessionMinutes": "چند دقیقه؟",
+  "sessionsTitle": "جلسه‌ها",
+  "sessionLogged": "ثبت شد.",
+  "statsStreak": "پشت‌سرهم",
+  "streakDays": "{n} روز",
+  "@streakDays": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      }
+    }
+  },
+  "statsWeekMinutes": "این هفته",
+  "statsTotalTime": "جمع زمان",
+  "minutesTotal": "{n} دقیقه",
+  "@minutesTotal": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      }
+    }
+  },
+  "learnGoalTitle": "هدف و برنامه",
+  "goalDate": "تا تاریخ",
+  "weeklyGoal": "هدف هفتگی (دقیقه)",
+  "weekGoalProgress": "این هفته: {a} از {b} دقیقه",
+  "@weekGoalProgress": {
+    "placeholders": {
+      "a": {
+        "type": "String"
+      },
+      "b": {
+        "type": "String"
+      }
+    }
+  },
+  "gamePickTitle": "امروز چی بازی کنم؟",
+  "gamePickBtn": "یه بازی انتخاب کن",
+  "gamePickLabel": "امروز اینو بازی کن",
+  "gameHowLong": "حدود {n} دقیقه وقت داری؟",
+  "@gameHowLong": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      }
+    }
+  },
+  "gameStart": "شروع",
+  "gameLater": "بعداً",
+  "gameAnother": "یکی دیگه",
+  "gameEmptyTitle": "بازی‌ای برای پیشنهاد نیست",
+  "gameEmptyBody": "بازی اضافه کن یا فیلترها رو شل‌تر کن.",
+  "gameFreeTime": "وقت آزاد",
+  "gameStatusFilter": "وضعیت",
+  "gameGenreFilter": "ژانر",
+  "gameStarted": "برو بازی کن! حالا در حال بازی ثبتش کردم.",
+  "imgAdd": "افزودن عکس",
+  "imgTake": "گرفتن عکس",
+  "imgGallery": "انتخاب از گالری",
+  "imgChange": "تغییر عکس",
+  "imgRemove": "حذف عکس",
+  "imgSetCover": "عکس اصلی کن",
+  "imgCover": "اصلی",
+  "imgGalleryTitle": "عکس‌ها",
+  "imgTooBig": "این عکس خیلی بزرگه (حداکثر ۳۰ مگابایت).",
+  "imgInvalid": "این فایل یه عکس معتبر نیست.",
+  "imgFailed": "عکس اضافه نشد.",
+  "imgProMore": "چند عکس برای هر مورد با Pro",
+  "imgAdded": "عکس اضافه شد.",
+  "imgRemoved": "عکس حذف شد.",
+  "imgNone": "عکسی نداری",
+  "imgPrivacy": "عکس‌ها فقط روی همین گوشی می‌مونن.",
+  "suggestWhatApp": "یه نرم‌افزار",
+  "suggestWhatPodcast": "یه پادکست",
+  "suggestWhatCourse": "یه دوره",
+  "suggestWhatGame": "یه بازی",
+  "triageMore": "جای دیگه…",
+  "settingsAppReview": "یادآوری ماهانه‌ی مرور نرم‌افزارها",
+  "notifAppReviewTitle": "نرم‌افزارهای منتظر نصب",
+  "notifAppReviewBody": "یه نگاه بنداز: هنوز همه‌شون رو می‌خوای؟",
+  "widgetTagline": "الان لازم نیست؛ فراموشش نکن.",
+  "widgetInbox": "صندوق ورودی",
+  "widgetToday": "امروز",
+  "widgetLearn": "یادگیری",
+  "widgetPodcasts": "گوش‌دادنی",
+  "widgetGames": "بازی‌ها",
+  "widgetWishlist": "خرید",
+  "widgetIdeas": "ایده",
+  "widgetRefresh": "تازه‌سازی",
+  "widgetNothing": "فعلاً چیزی نیست",
+  "widgetSmartToday": "🎯 امروز شاید اینو انجام بدی:\n{t}",
+  "@widgetSmartToday": {
+    "placeholders": {
+      "t": {
+        "type": "String"
+      }
+    }
+  },
+  "widgetSmartLearn": "📚 ادامه‌ی یادگیری:\n{t}",
+  "@widgetSmartLearn": {
+    "placeholders": {
+      "t": {
+        "type": "String"
+      }
+    }
+  },
+  "widgetSmartListen": "🎧 ادامه بده:\n{t}",
+  "@widgetSmartListen": {
+    "placeholders": {
+      "t": {
+        "type": "String"
+      }
+    }
+  },
+  "widgetSmartFree": "🎧 برای وقت آزاد:\n{t} · {m} دقیقه",
+  "@widgetSmartFree": {
+    "placeholders": {
+      "m": {
+        "type": "String"
+      },
+      "t": {
+        "type": "String"
+      }
+    }
+  },
+  "widgetSmartGame": "🎮 اگه {m} دقیقه وقت داری:\n{t}",
+  "@widgetSmartGame": {
+    "placeholders": {
+      "m": {
+        "type": "String"
+      },
+      "t": {
+        "type": "String"
+      }
+    }
+  },
+  "widgetSmartWaiting": "⏳ مدتیه منتظره:\n{t}",
+  "@widgetSmartWaiting": {
+    "placeholders": {
+      "t": {
+        "type": "String"
+      }
+    }
+  },
+  "widgetQuickAdd": "ذخیره‌ی سریع",
+  "captureHint": "چی رو برای بعداً نگه دارم؟",
+  "captureSaved": "ذخیره شد.",
+  "captureKinds": "چه جور چیزیه؟",
+  "proFT13": "نرم‌افزارها با مرور",
+  "proFD13": "چند پلتفرم برای هر برنامه، مرور هوشمند، یادآوری ماهانه، آمار نصب‌شده و رهاشده و تاریخچه‌ی وضعیت.",
+  "proFT14": "پادکست با صف هوشمند",
+  "proFD14": "صف مرتب بر اساس وقتت، فیلتر قسمت‌های کوتاه، آمار گوش‌دادن، تاریخچه و مرور.",
+  "proFT15": "یادگیری با هدف",
+  "proFD15": "هدف تاریخ‌دار و برنامه‌ی هفتگی، ثبت جلسه‌های مطالعه، زمان صرف‌شده، رگه‌ی روزانه و آمار.",
+  "proFT16": "بازی با پیشنهاد هوشمند",
+  "proFD16": "پیشنهاد بر اساس وقت آزاد، ژانر، اولویت و وضعیت؛ تنوع ژانر، ثبت زمان بازی و آمار.",
+  "proFT17": "گالری عکس",
+  "proFD17": "تا ۸ عکس برای هر مورد، انتخاب عکس اصلی و نمایش بزرگ. یک عکس برای هر مورد رایگانه.",
+  "fieldCoursePlatform": "پلتفرم یا سایت",
+  "fieldLinkStore": "لینک (فروشگاه یا سایت)",
+  "fieldPositionHint": "تا کجا رسیدم (مثلاً ۱۸:۳۲)",
+  "fieldDurationHint2": "مثلاً ۴۵ یا ۱:۲۰:۰۰",
+  "typeDetails": "مشخصات",
+  "widgetRead": "خواندنی"
 }

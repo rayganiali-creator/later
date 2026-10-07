@@ -35,6 +35,7 @@ class AppSettings {
     this.wishlistReviewDays = 30,
     this.ideaReviewDays = 30,
     this.ideaReviewReminder = false,
+    this.appReviewReminder = false,
     this.askWhereOnShare = true,
   });
 
@@ -49,6 +50,9 @@ class AppSettings {
 
   /// Monthly "time to review your ideas" notification (Pro).
   final bool ideaReviewReminder;
+
+  /// Pro: a monthly nudge to review apps that are still waiting.
+  final bool appReviewReminder;
 
   /// Ask where a shared item should go (otherwise it just lands in the inbox).
   final bool askWhereOnShare;
@@ -107,6 +111,7 @@ class AppSettings {
     int? wishlistReviewDays,
     int? ideaReviewDays,
     bool? ideaReviewReminder,
+    bool? appReviewReminder,
     bool? askWhereOnShare,
   }) =>
       AppSettings(
@@ -114,6 +119,7 @@ class AppSettings {
         wishlistReviewDays: wishlistReviewDays ?? this.wishlistReviewDays,
         ideaReviewDays: ideaReviewDays ?? this.ideaReviewDays,
         ideaReviewReminder: ideaReviewReminder ?? this.ideaReviewReminder,
+        appReviewReminder: appReviewReminder ?? this.appReviewReminder,
         askWhereOnShare: askWhereOnShare ?? this.askWhereOnShare,
         themeMode: themeMode ?? this.themeMode,
         accent: accent ?? this.accent,
@@ -168,6 +174,7 @@ class AppSettings {
         'wishlistReviewDays': '$wishlistReviewDays',
         'ideaReviewDays': '$ideaReviewDays',
         'ideaReviewReminder': '$ideaReviewReminder',
+        'appReviewReminder': '$appReviewReminder',
         'askWhereOnShare': '$askWhereOnShare',
       };
 
@@ -232,6 +239,7 @@ class AppSettings {
       wishlistReviewDays: intOf(m['wishlistReviewDays'], d.wishlistReviewDays, min: 3, max: 3650),
       ideaReviewDays: intOf(m['ideaReviewDays'], d.ideaReviewDays, min: 3, max: 3650),
       ideaReviewReminder: boolOf(m['ideaReviewReminder'], d.ideaReviewReminder),
+      appReviewReminder: boolOf(m['appReviewReminder'], d.appReviewReminder),
       askWhereOnShare: boolOf(m['askWhereOnShare'], d.askWhereOnShare),
     );
   }

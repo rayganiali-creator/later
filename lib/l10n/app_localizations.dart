@@ -2566,7 +2566,7 @@ abstract class AppL10n {
   /// No description provided for @typeName.
   ///
   /// In fa, this message translates to:
-  /// **'{id, select, task{کار} read{مقاله} watch{ویدیو} wishlist{خرید} idea{ایده} person{آدم} capsule{کپسول} future{پیام} other{مورد}}'**
+  /// **'{id, select, task{کار} read{مقاله} watch{ویدیو} wishlist{خرید} idea{ایده} person{آدم} capsule{کپسول} future{پیام} app{نرم‌افزار} podcast{پادکست} course{دوره} game{بازی} other{مورد}}'**
   String typeName(String id);
 
   /// No description provided for @daysAgo.
@@ -3934,7 +3934,7 @@ abstract class AppL10n {
   /// No description provided for @proFreeList.
   ///
   /// In fa, this message translates to:
-  /// **'ذخیره‌ی نامحدود، صندوق ورودی، قرعه‌ی پایه، بعداً بخون / ببین / بخر، ایده‌ها، آدم‌ها، کپسول و پیام (تا ۲ تا)، جستجو، یادآوری، اشتراک‌گذاری، تم روشن و تیره، پشتیبان‌گیری.'**
+  /// **'ذخیره‌ی نامحدود، صندوق ورودی، قرعه‌ی پایه، همه‌ی قفسه‌ها (مقاله، ویدیو، خرید، ایده، نرم‌افزار، پادکست، دوره، بازی)، آدم‌ها، کپسول و پیام (تا ۲ تا)، یه عکس برای هر مورد، جستجو، یادآوری، اشتراک‌گذاری، ویجت‌های خانه، تم روشن و تیره، پشتیبان‌گیری.'**
   String get proFreeList;
 
   /// No description provided for @proFT1.
@@ -4122,6 +4122,1020 @@ abstract class AppL10n {
   /// In fa, this message translates to:
   /// **'یادآوری مرور ماهانه'**
   String get ideaReviewMonthly;
+
+  /// No description provided for @shelfAppTitle.
+  ///
+  /// In fa, this message translates to:
+  /// **'بعداً نصب کن'**
+  String get shelfAppTitle;
+
+  /// No description provided for @shelfPodcastTitle.
+  ///
+  /// In fa, this message translates to:
+  /// **'بعداً گوش بده'**
+  String get shelfPodcastTitle;
+
+  /// No description provided for @shelfCourseTitle.
+  ///
+  /// In fa, this message translates to:
+  /// **'بعداً یاد بگیر'**
+  String get shelfCourseTitle;
+
+  /// No description provided for @shelfGameTitle.
+  ///
+  /// In fa, this message translates to:
+  /// **'بعداً بازی کن'**
+  String get shelfGameTitle;
+
+  /// No description provided for @shelfAppSub.
+  ///
+  /// In fa, this message translates to:
+  /// **'نرم‌افزارهایی که بعداً نصب می‌کنم'**
+  String get shelfAppSub;
+
+  /// No description provided for @shelfPodcastSub.
+  ///
+  /// In fa, this message translates to:
+  /// **'پادکست‌هایی که بعداً گوش می‌کنم'**
+  String get shelfPodcastSub;
+
+  /// No description provided for @shelfCourseSub.
+  ///
+  /// In fa, this message translates to:
+  /// **'دوره‌ها و مهارت‌هایی که بعداً یاد می‌گیرم'**
+  String get shelfCourseSub;
+
+  /// No description provided for @shelfGameSub.
+  ///
+  /// In fa, this message translates to:
+  /// **'بازی‌هایی که بعداً بازی می‌کنم'**
+  String get shelfGameSub;
+
+  /// No description provided for @shelfEmptyAppTitle.
+  ///
+  /// In fa, this message translates to:
+  /// **'هنوز نرم‌افزاری نذاشتی'**
+  String get shelfEmptyAppTitle;
+
+  /// No description provided for @shelfEmptyAppBody.
+  ///
+  /// In fa, this message translates to:
+  /// **'لینک Google Play یا بازار رو بفرست به بعداً، تا وقتی نصبش کنی اینجا می‌مونه.'**
+  String get shelfEmptyAppBody;
+
+  /// No description provided for @shelfEmptyPodcastTitle.
+  ///
+  /// In fa, this message translates to:
+  /// **'هنوز پادکستی نذاشتی'**
+  String get shelfEmptyPodcastTitle;
+
+  /// No description provided for @shelfEmptyPodcastBody.
+  ///
+  /// In fa, this message translates to:
+  /// **'یه قسمت رو نگه دار تا وقتی وقت داشتی ادامه‌اش بدی.'**
+  String get shelfEmptyPodcastBody;
+
+  /// No description provided for @shelfEmptyCourseTitle.
+  ///
+  /// In fa, this message translates to:
+  /// **'هنوز دوره‌ای نذاشتی'**
+  String get shelfEmptyCourseTitle;
+
+  /// No description provided for @shelfEmptyCourseBody.
+  ///
+  /// In fa, this message translates to:
+  /// **'دوره یا آموزشی که می‌خوای بعداً یاد بگیری رو اینجا بذار و بنویس چرا.'**
+  String get shelfEmptyCourseBody;
+
+  /// No description provided for @shelfEmptyGameTitle.
+  ///
+  /// In fa, this message translates to:
+  /// **'هنوز بازی‌ای نذاشتی'**
+  String get shelfEmptyGameTitle;
+
+  /// No description provided for @shelfEmptyGameBody.
+  ///
+  /// In fa, this message translates to:
+  /// **'بازی‌هایی که می‌خوای یه روز بازی کنی رو اینجا جمع کن.'**
+  String get shelfEmptyGameBody;
+
+  /// No description provided for @stageNotInstalled.
+  ///
+  /// In fa, this message translates to:
+  /// **'نصب نشده'**
+  String get stageNotInstalled;
+
+  /// No description provided for @stageWantInstall.
+  ///
+  /// In fa, this message translates to:
+  /// **'می‌خوام نصب کنم'**
+  String get stageWantInstall;
+
+  /// No description provided for @stageEvaluating.
+  ///
+  /// In fa, this message translates to:
+  /// **'در حال بررسی'**
+  String get stageEvaluating;
+
+  /// No description provided for @stageInstalled.
+  ///
+  /// In fa, this message translates to:
+  /// **'نصب کردم'**
+  String get stageInstalled;
+
+  /// No description provided for @stageAppNotWanted.
+  ///
+  /// In fa, this message translates to:
+  /// **'دیگه نمی‌خوام'**
+  String get stageAppNotWanted;
+
+  /// No description provided for @stageNotListened.
+  ///
+  /// In fa, this message translates to:
+  /// **'گوش نکرده‌ام'**
+  String get stageNotListened;
+
+  /// No description provided for @stageListening.
+  ///
+  /// In fa, this message translates to:
+  /// **'در حال گوش دادن'**
+  String get stageListening;
+
+  /// No description provided for @stagePaused.
+  ///
+  /// In fa, this message translates to:
+  /// **'متوقف شده'**
+  String get stagePaused;
+
+  /// No description provided for @stageListened.
+  ///
+  /// In fa, this message translates to:
+  /// **'گوش دادم'**
+  String get stageListened;
+
+  /// No description provided for @stageLearnLater.
+  ///
+  /// In fa, this message translates to:
+  /// **'بعداً یاد می‌گیرم'**
+  String get stageLearnLater;
+
+  /// No description provided for @stageLearning.
+  ///
+  /// In fa, this message translates to:
+  /// **'در حال یادگیری'**
+  String get stageLearning;
+
+  /// No description provided for @stageLearned.
+  ///
+  /// In fa, this message translates to:
+  /// **'تمام شد'**
+  String get stageLearned;
+
+  /// No description provided for @stageLearnAbandoned.
+  ///
+  /// In fa, this message translates to:
+  /// **'رها کردم'**
+  String get stageLearnAbandoned;
+
+  /// No description provided for @stageWantPlay.
+  ///
+  /// In fa, this message translates to:
+  /// **'می‌خوام بازی کنم'**
+  String get stageWantPlay;
+
+  /// No description provided for @stagePlaying.
+  ///
+  /// In fa, this message translates to:
+  /// **'در حال بازی'**
+  String get stagePlaying;
+
+  /// No description provided for @stageGameFinished.
+  ///
+  /// In fa, this message translates to:
+  /// **'تمام شد'**
+  String get stageGameFinished;
+
+  /// No description provided for @stageGameDropped.
+  ///
+  /// In fa, this message translates to:
+  /// **'دیگه علاقه ندارم'**
+  String get stageGameDropped;
+
+  /// No description provided for @markAsInstalled.
+  ///
+  /// In fa, this message translates to:
+  /// **'نصبش کردم'**
+  String get markAsInstalled;
+
+  /// No description provided for @markAsListened.
+  ///
+  /// In fa, this message translates to:
+  /// **'گوش دادم'**
+  String get markAsListened;
+
+  /// No description provided for @markAsLearned.
+  ///
+  /// In fa, this message translates to:
+  /// **'تمومش کردم'**
+  String get markAsLearned;
+
+  /// No description provided for @fieldPlatforms.
+  ///
+  /// In fa, this message translates to:
+  /// **'پلتفرم'**
+  String get fieldPlatforms;
+
+  /// No description provided for @platAndroid.
+  ///
+  /// In fa, this message translates to:
+  /// **'اندروید'**
+  String get platAndroid;
+
+  /// No description provided for @platWindows.
+  ///
+  /// In fa, this message translates to:
+  /// **'ویندوز'**
+  String get platWindows;
+
+  /// No description provided for @platMac.
+  ///
+  /// In fa, this message translates to:
+  /// **'macOS'**
+  String get platMac;
+
+  /// No description provided for @platLinux.
+  ///
+  /// In fa, this message translates to:
+  /// **'لینوکس'**
+  String get platLinux;
+
+  /// No description provided for @platIos.
+  ///
+  /// In fa, this message translates to:
+  /// **'iOS'**
+  String get platIos;
+
+  /// No description provided for @platWeb.
+  ///
+  /// In fa, this message translates to:
+  /// **'وب'**
+  String get platWeb;
+
+  /// No description provided for @platOther.
+  ///
+  /// In fa, this message translates to:
+  /// **'سایر'**
+  String get platOther;
+
+  /// No description provided for @platformsProHint.
+  ///
+  /// In fa, this message translates to:
+  /// **'چند پلتفرم برای یک نرم‌افزار با Pro'**
+  String get platformsProHint;
+
+  /// No description provided for @fieldShow.
+  ///
+  /// In fa, this message translates to:
+  /// **'نام پادکست'**
+  String get fieldShow;
+
+  /// No description provided for @fieldEpisodeHint.
+  ///
+  /// In fa, this message translates to:
+  /// **'نام قسمت'**
+  String get fieldEpisodeHint;
+
+  /// No description provided for @fieldCreator.
+  ///
+  /// In fa, this message translates to:
+  /// **'سازنده'**
+  String get fieldCreator;
+
+  /// No description provided for @fieldInstructor.
+  ///
+  /// In fa, this message translates to:
+  /// **'مدرس یا سازنده'**
+  String get fieldInstructor;
+
+  /// No description provided for @fieldGenre.
+  ///
+  /// In fa, this message translates to:
+  /// **'ژانر'**
+  String get fieldGenre;
+
+  /// No description provided for @fieldLevel.
+  ///
+  /// In fa, this message translates to:
+  /// **'سطح'**
+  String get fieldLevel;
+
+  /// No description provided for @levelBeginner.
+  ///
+  /// In fa, this message translates to:
+  /// **'مقدماتی'**
+  String get levelBeginner;
+
+  /// No description provided for @levelIntermediate.
+  ///
+  /// In fa, this message translates to:
+  /// **'متوسط'**
+  String get levelIntermediate;
+
+  /// No description provided for @levelAdvanced.
+  ///
+  /// In fa, this message translates to:
+  /// **'پیشرفته'**
+  String get levelAdvanced;
+
+  /// No description provided for @fieldGoal.
+  ///
+  /// In fa, this message translates to:
+  /// **'هدف من از یادگیری'**
+  String get fieldGoal;
+
+  /// No description provided for @goalHint.
+  ///
+  /// In fa, this message translates to:
+  /// **'مثلاً: یادگیری Python برای ساخت AI'**
+  String get goalHint;
+
+  /// No description provided for @fieldDurationMin.
+  ///
+  /// In fa, this message translates to:
+  /// **'مدت (دقیقه)'**
+  String get fieldDurationMin;
+
+  /// No description provided for @fieldGameMin.
+  ///
+  /// In fa, this message translates to:
+  /// **'مدت یک دور بازی (دقیقه)'**
+  String get fieldGameMin;
+
+  /// No description provided for @fieldProgress.
+  ///
+  /// In fa, this message translates to:
+  /// **'پیشرفت'**
+  String get fieldProgress;
+
+  /// No description provided for @podcastProgress.
+  ///
+  /// In fa, this message translates to:
+  /// **'{p}٪ گوش داده شده'**
+  String podcastProgress(String p);
+
+  /// No description provided for @podcastRemaining.
+  ///
+  /// In fa, this message translates to:
+  /// **'{t} باقی مانده'**
+  String podcastRemaining(String t);
+
+  /// No description provided for @learnProgress.
+  ///
+  /// In fa, this message translates to:
+  /// **'{p}٪ پیشرفت'**
+  String learnProgress(String p);
+
+  /// No description provided for @continueListening.
+  ///
+  /// In fa, this message translates to:
+  /// **'ادامه گوش دادن'**
+  String get continueListening;
+
+  /// No description provided for @continueFromWhere.
+  ///
+  /// In fa, this message translates to:
+  /// **'ادامه از جایی که ماندم'**
+  String get continueFromWhere;
+
+  /// No description provided for @lastPosition.
+  ///
+  /// In fa, this message translates to:
+  /// **'آخرین نقطه'**
+  String get lastPosition;
+
+  /// No description provided for @lastPositionHint.
+  ///
+  /// In fa, this message translates to:
+  /// **'مثلاً ۱۸:۳۲'**
+  String get lastPositionHint;
+
+  /// No description provided for @openLinkApp.
+  ///
+  /// In fa, this message translates to:
+  /// **'باز کردن لینک'**
+  String get openLinkApp;
+
+  /// No description provided for @appStillNeed.
+  ///
+  /// In fa, this message translates to:
+  /// **'آیا هنوز به این برنامه نیاز دارم؟'**
+  String get appStillNeed;
+
+  /// No description provided for @appReviewQuestion.
+  ///
+  /// In fa, this message translates to:
+  /// **'این {days} روزه تو فهرستته.\nهنوز ارزش نصب کردن داره؟'**
+  String appReviewQuestion(String days);
+
+  /// No description provided for @appAnsInstalled.
+  ///
+  /// In fa, this message translates to:
+  /// **'نصب کردم'**
+  String get appAnsInstalled;
+
+  /// No description provided for @appAnsStill.
+  ///
+  /// In fa, this message translates to:
+  /// **'هنوز می‌خوام'**
+  String get appAnsStill;
+
+  /// No description provided for @appAnsLater.
+  ///
+  /// In fa, this message translates to:
+  /// **'بعداً بررسی می‌کنم'**
+  String get appAnsLater;
+
+  /// No description provided for @appAnsNo.
+  ///
+  /// In fa, this message translates to:
+  /// **'بی‌خیالش شدم'**
+  String get appAnsNo;
+
+  /// No description provided for @statusHistoryTitle.
+  ///
+  /// In fa, this message translates to:
+  /// **'تاریخچه‌ی وضعیت'**
+  String get statusHistoryTitle;
+
+  /// No description provided for @statusHistoryPro.
+  ///
+  /// In fa, this message translates to:
+  /// **'تاریخچه‌ی تغییر وضعیت با Pro'**
+  String get statusHistoryPro;
+
+  /// No description provided for @appProHint.
+  ///
+  /// In fa, this message translates to:
+  /// **'چند پلتفرم، مرور هوشمند، آمار و یادآوری مرور با Pro'**
+  String get appProHint;
+
+  /// No description provided for @podcastProHint.
+  ///
+  /// In fa, this message translates to:
+  /// **'صف هوشمند، قسمت‌های کوتاه و آمار گوش‌دادن با Pro'**
+  String get podcastProHint;
+
+  /// No description provided for @learnProHint.
+  ///
+  /// In fa, this message translates to:
+  /// **'هدف و برنامه، ثبت جلسه، رگه‌ی یادگیری و آمار با Pro'**
+  String get learnProHint;
+
+  /// No description provided for @gameProHint.
+  ///
+  /// In fa, this message translates to:
+  /// **'فیلتر زمان و ژانر و پیشنهاد هوشمند بازی با Pro'**
+  String get gameProHint;
+
+  /// No description provided for @podcastQueueTitle.
+  ///
+  /// In fa, this message translates to:
+  /// **'صف هوشمند'**
+  String get podcastQueueTitle;
+
+  /// No description provided for @shortEpisodes.
+  ///
+  /// In fa, this message translates to:
+  /// **'کوتاه برای وقت آزاد'**
+  String get shortEpisodes;
+
+  /// No description provided for @queueEmpty.
+  ///
+  /// In fa, this message translates to:
+  /// **'قسمتی که به این وقت بخوره نیست.'**
+  String get queueEmpty;
+
+  /// No description provided for @continueSection.
+  ///
+  /// In fa, this message translates to:
+  /// **'ادامه بده'**
+  String get continueSection;
+
+  /// No description provided for @sessionLog.
+  ///
+  /// In fa, this message translates to:
+  /// **'ثبت جلسه'**
+  String get sessionLog;
+
+  /// No description provided for @sessionMinutes.
+  ///
+  /// In fa, this message translates to:
+  /// **'چند دقیقه؟'**
+  String get sessionMinutes;
+
+  /// No description provided for @sessionsTitle.
+  ///
+  /// In fa, this message translates to:
+  /// **'جلسه‌ها'**
+  String get sessionsTitle;
+
+  /// No description provided for @sessionLogged.
+  ///
+  /// In fa, this message translates to:
+  /// **'ثبت شد.'**
+  String get sessionLogged;
+
+  /// No description provided for @statsStreak.
+  ///
+  /// In fa, this message translates to:
+  /// **'پشت‌سرهم'**
+  String get statsStreak;
+
+  /// No description provided for @streakDays.
+  ///
+  /// In fa, this message translates to:
+  /// **'{n} روز'**
+  String streakDays(String n);
+
+  /// No description provided for @statsWeekMinutes.
+  ///
+  /// In fa, this message translates to:
+  /// **'این هفته'**
+  String get statsWeekMinutes;
+
+  /// No description provided for @statsTotalTime.
+  ///
+  /// In fa, this message translates to:
+  /// **'جمع زمان'**
+  String get statsTotalTime;
+
+  /// No description provided for @minutesTotal.
+  ///
+  /// In fa, this message translates to:
+  /// **'{n} دقیقه'**
+  String minutesTotal(String n);
+
+  /// No description provided for @learnGoalTitle.
+  ///
+  /// In fa, this message translates to:
+  /// **'هدف و برنامه'**
+  String get learnGoalTitle;
+
+  /// No description provided for @goalDate.
+  ///
+  /// In fa, this message translates to:
+  /// **'تا تاریخ'**
+  String get goalDate;
+
+  /// No description provided for @weeklyGoal.
+  ///
+  /// In fa, this message translates to:
+  /// **'هدف هفتگی (دقیقه)'**
+  String get weeklyGoal;
+
+  /// No description provided for @weekGoalProgress.
+  ///
+  /// In fa, this message translates to:
+  /// **'این هفته: {a} از {b} دقیقه'**
+  String weekGoalProgress(String a, String b);
+
+  /// No description provided for @gamePickTitle.
+  ///
+  /// In fa, this message translates to:
+  /// **'امروز چی بازی کنم؟'**
+  String get gamePickTitle;
+
+  /// No description provided for @gamePickBtn.
+  ///
+  /// In fa, this message translates to:
+  /// **'یه بازی انتخاب کن'**
+  String get gamePickBtn;
+
+  /// No description provided for @gamePickLabel.
+  ///
+  /// In fa, this message translates to:
+  /// **'امروز اینو بازی کن'**
+  String get gamePickLabel;
+
+  /// No description provided for @gameHowLong.
+  ///
+  /// In fa, this message translates to:
+  /// **'حدود {n} دقیقه وقت داری؟'**
+  String gameHowLong(String n);
+
+  /// No description provided for @gameStart.
+  ///
+  /// In fa, this message translates to:
+  /// **'شروع'**
+  String get gameStart;
+
+  /// No description provided for @gameLater.
+  ///
+  /// In fa, this message translates to:
+  /// **'بعداً'**
+  String get gameLater;
+
+  /// No description provided for @gameAnother.
+  ///
+  /// In fa, this message translates to:
+  /// **'یکی دیگه'**
+  String get gameAnother;
+
+  /// No description provided for @gameEmptyTitle.
+  ///
+  /// In fa, this message translates to:
+  /// **'بازی‌ای برای پیشنهاد نیست'**
+  String get gameEmptyTitle;
+
+  /// No description provided for @gameEmptyBody.
+  ///
+  /// In fa, this message translates to:
+  /// **'بازی اضافه کن یا فیلترها رو شل‌تر کن.'**
+  String get gameEmptyBody;
+
+  /// No description provided for @gameFreeTime.
+  ///
+  /// In fa, this message translates to:
+  /// **'وقت آزاد'**
+  String get gameFreeTime;
+
+  /// No description provided for @gameStatusFilter.
+  ///
+  /// In fa, this message translates to:
+  /// **'وضعیت'**
+  String get gameStatusFilter;
+
+  /// No description provided for @gameGenreFilter.
+  ///
+  /// In fa, this message translates to:
+  /// **'ژانر'**
+  String get gameGenreFilter;
+
+  /// No description provided for @gameStarted.
+  ///
+  /// In fa, this message translates to:
+  /// **'برو بازی کن! حالا در حال بازی ثبتش کردم.'**
+  String get gameStarted;
+
+  /// No description provided for @imgAdd.
+  ///
+  /// In fa, this message translates to:
+  /// **'افزودن عکس'**
+  String get imgAdd;
+
+  /// No description provided for @imgTake.
+  ///
+  /// In fa, this message translates to:
+  /// **'گرفتن عکس'**
+  String get imgTake;
+
+  /// No description provided for @imgGallery.
+  ///
+  /// In fa, this message translates to:
+  /// **'انتخاب از گالری'**
+  String get imgGallery;
+
+  /// No description provided for @imgChange.
+  ///
+  /// In fa, this message translates to:
+  /// **'تغییر عکس'**
+  String get imgChange;
+
+  /// No description provided for @imgRemove.
+  ///
+  /// In fa, this message translates to:
+  /// **'حذف عکس'**
+  String get imgRemove;
+
+  /// No description provided for @imgSetCover.
+  ///
+  /// In fa, this message translates to:
+  /// **'عکس اصلی کن'**
+  String get imgSetCover;
+
+  /// No description provided for @imgCover.
+  ///
+  /// In fa, this message translates to:
+  /// **'اصلی'**
+  String get imgCover;
+
+  /// No description provided for @imgGalleryTitle.
+  ///
+  /// In fa, this message translates to:
+  /// **'عکس‌ها'**
+  String get imgGalleryTitle;
+
+  /// No description provided for @imgTooBig.
+  ///
+  /// In fa, this message translates to:
+  /// **'این عکس خیلی بزرگه (حداکثر ۳۰ مگابایت).'**
+  String get imgTooBig;
+
+  /// No description provided for @imgInvalid.
+  ///
+  /// In fa, this message translates to:
+  /// **'این فایل یه عکس معتبر نیست.'**
+  String get imgInvalid;
+
+  /// No description provided for @imgFailed.
+  ///
+  /// In fa, this message translates to:
+  /// **'عکس اضافه نشد.'**
+  String get imgFailed;
+
+  /// No description provided for @imgProMore.
+  ///
+  /// In fa, this message translates to:
+  /// **'چند عکس برای هر مورد با Pro'**
+  String get imgProMore;
+
+  /// No description provided for @imgAdded.
+  ///
+  /// In fa, this message translates to:
+  /// **'عکس اضافه شد.'**
+  String get imgAdded;
+
+  /// No description provided for @imgRemoved.
+  ///
+  /// In fa, this message translates to:
+  /// **'عکس حذف شد.'**
+  String get imgRemoved;
+
+  /// No description provided for @imgNone.
+  ///
+  /// In fa, this message translates to:
+  /// **'عکسی نداری'**
+  String get imgNone;
+
+  /// No description provided for @imgPrivacy.
+  ///
+  /// In fa, this message translates to:
+  /// **'عکس‌ها فقط روی همین گوشی می‌مونن.'**
+  String get imgPrivacy;
+
+  /// No description provided for @suggestWhatApp.
+  ///
+  /// In fa, this message translates to:
+  /// **'یه نرم‌افزار'**
+  String get suggestWhatApp;
+
+  /// No description provided for @suggestWhatPodcast.
+  ///
+  /// In fa, this message translates to:
+  /// **'یه پادکست'**
+  String get suggestWhatPodcast;
+
+  /// No description provided for @suggestWhatCourse.
+  ///
+  /// In fa, this message translates to:
+  /// **'یه دوره'**
+  String get suggestWhatCourse;
+
+  /// No description provided for @suggestWhatGame.
+  ///
+  /// In fa, this message translates to:
+  /// **'یه بازی'**
+  String get suggestWhatGame;
+
+  /// No description provided for @triageMore.
+  ///
+  /// In fa, this message translates to:
+  /// **'جای دیگه…'**
+  String get triageMore;
+
+  /// No description provided for @settingsAppReview.
+  ///
+  /// In fa, this message translates to:
+  /// **'یادآوری ماهانه‌ی مرور نرم‌افزارها'**
+  String get settingsAppReview;
+
+  /// No description provided for @notifAppReviewTitle.
+  ///
+  /// In fa, this message translates to:
+  /// **'نرم‌افزارهای منتظر نصب'**
+  String get notifAppReviewTitle;
+
+  /// No description provided for @notifAppReviewBody.
+  ///
+  /// In fa, this message translates to:
+  /// **'یه نگاه بنداز: هنوز همه‌شون رو می‌خوای؟'**
+  String get notifAppReviewBody;
+
+  /// No description provided for @widgetTagline.
+  ///
+  /// In fa, this message translates to:
+  /// **'الان لازم نیست؛ فراموشش نکن.'**
+  String get widgetTagline;
+
+  /// No description provided for @widgetInbox.
+  ///
+  /// In fa, this message translates to:
+  /// **'صندوق ورودی'**
+  String get widgetInbox;
+
+  /// No description provided for @widgetToday.
+  ///
+  /// In fa, this message translates to:
+  /// **'امروز'**
+  String get widgetToday;
+
+  /// No description provided for @widgetLearn.
+  ///
+  /// In fa, this message translates to:
+  /// **'یادگیری'**
+  String get widgetLearn;
+
+  /// No description provided for @widgetPodcasts.
+  ///
+  /// In fa, this message translates to:
+  /// **'گوش‌دادنی'**
+  String get widgetPodcasts;
+
+  /// No description provided for @widgetGames.
+  ///
+  /// In fa, this message translates to:
+  /// **'بازی‌ها'**
+  String get widgetGames;
+
+  /// No description provided for @widgetWishlist.
+  ///
+  /// In fa, this message translates to:
+  /// **'خرید'**
+  String get widgetWishlist;
+
+  /// No description provided for @widgetIdeas.
+  ///
+  /// In fa, this message translates to:
+  /// **'ایده'**
+  String get widgetIdeas;
+
+  /// No description provided for @widgetRefresh.
+  ///
+  /// In fa, this message translates to:
+  /// **'تازه‌سازی'**
+  String get widgetRefresh;
+
+  /// No description provided for @widgetNothing.
+  ///
+  /// In fa, this message translates to:
+  /// **'فعلاً چیزی نیست'**
+  String get widgetNothing;
+
+  /// No description provided for @widgetSmartToday.
+  ///
+  /// In fa, this message translates to:
+  /// **'🎯 امروز شاید اینو انجام بدی:\n{t}'**
+  String widgetSmartToday(String t);
+
+  /// No description provided for @widgetSmartLearn.
+  ///
+  /// In fa, this message translates to:
+  /// **'📚 ادامه‌ی یادگیری:\n{t}'**
+  String widgetSmartLearn(String t);
+
+  /// No description provided for @widgetSmartListen.
+  ///
+  /// In fa, this message translates to:
+  /// **'🎧 ادامه بده:\n{t}'**
+  String widgetSmartListen(String t);
+
+  /// No description provided for @widgetSmartFree.
+  ///
+  /// In fa, this message translates to:
+  /// **'🎧 برای وقت آزاد:\n{t} · {m} دقیقه'**
+  String widgetSmartFree(String m, String t);
+
+  /// No description provided for @widgetSmartGame.
+  ///
+  /// In fa, this message translates to:
+  /// **'🎮 اگه {m} دقیقه وقت داری:\n{t}'**
+  String widgetSmartGame(String m, String t);
+
+  /// No description provided for @widgetSmartWaiting.
+  ///
+  /// In fa, this message translates to:
+  /// **'⏳ مدتیه منتظره:\n{t}'**
+  String widgetSmartWaiting(String t);
+
+  /// No description provided for @widgetQuickAdd.
+  ///
+  /// In fa, this message translates to:
+  /// **'ذخیره‌ی سریع'**
+  String get widgetQuickAdd;
+
+  /// No description provided for @captureHint.
+  ///
+  /// In fa, this message translates to:
+  /// **'چی رو برای بعداً نگه دارم؟'**
+  String get captureHint;
+
+  /// No description provided for @captureSaved.
+  ///
+  /// In fa, this message translates to:
+  /// **'ذخیره شد.'**
+  String get captureSaved;
+
+  /// No description provided for @captureKinds.
+  ///
+  /// In fa, this message translates to:
+  /// **'چه جور چیزیه؟'**
+  String get captureKinds;
+
+  /// No description provided for @proFT13.
+  ///
+  /// In fa, this message translates to:
+  /// **'نرم‌افزارها با مرور'**
+  String get proFT13;
+
+  /// No description provided for @proFD13.
+  ///
+  /// In fa, this message translates to:
+  /// **'چند پلتفرم برای هر برنامه، مرور هوشمند، یادآوری ماهانه، آمار نصب‌شده و رهاشده و تاریخچه‌ی وضعیت.'**
+  String get proFD13;
+
+  /// No description provided for @proFT14.
+  ///
+  /// In fa, this message translates to:
+  /// **'پادکست با صف هوشمند'**
+  String get proFT14;
+
+  /// No description provided for @proFD14.
+  ///
+  /// In fa, this message translates to:
+  /// **'صف مرتب بر اساس وقتت، فیلتر قسمت‌های کوتاه، آمار گوش‌دادن، تاریخچه و مرور.'**
+  String get proFD14;
+
+  /// No description provided for @proFT15.
+  ///
+  /// In fa, this message translates to:
+  /// **'یادگیری با هدف'**
+  String get proFT15;
+
+  /// No description provided for @proFD15.
+  ///
+  /// In fa, this message translates to:
+  /// **'هدف تاریخ‌دار و برنامه‌ی هفتگی، ثبت جلسه‌های مطالعه، زمان صرف‌شده، رگه‌ی روزانه و آمار.'**
+  String get proFD15;
+
+  /// No description provided for @proFT16.
+  ///
+  /// In fa, this message translates to:
+  /// **'بازی با پیشنهاد هوشمند'**
+  String get proFT16;
+
+  /// No description provided for @proFD16.
+  ///
+  /// In fa, this message translates to:
+  /// **'پیشنهاد بر اساس وقت آزاد، ژانر، اولویت و وضعیت؛ تنوع ژانر، ثبت زمان بازی و آمار.'**
+  String get proFD16;
+
+  /// No description provided for @proFT17.
+  ///
+  /// In fa, this message translates to:
+  /// **'گالری عکس'**
+  String get proFT17;
+
+  /// No description provided for @proFD17.
+  ///
+  /// In fa, this message translates to:
+  /// **'تا ۸ عکس برای هر مورد، انتخاب عکس اصلی و نمایش بزرگ. یک عکس برای هر مورد رایگانه.'**
+  String get proFD17;
+
+  /// No description provided for @fieldCoursePlatform.
+  ///
+  /// In fa, this message translates to:
+  /// **'پلتفرم یا سایت'**
+  String get fieldCoursePlatform;
+
+  /// No description provided for @fieldLinkStore.
+  ///
+  /// In fa, this message translates to:
+  /// **'لینک (فروشگاه یا سایت)'**
+  String get fieldLinkStore;
+
+  /// No description provided for @fieldPositionHint.
+  ///
+  /// In fa, this message translates to:
+  /// **'تا کجا رسیدم (مثلاً ۱۸:۳۲)'**
+  String get fieldPositionHint;
+
+  /// No description provided for @fieldDurationHint2.
+  ///
+  /// In fa, this message translates to:
+  /// **'مثلاً ۴۵ یا ۱:۲۰:۰۰'**
+  String get fieldDurationHint2;
+
+  /// No description provided for @typeDetails.
+  ///
+  /// In fa, this message translates to:
+  /// **'مشخصات'**
+  String get typeDetails;
+
+  /// No description provided for @widgetRead.
+  ///
+  /// In fa, this message translates to:
+  /// **'خواندنی'**
+  String get widgetRead;
 }
 
 class _AppL10nDelegate extends LocalizationsDelegate<AppL10n> {

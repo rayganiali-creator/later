@@ -8,7 +8,10 @@ import '../app_scope.dart';
 import '../nav_bus.dart';
 import '../sheets/add_edit_sheet.dart';
 import '../sheets/item_detail_sheet.dart';
+import '../sheets/quick_capture_sheet.dart';
 import 'idea_review_screen.dart';
+import 'inbox_screen.dart';
+import 'shelf_screen.dart';
 import 'reveal_screen.dart';
 import 'roulette_screen.dart';
 import 'history_tab.dart';
@@ -68,6 +71,14 @@ class _HomeShellState extends State<HomeShell> {
         if (mounted) Navigator.of(context).push(MaterialPageRoute<void>(builder: (_) => const IdeaReviewScreen()));
       });
     }
+    if (route == 'apps') {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) {
+          Navigator.of(context)
+              .push(MaterialPageRoute<void>(builder: (_) => const ShelfScreen(type: ItemType.app)));
+        }
+      });
+    }
 
     final tabs = <Widget>[
       const HomeTab(),
@@ -114,5 +125,12 @@ void handleQuickAction(BuildContext context, QuickAction a, NavBus bus) {
       bus.focusSearch();
     case QuickAction.open:
       bus.goTo(0);
+    case QuickAction.capture:
+      unawaited(showQuickCapture(context));
+    case QuickAction.inbox:
+      Navigator.of(context).push(MaterialPageRoute<void>(builder: (_) => const InboxScreen()));
+    case QuickAction.item:
+      final id = context.appRead.platform.takeActionArg();
+      if (id != null) context.appRead.requestOpen(id);
   }
 }

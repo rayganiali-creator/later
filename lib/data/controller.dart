@@ -12,7 +12,12 @@ import '../core/util/text.dart';
 import '../domain/classifier.dart';
 import '../domain/models.dart';
 import '../domain/pro.dart';
+import '../domain/game_picker.dart';
+import '../domain/learning.dart';
 import '../domain/roulette.dart';
+import '../domain/widget_pick.dart';
+import '../services/image_picker_gateway.dart';
+import '../services/image_processor.dart';
 import '../domain/universal_search.dart';
 import '../domain/reminders.dart';
 import '../domain/search_filter_sort.dart';
@@ -29,6 +34,8 @@ import '../services/purchase_gateway.dart';
 import 'backup/backup_codec.dart';
 import 'pro/pro_service.dart';
 import 'repository.dart';
+
+part 'controller_media.dart';
 
 class HomeCounts {
   const HomeCounts({
@@ -58,8 +65,12 @@ class DashboardCounts {
     required this.ideas,
     required this.future,
     required this.people,
+    this.apps = 0,
+    this.podcasts = 0,
+    this.courses = 0,
+    this.games = 0,
   });
-  final int today, inbox, read, watch, wishlist, ideas, future, people;
+  final int today, inbox, read, watch, wishlist, ideas, future, people, apps, podcasts, courses, games;
 }
 
 enum TriageChoice { today, thisWeek, noDate, read, watch, wishlist, idea, done, delete }
@@ -75,7 +86,9 @@ class ShelfStats {
     required this.minutesWaiting,
     required this.avgDaysToFinish,
     required this.totalPrice,
+    this.dropped = 0,
   });
+  final int dropped;
   final int waiting, finished, finishedThisWeek, finishedThisMonth, minutesWaiting;
   final double? avgDaysToFinish;
   final double totalPrice;
@@ -108,10 +121,16 @@ class LaterController extends ChangeNotifier {
     DateTime Function()? clock,
     SmartPicker? picker,
     Roulette? roulette,
+    GamePicker? gamePicker,
+    ImageProcessor? imageProcessor,
+    ImagePickerGateway? imagePicker,
     BackupCodec? codec,
   })  : _baseClock = clock ?? DateTime.now,
         picker = picker ?? SmartPicker(),
         roulette = roulette ?? Roulette(),
+        gamePicker = gamePicker ?? GamePicker(),
+        imageProcessor = imageProcessor ?? const DefaultImageProcessor(),
+        imagePicker = imagePicker ?? SystemImagePicker(),
         attachmentStore = attachmentStore ?? MemoryAttachmentStore(),
         codec = codec ?? BackupCodec();
 
@@ -125,6 +144,9 @@ class LaterController extends ChangeNotifier {
   final String appVersion;
   final SmartPicker picker;
   final Roulette roulette;
+  final GamePicker gamePicker;
+  final ImageProcessor imageProcessor;
+  final ImagePickerGateway imagePicker;
   final AttachmentStore attachmentStore;
   final BackupCodec codec;
   final DateTime Function() _baseClock;
@@ -137,12 +159,20 @@ class LaterController extends ChangeNotifier {
   List<ItemCollection> _collections = const [];
   List<Attachment> _attachments = const [];
   final List<String> _recentSpins = [];
+  final List<String> _recentGames = [];
+  final List<String> _recentGenres = [];
+
+  // Small pictures are shown in every list: keep the decoded bytes around.
+  final Map<String, Uint8List> _thumbCache = {};
+  Map<String, Attachment>? _thumbIndex;
+  int _thumbIndexRev = -1;
   AppSettings _settings = const AppSettings();
   bool _loaded = false;
   Duration _debugOffset = Duration.zero;
   ReminderSyncResult _reminderStatus = ReminderSyncResult.empty;
   int _rev = 0;
   Timer? _syncTimer;
+  StreamSubscription<void>? _refreshSub;
   String? _pendingOpenItemId;
   bool _disposed = false;
 
@@ -187,6 +217,7 @@ class LaterController extends ChangeNotifier {
     await pro.load();
     _loaded = true;
     _bump();
+    _refreshSub = platform.widgetRefreshes.listen((_) => unawaited(_pushWidgets()));
     await notifications.init(
       onTap: handleNotificationTap,
       texts: _notificationTexts(),
@@ -234,6 +265,7 @@ class LaterController extends ChangeNotifier {
   void dispose() {
     _disposed = true;
     _syncTimer?.cancel();
+    _refreshSub?.cancel();
     super.dispose();
   }
 
@@ -434,7 +466,7 @@ class LaterController extends ChangeNotifier {
       }
     }
     final cat = categoryById(i.categoryId) != null ? i.categoryId : BuiltinCategories.other;
-    return i.copyWith(
+    return _sanitizeExtra(i).copyWith(
       title: cleanText(i.title, AppConfig.maxTitleLength),
       description: cleanText(i.description, AppConfig.maxTextLength),
       note: cleanText(i.note, AppConfig.maxTextLength),
@@ -680,26 +712,40 @@ class LaterController extends ChangeNotifier {
   }
 
   static const _ideaReviewId = 'sys:idea_review';
+  static const _appReviewId = 'sys:app_review';
 
   /// Reminders that do not belong to a single item.
   List<PlannedReminder> _systemReminders() {
-    if (!_settings.ideaReviewReminder || !access.has(ProFeature.ideaTools)) return const [];
-    if (!activeItems.any((i) => i.type == ItemType.idea)) return const [];
     final n = now();
     final m = _settings.defaultReminderMinutes;
-    var at = DateTime(n.year, n.month, 1, m ~/ 60, m % 60);
-    if (!at.isAfter(n)) at = DateTime(n.year, n.month + 1, 1, m ~/ 60, m % 60);
+    DateTime monthly(int day) {
+      var at = DateTime(n.year, n.month, day, m ~/ 60, m % 60);
+      if (!at.isAfter(n)) at = DateTime(n.year, n.month + 1, day, m ~/ 60, m % 60);
+      return at;
+    }
+
     final l = l10n;
     return [
-      PlannedReminder(
-        notificationId: stableHash31(_ideaReviewId),
-        itemId: _ideaReviewId,
-        fireAt: at,
-        repeat: RepeatRule.monthly,
-        title: l.notifIdeaReviewTitle,
-        body: l.notifIdeaReviewBody,
-        sealed: true,
-      ),
+      if (_settings.ideaReviewReminder && access.has(ProFeature.ideaTools) && activeItems.any((i) => i.type == ItemType.idea))
+        PlannedReminder(
+          notificationId: stableHash31(_ideaReviewId),
+          itemId: _ideaReviewId,
+          fireAt: monthly(1),
+          repeat: RepeatRule.monthly,
+          title: l.notifIdeaReviewTitle,
+          body: l.notifIdeaReviewBody,
+          sealed: true,
+        ),
+      if (_settings.appReviewReminder && access.has(ProFeature.appTools) && activeItems.any((i) => i.type == ItemType.app))
+        PlannedReminder(
+          notificationId: stableHash31(_appReviewId),
+          itemId: _appReviewId,
+          fireAt: monthly(15),
+          repeat: RepeatRule.monthly,
+          title: l.notifAppReviewTitle,
+          body: l.notifAppReviewBody,
+          sealed: true,
+        ),
     ];
   }
 
@@ -718,6 +764,13 @@ class LaterController extends ChangeNotifier {
     return ok;
   }
 
+  /// Opens an item's detail on the next frame (widget taps, notifications).
+  void requestOpen(String id) {
+    if (itemById(id) == null) return;
+    _pendingOpenItemId = id;
+    _bump();
+  }
+
   String? _pendingRoute;
 
   /// A screen a notification asked to open (`ideas`), consumed by the UI.
@@ -730,6 +783,11 @@ class LaterController extends ChangeNotifier {
   Future<void> handleNotificationTap(NotificationTap tap) async {
     if (tap.itemId == _ideaReviewId) {
       _pendingRoute = 'ideas';
+      _bump();
+      return;
+    }
+    if (tap.itemId == _appReviewId) {
+      _pendingRoute = 'apps';
       _bump();
       return;
     }
@@ -790,31 +848,66 @@ class LaterController extends ChangeNotifier {
     if (!_loaded) return;
     try {
       final l = l10n;
-      final s = smartPick(limit: 1);
+      final fmt = _widgetNum;
+      final pick = widgetSuggestion;
+      String? text, kind;
+      if (pick != null) {
+        final t = pick.item.title;
+        final m = pick.item.estimatedMinutes;
+        kind = pick.kind.name;
+        text = switch (pick.kind) {
+          WidgetPickKind.today => l.widgetSmartToday(t),
+          WidgetPickKind.learn => l.widgetSmartLearn(t),
+          WidgetPickKind.listen => l.widgetSmartListen(t),
+          WidgetPickKind.freeTime => l.widgetSmartFree(fmt(m ?? 0), t),
+          WidgetPickKind.game => l.widgetSmartGame(fmt(m ?? 30), t),
+          WidgetPickKind.waiting => l.widgetSmartWaiting(t),
+        };
+      }
       final top = sortItems(activeItems, SortMode.nearestDeadline, now: now())
           .take(4)
           .map((e) => e.title)
           .toList();
+      final counts = widgetCounts();
       await platform.updateWidgets(WidgetSnapshot(
         waitingCount: activeItems.length,
         isPro: isPro,
-        suggestionTitle: s.isEmpty ? null : s.first.item.title,
-        suggestionId: s.isEmpty ? null : s.first.item.id,
+        suggestionTitle: pick?.item.title,
+        suggestionId: pick?.item.id,
         topItems: top,
+        counts: counts,
+        smartKind: kind,
+        smartText: text,
+        smartId: pick?.item.id,
         strings: {
           'app': l.appName,
+          'tagline': l.widgetTagline,
           'waiting': l.widgetWaiting('{n}'),
           'empty': l.widgetEmpty,
           'add': l.widgetAdd,
           'pick': l.widgetPick,
           'proOnly': l.widgetProOnly,
           'suggestion': l.widgetSuggestion,
+          'inbox': l.widgetInbox,
+          'today': l.widgetToday,
+          'learn': l.widgetLearn,
+          'podcasts': l.widgetPodcasts,
+          'games': l.widgetGames,
+          'wishlist': l.widgetWishlist,
+          'ideas': l.widgetIdeas,
+          'refresh': l.widgetRefresh,
+          'read': l.widgetRead,
+          'fa': _settings.languageCode == 'fa' ? '1' : '0',
+          'day': '${now().year * 10000 + now().month * 100 + now().day}',
+          'nothing': l.widgetNothing,
         },
       ));
     } catch (_) {
       // Widgets are a convenience; never fail user actions because of them.
     }
   }
+
+  String _widgetNum(int n) => _settings.languageCode == 'fa' ? toFaDigits(n) : '$n';
 
   // ------------------------------------------------------------------ Pro
 
@@ -977,6 +1070,7 @@ class LaterController extends ChangeNotifier {
   DashboardCounts dashboardCounts() {
     final n = now();
     var today = 0, inbox = 0, read = 0, watch = 0, wish = 0, ideas = 0, unopened = 0;
+    var apps = 0, pods = 0, courses = 0, games = 0;
     for (final i in activeItems) {
       if (i.inbox) inbox++;
       switch (i.type) {
@@ -988,6 +1082,14 @@ class LaterController extends ChangeNotifier {
           wish++;
         case ItemType.idea:
           ideas++;
+        case ItemType.app:
+          apps++;
+        case ItemType.podcast:
+          pods++;
+        case ItemType.course:
+          courses++;
+        case ItemType.game:
+          games++;
         case ItemType.capsule:
         case ItemType.future:
           unopened++; // unlocked but not opened yet
@@ -1004,6 +1106,10 @@ class LaterController extends ChangeNotifier {
       ideas: ideas,
       future: sealedItems.length + unopened,
       people: _people.length,
+      apps: apps,
+      podcasts: pods,
+      courses: courses,
+      games: games,
     );
   }
 
@@ -1391,7 +1497,7 @@ class LaterController extends ChangeNotifier {
     final week = Dates.startOfWeek(n, _settings.weekStart);
     final month = DateTime(n.year, n.month, 1);
     var waiting = 0, minutes = 0;
-    var finishedWeek = 0, finishedMonth = 0, finished = 0;
+    var finishedWeek = 0, finishedMonth = 0, finished = 0, dropped = 0;
     var waitedDays = 0;
     double spend = 0;
     for (final i in _items) {
@@ -1405,6 +1511,8 @@ class LaterController extends ChangeNotifier {
         waitedDays += Dates.daysBetween(i.createdAt, i.completedAt!).clamp(0, 100000);
         if (!i.completedAt!.isBefore(week)) finishedWeek++;
         if (!i.completedAt!.isBefore(month)) finishedMonth++;
+      } else if (i.status == ItemStatus.dropped) {
+        dropped++;
       }
     }
     return ShelfStats(
@@ -1415,6 +1523,7 @@ class LaterController extends ChangeNotifier {
       minutesWaiting: minutes,
       avgDaysToFinish: finished == 0 ? null : waitedDays / finished,
       totalPrice: spend,
+      dropped: dropped,
     );
   }
 
@@ -1515,9 +1624,10 @@ class LaterController extends ChangeNotifier {
 
   // ============================================================ attachments
 
+  /// Files attached to a future message (pictures are handled separately).
   List<Attachment> attachmentsOf(String itemId) => [
         for (final a in _attachments)
-          if (a.itemId == itemId) a
+          if (a.itemId == itemId && a.role == AttachmentRole.file) a
       ];
 
   /// Pro: a small file on a future message. Stays on the device.

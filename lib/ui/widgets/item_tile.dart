@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import '../../core/theme/app_theme.dart';
 import '../../domain/models.dart';
 import '../../domain/search_filter_sort.dart';
+import '../../l10n/app_localizations.dart';
 import '../app_scope.dart';
 import '../item_actions.dart';
 import '../screens/reveal_screen.dart';
@@ -12,6 +13,7 @@ import '../sheets/snooze_sheet.dart';
 import '../sheets/stage_sheet.dart';
 import '../type_info.dart';
 import 'common.dart';
+import 'item_image.dart';
 
 /// One row of the list. Swipe → done, swipe the other way → snooze.
 class ItemTile extends StatelessWidget {
@@ -38,6 +40,11 @@ class ItemTile extends StatelessWidget {
       if (typed && item.stage != 0 && item.type != ItemType.capsule && item.type != ItemType.future)
         Pill(TypeInfo.stageLabel(l, item.type, item.stage), color: s.primary, background: s.primaryContainer),
       if (host != null && typed) Pill(host, icon: Icons.link_rounded),
+      if (item.type == ItemType.podcast && item.show.isNotEmpty) Pill(item.show, icon: Icons.podcasts_rounded),
+      if (item.type == ItemType.course && item.level.isNotEmpty) Pill(_levelName(l, item.level), icon: Icons.stairs_rounded),
+      if (item.type == ItemType.game && item.genre.isNotEmpty) Pill(item.genre, icon: Icons.category_outlined),
+      if (item.type == ItemType.app)
+        for (final p in item.platforms.take(3)) Pill(_platformName(l, p)),
       if (item.type == ItemType.wishlist && item.price != null)
         Pill('${fmt.money(item.price!)} ${item.currency.isEmpty ? l.currencyDefault : item.currency}',
             icon: Icons.sell_outlined),
@@ -75,14 +82,12 @@ class ItemTile extends StatelessWidget {
       semanticLabel: semantic,
       onTap: onTap ?? () => showItemDetailSheet(context, item.id),
       child: Row(children: [
-        Container(
-          width: 44,
-          height: 44,
-          decoration: BoxDecoration(color: c.lavender, borderRadius: BorderRadius.circular(14)),
-          alignment: Alignment.center,
-          child: (item.type == ItemType.task || item.type == ItemType.person)
-              ? Text(app.categoryEmoji(item.categoryId), style: const TextStyle(fontSize: 22))
-              : Icon(TypeInfo.icon(item.type), color: s.primary, size: 24),
+        CoverThumb(
+          item: item,
+          size: 52,
+          emoji: (item.type == ItemType.task || item.type == ItemType.person)
+              ? app.categoryEmoji(item.categoryId)
+              : null,
         ),
         const SizedBox(width: 12),
         Expanded(
@@ -97,6 +102,10 @@ class ItemTile extends StatelessWidget {
             if (meta.isNotEmpty) ...[
               const SizedBox(height: 6),
               Wrap(spacing: 6, runSpacing: 4, children: meta),
+            ],
+            if (_showsProgress(item)) ...[
+              const SizedBox(height: 8),
+              _ProgressLine(item: item),
             ],
           ]),
         ),
@@ -128,6 +137,10 @@ class ItemTile extends StatelessWidget {
     const box = BoxConstraints(minWidth: 48, minHeight: 48);
     switch (item.type) {
       case ItemType.idea:
+      case ItemType.app:
+      case ItemType.podcast:
+      case ItemType.course:
+      case ItemType.game:
         return IconButton(
           tooltip: l.itemStage,
           constraints: box,
@@ -168,4 +181,57 @@ class ItemTile extends StatelessWidget {
           Text(label, style: context.text.labelSmall?.copyWith(color: color)),
         ]),
       );
+}
+
+
+bool _showsProgress(LaterItem i) =>
+    i.isActive && (i.type == ItemType.podcast || i.type == ItemType.course) && i.progress > 0;
+
+String _levelName(AppL10n l, String level) => switch (level) {
+      'beginner' => l.levelBeginner,
+      'intermediate' => l.levelIntermediate,
+      _ => l.levelAdvanced,
+    };
+
+String _platformName(AppL10n l, String p) => switch (p) {
+      'android' => l.platAndroid,
+      'windows' => l.platWindows,
+      'macos' => l.platMac,
+      'linux' => l.platLinux,
+      'ios' => l.platIos,
+      'web' => l.platWeb,
+      _ => l.platOther,
+    };
+
+/// "42% listened · 18:32 left" with a thin bar.
+class _ProgressLine extends StatelessWidget {
+  const _ProgressLine({required this.item});
+  final LaterItem item;
+
+  @override
+  Widget build(BuildContext context) {
+    final l = context.l10n;
+    final fmt = context.fmt;
+    final color = TypeInfo.color(item.type);
+    final rem = item.remainingSec;
+    final text = item.type == ItemType.podcast
+        ? [
+            l.podcastProgress(fmt.num(item.progress)),
+            if (rem != null) l.podcastRemaining(fmt.num(TypeInfo.clock(rem))),
+          ].join(' · ')
+        : l.learnProgress(fmt.num(item.progress));
+    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+      ClipRRect(
+        borderRadius: BorderRadius.circular(4),
+        child: LinearProgressIndicator(
+          value: item.progress / 100,
+          minHeight: 5,
+          color: color,
+          backgroundColor: color.withValues(alpha: 0.15),
+        ),
+      ),
+      const SizedBox(height: 3),
+      Text(text, style: context.text.labelSmall?.copyWith(color: context.scheme.onSurfaceVariant)),
+    ]);
+  }
 }

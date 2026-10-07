@@ -106,6 +106,11 @@ enum ProFeature {
   richTimeCapsules,
   richFutureMessages,
   multipleCollections,
+  appTools,
+  podcastTools,
+  learnTools,
+  gameTools,
+  galleryImages,
 }
 
 class ProLimits {
@@ -122,6 +127,16 @@ class ProLimits {
   static const int proCollectionsPerType = 12;
   static const int maxAttachmentBytes = 2 * 1024 * 1024;
   static const int maxAttachmentsPerMessage = 3;
+
+  /// Pictures per item: one cover for everyone, a gallery with Pro.
+  static const int freeImagesPerItem = 1;
+  static const int proImagesPerItem = 8;
+
+  /// A picked picture may be this large before it is shrunk.
+  static const int maxImageSourceBytes = 30 * 1024 * 1024;
+  static const int imageMaxEdge = 1600;
+  static const int thumbEdge = 320;
+  static const int maxPlatformsFree = 1;
 }
 
 /// Read-only view answering "may the user use X right now?".

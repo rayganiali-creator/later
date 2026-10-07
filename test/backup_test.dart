@@ -168,11 +168,11 @@ void main() {
           throwsA(isA<BackupException>().having((e) => e.error, 'error', BackupError.futureVersion)));
     });
 
-    test('old schema version is migrated (v2 -> v4 chain)', () {
+    test('old schema version is migrated (v3 -> v5 chain)', () {
       // Simulates future app versions: schema 3 renamed "title" -> "name" then
       // "name" -> "title" back.
-      final migrator = BackupMigrator(target: 4, steps: {
-        2: (doc) {
+      final migrator = BackupMigrator(target: 5, steps: {
+        3: (doc) {
           final data = Map<String, Object?>.from(doc['data']! as Map);
           data['items'] = [
             for (final i in data['items']! as List)
@@ -182,7 +182,7 @@ void main() {
           ];
           return {...doc, 'data': data};
         },
-        3: (doc) {
+        4: (doc) {
           final data = Map<String, Object?>.from(doc['data']! as Map);
           data['items'] = [
             for (final i in data['items']! as List)
@@ -196,18 +196,18 @@ void main() {
       final c = BackupCodec(migrator: migrator);
       final s = sampleSnapshot(10);
       final d = c.decode(encode(s));
-      expect(d.sourceSchemaVersion, 2);
+      expect(d.sourceSchemaVersion, 3);
       expectSameSnapshot(s, d.snapshot);
     });
 
     test('missing migration step => unsupportedVersion', () {
-      final c = BackupCodec(migrator: BackupMigrator(target: 3, steps: const {}));
+      final c = BackupCodec(migrator: BackupMigrator(target: 4, steps: const {}));
       expect(() => c.decode(encode(sampleSnapshot(1))),
           throwsA(isA<BackupException>().having((e) => e.error, 'error', BackupError.unsupportedVersion)));
     });
 
     test('throwing migration => migrationFailed', () {
-      final c = BackupCodec(migrator: BackupMigrator(target: 3, steps: {2: (d) => throw StateError('boom')}));
+      final c = BackupCodec(migrator: BackupMigrator(target: 4, steps: {3: (d) => throw StateError('boom')}));
       expect(() => c.decode(encode(sampleSnapshot(1))),
           throwsA(isA<BackupException>().having((e) => e.error, 'error', BackupError.migrationFailed)));
     });

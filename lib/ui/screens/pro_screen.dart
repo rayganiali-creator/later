@@ -103,6 +103,11 @@ class _ProScreenState extends State<ProScreen> {
       (l.proFT10, l.proFD10),
       (l.proFT11, l.proFD11),
       (l.proFT12, l.proFD12),
+      (l.proFT13, l.proFD13),
+      (l.proFT14, l.proFD14),
+      (l.proFT15, l.proFD15),
+      (l.proFT16, l.proFD16),
+      (l.proFT17, l.proFD17),
     ];
     final plans = [
       ...ProPlans.sellable,

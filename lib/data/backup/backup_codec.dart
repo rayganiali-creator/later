@@ -76,6 +76,18 @@ class BackupMigrator {
       data.putIfAbsent('attachments', () => <Object?>[]);
       return {...doc, 'data': data};
     },
+    // v2 -> v3: pictures. Old attachments are plain files (role "file").
+    2: (doc) {
+      final data = Map<String, Object?>.from(doc['data']! as Map);
+      final att = <Object?>[];
+      for (final a in (data['attachments'] as List? ?? const [])) {
+        if (a is Map) {
+          att.add({...a.cast<String, Object?>(), 'role': 'file'});
+        }
+      }
+      data['attachments'] = att;
+      return {...doc, 'data': data};
+    },
   };
 
   final Map<int, BackupMigration> _steps;
@@ -350,7 +362,14 @@ class BackupCodec {
       if (b.length > 3 * 1024 * 1024) _bad('attachment.size');
       if (!itemIds.contains(a.itemId) || attachments.any((x) => x.id == a.id)) continue;
       attachments.add(Attachment(
-          id: a.id, itemId: a.itemId, name: a.name, mime: a.mime, size: b.length, createdAt: a.createdAt));
+          id: a.id,
+          itemId: a.itemId,
+          name: a.name,
+          mime: a.mime,
+          size: b.length,
+          createdAt: a.createdAt,
+          role: a.role,
+          ref: a.ref));
       bytes[a.id] = b;
     }
     // Drop dangling links instead of failing the whole restore.
@@ -433,6 +452,8 @@ class BackupCodec {
       mime: RegExp(r'^[a-z0-9.+-]+/[a-z0-9.+-]+$').hasMatch(mime) ? mime : 'application/octet-stream',
       size: 0,
       createdAt: _date(raw['created_at'], 'attachment.created'),
+      role: AttachmentRole.all.contains(raw['role']) ? raw['role'] as String : AttachmentRole.file,
+      ref: raw['ref'] is String && isValidId(raw['ref'] as String) ? raw['ref'] as String : null,
     );
   }
 
@@ -568,6 +589,40 @@ class BackupCodec {
     final links = m['links'];
     if (links is List) {
       out['links'] = links.whereType<String>().where(isValidId).take(50).toList();
+    }
+    for (final k in const ['creator', 'show', 'genre', 'goal']) {
+      if (m[k] is String) out[k] = cleanText(m[k] as String, k == 'goal' ? 500 : 200);
+    }
+    if (m['level'] is String && const {'beginner', 'intermediate', 'advanced'}.contains(m['level'])) {
+      out['level'] = m['level'];
+    }
+    final plats = m['platforms'];
+    if (plats is List) {
+      out['platforms'] = plats
+          .whereType<String>()
+          .where(const {'android', 'windows', 'macos', 'linux', 'ios', 'web', 'other'}.contains)
+          .toSet()
+          .toList();
+    }
+    final dur = n(m['durationSec']);
+    if (dur != null && dur >= 0 && dur <= 60 * 60 * 24 * 30) out['durationSec'] = dur.toInt();
+    final pos = n(m['positionSec']);
+    if (pos != null && pos >= 0 && pos <= 60 * 60 * 24 * 30) out['positionSec'] = pos.toInt();
+    final prog = n(m['progress']);
+    if (prog != null) out['progress'] = prog.toInt().clamp(0, 100);
+    final weekly = n(m['weeklyGoal']);
+    if (weekly != null && weekly >= 0 && weekly <= 60 * 24 * 7) out['weeklyGoal'] = weekly.toInt();
+    final gd = n(m['goalDate']);
+    if (gd != null && gd >= 0 && gd < 4102444800000) out['goalDate'] = gd.toInt();
+    if (m['cover'] is String && isValidId(m['cover'] as String)) out['cover'] = m['cover'];
+    for (final k in const ['sessions', 'history']) {
+      final raw = m[k];
+      if (raw is List) {
+        out[k] = [
+          for (final e in raw.take(k == 'sessions' ? 2000 : 300))
+            if (e is List && e.length == 2 && n(e[0]) != null && n(e[1]) != null) [n(e[0]), n(e[1])],
+        ];
+      }
     }
     final hist = m['priceHistory'];
     if (hist is List) {

@@ -294,6 +294,18 @@ class _SettingsTabState extends State<SettingsTab> with WidgetsBindingObserver {
               },
             ),
             SwitchListTile(
+              value: st.appReviewReminder && app.isPro,
+              title: Row(children: [Flexible(child: Text(l.settingsAppReview)), if (!app.isPro) ...[const SizedBox(width: 8), const ProTag()]]),
+              secondary: const Icon(Icons.apps_rounded),
+              onChanged: (v) async {
+                if (!app.isPro) {
+                  await showProSheet(context, featureName: l.appProHint);
+                  return;
+                }
+                await app.updateSettings((x) => x.copyWith(appReviewReminder: v));
+              },
+            ),
+            SwitchListTile(
               value: st.askWhereOnShare,
               title: Text(l.askWhereOnShare),
               subtitle: Text(l.askWhereOnShareSub),

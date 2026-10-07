@@ -1372,6 +1372,10 @@ class AppL10nFa extends AppL10n {
       'person': 'آدم',
       'capsule': 'کپسول',
       'future': 'پیام',
+      'app': 'نرم‌افزار',
+      'podcast': 'پادکست',
+      'course': 'دوره',
+      'game': 'بازی',
       'other': 'مورد',
     });
     return '$_temp0';
@@ -2107,7 +2111,7 @@ class AppL10nFa extends AppL10n {
 
   @override
   String get proFreeList =>
-      'ذخیره‌ی نامحدود، صندوق ورودی، قرعه‌ی پایه، بعداً بخون / ببین / بخر، ایده‌ها، آدم‌ها، کپسول و پیام (تا ۲ تا)، جستجو، یادآوری، اشتراک‌گذاری، تم روشن و تیره، پشتیبان‌گیری.';
+      'ذخیره‌ی نامحدود، صندوق ورودی، قرعه‌ی پایه، همه‌ی قفسه‌ها (مقاله، ویدیو، خرید، ایده، نرم‌افزار، پادکست، دوره، بازی)، آدم‌ها، کپسول و پیام (تا ۲ تا)، یه عکس برای هر مورد، جستجو، یادآوری، اشتراک‌گذاری، ویجت‌های خانه، تم روشن و تیره، پشتیبان‌گیری.';
 
   @override
   String get proFT1 => 'قرعه‌ی هوشمند';
@@ -2209,4 +2213,551 @@ class AppL10nFa extends AppL10n {
 
   @override
   String get ideaReviewMonthly => 'یادآوری مرور ماهانه';
+
+  @override
+  String get shelfAppTitle => 'بعداً نصب کن';
+
+  @override
+  String get shelfPodcastTitle => 'بعداً گوش بده';
+
+  @override
+  String get shelfCourseTitle => 'بعداً یاد بگیر';
+
+  @override
+  String get shelfGameTitle => 'بعداً بازی کن';
+
+  @override
+  String get shelfAppSub => 'نرم‌افزارهایی که بعداً نصب می‌کنم';
+
+  @override
+  String get shelfPodcastSub => 'پادکست‌هایی که بعداً گوش می‌کنم';
+
+  @override
+  String get shelfCourseSub => 'دوره‌ها و مهارت‌هایی که بعداً یاد می‌گیرم';
+
+  @override
+  String get shelfGameSub => 'بازی‌هایی که بعداً بازی می‌کنم';
+
+  @override
+  String get shelfEmptyAppTitle => 'هنوز نرم‌افزاری نذاشتی';
+
+  @override
+  String get shelfEmptyAppBody =>
+      'لینک Google Play یا بازار رو بفرست به بعداً، تا وقتی نصبش کنی اینجا می‌مونه.';
+
+  @override
+  String get shelfEmptyPodcastTitle => 'هنوز پادکستی نذاشتی';
+
+  @override
+  String get shelfEmptyPodcastBody =>
+      'یه قسمت رو نگه دار تا وقتی وقت داشتی ادامه‌اش بدی.';
+
+  @override
+  String get shelfEmptyCourseTitle => 'هنوز دوره‌ای نذاشتی';
+
+  @override
+  String get shelfEmptyCourseBody =>
+      'دوره یا آموزشی که می‌خوای بعداً یاد بگیری رو اینجا بذار و بنویس چرا.';
+
+  @override
+  String get shelfEmptyGameTitle => 'هنوز بازی‌ای نذاشتی';
+
+  @override
+  String get shelfEmptyGameBody =>
+      'بازی‌هایی که می‌خوای یه روز بازی کنی رو اینجا جمع کن.';
+
+  @override
+  String get stageNotInstalled => 'نصب نشده';
+
+  @override
+  String get stageWantInstall => 'می‌خوام نصب کنم';
+
+  @override
+  String get stageEvaluating => 'در حال بررسی';
+
+  @override
+  String get stageInstalled => 'نصب کردم';
+
+  @override
+  String get stageAppNotWanted => 'دیگه نمی‌خوام';
+
+  @override
+  String get stageNotListened => 'گوش نکرده‌ام';
+
+  @override
+  String get stageListening => 'در حال گوش دادن';
+
+  @override
+  String get stagePaused => 'متوقف شده';
+
+  @override
+  String get stageListened => 'گوش دادم';
+
+  @override
+  String get stageLearnLater => 'بعداً یاد می‌گیرم';
+
+  @override
+  String get stageLearning => 'در حال یادگیری';
+
+  @override
+  String get stageLearned => 'تمام شد';
+
+  @override
+  String get stageLearnAbandoned => 'رها کردم';
+
+  @override
+  String get stageWantPlay => 'می‌خوام بازی کنم';
+
+  @override
+  String get stagePlaying => 'در حال بازی';
+
+  @override
+  String get stageGameFinished => 'تمام شد';
+
+  @override
+  String get stageGameDropped => 'دیگه علاقه ندارم';
+
+  @override
+  String get markAsInstalled => 'نصبش کردم';
+
+  @override
+  String get markAsListened => 'گوش دادم';
+
+  @override
+  String get markAsLearned => 'تمومش کردم';
+
+  @override
+  String get fieldPlatforms => 'پلتفرم';
+
+  @override
+  String get platAndroid => 'اندروید';
+
+  @override
+  String get platWindows => 'ویندوز';
+
+  @override
+  String get platMac => 'macOS';
+
+  @override
+  String get platLinux => 'لینوکس';
+
+  @override
+  String get platIos => 'iOS';
+
+  @override
+  String get platWeb => 'وب';
+
+  @override
+  String get platOther => 'سایر';
+
+  @override
+  String get platformsProHint => 'چند پلتفرم برای یک نرم‌افزار با Pro';
+
+  @override
+  String get fieldShow => 'نام پادکست';
+
+  @override
+  String get fieldEpisodeHint => 'نام قسمت';
+
+  @override
+  String get fieldCreator => 'سازنده';
+
+  @override
+  String get fieldInstructor => 'مدرس یا سازنده';
+
+  @override
+  String get fieldGenre => 'ژانر';
+
+  @override
+  String get fieldLevel => 'سطح';
+
+  @override
+  String get levelBeginner => 'مقدماتی';
+
+  @override
+  String get levelIntermediate => 'متوسط';
+
+  @override
+  String get levelAdvanced => 'پیشرفته';
+
+  @override
+  String get fieldGoal => 'هدف من از یادگیری';
+
+  @override
+  String get goalHint => 'مثلاً: یادگیری Python برای ساخت AI';
+
+  @override
+  String get fieldDurationMin => 'مدت (دقیقه)';
+
+  @override
+  String get fieldGameMin => 'مدت یک دور بازی (دقیقه)';
+
+  @override
+  String get fieldProgress => 'پیشرفت';
+
+  @override
+  String podcastProgress(String p) {
+    return '$p٪ گوش داده شده';
+  }
+
+  @override
+  String podcastRemaining(String t) {
+    return '$t باقی مانده';
+  }
+
+  @override
+  String learnProgress(String p) {
+    return '$p٪ پیشرفت';
+  }
+
+  @override
+  String get continueListening => 'ادامه گوش دادن';
+
+  @override
+  String get continueFromWhere => 'ادامه از جایی که ماندم';
+
+  @override
+  String get lastPosition => 'آخرین نقطه';
+
+  @override
+  String get lastPositionHint => 'مثلاً ۱۸:۳۲';
+
+  @override
+  String get openLinkApp => 'باز کردن لینک';
+
+  @override
+  String get appStillNeed => 'آیا هنوز به این برنامه نیاز دارم؟';
+
+  @override
+  String appReviewQuestion(String days) {
+    return 'این $days روزه تو فهرستته.\nهنوز ارزش نصب کردن داره؟';
+  }
+
+  @override
+  String get appAnsInstalled => 'نصب کردم';
+
+  @override
+  String get appAnsStill => 'هنوز می‌خوام';
+
+  @override
+  String get appAnsLater => 'بعداً بررسی می‌کنم';
+
+  @override
+  String get appAnsNo => 'بی‌خیالش شدم';
+
+  @override
+  String get statusHistoryTitle => 'تاریخچه‌ی وضعیت';
+
+  @override
+  String get statusHistoryPro => 'تاریخچه‌ی تغییر وضعیت با Pro';
+
+  @override
+  String get appProHint =>
+      'چند پلتفرم، مرور هوشمند، آمار و یادآوری مرور با Pro';
+
+  @override
+  String get podcastProHint =>
+      'صف هوشمند، قسمت‌های کوتاه و آمار گوش‌دادن با Pro';
+
+  @override
+  String get learnProHint =>
+      'هدف و برنامه، ثبت جلسه، رگه‌ی یادگیری و آمار با Pro';
+
+  @override
+  String get gameProHint => 'فیلتر زمان و ژانر و پیشنهاد هوشمند بازی با Pro';
+
+  @override
+  String get podcastQueueTitle => 'صف هوشمند';
+
+  @override
+  String get shortEpisodes => 'کوتاه برای وقت آزاد';
+
+  @override
+  String get queueEmpty => 'قسمتی که به این وقت بخوره نیست.';
+
+  @override
+  String get continueSection => 'ادامه بده';
+
+  @override
+  String get sessionLog => 'ثبت جلسه';
+
+  @override
+  String get sessionMinutes => 'چند دقیقه؟';
+
+  @override
+  String get sessionsTitle => 'جلسه‌ها';
+
+  @override
+  String get sessionLogged => 'ثبت شد.';
+
+  @override
+  String get statsStreak => 'پشت‌سرهم';
+
+  @override
+  String streakDays(String n) {
+    return '$n روز';
+  }
+
+  @override
+  String get statsWeekMinutes => 'این هفته';
+
+  @override
+  String get statsTotalTime => 'جمع زمان';
+
+  @override
+  String minutesTotal(String n) {
+    return '$n دقیقه';
+  }
+
+  @override
+  String get learnGoalTitle => 'هدف و برنامه';
+
+  @override
+  String get goalDate => 'تا تاریخ';
+
+  @override
+  String get weeklyGoal => 'هدف هفتگی (دقیقه)';
+
+  @override
+  String weekGoalProgress(String a, String b) {
+    return 'این هفته: $a از $b دقیقه';
+  }
+
+  @override
+  String get gamePickTitle => 'امروز چی بازی کنم؟';
+
+  @override
+  String get gamePickBtn => 'یه بازی انتخاب کن';
+
+  @override
+  String get gamePickLabel => 'امروز اینو بازی کن';
+
+  @override
+  String gameHowLong(String n) {
+    return 'حدود $n دقیقه وقت داری؟';
+  }
+
+  @override
+  String get gameStart => 'شروع';
+
+  @override
+  String get gameLater => 'بعداً';
+
+  @override
+  String get gameAnother => 'یکی دیگه';
+
+  @override
+  String get gameEmptyTitle => 'بازی‌ای برای پیشنهاد نیست';
+
+  @override
+  String get gameEmptyBody => 'بازی اضافه کن یا فیلترها رو شل‌تر کن.';
+
+  @override
+  String get gameFreeTime => 'وقت آزاد';
+
+  @override
+  String get gameStatusFilter => 'وضعیت';
+
+  @override
+  String get gameGenreFilter => 'ژانر';
+
+  @override
+  String get gameStarted => 'برو بازی کن! حالا در حال بازی ثبتش کردم.';
+
+  @override
+  String get imgAdd => 'افزودن عکس';
+
+  @override
+  String get imgTake => 'گرفتن عکس';
+
+  @override
+  String get imgGallery => 'انتخاب از گالری';
+
+  @override
+  String get imgChange => 'تغییر عکس';
+
+  @override
+  String get imgRemove => 'حذف عکس';
+
+  @override
+  String get imgSetCover => 'عکس اصلی کن';
+
+  @override
+  String get imgCover => 'اصلی';
+
+  @override
+  String get imgGalleryTitle => 'عکس‌ها';
+
+  @override
+  String get imgTooBig => 'این عکس خیلی بزرگه (حداکثر ۳۰ مگابایت).';
+
+  @override
+  String get imgInvalid => 'این فایل یه عکس معتبر نیست.';
+
+  @override
+  String get imgFailed => 'عکس اضافه نشد.';
+
+  @override
+  String get imgProMore => 'چند عکس برای هر مورد با Pro';
+
+  @override
+  String get imgAdded => 'عکس اضافه شد.';
+
+  @override
+  String get imgRemoved => 'عکس حذف شد.';
+
+  @override
+  String get imgNone => 'عکسی نداری';
+
+  @override
+  String get imgPrivacy => 'عکس‌ها فقط روی همین گوشی می‌مونن.';
+
+  @override
+  String get suggestWhatApp => 'یه نرم‌افزار';
+
+  @override
+  String get suggestWhatPodcast => 'یه پادکست';
+
+  @override
+  String get suggestWhatCourse => 'یه دوره';
+
+  @override
+  String get suggestWhatGame => 'یه بازی';
+
+  @override
+  String get triageMore => 'جای دیگه…';
+
+  @override
+  String get settingsAppReview => 'یادآوری ماهانه‌ی مرور نرم‌افزارها';
+
+  @override
+  String get notifAppReviewTitle => 'نرم‌افزارهای منتظر نصب';
+
+  @override
+  String get notifAppReviewBody => 'یه نگاه بنداز: هنوز همه‌شون رو می‌خوای؟';
+
+  @override
+  String get widgetTagline => 'الان لازم نیست؛ فراموشش نکن.';
+
+  @override
+  String get widgetInbox => 'صندوق ورودی';
+
+  @override
+  String get widgetToday => 'امروز';
+
+  @override
+  String get widgetLearn => 'یادگیری';
+
+  @override
+  String get widgetPodcasts => 'گوش‌دادنی';
+
+  @override
+  String get widgetGames => 'بازی‌ها';
+
+  @override
+  String get widgetWishlist => 'خرید';
+
+  @override
+  String get widgetIdeas => 'ایده';
+
+  @override
+  String get widgetRefresh => 'تازه‌سازی';
+
+  @override
+  String get widgetNothing => 'فعلاً چیزی نیست';
+
+  @override
+  String widgetSmartToday(String t) {
+    return '🎯 امروز شاید اینو انجام بدی:\n$t';
+  }
+
+  @override
+  String widgetSmartLearn(String t) {
+    return '📚 ادامه‌ی یادگیری:\n$t';
+  }
+
+  @override
+  String widgetSmartListen(String t) {
+    return '🎧 ادامه بده:\n$t';
+  }
+
+  @override
+  String widgetSmartFree(String m, String t) {
+    return '🎧 برای وقت آزاد:\n$t · $m دقیقه';
+  }
+
+  @override
+  String widgetSmartGame(String m, String t) {
+    return '🎮 اگه $m دقیقه وقت داری:\n$t';
+  }
+
+  @override
+  String widgetSmartWaiting(String t) {
+    return '⏳ مدتیه منتظره:\n$t';
+  }
+
+  @override
+  String get widgetQuickAdd => 'ذخیره‌ی سریع';
+
+  @override
+  String get captureHint => 'چی رو برای بعداً نگه دارم؟';
+
+  @override
+  String get captureSaved => 'ذخیره شد.';
+
+  @override
+  String get captureKinds => 'چه جور چیزیه؟';
+
+  @override
+  String get proFT13 => 'نرم‌افزارها با مرور';
+
+  @override
+  String get proFD13 =>
+      'چند پلتفرم برای هر برنامه، مرور هوشمند، یادآوری ماهانه، آمار نصب‌شده و رهاشده و تاریخچه‌ی وضعیت.';
+
+  @override
+  String get proFT14 => 'پادکست با صف هوشمند';
+
+  @override
+  String get proFD14 =>
+      'صف مرتب بر اساس وقتت، فیلتر قسمت‌های کوتاه، آمار گوش‌دادن، تاریخچه و مرور.';
+
+  @override
+  String get proFT15 => 'یادگیری با هدف';
+
+  @override
+  String get proFD15 =>
+      'هدف تاریخ‌دار و برنامه‌ی هفتگی، ثبت جلسه‌های مطالعه، زمان صرف‌شده، رگه‌ی روزانه و آمار.';
+
+  @override
+  String get proFT16 => 'بازی با پیشنهاد هوشمند';
+
+  @override
+  String get proFD16 =>
+      'پیشنهاد بر اساس وقت آزاد، ژانر، اولویت و وضعیت؛ تنوع ژانر، ثبت زمان بازی و آمار.';
+
+  @override
+  String get proFT17 => 'گالری عکس';
+
+  @override
+  String get proFD17 =>
+      'تا ۸ عکس برای هر مورد، انتخاب عکس اصلی و نمایش بزرگ. یک عکس برای هر مورد رایگانه.';
+
+  @override
+  String get fieldCoursePlatform => 'پلتفرم یا سایت';
+
+  @override
+  String get fieldLinkStore => 'لینک (فروشگاه یا سایت)';
+
+  @override
+  String get fieldPositionHint => 'تا کجا رسیدم (مثلاً ۱۸:۳۲)';
+
+  @override
+  String get fieldDurationHint2 => 'مثلاً ۴۵ یا ۱:۲۰:۰۰';
+
+  @override
+  String get typeDetails => 'مشخصات';
+
+  @override
+  String get widgetRead => 'خواندنی';
 }

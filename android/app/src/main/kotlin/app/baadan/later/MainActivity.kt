@@ -83,6 +83,12 @@ class MainActivity : FlutterFragmentActivity() {
         val messenger = flutterEngine.dartExecutor.binaryMessenger
         channel = MethodChannel(messenger, CHANNEL).also { it.setMethodCallHandler(::onCall) }
         billing = BazaarBilling(this, messenger)
+        current = java.lang.ref.WeakReference(this)
+    }
+
+    override fun onDestroy() {
+        if (current?.get() === this) current = null
+        super.onDestroy()
     }
 
     override fun onNewIntent(intent: Intent) {
@@ -121,7 +127,7 @@ class MainActivity : FlutterFragmentActivity() {
             }
             ACTION_QUICK -> {
                 val q = intent.getStringExtra("quick")
-                if (q in ALLOWED_ACTIONS) pendingAction = q
+                if (q != null && (q in ALLOWED_ACTIONS || ITEM_ACTION.matches(q))) pendingAction = q
             }
         }
         // Do not keep the payload around (avoids re-processing and leaking it
@@ -170,6 +176,9 @@ class MainActivity : FlutterFragmentActivity() {
                         result.success(null)
                     }
                 }
+            }
+            "moveToBack" -> {
+                result.success(moveTaskToBack(true))
             }
             "openContact" -> result.success(openContact(call.arguments as? String))
             "openBatterySettings" -> result.success(openBatterySettings())
@@ -271,7 +280,18 @@ class MainActivity : FlutterFragmentActivity() {
         const val ACTION_QUICK = "app.baadan.later.QUICK"
         private const val MAX_TEXT = 20000
         private const val MAX_SUBJECT = 500
-        private val ALLOWED_ACTIONS = setOf("add", "pick", "search", "open")
+        private val ALLOWED_ACTIONS = setOf("add", "pick", "search", "open", "capture", "inbox")
+        private val ITEM_ACTION = Regex("^item:[A-Za-z0-9_\\-]{1,64}$")
+
+        @Volatile
+        private var current: java.lang.ref.WeakReference<MainActivity>? = null
+
+        /** Asks a running app to push fresh widget data (widget "refresh"). */
+        fun requestWidgetRefresh(): Boolean {
+            val a = current?.get() ?: return false
+            a.runOnUiThread { a.channel?.invokeMethod("refreshWidgets", null) }
+            return true
+        }
         private val ICON_ALIASES = linkedMapOf(
             "classic" to "LauncherClassic",
             "teal" to "LauncherTeal",

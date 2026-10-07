@@ -6,6 +6,7 @@ import '../app_scope.dart';
 import '../item_actions.dart';
 import '../sheets/snooze_sheet.dart';
 import '../widgets/common.dart';
+import '../widgets/item_image.dart';
 
 /// "بعداً، نه هیچ‌وقت": walks through long-waiting items one at a time.
 class StaleReviewScreen extends StatefulWidget {
@@ -93,6 +94,24 @@ class _StaleReviewScreenState extends State<StaleReviewScreen> {
   Widget _actions(BuildContext context, LaterItem item) {
     final l = context.l10n;
     final app = context.appRead;
+    if (item.type == ItemType.app) {
+      Future<void> answer(AppAnswer a) async {
+        await guarded(context, () => app.answerAppReview(item.id, a));
+        _advance();
+      }
+
+      return Column(children: [
+        SizedBox(width: double.infinity, child: FilledButton(onPressed: () => answer(AppAnswer.installed), child: Text(l.appAnsInstalled))),
+        const SizedBox(height: 10),
+        Row(children: [
+          Expanded(child: OutlinedButton(onPressed: () => answer(AppAnswer.still), child: Text(l.appAnsStill))),
+          const SizedBox(width: 10),
+          Expanded(child: OutlinedButton(onPressed: () => answer(AppAnswer.later), child: Text(l.appAnsLater, textAlign: TextAlign.center))),
+        ]),
+        const SizedBox(height: 4),
+        TextButton(onPressed: () => answer(AppAnswer.no), child: Text(l.appAnsNo)),
+      ]);
+    }
     return Column(children: [
       Row(children: [
         Expanded(
@@ -159,11 +178,16 @@ class _StaleCard extends StatelessWidget {
     return AppCard(
       padding: const EdgeInsets.all(24),
       child: Column(children: [
-        Text(app.categoryEmoji(item.categoryId), style: const TextStyle(fontSize: 40)),
+        CoverThumb(
+          item: item,
+          size: 84,
+          radius: 22,
+          emoji: item.type == ItemType.task ? app.categoryEmoji(item.categoryId) : null,
+        ),
         const SizedBox(height: 12),
         Text('«${item.title}»', textAlign: TextAlign.center, style: context.text.headlineSmall),
         const SizedBox(height: 14),
-        Text(l.staleQuestion(fmt.num(waited)),
+        Text(item.type == ItemType.app ? l.appReviewQuestion(fmt.num(waited)) : l.staleQuestion(fmt.num(waited)),
             textAlign: TextAlign.center,
             style: context.text.bodyLarge?.copyWith(color: context.scheme.onSurfaceVariant)),
       ]),

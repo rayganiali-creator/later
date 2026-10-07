@@ -1372,6 +1372,10 @@ class AppL10nEn extends AppL10n {
       'person': 'Person',
       'capsule': 'Capsule',
       'future': 'Message',
+      'app': 'App',
+      'podcast': 'Podcast',
+      'course': 'Course',
+      'game': 'Game',
       'other': 'Item',
     });
     return '$_temp0';
@@ -2110,7 +2114,7 @@ class AppL10nEn extends AppL10n {
 
   @override
   String get proFreeList =>
-      'Unlimited saving, inbox, basic roulette, read / watch / wishlist, ideas, people, capsules and messages (up to 2), search, reminders, sharing, light and dark themes, backup.';
+      'Unlimited saving, inbox, basic roulette, every shelf (articles, videos, wishlist, ideas, apps, podcasts, courses, games), people, capsules and messages (up to 2), one picture per item, search, reminders, sharing, home-screen widgets, light and dark themes, backup.';
 
   @override
   String get proFT1 => 'Smart roulette';
@@ -2214,4 +2218,551 @@ class AppL10nEn extends AppL10n {
 
   @override
   String get ideaReviewMonthly => 'Monthly review reminder';
+
+  @override
+  String get shelfAppTitle => 'Install later';
+
+  @override
+  String get shelfPodcastTitle => 'Listen later';
+
+  @override
+  String get shelfCourseTitle => 'Learn later';
+
+  @override
+  String get shelfGameTitle => 'Play later';
+
+  @override
+  String get shelfAppSub => 'Apps I will install later';
+
+  @override
+  String get shelfPodcastSub => 'Podcasts I will listen to later';
+
+  @override
+  String get shelfCourseSub => 'Courses and skills I will learn later';
+
+  @override
+  String get shelfGameSub => 'Games I will play later';
+
+  @override
+  String get shelfEmptyAppTitle => 'No apps yet';
+
+  @override
+  String get shelfEmptyAppBody =>
+      'Share a Play Store or Bazaar link to Later and it waits here until you install it.';
+
+  @override
+  String get shelfEmptyPodcastTitle => 'No podcasts yet';
+
+  @override
+  String get shelfEmptyPodcastBody =>
+      'Keep an episode and carry on whenever you have time.';
+
+  @override
+  String get shelfEmptyCourseTitle => 'No courses yet';
+
+  @override
+  String get shelfEmptyCourseBody =>
+      'Save a course you want to learn later and note why.';
+
+  @override
+  String get shelfEmptyGameTitle => 'No games yet';
+
+  @override
+  String get shelfEmptyGameBody =>
+      'Collect the games you want to play one day.';
+
+  @override
+  String get stageNotInstalled => 'Not installed';
+
+  @override
+  String get stageWantInstall => 'Want to install';
+
+  @override
+  String get stageEvaluating => 'Checking it out';
+
+  @override
+  String get stageInstalled => 'Installed';
+
+  @override
+  String get stageAppNotWanted => 'No longer wanted';
+
+  @override
+  String get stageNotListened => 'Not listened';
+
+  @override
+  String get stageListening => 'Listening';
+
+  @override
+  String get stagePaused => 'Paused';
+
+  @override
+  String get stageListened => 'Listened';
+
+  @override
+  String get stageLearnLater => 'Later';
+
+  @override
+  String get stageLearning => 'Learning';
+
+  @override
+  String get stageLearned => 'Finished';
+
+  @override
+  String get stageLearnAbandoned => 'Dropped';
+
+  @override
+  String get stageWantPlay => 'Want to play';
+
+  @override
+  String get stagePlaying => 'Playing';
+
+  @override
+  String get stageGameFinished => 'Finished';
+
+  @override
+  String get stageGameDropped => 'Not interested';
+
+  @override
+  String get markAsInstalled => 'I installed it';
+
+  @override
+  String get markAsListened => 'I listened';
+
+  @override
+  String get markAsLearned => 'I finished it';
+
+  @override
+  String get fieldPlatforms => 'Platform';
+
+  @override
+  String get platAndroid => 'Android';
+
+  @override
+  String get platWindows => 'Windows';
+
+  @override
+  String get platMac => 'macOS';
+
+  @override
+  String get platLinux => 'Linux';
+
+  @override
+  String get platIos => 'iOS';
+
+  @override
+  String get platWeb => 'Web';
+
+  @override
+  String get platOther => 'Other';
+
+  @override
+  String get platformsProHint => 'Several platforms per app with Pro';
+
+  @override
+  String get fieldShow => 'Podcast name';
+
+  @override
+  String get fieldEpisodeHint => 'Episode title';
+
+  @override
+  String get fieldCreator => 'Creator';
+
+  @override
+  String get fieldInstructor => 'Instructor or maker';
+
+  @override
+  String get fieldGenre => 'Genre';
+
+  @override
+  String get fieldLevel => 'Level';
+
+  @override
+  String get levelBeginner => 'Beginner';
+
+  @override
+  String get levelIntermediate => 'Intermediate';
+
+  @override
+  String get levelAdvanced => 'Advanced';
+
+  @override
+  String get fieldGoal => 'Why I want to learn this';
+
+  @override
+  String get goalHint => 'e.g. learn Python to build AI';
+
+  @override
+  String get fieldDurationMin => 'Length (minutes)';
+
+  @override
+  String get fieldGameMin => 'Length of a session (minutes)';
+
+  @override
+  String get fieldProgress => 'Progress';
+
+  @override
+  String podcastProgress(String p) {
+    return '$p% listened';
+  }
+
+  @override
+  String podcastRemaining(String t) {
+    return '$t left';
+  }
+
+  @override
+  String learnProgress(String p) {
+    return '$p% done';
+  }
+
+  @override
+  String get continueListening => 'Keep listening';
+
+  @override
+  String get continueFromWhere => 'Continue where I left off';
+
+  @override
+  String get lastPosition => 'Last position';
+
+  @override
+  String get lastPositionHint => 'e.g. 18:32';
+
+  @override
+  String get openLinkApp => 'Open link';
+
+  @override
+  String get appStillNeed => 'Do I still need this app?';
+
+  @override
+  String appReviewQuestion(String days) {
+    return 'It\'s been on your list for $days days.\nIs it still worth installing?';
+  }
+
+  @override
+  String get appAnsInstalled => 'I installed it';
+
+  @override
+  String get appAnsStill => 'Still want it';
+
+  @override
+  String get appAnsLater => 'Ask me later';
+
+  @override
+  String get appAnsNo => 'Forget it';
+
+  @override
+  String get statusHistoryTitle => 'Status history';
+
+  @override
+  String get statusHistoryPro => 'Status history comes with Pro';
+
+  @override
+  String get appProHint =>
+      'Multiple platforms, smart review, stats and review reminders with Pro';
+
+  @override
+  String get podcastProHint =>
+      'Smart queue, short episodes and listening stats with Pro';
+
+  @override
+  String get learnProHint =>
+      'Goals, study sessions, streaks and stats with Pro';
+
+  @override
+  String get gameProHint => 'Time and genre filters and a smart pick with Pro';
+
+  @override
+  String get podcastQueueTitle => 'Smart queue';
+
+  @override
+  String get shortEpisodes => 'Short ones for spare time';
+
+  @override
+  String get queueEmpty => 'Nothing fits this much time.';
+
+  @override
+  String get continueSection => 'Pick up where you left off';
+
+  @override
+  String get sessionLog => 'Log a session';
+
+  @override
+  String get sessionMinutes => 'How many minutes?';
+
+  @override
+  String get sessionsTitle => 'Sessions';
+
+  @override
+  String get sessionLogged => 'Logged.';
+
+  @override
+  String get statsStreak => 'Streak';
+
+  @override
+  String streakDays(String n) {
+    return '$n days';
+  }
+
+  @override
+  String get statsWeekMinutes => 'This week';
+
+  @override
+  String get statsTotalTime => 'Total time';
+
+  @override
+  String minutesTotal(String n) {
+    return '$n min';
+  }
+
+  @override
+  String get learnGoalTitle => 'Goal and plan';
+
+  @override
+  String get goalDate => 'By';
+
+  @override
+  String get weeklyGoal => 'Weekly target (minutes)';
+
+  @override
+  String weekGoalProgress(String a, String b) {
+    return 'This week: $a of $b minutes';
+  }
+
+  @override
+  String get gamePickTitle => 'What should I play today?';
+
+  @override
+  String get gamePickBtn => 'Pick a game';
+
+  @override
+  String get gamePickLabel => 'Play this today';
+
+  @override
+  String gameHowLong(String n) {
+    return 'Got about $n minutes?';
+  }
+
+  @override
+  String get gameStart => 'Start';
+
+  @override
+  String get gameLater => 'Later';
+
+  @override
+  String get gameAnother => 'Another one';
+
+  @override
+  String get gameEmptyTitle => 'No game to suggest';
+
+  @override
+  String get gameEmptyBody => 'Add a game or loosen the filters.';
+
+  @override
+  String get gameFreeTime => 'Free time';
+
+  @override
+  String get gameStatusFilter => 'Status';
+
+  @override
+  String get gameGenreFilter => 'Genre';
+
+  @override
+  String get gameStarted => 'Have fun! Marked as playing.';
+
+  @override
+  String get imgAdd => 'Add a picture';
+
+  @override
+  String get imgTake => 'Take a photo';
+
+  @override
+  String get imgGallery => 'Choose from gallery';
+
+  @override
+  String get imgChange => 'Change picture';
+
+  @override
+  String get imgRemove => 'Remove picture';
+
+  @override
+  String get imgSetCover => 'Use as main picture';
+
+  @override
+  String get imgCover => 'Main';
+
+  @override
+  String get imgGalleryTitle => 'Pictures';
+
+  @override
+  String get imgTooBig => 'That picture is too large (30 MB max).';
+
+  @override
+  String get imgInvalid => 'That file isn\'t a valid picture.';
+
+  @override
+  String get imgFailed => 'Couldn\'t add the picture.';
+
+  @override
+  String get imgProMore => 'Several pictures per item with Pro';
+
+  @override
+  String get imgAdded => 'Picture added.';
+
+  @override
+  String get imgRemoved => 'Picture removed.';
+
+  @override
+  String get imgNone => 'No picture yet';
+
+  @override
+  String get imgPrivacy => 'Pictures stay on this phone only.';
+
+  @override
+  String get suggestWhatApp => 'an app';
+
+  @override
+  String get suggestWhatPodcast => 'a podcast';
+
+  @override
+  String get suggestWhatCourse => 'a course';
+
+  @override
+  String get suggestWhatGame => 'a game';
+
+  @override
+  String get triageMore => 'Somewhere else…';
+
+  @override
+  String get settingsAppReview => 'Monthly app review reminder';
+
+  @override
+  String get notifAppReviewTitle => 'Apps waiting to be installed';
+
+  @override
+  String get notifAppReviewBody => 'Take a look: do you still want them all?';
+
+  @override
+  String get widgetTagline => 'Not now — just don\'t forget it.';
+
+  @override
+  String get widgetInbox => 'Inbox';
+
+  @override
+  String get widgetToday => 'Today';
+
+  @override
+  String get widgetLearn => 'Learn';
+
+  @override
+  String get widgetPodcasts => 'Listen';
+
+  @override
+  String get widgetGames => 'Games';
+
+  @override
+  String get widgetWishlist => 'Wishlist';
+
+  @override
+  String get widgetIdeas => 'Ideas';
+
+  @override
+  String get widgetRefresh => 'Refresh';
+
+  @override
+  String get widgetNothing => 'Nothing yet';
+
+  @override
+  String widgetSmartToday(String t) {
+    return '🎯 You could do this today:\n$t';
+  }
+
+  @override
+  String widgetSmartLearn(String t) {
+    return '📚 Keep learning:\n$t';
+  }
+
+  @override
+  String widgetSmartListen(String t) {
+    return '🎧 Pick up:\n$t';
+  }
+
+  @override
+  String widgetSmartFree(String m, String t) {
+    return '🎧 For spare time:\n$t · $m min';
+  }
+
+  @override
+  String widgetSmartGame(String m, String t) {
+    return '🎮 If you have $m minutes:\n$t';
+  }
+
+  @override
+  String widgetSmartWaiting(String t) {
+    return '⏳ Has been waiting a while:\n$t';
+  }
+
+  @override
+  String get widgetQuickAdd => 'Quick save';
+
+  @override
+  String get captureHint => 'What should I keep for later?';
+
+  @override
+  String get captureSaved => 'Saved.';
+
+  @override
+  String get captureKinds => 'What kind of thing is it?';
+
+  @override
+  String get proFT13 => 'Apps with review';
+
+  @override
+  String get proFD13 =>
+      'Several platforms per app, smart review, a monthly reminder, installed/dropped stats and status history.';
+
+  @override
+  String get proFT14 => 'Podcasts with a smart queue';
+
+  @override
+  String get proFD14 =>
+      'A queue ordered for the time you have, short-episode filter, listening stats, history and review.';
+
+  @override
+  String get proFT15 => 'Learning with goals';
+
+  @override
+  String get proFD15 =>
+      'Dated goals and a weekly plan, logged study sessions, time spent, daily streaks and stats.';
+
+  @override
+  String get proFT16 => 'Games with a smart pick';
+
+  @override
+  String get proFD16 =>
+      'Picks by free time, genre, priority and status; genre variety, logged play time and stats.';
+
+  @override
+  String get proFT17 => 'Picture gallery';
+
+  @override
+  String get proFD17 =>
+      'Up to 8 pictures per item, pick the main one and view it large. One picture per item is free.';
+
+  @override
+  String get fieldCoursePlatform => 'Platform or site';
+
+  @override
+  String get fieldLinkStore => 'Link (store or website)';
+
+  @override
+  String get fieldPositionHint => 'Where I stopped (e.g. 18:32)';
+
+  @override
+  String get fieldDurationHint2 => 'e.g. 45 or 1:20:00';
+
+  @override
+  String get typeDetails => 'Details';
+
+  @override
+  String get widgetRead => 'Read';
 }

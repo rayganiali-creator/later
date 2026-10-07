@@ -25,7 +25,7 @@ enum EventType {
 
 /// What kind of thing an item is. One table, one model, many "shelves".
 /// Persisted as index: append only.
-enum ItemType { task, read, watch, wishlist, idea, person, capsule, future }
+enum ItemType { task, read, watch, wishlist, idea, person, capsule, future, app, podcast, course, game }
 
 /// Per-type progress ("stage"). Persisted as an int whose meaning depends on
 /// the [ItemType]; [ItemStages] is the single place that knows the mapping
@@ -43,6 +43,14 @@ class ItemStages {
   static const ideaNew = 0, thinking = 1, developing = 2, ideaArchived = 3, ideaDropped = 4;
   // capsule / future message
   static const sealed = 0, opened = 1;
+  // apps to install later
+  static const notInstalled = 0, wantInstall = 1, evaluating = 2, installed = 3, appNotWanted = 4;
+  // podcasts
+  static const notListened = 0, listening = 1, listenPaused = 2, listened = 3;
+  // courses (learn)
+  static const learnLater = 0, learning = 1, learnPaused = 2, learned = 3, learnAbandoned = 4;
+  // games
+  static const wantPlay = 0, playing = 1, playPaused = 2, gameFinished = 3, gameDropped = 4;
 
   /// All stages of [t] in display order.
   static List<int> of(ItemType t) => switch (t) {
@@ -51,6 +59,10 @@ class ItemStages {
         ItemType.wishlist => const [interested, maybe, bought, notInterested],
         ItemType.idea => const [ideaNew, thinking, developing, ideaArchived, ideaDropped],
         ItemType.capsule || ItemType.future => const [sealed, opened],
+        ItemType.app => const [notInstalled, wantInstall, evaluating, installed, appNotWanted],
+        ItemType.podcast => const [notListened, listening, listenPaused, listened],
+        ItemType.course => const [learnLater, learning, learnPaused, learned, learnAbandoned],
+        ItemType.game => const [wantPlay, playing, playPaused, gameFinished, gameDropped],
         _ => const [0],
       };
 
@@ -67,6 +79,14 @@ class ItemStages {
       case ItemType.capsule:
       case ItemType.future:
         return stage == opened ? ItemStatus.done : ItemStatus.active;
+      case ItemType.app:
+        return stage == installed ? ItemStatus.done : (stage == appNotWanted ? ItemStatus.dropped : ItemStatus.active);
+      case ItemType.podcast:
+        return stage == listened ? ItemStatus.done : ItemStatus.active;
+      case ItemType.course:
+        return stage == learned ? ItemStatus.done : (stage == learnAbandoned ? ItemStatus.dropped : ItemStatus.active);
+      case ItemType.game:
+        return stage == gameFinished ? ItemStatus.done : (stage == gameDropped ? ItemStatus.dropped : ItemStatus.active);
       default:
         return ItemStatus.active;
     }
@@ -78,6 +98,10 @@ class ItemStages {
         ItemType.watch => watched,
         ItemType.wishlist => bought,
         ItemType.capsule || ItemType.future => opened,
+        ItemType.app => installed,
+        ItemType.podcast => listened,
+        ItemType.course => learned,
+        ItemType.game => gameFinished,
         _ => 0,
       };
 
@@ -86,8 +110,25 @@ class ItemStages {
         ItemType.read => archived,
         ItemType.wishlist => notInterested,
         ItemType.idea => ideaDropped,
+        ItemType.app => appNotWanted,
+        ItemType.course => learnAbandoned,
+        ItemType.game => gameDropped,
         _ => 0,
       };
+
+  /// The "in progress" stage of a type (null when it has none).
+  static int? activeStage(ItemType t) => switch (t) {
+        ItemType.read => reading,
+        ItemType.watch => watching,
+        ItemType.podcast => listening,
+        ItemType.course => learning,
+        ItemType.game => playing,
+        _ => null,
+      };
+
+  /// Types that are "done in a sitting" and can be picked by the roulette.
+  static bool isMedia(ItemType t) =>
+      t == ItemType.read || t == ItemType.watch || t == ItemType.podcast || t == ItemType.course || t == ItemType.game;
 }
 
 class LaterItem {
@@ -189,6 +230,62 @@ class LaterItem {
   int? get score => (extra['score'] as num?)?.toInt();
   List<String> get links =>
       ((extra['links'] as List?) ?? const []).whereType<String>().toList(growable: false);
+
+  // ---- apps / podcasts / courses / games -----------------------------------
+  /// Platforms ("android", "windows", ...). Free keeps one, Pro several.
+  List<String> get platforms =>
+      ((extra['platforms'] as List?) ?? const []).whereType<String>().toList(growable: false);
+  String get creator => (extra['creator'] as String?) ?? '';
+  String get show => (extra['show'] as String?) ?? '';
+  String get genre => (extra['genre'] as String?) ?? '';
+  String get goal => (extra['goal'] as String?) ?? '';
+  String get level => (extra['level'] as String?) ?? '';
+  int? get durationSec => (extra['durationSec'] as num?)?.toInt();
+
+  /// Manual progress, 0..100.
+  int get progress => ((extra['progress'] as num?)?.toInt() ?? 0).clamp(0, 100);
+  int? get positionSec => (extra['positionSec'] as num?)?.toInt();
+  String? get coverId => extra['cover'] as String?;
+  DateTime? get goalDate {
+    final v = extra['goalDate'];
+    return v is num ? DateTime.fromMillisecondsSinceEpoch(v.toInt()) : null;
+  }
+
+  int? get weeklyGoalMinutes => (extra['weeklyGoal'] as num?)?.toInt();
+
+  /// Seconds still to go, when the duration is known.
+  int? get remainingSec {
+    final d = durationSec;
+    if (d == null || d <= 0) return null;
+    final pos = positionSec ?? (d * progress / 100).round();
+    return (d - pos).clamp(0, d);
+  }
+
+  /// Study / play sessions logged by the user: [(day, minutes)].
+  List<(DateTime, int)> get sessions {
+    final raw = extra['sessions'];
+    if (raw is! List) return const [];
+    final out = <(DateTime, int)>[];
+    for (final e in raw) {
+      if (e is List && e.length == 2 && e[0] is num && e[1] is num) {
+        out.add((DateTime.fromMillisecondsSinceEpoch((e[0] as num).toInt()), (e[1] as num).toInt()));
+      }
+    }
+    return out;
+  }
+
+  /// Stage changes: [(when, stage)], newest last.
+  List<(DateTime, int)> get stageHistory {
+    final raw = extra['history'];
+    if (raw is! List) return const [];
+    final out = <(DateTime, int)>[];
+    for (final e in raw) {
+      if (e is List && e.length == 2 && e[0] is num && e[1] is num) {
+        out.add((DateTime.fromMillisecondsSinceEpoch((e[0] as num).toInt()), (e[1] as num).toInt()));
+      }
+    }
+    return out;
+  }
 
   /// Price history recorded by the user: [(epochMs, price)].
   List<(DateTime, double)> get priceHistory {
@@ -637,6 +734,8 @@ class Attachment {
     required this.mime,
     required this.size,
     required this.createdAt,
+    this.role = AttachmentRole.file,
+    this.ref,
   });
 
   final String id;
@@ -646,7 +745,13 @@ class Attachment {
   final int size;
   final DateTime createdAt;
 
+  /// `file` (message attachment), `image` (gallery picture) or `thumb`
+  /// (small preview of the image whose id is [ref]).
+  final String role;
+  final String? ref;
+
   bool get isImage => mime.startsWith('image/');
+  bool get isThumb => role == AttachmentRole.thumb;
 
   Map<String, Object?> toDb() => {
         'id': id,
@@ -655,6 +760,8 @@ class Attachment {
         'mime': mime,
         'size': size,
         'created_at': createdAt.millisecondsSinceEpoch,
+        'role': role,
+        'ref': ref,
       };
 
   factory Attachment.fromDb(Map<String, Object?> m) => Attachment(
@@ -664,5 +771,13 @@ class Attachment {
         mime: (m['mime'] as String?) ?? 'application/octet-stream',
         size: m['size'] as int? ?? 0,
         createdAt: DateTime.fromMillisecondsSinceEpoch(m['created_at'] as int),
+        role: (m['role'] as String?) ?? AttachmentRole.file,
+        ref: m['ref'] as String?,
       );
+}
+
+class AttachmentRole {
+  const AttachmentRole._();
+  static const file = 'file', image = 'image', thumb = 'thumb';
+  static const all = {file, image, thumb};
 }

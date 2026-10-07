@@ -629,7 +629,14 @@ void main() {
       expect(items.single.extra, isEmpty);
       await repo.upsertPerson(Person(id: 'p', name: 'x', createdAt: t0, updatedAt: t0));
       expect((await repo.loadAll()).people.length, 1);
-      expect(await adb.db.getVersion(), 2);
+      expect(await adb.db.getVersion(), 3);
+      // v3 added picture roles to attachments.
+      await adb.db.insert('attachments', {
+        'id': 'img1', 'item_id': 'legacy', 'name': 'a.jpg', 'mime': 'image/jpeg', 'size': 1,
+        'created_at': 1, 'role': 'image',
+      });
+      final att = await repo.loadAll();
+      expect(att.attachments.single.role, 'image');
       await adb.close();
       await databaseFactoryFfi.deleteDatabase(path);
     });

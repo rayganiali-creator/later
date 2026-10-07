@@ -135,7 +135,16 @@ class _ListTabState extends State<ListTab> {
               chip(l.filterHigh, const ItemFilter(FilterKind.highPriority)),
               chip(l.filterStale, const ItemFilter(FilterKind.stale)),
               chip(l.inboxTitle, const ItemFilter(FilterKind.inbox)),
-              for (final t in const [ItemType.read, ItemType.watch, ItemType.wishlist, ItemType.idea])
+              for (final t in const [
+                ItemType.read,
+                ItemType.watch,
+                ItemType.podcast,
+                ItemType.course,
+                ItemType.game,
+                ItemType.app,
+                ItemType.wishlist,
+                ItemType.idea,
+              ])
                 chip(TypeInfo.shelfTitle(l, t), ItemFilter(FilterKind.type, t.name)),
               for (final c in app.categories)
                 chip('${c.emoji} ${app.categoryName(c.id)}', ItemFilter(FilterKind.category, c.id)),

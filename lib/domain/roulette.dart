@@ -43,7 +43,15 @@ class Roulette {
   final Random _rng;
 
   /// Item types that can be "done right now".
-  static const doableTypes = {ItemType.task, ItemType.read, ItemType.watch, ItemType.person};
+  static const doableTypes = {
+    ItemType.task,
+    ItemType.read,
+    ItemType.watch,
+    ItemType.person,
+    ItemType.podcast,
+    ItemType.course,
+    ItemType.game,
+  };
 
   bool eligible(LaterItem i, DateTime now, RouletteOptions o) {
     if (!i.isActive || !doableTypes.contains(i.type)) return false;

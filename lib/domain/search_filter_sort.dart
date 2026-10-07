@@ -169,6 +169,12 @@ bool matchesSearch(
     ..write(normalizeForSearch(i.title))
     ..write(' ')
     ..write(normalizeForSearch(i.description));
+  // Names a person would search for: the show, the maker, the genre.
+  if (i.type == ItemType.podcast || i.type == ItemType.course || i.type == ItemType.game || i.type == ItemType.app) {
+    b
+      ..write(' ')
+      ..write(normalizeForSearch('${i.show} ${i.creator} ${i.genre} ${i.platforms.join(' ')}'));
+  }
   if (q.advanced) {
     b
       ..write(' ')

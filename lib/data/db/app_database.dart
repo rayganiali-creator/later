@@ -77,7 +77,17 @@ class AppDatabase {
       await db.execute('CREATE INDEX idx_items_type ON items(item_type)');
       await _createV2Tables(db);
     },
+    // v2 -> v3: pictures. Attachments get a role (file / image / thumb) and
+    // thumbnails point at the image they preview.
+    2: (db) async {
+      await _addAttachmentRoles(db);
+    },
   };
+
+  static Future<void> _addAttachmentRoles(Database db) async {
+    await db.execute("ALTER TABLE attachments ADD COLUMN role TEXT NOT NULL DEFAULT 'file'");
+    await db.execute('ALTER TABLE attachments ADD COLUMN ref TEXT');
+  }
 
   static Future<void> _createV2Tables(Database db) async {
     await db.execute('''
@@ -186,6 +196,7 @@ CREATE TABLE settings (
     }
     await batch.commit(noResult: true);
     await _createV2Tables(db);
+    await _addAttachmentRoles(db);
   }
 
   Future<void> close() => db.close();

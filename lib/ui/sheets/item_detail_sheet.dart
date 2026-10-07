@@ -10,7 +10,11 @@ import '../screens/reveal_screen.dart';
 import '../type_info.dart';
 import '../widgets/common.dart';
 import '../widgets/pro_gate.dart';
+import '../screens/image_viewer_screen.dart';
+import '../widgets/item_image.dart';
+import '../widgets/picture_section.dart';
 import 'add_edit_sheet.dart';
+import 'media_sections.dart';
 import 'seal_sheets.dart';
 import 'snooze_sheet.dart';
 
@@ -66,14 +70,13 @@ class ItemDetailSheet extends StatelessWidget {
         padding: const EdgeInsets.fromLTRB(24, 0, 24, 20),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, mainAxisSize: MainAxisSize.min, children: [
           Row(children: [
-            Container(
-              width: 48,
-              height: 48,
-              decoration: BoxDecoration(color: c.lavender, borderRadius: BorderRadius.circular(16)),
-              alignment: Alignment.center,
-              child: (item.type == ItemType.task || item.type == ItemType.person)
-                  ? Text(app.categoryEmoji(item.categoryId), style: const TextStyle(fontSize: 24))
-                  : Icon(TypeInfo.icon(item.type), color: s.primary),
+            CoverThumb(
+              item: item,
+              size: 48,
+              radius: 16,
+              emoji: (item.type == ItemType.task || item.type == ItemType.person)
+                  ? app.categoryEmoji(item.categoryId)
+                  : null,
             ),
             const SizedBox(width: 12),
             Expanded(
@@ -107,6 +110,23 @@ class ItemDetailSheet extends StatelessWidget {
             ),
           ]),
           const SizedBox(height: 12),
+          if (app.coverImageId(item) != null && !item.isLockedAt(now)) ...[
+            GestureDetector(
+              onTap: () => Navigator.of(hostContext).push(MaterialPageRoute<void>(
+                  builder: (_) => ImageViewerScreen(itemId: item.id, initialImageId: app.coverImageId(item)))),
+              child: SizedBox(
+                height: 210,
+                width: double.infinity,
+                child: StoredImage(
+                  imageId: app.coverImageId(item)!,
+                  thumb: false,
+                  radius: 18,
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+            const SizedBox(height: 12),
+          ],
           SelectableText(item.title, style: context.text.headlineSmall),
           if (item.description.isNotEmpty && !item.isLockedAt(now)) ...[
             const SizedBox(height: 8),
@@ -119,6 +139,7 @@ class ItemDetailSheet extends StatelessWidget {
             stageChips(),
             const SizedBox(height: 10),
           ],
+          ...mediaSections(context, hostContext, item),
           if (item.type == ItemType.wishlist) ..._wishlist(context, item),
           if (item.type == ItemType.idea) ..._idea(context, item),
           if (item.type == ItemType.watch)
@@ -160,6 +181,10 @@ class ItemDetailSheet extends StatelessWidget {
               icon: const Icon(Icons.open_in_new_rounded, size: 18),
               label: Text(item.url!, maxLines: 1, overflow: TextOverflow.ellipsis, textDirection: TextDirection.ltr),
             ),
+          ],
+          if (!sealedType) ...[
+            const SizedBox(height: 12),
+            PictureSection(itemId: item.id),
           ],
           if (item.note.isNotEmpty) ...[
             const SizedBox(height: 12),

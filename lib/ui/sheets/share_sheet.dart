@@ -26,6 +26,10 @@ Future<void> showShareDestinationSheet(BuildContext context, LaterItem item) {
   final shelves = <(ItemType, String)>[
     (ItemType.read, l.triageRead),
     (ItemType.watch, l.triageWatch),
+    (ItemType.podcast, l.shelfPodcastTitle),
+    (ItemType.course, l.shelfCourseTitle),
+    (ItemType.game, l.shelfGameTitle),
+    (ItemType.app, l.shelfAppTitle),
     (ItemType.wishlist, l.triageWish),
     (ItemType.idea, l.triageIdea),
   ];

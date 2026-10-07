@@ -6,6 +6,7 @@ import '../../domain/universal_search.dart';
 import '../app_scope.dart';
 import '../sheets/item_detail_sheet.dart';
 import '../type_info.dart';
+import '../widgets/item_image.dart';
 import '../widgets/common.dart';
 import '../widgets/pro_gate.dart';
 import 'people_screens.dart';
@@ -72,7 +73,11 @@ class _SearchScreenState extends State<SearchScreen> {
                     final h = hits[i];
                     final isPerson = h.kind == HitKind.person;
                     return ListTile(
-                      leading: Icon(isPerson ? Icons.person_outline_rounded : TypeInfo.icon(h.type ?? ItemType.task)),
+                      leading: () {
+                        final it = isPerson || h.locked ? null : app.itemById(h.id);
+                        if (it != null) return CoverThumb(item: it, size: 40, radius: 10);
+                        return Icon(isPerson ? Icons.person_outline_rounded : TypeInfo.icon(h.type ?? ItemType.task));
+                      }(),
                       title: Text(h.locked ? l.stageSealed : h.title, maxLines: 2, overflow: TextOverflow.ellipsis),
                       subtitle: Text(
                         [

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../core/util/dates.dart';
 import '../core/util/text.dart';
 import '../data/controller.dart';
+export '../data/controller.dart' show LaterMedia, AppAnswer;
 import '../domain/models.dart';
 import '../domain/search_filter_sort.dart';
 import '../l10n/app_localizations.dart';

@@ -12,7 +12,7 @@ class SharedContent {
 }
 
 /// Quick actions coming from the launcher shortcuts / home-screen widget.
-enum QuickAction { add, pick, search, open }
+enum QuickAction { add, pick, search, open, capture, inbox, item }
 
 class WidgetSnapshot {
   const WidgetSnapshot({
@@ -21,6 +21,10 @@ class WidgetSnapshot {
     this.suggestionTitle,
     this.suggestionId,
     this.topItems = const [],
+    this.counts = const {},
+    this.smartKind,
+    this.smartText,
+    this.smartId,
     required this.strings,
   });
 
@@ -32,6 +36,15 @@ class WidgetSnapshot {
   /// Up to 4 titles for the (Pro) list widget.
   final List<String> topItems;
 
+  /// Shelf counters shown by the widgets (inbox, today, learn, podcasts...).
+  final Map<String, int> counts;
+
+  /// The smart suggestion: which kind ("today", "learn", "listen", ...), the
+  /// ready-to-show line and the item it is about.
+  final String? smartKind;
+  final String? smartText;
+  final String? smartId;
+
   /// Localized strings needed by the native widget.
   final Map<String, String> strings;
 
@@ -41,6 +54,10 @@ class WidgetSnapshot {
         'suggestion': suggestionTitle,
         'suggestionId': suggestionId,
         'items': topItems,
+        'counts': counts,
+        'smartKind': smartKind,
+        'smartText': smartText,
+        'smartId': smartId,
         'strings': strings,
       };
 }
@@ -57,6 +74,15 @@ abstract class PlatformBridge {
 
   Future<QuickAction?> takeInitialAction();
   Stream<QuickAction> get actions;
+
+  /// The id that goes with [QuickAction.item] (consumed once).
+  String? takeActionArg();
+
+  /// The home-screen widget's refresh button was pressed.
+  Stream<void> get widgetRefreshes;
+
+  /// Sends the app to the background (after a quick save from a widget).
+  Future<void> moveToBack();
 
   Future<void> updateWidgets(WidgetSnapshot snapshot);
   Future<bool> openBatteryOptimizationSettings();
@@ -87,6 +113,23 @@ class MethodChannelPlatformBridge implements PlatformBridge {
 
   final StreamController<SharedContent> _shares = StreamController.broadcast();
   final StreamController<QuickAction> _actions = StreamController.broadcast();
+  final StreamController<void> _refreshes = StreamController.broadcast();
+  String? _arg;
+
+  @override
+  Stream<void> get widgetRefreshes => _refreshes.stream;
+
+  @override
+  String? takeActionArg() {
+    final a = _arg;
+    _arg = null;
+    return a;
+  }
+
+  @override
+  Future<void> moveToBack() async {
+    await _bool('moveToBack');
+  }
 
   Future<dynamic> _onCall(MethodCall call) async {
     switch (call.method) {
@@ -96,6 +139,8 @@ class MethodChannelPlatformBridge implements PlatformBridge {
       case 'action':
         final a = _parseAction(call.arguments);
         if (a != null) _actions.add(a);
+      case 'refreshWidgets':
+        _refreshes.add(null);
     }
     return null;
   }
@@ -111,7 +156,15 @@ class MethodChannelPlatformBridge implements PlatformBridge {
     );
   }
 
-  static QuickAction? _parseAction(Object? name) {
+  QuickAction? _parseAction(Object? name) {
+    if (name is String && name.startsWith('item:')) {
+      final id = name.substring(5);
+      if (RegExp(r'^[A-Za-z0-9_\-]{1,64}$').hasMatch(id)) {
+        _arg = id;
+        return QuickAction.item;
+      }
+      return null;
+    }
     for (final a in QuickAction.values) {
       if (a.name == name) return a;
     }
@@ -210,6 +263,20 @@ class NullPlatformBridge implements PlatformBridge {
   Stream<SharedContent> get shares => shareController.stream;
   @override
   Stream<QuickAction> get actions => actionController.stream;
+  final StreamController<void> refreshController = StreamController.broadcast();
+  @override
+  Stream<void> get widgetRefreshes => refreshController.stream;
+  String? actionArg;
+  @override
+  String? takeActionArg() {
+    final a = actionArg;
+    actionArg = null;
+    return a;
+  }
+
+  bool movedToBack = false;
+  @override
+  Future<void> moveToBack() async => movedToBack = true;
 
   @override
   Future<SharedContent?> takeInitialShare() async {

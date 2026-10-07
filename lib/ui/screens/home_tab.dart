@@ -10,6 +10,9 @@ import '../sheets/add_edit_sheet.dart';
 import '../sheets/smart_pick_sheet.dart';
 import '../type_info.dart';
 import '../widgets/common.dart';
+import '../../domain/widget_pick.dart';
+import '../sheets/item_detail_sheet.dart';
+import '../widgets/item_image.dart';
 import 'future_screen.dart';
 import 'idea_review_screen.dart';
 import 'inbox_screen.dart';
@@ -66,7 +69,7 @@ class HomeTab extends StatelessWidget {
     void go(Widget w) => Navigator.of(context).push(MaterialPageRoute<void>(builder: (_) => w));
 
     Widget shelf(ItemType t, int n, Widget target) => _ShelfTile(
-          icon: TypeInfo.icon(t),
+          type: t,
           label: TypeInfo.shelfTitle(l, t),
           count: n,
           onTap: () => go(target),
@@ -148,6 +151,7 @@ class HomeTab extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 12),
+          _SuggestionCard(pick: app.widgetSuggestion),
           Row(children: [
             Expanded(
               child: _NumberCard(
@@ -234,6 +238,10 @@ class HomeTab extends StatelessWidget {
             children: [
               shelf(ItemType.read, d.read, const ShelfScreen(type: ItemType.read)),
               shelf(ItemType.watch, d.watch, const ShelfScreen(type: ItemType.watch)),
+              shelf(ItemType.podcast, d.podcasts, const ShelfScreen(type: ItemType.podcast)),
+              shelf(ItemType.course, d.courses, const ShelfScreen(type: ItemType.course)),
+              shelf(ItemType.game, d.games, const ShelfScreen(type: ItemType.game)),
+              shelf(ItemType.app, d.apps, const ShelfScreen(type: ItemType.app)),
               shelf(ItemType.wishlist, d.wishlist, const ShelfScreen(type: ItemType.wishlist)),
               shelf(ItemType.idea, d.ideas, const ShelfScreen(type: ItemType.idea)),
               shelf(ItemType.person, d.people, const PeopleScreen()),
@@ -331,8 +339,8 @@ class _NumberCard extends StatelessWidget {
 }
 
 class _ShelfTile extends StatelessWidget {
-  const _ShelfTile({required this.icon, required this.label, required this.count, required this.onTap});
-  final IconData icon;
+  const _ShelfTile({required this.type, required this.label, required this.count, required this.onTap});
+  final ItemType type;
   final String label;
   final int count;
   final VoidCallback onTap;
@@ -348,8 +356,9 @@ class _ShelfTile extends StatelessWidget {
         Container(
           width: 38,
           height: 38,
-          decoration: BoxDecoration(color: context.appColors.lavender, borderRadius: BorderRadius.circular(12)),
-          child: Icon(icon, color: s.primary, size: 22),
+          decoration: BoxDecoration(
+              color: TypeInfo.color(type).withValues(alpha: 0.14), borderRadius: BorderRadius.circular(12)),
+          child: Icon(TypeInfo.icon(type), color: TypeInfo.color(type), size: 22),
         ),
         const SizedBox(width: 10),
         Expanded(
@@ -389,6 +398,62 @@ class _Banner extends StatelessWidget {
         ),
         Icon(Icons.chevron_left_rounded, color: context.scheme.onSurfaceVariant),
       ]),
+    );
+  }
+}
+
+
+/// "You could do this now": picked from the user's own data (what is due,
+/// what is half done, what fits a free moment). Shows the item's picture.
+class _SuggestionCard extends StatelessWidget {
+  const _SuggestionCard({required this.pick});
+  final WidgetPick? pick;
+
+  @override
+  Widget build(BuildContext context) {
+    final p = pick;
+    if (p == null) return const SizedBox.shrink();
+    final l = context.l10n;
+    final fmt = context.fmt;
+    final s = context.scheme;
+    final t = p.item.title;
+    final m = p.item.estimatedMinutes;
+    final label = switch (p.kind) {
+      WidgetPickKind.today => l.widgetSmartToday(t),
+      WidgetPickKind.learn => l.widgetSmartLearn(t),
+      WidgetPickKind.listen => l.widgetSmartListen(t),
+      WidgetPickKind.freeTime => l.widgetSmartFree(fmt.num(m ?? 0), t),
+      WidgetPickKind.game => l.widgetSmartGame(fmt.num(m ?? 30), t),
+      WidgetPickKind.waiting => l.widgetSmartWaiting(t),
+    };
+    final lines = label.split('\n');
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 12),
+      child: AppCard(
+        padding: const EdgeInsets.all(12),
+        onTap: () => showItemDetailSheet(context, p.item.id),
+        semanticLabel: label.replaceAll('\n', ' '),
+        child: Row(children: [
+          CoverThumb(
+            item: p.item,
+            size: 56,
+            radius: 14,
+            emoji: (p.item.type == ItemType.task || p.item.type == ItemType.person)
+                ? context.appRead.categoryEmoji(p.item.categoryId)
+                : null,
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              Text(lines.first, style: context.text.labelMedium?.copyWith(color: s.onSurfaceVariant)),
+              if (lines.length > 1)
+                Text(lines.sublist(1).join(' '),
+                    maxLines: 2, overflow: TextOverflow.ellipsis, style: context.text.titleSmall),
+            ]),
+          ),
+          Icon(Icons.chevron_left_rounded, color: s.onSurfaceVariant),
+        ]),
+      ),
     );
   }
 }

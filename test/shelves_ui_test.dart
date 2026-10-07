@@ -9,6 +9,7 @@ import 'package:later/ui/screens/people_screens.dart';
 import 'package:later/ui/screens/pro_screen.dart';
 import 'package:later/ui/screens/search_screen.dart';
 import 'package:later/ui/screens/shelf_screen.dart';
+import 'package:later/ui/widgets/item_tile.dart';
 
 import 'harness.dart';
 import 'helpers.dart';
@@ -29,8 +30,8 @@ void main() {
     expect(text(fa.shelfIdeaTitle), findsOneWidget);
     expect(text(fa.shelfPeopleTitle), findsOneWidget);
     expect(text(fa.shelfFutureTitle), findsOneWidget);
-    // Titles of items are not listed on the dashboard.
-    expect(text('کار معمولی یک'), findsNothing);
+    // The dashboard shows counters and at most one suggestion, never a list.
+    expect(find.byType(ItemTile), findsNothing);
     // ...but they are in the list tab.
     await tester.tap(text(fa.navList).last);
     await settle(tester);

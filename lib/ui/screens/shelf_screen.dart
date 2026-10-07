@@ -12,9 +12,10 @@ import '../widgets/common.dart';
 import '../widgets/item_tile.dart';
 import '../widgets/pro_gate.dart';
 import 'idea_review_screen.dart';
+import 'media_screens.dart';
 import 'wishlist_review_screen.dart';
 
-enum _ShelfSort { newest, oldest, price, score, time }
+enum _ShelfSort { newest, oldest, price, score, time, smart }
 
 /// One shelf (read / watch / wishlist / ideas): its own stages, its own
 /// stats, its own history. Free covers the basics, Pro adds the tools.
@@ -40,18 +41,22 @@ class _ShelfScreenState extends State<ShelfScreen> {
     super.dispose();
   }
 
-  int get _stageCount => switch (widget.type) {
-        ItemType.read => 4,
-        ItemType.watch => 3,
-        ItemType.wishlist => 4,
-        ItemType.idea => 5,
-        _ => 0,
-      };
+  int get _stageCount => ItemStages.of(widget.type).length > 1 ? ItemStages.of(widget.type).length : 0;
+
+  bool get _isMedia =>
+      widget.type == ItemType.app ||
+      widget.type == ItemType.podcast ||
+      widget.type == ItemType.course ||
+      widget.type == ItemType.game;
 
   String _emptyTitle(AppL10n l) => switch (widget.type) {
         ItemType.read => l.shelfEmptyReadTitle,
         ItemType.watch => l.shelfEmptyWatchTitle,
         ItemType.wishlist => l.shelfEmptyWishTitle,
+        ItemType.app => l.shelfEmptyAppTitle,
+        ItemType.podcast => l.shelfEmptyPodcastTitle,
+        ItemType.course => l.shelfEmptyCourseTitle,
+        ItemType.game => l.shelfEmptyGameTitle,
         _ => l.shelfEmptyIdeaTitle,
       };
 
@@ -59,6 +64,10 @@ class _ShelfScreenState extends State<ShelfScreen> {
         ItemType.read => l.shelfEmptyReadBody,
         ItemType.watch => l.shelfEmptyWatchBody,
         ItemType.wishlist => l.shelfEmptyWishBody,
+        ItemType.app => l.shelfEmptyAppBody,
+        ItemType.podcast => l.shelfEmptyPodcastBody,
+        ItemType.course => l.shelfEmptyCourseBody,
+        ItemType.game => l.shelfEmptyGameBody,
         _ => l.shelfEmptyIdeaBody,
       };
 
@@ -91,6 +100,12 @@ class _ShelfScreenState extends State<ShelfScreen> {
         list.sort((a, b) => cmpNum(a.score, b.score, desc: true));
       case _ShelfSort.time:
         list.sort((a, b) => cmpNum(a.estimatedMinutes, b.estimatedMinutes));
+      case _ShelfSort.smart:
+        // What matters most and has waited longest comes first.
+        list.sort((a, b) {
+          final p = b.priority.index.compareTo(a.priority.index);
+          return p != 0 ? p : (a.lastKeptAt ?? a.createdAt).compareTo(b.lastKeptAt ?? b.createdAt);
+        });
     }
     return list;
   }
@@ -145,8 +160,9 @@ class _ShelfScreenState extends State<ShelfScreen> {
               PopupMenuItem(value: _ShelfSort.oldest, child: Text(l.sortOldest)),
               if (t == ItemType.wishlist) PopupMenuItem(value: _ShelfSort.price, child: Text('${l.sortByPrice}  PRO')),
               if (t == ItemType.idea) PopupMenuItem(value: _ShelfSort.score, child: Text('${l.sortByScore}  PRO')),
-              if (t == ItemType.read || t == ItemType.watch)
+              if (t == ItemType.read || t == ItemType.watch || t == ItemType.podcast || t == ItemType.course || t == ItemType.game)
                 PopupMenuItem(value: _ShelfSort.time, child: Text('${l.sortByTime}  PRO')),
+              if (_isMedia) PopupMenuItem(value: _ShelfSort.smart, child: Text('${l.sortPriority}  PRO')),
             ],
           ),
         ],
@@ -157,6 +173,7 @@ class _ShelfScreenState extends State<ShelfScreen> {
         child: const Icon(Icons.add_rounded, size: 30),
       ),
       body: Column(children: [
+        if (_isMedia) _IdentityHeader(type: t),
         Padding(
           padding: const EdgeInsets.fromLTRB(20, 4, 20, 0),
           child: TextField(
@@ -244,6 +261,8 @@ class _ShelfScreenState extends State<ShelfScreen> {
             ),
           ),
         if (_stats) _StatsCard(type: t),
+        if ((t == ItemType.podcast || t == ItemType.course) && !_history && _search.text.isEmpty && _stage == null)
+          ContinueStrip(type: t),
         if (review > 0 && !_history)
           Padding(
             padding: const EdgeInsets.fromLTRB(20, 4, 20, 4),
@@ -271,6 +290,14 @@ class _ShelfScreenState extends State<ShelfScreen> {
                   emoji: '🗂️',
                   title: _search.text.isNotEmpty ? l.listEmptyFiltered : _emptyTitle(l),
                   body: _search.text.isNotEmpty ? l.listEmptyFilteredBody : _emptyBody(l))
+              : t == ItemType.game
+                  ? GridView.builder(
+                      padding: const EdgeInsets.fromLTRB(20, 8, 20, 110),
+                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2, mainAxisSpacing: 12, crossAxisSpacing: 12, childAspectRatio: 0.78),
+                      itemCount: items.length,
+                      itemBuilder: (_, i) => CoverCard(key: ValueKey(items[i].id), item: items[i]),
+                    )
               : ListView.separated(
                   padding: const EdgeInsets.fromLTRB(20, 8, 20, 110),
                   itemCount: items.length,
@@ -353,9 +380,90 @@ class _StatsCard extends StatelessWidget {
             if (st.avgDaysToFinish != null)
               cell(l.statsAvgFinish, l.statsDaysValue(fmt.num(st.avgDaysToFinish!.round()))),
             if (type == ItemType.wishlist) cell(l.statsTotalPrice, fmt.money(st.totalPrice)),
+            if (type == ItemType.app) ...[
+              cell(l.stageInstalled, fmt.num(st.finished)),
+              cell(l.stageAppNotWanted, fmt.num(st.dropped)),
+            ],
+            if (type == ItemType.course || type == ItemType.game) ...[
+              () {
+                final ss = app.sessionStatsFor(type);
+                return cell(l.statsTotalTime, l.minutesTotal(fmt.num(ss.totalMinutes)));
+              }(),
+              if (type == ItemType.course)
+                cell(l.statsStreak, l.streakDays(fmt.num(app.sessionStatsFor(type).streakDays))),
+            ],
           ]),
         ]),
       ),
+    );
+  }
+}
+
+
+/// A shelf's own look: a tinted band with its icon, its one-line purpose and
+/// the actions that only that shelf has.
+class _IdentityHeader extends StatelessWidget {
+  const _IdentityHeader({required this.type});
+  final ItemType type;
+
+  @override
+  Widget build(BuildContext context) {
+    final l = context.l10n;
+    final app = context.app;
+    final color = TypeInfo.color(type);
+    final pro = app.access.has(switch (type) {
+      ItemType.podcast => ProFeature.podcastTools,
+      ItemType.course => ProFeature.learnTools,
+      ItemType.game => ProFeature.gameTools,
+      _ => ProFeature.appTools,
+    });
+    Widget? action;
+    if (type == ItemType.game) {
+      action = FilledButton.icon(
+        style: FilledButton.styleFrom(backgroundColor: color, minimumSize: const Size(0, 44)),
+        onPressed: () => Navigator.of(context).push(MaterialPageRoute<void>(builder: (_) => const GamePickerScreen())),
+        icon: const Icon(Icons.casino_outlined, size: 20),
+        label: Text(l.gamePickBtn),
+      );
+    } else if (type == ItemType.podcast) {
+      action = OutlinedButton.icon(
+        style: OutlinedButton.styleFrom(minimumSize: const Size(0, 44), foregroundColor: color),
+        onPressed: () {
+          if (!pro) {
+            showProSheet(context, featureName: l.podcastProHint);
+            return;
+          }
+          Navigator.of(context).push(MaterialPageRoute<void>(builder: (_) => const PodcastQueueScreen()));
+        },
+        icon: const Icon(Icons.queue_music_rounded, size: 20),
+        label: Row(mainAxisSize: MainAxisSize.min, children: [Text(l.podcastQueueTitle), if (!pro) ...[const SizedBox(width: 6), const ProTag()]]),
+      );
+    }
+    return Container(
+      width: double.infinity,
+      margin: const EdgeInsets.fromLTRB(20, 0, 20, 8),
+      padding: const EdgeInsets.all(14),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topRight,
+          end: Alignment.bottomLeft,
+          colors: [color.withValues(alpha: 0.18), color.withValues(alpha: 0.05)],
+        ),
+        borderRadius: BorderRadius.circular(20),
+      ),
+      child: Row(children: [
+        Container(
+          width: 46,
+          height: 46,
+          decoration: BoxDecoration(color: color.withValues(alpha: 0.18), borderRadius: BorderRadius.circular(14)),
+          child: Icon(TypeInfo.icon(type), color: color),
+        ),
+        const SizedBox(width: 12),
+        Expanded(
+          child: Text(TypeInfo.shelfSub(l, type), style: context.text.titleSmall),
+        ),
+        ?action,
+      ]),
     );
   }
 }

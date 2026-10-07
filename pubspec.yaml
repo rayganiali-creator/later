@@ -32,6 +32,10 @@ dependencies:
   # Backup / restore (system file picker, Storage Access Framework)
   file_picker: ^13.1.0
 
+  # Pictures: pick / take a photo through the system (no storage or camera permission), shrink and re-encode (drops EXIF)
+  image_picker: ^1.1.2
+  image: ^4.5.4
+
   # Misc
   url_launcher: ^6.3.2
   shamsi_date: ^1.1.1

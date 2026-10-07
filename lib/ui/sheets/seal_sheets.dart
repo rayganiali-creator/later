@@ -16,7 +16,17 @@ import '../widgets/pro_gate.dart';
 /// "Move to…" — puts an item on another shelf.
 Future<void> showMoveSheet(BuildContext context, LaterItem item) {
   final l = context.l10n;
-  const targets = [ItemType.task, ItemType.read, ItemType.watch, ItemType.wishlist, ItemType.idea];
+  const targets = [
+    ItemType.task,
+    ItemType.read,
+    ItemType.watch,
+    ItemType.podcast,
+    ItemType.course,
+    ItemType.game,
+    ItemType.app,
+    ItemType.wishlist,
+    ItemType.idea,
+  ];
   return showAppSheet<void>(
     context,
     builder: (ctx) => SafeArea(

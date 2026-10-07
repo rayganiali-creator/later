@@ -6,6 +6,7 @@ import '../../domain/models.dart';
 import '../../l10n/app_localizations.dart';
 import '../app_scope.dart';
 import '../sheets/item_detail_sheet.dart';
+import '../sheets/seal_sheets.dart';
 import '../type_info.dart';
 import '../widgets/common.dart';
 import '../widgets/pro_gate.dart';
@@ -56,6 +57,10 @@ String suggestWhat(AppL10n l, ItemType t) => switch (t) {
       ItemType.wishlist => l.suggestWhatWish,
       ItemType.idea => l.suggestWhatIdea,
       ItemType.person => l.suggestWhatPerson,
+      ItemType.app => l.suggestWhatApp,
+      ItemType.podcast => l.suggestWhatPodcast,
+      ItemType.course => l.suggestWhatCourse,
+      ItemType.game => l.suggestWhatGame,
       _ => '',
     };
 
@@ -122,6 +127,11 @@ class InboxCard extends StatelessWidget {
           chip(l.triageWatch, Icons.play_circle_outline_rounded, TriageChoice.watch),
           chip(l.triageWish, Icons.shopping_bag_outlined, TriageChoice.wishlist),
           chip(l.triageIdea, Icons.lightbulb_outline_rounded, TriageChoice.idea),
+          ActionChip(
+            avatar: const Icon(Icons.more_horiz_rounded, size: 16),
+            label: Text(l.triageMore),
+            onPressed: () => showMoveSheet(context, item),
+          ),
           chip(l.triageDone, Icons.check_rounded, TriageChoice.done),
           chip(l.triageDelete, Icons.delete_outline_rounded, TriageChoice.delete, danger: true),
         ]),
