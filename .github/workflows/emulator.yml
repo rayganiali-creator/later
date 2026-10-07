@@ -20,6 +20,12 @@ jobs:
       matrix:
         api: [31, 33, 34, 35]
     steps:
+      - name: Free disk space (private repos get a smaller runner)
+        run: |
+          sudo rm -rf /usr/share/dotnet /opt/ghc /usr/local/share/boost /usr/local/graalvm /usr/local/.ghcup \
+            /opt/hostedtoolcache/CodeQL /usr/share/swift /usr/local/lib/node_modules /opt/microsoft || true
+          sudo docker image prune --all --force >/dev/null 2>&1 || true
+          df -h / | tail -1
       - uses: actions/checkout@v4
       - name: Enable KVM
         run: |
