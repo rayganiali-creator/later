@@ -49,3 +49,6 @@ Edit `version:` in `pubspec.yaml` (`1.0.0+1` = versionName+versionCode). version
 
 ## Before every release
 `flutter analyze && flutter test`, CI green, install the QA APK on real devices and walk through `docs/TEST_PLAN.md`.
+
+## Pro purchases and restore
+Pro purchases are not consumed after activation: Bazaar keeps them and the app rebuilds Pro from the owned purchases on start (and with the "Restore purchases" button), so Pro survives a reinstall or a new phone. See docs/TEST_PLAN.md for the manual check with the signed build.
