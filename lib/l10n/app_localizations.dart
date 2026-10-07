@@ -5136,6 +5136,72 @@ abstract class AppL10n {
   /// In fa, this message translates to:
   /// **'خواندنی'**
   String get widgetRead;
+
+  /// No description provided for @widgetOfferTitle.
+  ///
+  /// In fa, this message translates to:
+  /// **'ویجت «بعداً» روی صفحه‌ی اصلی؟'**
+  String get widgetOfferTitle;
+
+  /// No description provided for @widgetOfferBody.
+  ///
+  /// In fa, this message translates to:
+  /// **'یه ویجت کوچیک و قشنگ که کارهای امروزت رو نشونت می‌ده و با یه لمس چیزی رو ذخیره می‌کنه. هر وقت خواستی می‌تونی برش داری.'**
+  String get widgetOfferBody;
+
+  /// No description provided for @widgetOfferYes.
+  ///
+  /// In fa, this message translates to:
+  /// **'آره، اضافه کن'**
+  String get widgetOfferYes;
+
+  /// No description provided for @widgetOfferNo.
+  ///
+  /// In fa, this message translates to:
+  /// **'نه، ممنون'**
+  String get widgetOfferNo;
+
+  /// No description provided for @widgetAddedToast.
+  ///
+  /// In fa, this message translates to:
+  /// **'درخواست اضافه‌شدن ویجت فرستاده شد؛ تأییدش کن.'**
+  String get widgetAddedToast;
+
+  /// No description provided for @widgetManualHint.
+  ///
+  /// In fa, this message translates to:
+  /// **'لانچر گوشی اضافه‌کردن خودکار رو پشتیبانی نمی‌کنه. روی صفحه‌ی اصلی نگه دار و «ویجت‌ها» رو بزن، بعد «بعداً» رو انتخاب کن.'**
+  String get widgetManualHint;
+
+  /// No description provided for @settingsWidget.
+  ///
+  /// In fa, this message translates to:
+  /// **'ویجت صفحه‌ی اصلی'**
+  String get settingsWidget;
+
+  /// No description provided for @settingsWidgetSub.
+  ///
+  /// In fa, this message translates to:
+  /// **'کارهای امروز رو روی صفحه‌ی اصلی ببین.'**
+  String get settingsWidgetSub;
+
+  /// No description provided for @widgetTodayEmpty.
+  ///
+  /// In fa, this message translates to:
+  /// **'امروز چیزی نداری 🌿'**
+  String get widgetTodayEmpty;
+
+  /// No description provided for @widgetMore.
+  ///
+  /// In fa, this message translates to:
+  /// **'+{n} مورد دیگه'**
+  String widgetMore(String n);
+
+  /// No description provided for @widgetOverdue.
+  ///
+  /// In fa, this message translates to:
+  /// **'عقب‌افتاده'**
+  String get widgetOverdue;
 }
 
 class _AppL10nDelegate extends LocalizationsDelegate<AppL10n> {

@@ -34,6 +34,17 @@ class _HomeShellState extends State<HomeShell> {
   void initState() {
     super.initState();
     widget.bus.addListener(_onBus);
+    WidgetsBinding.instance.addPostFrameCallback((_) => _offerWidget());
+  }
+
+  /// Asked once, right at the start: put the widget on the home screen?
+  Future<void> _offerWidget() async {
+    if (!mounted) return;
+    final app = context.appRead;
+    if (app.settings.widgetOffered) return;
+    await app.updateSettings((s) => s.copyWith(widgetOffered: true));
+    if (!mounted) return;
+    await offerHomeWidget(context);
   }
 
   @override
@@ -133,4 +144,29 @@ void handleQuickAction(BuildContext context, QuickAction a, NavBus bus) {
       final id = context.appRead.platform.takeActionArg();
       if (id != null) context.appRead.requestOpen(id);
   }
+}
+
+/// Dialog that offers the home-screen widget; on "yes" asks Android to pin it
+/// (the system shows its own confirmation). Also used from Settings.
+Future<void> offerHomeWidget(BuildContext context) async {
+  final l = context.l10n;
+  final app = context.appRead;
+  final yes = await showDialog<bool>(
+    context: context,
+    builder: (ctx) => AlertDialog(
+      icon: const Icon(Icons.widgets_rounded, size: 34),
+      title: Text(l.widgetOfferTitle, textAlign: TextAlign.center),
+      content: Text(l.widgetOfferBody, textAlign: TextAlign.center),
+      actionsAlignment: MainAxisAlignment.center,
+      actions: [
+        TextButton(onPressed: () => Navigator.pop(ctx, false), child: Text(l.widgetOfferNo)),
+        FilledButton(onPressed: () => Navigator.pop(ctx, true), child: Text(l.widgetOfferYes)),
+      ],
+    ),
+  );
+  if (yes != true || !context.mounted) return;
+  final ok = await app.addWidgetToHome();
+  if (!context.mounted) return;
+  ScaffoldMessenger.of(context)
+      .showSnackBar(SnackBar(content: Text(ok ? l.widgetAddedToast : l.widgetManualHint)));
 }

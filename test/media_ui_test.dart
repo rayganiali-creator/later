@@ -50,6 +50,27 @@ Future<void> push(WidgetTester tester, Widget w) async {
 BuildContext ctx(WidgetTester t) => t.element(find.byType(Scaffold).first);
 
 void main() {
+  testWidgets('first launch offers the widget once; yes asks Android to pin it', (tester) async {
+    final env = await createEnv(tester,
+        settings: readySettings.copyWith(widgetOffered: false), items: [it('a', ItemType.app)]);
+    await pumpApp(tester, env);
+    expect(text(fa.widgetOfferTitle), findsOneWidget);
+    await tester.tap(text(fa.widgetOfferYes));
+    await settle(tester);
+    expect(env.platform.pinRequests, 1);
+    expect(env.controller.settings.widgetOffered, true);
+    expect(text(fa.widgetOfferTitle), findsNothing);
+  });
+
+  testWidgets('saying no to the widget offer does not ask the launcher', (tester) async {
+    final env = await createEnv(tester, settings: readySettings.copyWith(widgetOffered: false));
+    await pumpApp(tester, env);
+    await tester.tap(text(fa.widgetOfferNo));
+    await settle(tester);
+    expect(env.platform.pinRequests, 0);
+    expect(env.controller.settings.widgetOffered, true);
+  });
+
   testWidgets('home has a tile for each new shelf and they open', (tester) async {
     final env = await createEnv(tester, settings: readySettings, items: [
       it('a', ItemType.app, title: 'برنامه‌ی من'),

@@ -1005,6 +1005,18 @@ k('fieldPositionHint', 'تا کجا رسیدم (مثلاً ۱۸:۳۲)', 'Where I
 k('fieldDurationHint2', 'مثلاً ۴۵ یا ۱:۲۰:۰۰', 'e.g. 45 or 1:20:00')
 k('typeDetails', 'مشخصات', 'Details')
 k('widgetRead', 'خواندنی', 'Read')
+
+k('widgetOfferTitle', 'ویجت «بعداً» روی صفحه‌ی اصلی؟', 'Put the Later widget on your home screen?')
+k('widgetOfferBody', 'یه ویجت کوچیک و قشنگ که کارهای امروزت رو نشونت می‌ده و با یه لمس چیزی رو ذخیره می‌کنه. هر وقت خواستی می‌تونی برش داری.', 'A small, pretty widget that shows what is set for today and saves something in one tap. You can remove it any time.')
+k('widgetOfferYes', 'آره، اضافه کن', 'Yes, add it')
+k('widgetOfferNo', 'نه، ممنون', 'No, thanks')
+k('widgetAddedToast', 'درخواست اضافه‌شدن ویجت فرستاده شد؛ تأییدش کن.', 'Widget request sent; confirm it.')
+k('widgetManualHint', 'لانچر گوشی اضافه‌کردن خودکار رو پشتیبانی نمی‌کنه. روی صفحه‌ی اصلی نگه دار و «ویجت‌ها» رو بزن، بعد «بعداً» رو انتخاب کن.', 'Your launcher cannot add it automatically. Long-press the home screen, tap Widgets and pick Later.')
+k('settingsWidget', 'ویجت صفحه‌ی اصلی', 'Home-screen widget')
+k('settingsWidgetSub', 'کارهای امروز رو روی صفحه‌ی اصلی ببین.', 'See today\'s items on your home screen.')
+k('widgetTodayEmpty', 'امروز چیزی نداری 🌿', 'Nothing for today 🌿')
+k('widgetMore', '+{n} مورد دیگه', '+{n} more')
+k('widgetOverdue', 'عقب‌افتاده', 'Overdue')
 # consistency: every placeholder set must match between languages
 for key, (fa, en, _) in T.items():
     if key.startswith('_select_'):

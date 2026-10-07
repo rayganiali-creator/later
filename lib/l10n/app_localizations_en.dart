@@ -2765,4 +2765,41 @@ class AppL10nEn extends AppL10n {
 
   @override
   String get widgetRead => 'Read';
+
+  @override
+  String get widgetOfferTitle => 'Put the Later widget on your home screen?';
+
+  @override
+  String get widgetOfferBody =>
+      'A small, pretty widget that shows what is set for today and saves something in one tap. You can remove it any time.';
+
+  @override
+  String get widgetOfferYes => 'Yes, add it';
+
+  @override
+  String get widgetOfferNo => 'No, thanks';
+
+  @override
+  String get widgetAddedToast => 'Widget request sent; confirm it.';
+
+  @override
+  String get widgetManualHint =>
+      'Your launcher cannot add it automatically. Long-press the home screen, tap Widgets and pick Later.';
+
+  @override
+  String get settingsWidget => 'Home-screen widget';
+
+  @override
+  String get settingsWidgetSub => 'See today\'s items on your home screen.';
+
+  @override
+  String get widgetTodayEmpty => 'Nothing for today 🌿';
+
+  @override
+  String widgetMore(String n) {
+    return '+$n more';
+  }
+
+  @override
+  String get widgetOverdue => 'Overdue';
 }

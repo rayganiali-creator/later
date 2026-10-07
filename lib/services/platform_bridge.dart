@@ -25,6 +25,7 @@ class WidgetSnapshot {
     this.smartKind,
     this.smartText,
     this.smartId,
+    this.todayItems = const [],
     required this.strings,
   });
 
@@ -45,6 +46,9 @@ class WidgetSnapshot {
   final String? smartText;
   final String? smartId;
 
+  /// Items due today (or overdue), most urgent first: id, title, color (ARGB int), overdue.
+  final List<Map<String, Object?>> todayItems;
+
   /// Localized strings needed by the native widget.
   final Map<String, String> strings;
 
@@ -58,6 +62,7 @@ class WidgetSnapshot {
         'smartKind': smartKind,
         'smartText': smartText,
         'smartId': smartId,
+        'today': todayItems,
         'strings': strings,
       };
 }
@@ -85,6 +90,10 @@ abstract class PlatformBridge {
   Future<void> moveToBack();
 
   Future<void> updateWidgets(WidgetSnapshot snapshot);
+
+  /// Asks Android to pin the home-screen widget (the system shows its own
+  /// confirmation). False when the launcher cannot do it.
+  Future<bool> requestPinWidget();
   Future<bool> openBatteryOptimizationSettings();
   Future<bool> openExactAlarmSettings();
   Future<bool> setLauncherIcon(IconVariant variant);
@@ -214,6 +223,9 @@ class MethodChannelPlatformBridge implements PlatformBridge {
   }
 
   @override
+  Future<bool> requestPinWidget() => _bool('requestPinWidget');
+
+  @override
   Future<bool> openBatteryOptimizationSettings() => _bool('openBatterySettings');
 
   @override
@@ -294,6 +306,14 @@ class NullPlatformBridge implements PlatformBridge {
 
   @override
   Future<void> updateWidgets(WidgetSnapshot snapshot) async => lastWidget = snapshot;
+  int pinRequests = 0;
+  bool pinResult = true;
+  @override
+  Future<bool> requestPinWidget() async {
+    pinRequests++;
+    return pinResult;
+  }
+
   @override
   Future<bool> openBatteryOptimizationSettings() async => false;
   @override

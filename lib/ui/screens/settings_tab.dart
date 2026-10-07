@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import 'home_shell.dart' show offerHomeWidget;
 import '../../core/config/app_config.dart';
 import '../../core/theme/app_theme.dart';
 import '../../core/util/dates.dart';
@@ -312,6 +313,8 @@ class _SettingsTabState extends State<SettingsTab> with WidgetsBindingObserver {
               secondary: const Icon(Icons.ios_share_rounded),
               onChanged: (v) => app.updateSettings((x) => x.copyWith(askWhereOnShare: v)),
             ),
+            _tile(Icons.widgets_outlined, l.settingsWidget, l.settingsWidgetSub,
+                onTap: () => offerHomeWidget(context)),
             _tile(Icons.casino_outlined, l.settingsRouletteCats,
                 st.rouletteCategories.isEmpty ? l.settingsRouletteCatsAll : fmt.num(st.rouletteCategories.length),
                 trailing: app.isPro ? null : const ProTag(), onTap: () async {

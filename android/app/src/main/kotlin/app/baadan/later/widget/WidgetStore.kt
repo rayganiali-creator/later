@@ -8,6 +8,8 @@ import org.json.JSONObject
 import java.util.Calendar
 
 /** Snapshot pushed from Dart; rendered by the widget providers. */
+data class TodayRow(val id: String, val title: String, val color: Int, val overdue: Boolean)
+
 data class WidgetData(
     val count: Int,
     val pro: Boolean,
@@ -17,6 +19,7 @@ data class WidgetData(
     val counts: Map<String, Int>,
     val smartText: String?,
     val smartId: String?,
+    val today: List<TodayRow>,
     val strings: Map<String, String>,
 ) {
     fun str(key: String, fallback: String = ""): String = strings[key] ?: fallback
@@ -35,6 +38,9 @@ data class WidgetData(
         val now = c.get(Calendar.YEAR) * 10000 + (c.get(Calendar.MONTH) + 1) * 100 + c.get(Calendar.DAY_OF_MONTH)
         return day != now
     }
+
+    /** Today's rows; empty when the snapshot is from another day (we cannot know). */
+    fun todayRows(): List<TodayRow> = if (isStaleDay()) emptyList() else today
 
     fun counter(key: String): String {
         if (key == "today" && isStaleDay()) return "—"
@@ -58,6 +64,18 @@ object WidgetStore {
         json.put("counts", c)
         json.put("smartText", map["smartText"] as? String)
         json.put("smartId", map["smartId"] as? String)
+        val t = JSONArray()
+        (map["today"] as? List<*>)?.take(6)?.forEach { e ->
+            val m = e as? Map<*, *> ?: return@forEach
+            val id = m["id"] as? String ?: return@forEach
+            val title = m["title"] as? String ?: return@forEach
+            t.put(
+                JSONObject().put("id", id).put("title", title)
+                    .put("color", (m["color"] as? Number)?.toLong() ?: 0xFF5B4FD6L)
+                    .put("overdue", m["overdue"] as? Boolean ?: false)
+            )
+        }
+        json.put("today", t)
         val s = JSONObject()
         (map["strings"] as? Map<*, *>)?.forEach { (k, v) -> if (k is String && v is String) s.put(k, v) }
         json.put("strings", s)
@@ -81,6 +99,12 @@ object WidgetStore {
                 counts = counts,
                 smartText = if (j.isNull("smartText")) null else j.optString("smartText"),
                 smartId = if (j.isNull("smartId")) null else j.optString("smartId"),
+                today = j.optJSONArray("today")?.let { a ->
+                    (0 until a.length()).mapNotNull { i ->
+                        val o = a.optJSONObject(i) ?: return@mapNotNull null
+                        TodayRow(o.getString("id"), o.getString("title"), o.optLong("color", 0xFF5B4FD6L).toInt(), o.optBoolean("overdue", false))
+                    }
+                } ?: emptyList(),
                 strings = strings,
             )
         } catch (_: Exception) {

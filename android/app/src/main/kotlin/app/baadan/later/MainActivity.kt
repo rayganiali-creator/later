@@ -177,6 +177,7 @@ class MainActivity : FlutterFragmentActivity() {
                     }
                 }
             }
+            "requestPinWidget" -> result.success(requestPinWidget())
             "moveToBack" -> {
                 result.success(moveTaskToBack(true))
             }
@@ -189,6 +190,24 @@ class MainActivity : FlutterFragmentActivity() {
                 result.success(configureShortcuts(call.arguments as? Map<String, String>))
             }
             else -> result.notImplemented()
+        }
+    }
+
+    /** Asks the launcher to pin the main widget; Android shows its own confirmation. */
+    private fun requestPinWidget(): Boolean {
+        return try {
+            val mgr = android.appwidget.AppWidgetManager.getInstance(this)
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O || !mgr.isRequestPinAppWidgetSupported) {
+                false
+            } else {
+                mgr.requestPinAppWidget(
+                    ComponentName(this, app.baadan.later.widget.LaterMediumWidgetProvider::class.java),
+                    null,
+                    null,
+                )
+            }
+        } catch (_: Exception) {
+            false
         }
     }
 

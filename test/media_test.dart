@@ -404,6 +404,41 @@ void main() {
     });
   });
 
+  group('Widget: today', () {
+    test('todayItems lists every shelf, overdue first, and reaches the widget', () async {
+      final e = await env0(items: [
+        it('p', ItemType.podcast),
+      ]);
+      final n = e.controller.now();
+      final day = DateTime(n.year, n.month, n.day, 12);
+      await e.controller.saveNew(item('t1', title: 'امروز', due: day));
+      await e.controller.saveNew(item('t2', title: 'دیروز', due: day.subtract(const Duration(days: 2))));
+      await e.controller.saveNew(item('t3', title: 'فردا', due: day.add(const Duration(days: 3))));
+      await e.controller.saveNew(it('g', ItemType.game, title: 'بازی امروز').copyWith(dueAt: day));
+      final today = e.controller.todayItems();
+      expect(today.map((i) => i.id).toList().first, 't2');
+      expect(today.map((i) => i.id).toSet(), {'t1', 't2', 'g'});
+      expect(e.controller.dashboardCounts().today, 3);
+      e.controller.refreshProState();
+      await Future<void>.delayed(const Duration(milliseconds: 600));
+      final w = e.platform.lastWidget!;
+      expect(w.todayItems.length, 3);
+      expect(w.todayItems.first['overdue'], true);
+      expect(w.todayItems.first['title'], 'دیروز');
+      expect(w.toMap()['today'], isA<List<Object?>>());
+    });
+
+    test('the widget offer is remembered and pinning goes through the bridge', () async {
+      final e = await env0(items: []);
+      await e.controller.updateSettings((s) => s.copyWith(widgetOffered: false));
+      expect(e.controller.settings.widgetOffered, false);
+      await e.controller.updateSettings((s) => s.copyWith(widgetOffered: true));
+      expect(e.controller.settings.widgetOffered, true);
+      expect(await e.controller.addWidgetToHome(), true);
+      expect(e.platform.pinRequests, 1);
+    });
+  });
+
   group('Pictures', () {
     testWidgets('a big photo is shrunk, re-encoded as JPEG without metadata, with a thumbnail', (tester) async {
       final src = png(3000, 2000);

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../domain/models.dart';
+import '../domain/type_colors.dart';
 import '../l10n/app_localizations.dart';
 
 /// Icons, names and stage labels for each shelf, in one place.
@@ -23,19 +24,7 @@ class TypeInfo {
       };
 
   /// Each shelf has its own accent so it is recognisable at a glance.
-  static Color color(ItemType t) => switch (t) {
-        ItemType.task => const Color(0xFF5B4FD6),
-        ItemType.read => const Color(0xFF2F7BC9),
-        ItemType.watch => const Color(0xFFD64F6E),
-        ItemType.wishlist => const Color(0xFFD08A1E),
-        ItemType.idea => const Color(0xFFC9A400),
-        ItemType.person => const Color(0xFF2E9E8F),
-        ItemType.capsule || ItemType.future => const Color(0xFF7E57C2),
-        ItemType.app => const Color(0xFF3D8B5A),
-        ItemType.podcast => const Color(0xFFE0663C),
-        ItemType.course => const Color(0xFF3F6FD0),
-        ItemType.game => const Color(0xFF9B4FCF),
-      };
+  static Color color(ItemType t) => Color(typeColorValue(t));
 
   /// Longer line shown under a shelf's title.
   static String shelfSub(AppL10n l, ItemType t) => switch (t) {

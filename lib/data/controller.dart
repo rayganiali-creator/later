@@ -17,6 +17,7 @@ import 'package:image/image.dart' as img;
 import '../domain/game_picker.dart';
 import '../domain/learning.dart';
 import '../domain/roulette.dart';
+import '../domain/type_colors.dart';
 import '../domain/widget_pick.dart';
 import '../services/image_picker_gateway.dart';
 import '../services/image_processor.dart';
@@ -881,6 +882,15 @@ class LaterController extends ChangeNotifier {
         smartKind: kind,
         smartText: text,
         smartId: pick?.item.id,
+        todayItems: [
+          for (final i in todayItems().take(6))
+            {
+              'id': i.id,
+              'title': i.title,
+              'color': typeColorValue(i.type),
+              'overdue': isOverdue(i, now()),
+            }
+        ],
         strings: {
           'app': l.appName,
           'tagline': l.widgetTagline,
@@ -899,6 +909,9 @@ class LaterController extends ChangeNotifier {
           'ideas': l.widgetIdeas,
           'refresh': l.widgetRefresh,
           'read': l.widgetRead,
+          'todayEmpty': l.widgetTodayEmpty,
+          'more': l.widgetMore('{n}'),
+          'overdue': l.widgetOverdue,
           'fa': _settings.languageCode == 'fa' ? '1' : '0',
           'day': '${now().year * 10000 + now().month * 100 + now().day}',
           'nothing': l.widgetNothing,
@@ -908,6 +921,9 @@ class LaterController extends ChangeNotifier {
       // Widgets are a convenience; never fail user actions because of them.
     }
   }
+
+  /// Asks the launcher to add the widget to the home screen.
+  Future<bool> addWidgetToHome() => platform.requestPinWidget();
 
   String _widgetNum(int n) => _settings.languageCode == 'fa' ? toFaDigits(n) : '$n';
 
@@ -1069,8 +1085,28 @@ class LaterController extends ChangeNotifier {
           if (i.inbox) i
       ];
 
-  DashboardCounts dashboardCounts() {
+  /// Everything set for today (or overdue), any shelf, most urgent first.
+  /// Sealed capsules / future letters have their own place and are left out.
+  List<LaterItem> todayItems() {
     final n = now();
+    final list = [
+      for (final i in activeItems)
+        if (i.type != ItemType.capsule &&
+            i.type != ItemType.future &&
+            (isDueToday(i, n) || isOverdue(i, n)))
+          i
+    ];
+    list.sort((a, b) {
+      final ao = isOverdue(a, n), bo = isOverdue(b, n);
+      if (ao != bo) return ao ? -1 : 1;
+      final ad = effectiveDue(a, n), bd = effectiveDue(b, n);
+      if (ad != null && bd != null) return ad.compareTo(bd);
+      return a.title.compareTo(b.title);
+    });
+    return list;
+  }
+
+  DashboardCounts dashboardCounts() {
     var today = 0, inbox = 0, read = 0, watch = 0, wish = 0, ideas = 0, unopened = 0;
     var apps = 0, pods = 0, courses = 0, games = 0;
     for (final i in activeItems) {
@@ -1096,9 +1132,10 @@ class LaterController extends ChangeNotifier {
         case ItemType.future:
           unopened++; // unlocked but not opened yet
         default:
-          if (isDueToday(i, n) || isOverdue(i, n)) today++;
+          break;
       }
     }
+    today = todayItems().length;
     return DashboardCounts(
       today: today,
       inbox: inbox,

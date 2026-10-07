@@ -839,5 +839,16 @@
   "fieldPositionHint": "Where I stopped (e.g. 18:32)",
   "fieldDurationHint2": "e.g. 45 or 1:20:00",
   "typeDetails": "Details",
-  "widgetRead": "Read"
+  "widgetRead": "Read",
+  "widgetOfferTitle": "Put the Later widget on your home screen?",
+  "widgetOfferBody": "A small, pretty widget that shows what is set for today and saves something in one tap. You can remove it any time.",
+  "widgetOfferYes": "Yes, add it",
+  "widgetOfferNo": "No, thanks",
+  "widgetAddedToast": "Widget request sent; confirm it.",
+  "widgetManualHint": "Your launcher cannot add it automatically. Long-press the home screen, tap Widgets and pick Later.",
+  "settingsWidget": "Home-screen widget",
+  "settingsWidgetSub": "See today's items on your home screen.",
+  "widgetTodayEmpty": "Nothing for today 🌿",
+  "widgetMore": "+{n} more",
+  "widgetOverdue": "Overdue"
 }

@@ -2760,4 +2760,42 @@ class AppL10nFa extends AppL10n {
 
   @override
   String get widgetRead => 'خواندنی';
+
+  @override
+  String get widgetOfferTitle => 'ویجت «بعداً» روی صفحه‌ی اصلی؟';
+
+  @override
+  String get widgetOfferBody =>
+      'یه ویجت کوچیک و قشنگ که کارهای امروزت رو نشونت می‌ده و با یه لمس چیزی رو ذخیره می‌کنه. هر وقت خواستی می‌تونی برش داری.';
+
+  @override
+  String get widgetOfferYes => 'آره، اضافه کن';
+
+  @override
+  String get widgetOfferNo => 'نه، ممنون';
+
+  @override
+  String get widgetAddedToast =>
+      'درخواست اضافه‌شدن ویجت فرستاده شد؛ تأییدش کن.';
+
+  @override
+  String get widgetManualHint =>
+      'لانچر گوشی اضافه‌کردن خودکار رو پشتیبانی نمی‌کنه. روی صفحه‌ی اصلی نگه دار و «ویجت‌ها» رو بزن، بعد «بعداً» رو انتخاب کن.';
+
+  @override
+  String get settingsWidget => 'ویجت صفحه‌ی اصلی';
+
+  @override
+  String get settingsWidgetSub => 'کارهای امروز رو روی صفحه‌ی اصلی ببین.';
+
+  @override
+  String get widgetTodayEmpty => 'امروز چیزی نداری 🌿';
+
+  @override
+  String widgetMore(String n) {
+    return '+$n مورد دیگه';
+  }
+
+  @override
+  String get widgetOverdue => 'عقب‌افتاده';
 }

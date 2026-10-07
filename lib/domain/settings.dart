@@ -37,6 +37,7 @@ class AppSettings {
     this.ideaReviewReminder = false,
     this.appReviewReminder = false,
     this.askWhereOnShare = true,
+    this.widgetOffered = false,
   });
 
   /// Categories that take part in the roulette (empty = all). Pro to change.
@@ -56,6 +57,9 @@ class AppSettings {
 
   /// Ask where a shared item should go (otherwise it just lands in the inbox).
   final bool askWhereOnShare;
+
+  /// The home-screen widget was offered once (asked a single time).
+  final bool widgetOffered;
 
   final ThemeMode themeMode;
   final AccentPalette accent;
@@ -113,6 +117,7 @@ class AppSettings {
     bool? ideaReviewReminder,
     bool? appReviewReminder,
     bool? askWhereOnShare,
+    bool? widgetOffered,
   }) =>
       AppSettings(
         rouletteCategories: rouletteCategories ?? this.rouletteCategories,
@@ -121,6 +126,7 @@ class AppSettings {
         ideaReviewReminder: ideaReviewReminder ?? this.ideaReviewReminder,
         appReviewReminder: appReviewReminder ?? this.appReviewReminder,
         askWhereOnShare: askWhereOnShare ?? this.askWhereOnShare,
+        widgetOffered: widgetOffered ?? this.widgetOffered,
         themeMode: themeMode ?? this.themeMode,
         accent: accent ?? this.accent,
         languageCode: languageCode ?? this.languageCode,
@@ -176,6 +182,7 @@ class AppSettings {
         'ideaReviewReminder': '$ideaReviewReminder',
         'appReviewReminder': '$appReviewReminder',
         'askWhereOnShare': '$askWhereOnShare',
+        'widgetOffered': '$widgetOffered',
       };
 
   /// Lenient parser: unknown/invalid values fall back to defaults.
@@ -241,6 +248,7 @@ class AppSettings {
       ideaReviewReminder: boolOf(m['ideaReviewReminder'], d.ideaReviewReminder),
       appReviewReminder: boolOf(m['appReviewReminder'], d.appReviewReminder),
       askWhereOnShare: boolOf(m['askWhereOnShare'], d.askWhereOnShare),
+      widgetOffered: boolOf(m['widgetOffered'], d.widgetOffered),
     );
   }
 }
