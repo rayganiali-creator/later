@@ -12,6 +12,8 @@ import '../core/util/text.dart';
 import '../domain/classifier.dart';
 import '../domain/models.dart';
 import '../domain/pro.dart';
+import 'package:image/image.dart' as img;
+
 import '../domain/game_picker.dart';
 import '../domain/learning.dart';
 import '../domain/roulette.dart';
@@ -1780,7 +1782,7 @@ class LaterController extends ChangeNotifier {
     }
     if (canSeal(messages: true)) {
       await seal(title: 'پیام نمونه', body: 'سلام از گذشته!', unlockAt: Dates.startOfDay(Dates.addDays(n, 1)), message: true);
-    }
+    }    await debugSeedMedia();
   }
 
   /// Fires a notification right now (permission / channel check). Available

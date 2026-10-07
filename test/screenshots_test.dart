@@ -12,6 +12,10 @@ import 'package:later/core/config/pro_plans.dart';
 import 'package:later/domain/models.dart';
 import 'package:later/l10n/app_localizations_fa.dart';
 import 'package:later/ui/app.dart';
+import 'package:later/ui/screens/media_screens.dart';
+import 'package:later/ui/screens/shelf_screen.dart';
+import 'package:later/ui/sheets/item_detail_sheet.dart';
+import 'package:later/data/controller.dart';
 
 import 'harness.dart';
 
@@ -88,6 +92,7 @@ void main() {
       await c.quickAdd('کتاب فیزیک کوانتوم');
       await c.addPerson('سارا');
       await c.seal(title: 'نامه به خودِ یک‌ساله‌ی بعد', body: 'سلام', unlockAt: DateTime(2027, 6, 1));
+      await c.debugSeedMedia();
     });
     await show(env);
     await shot('01_home');
@@ -128,6 +133,34 @@ void main() {
     await settle(tester);
     await tester.tap(find.text(fa.navSettings).last);
     await shot('08_settings');
-    expect(out.listSync().length, greaterThanOrEqualTo(8));
+    Future<void> open(Widget w) async {
+      tester.state<NavigatorState>(find.byType(Navigator).first).push(MaterialPageRoute<void>(builder: (_) => w));
+      await settle(tester, rounds: 12);
+    }
+
+    Future<void> back() async {
+      tester.state<NavigatorState>(find.byType(Navigator).first).pop();
+      await settle(tester);
+    }
+
+    await open(const ShelfScreen(type: ItemType.game));
+    await shot('09_games');
+    await back();
+    await open(const ShelfScreen(type: ItemType.podcast));
+    await shot('10_podcasts');
+    await back();
+    await open(const ShelfScreen(type: ItemType.course));
+    await shot('11_courses');
+    await back();
+    await open(const GamePickerScreen());
+    await tester.tap(find.text(fa.gamePickBtn).last);
+    await settle(tester, rounds: 15);
+    await shot('12_game_picker');
+    await back();
+    final course = env.controller.shelf(ItemType.course).first;
+    showItemDetailSheet(tester.element(find.byType(Scaffold).first), course.id);
+    await settle(tester, rounds: 12);
+    await shot('13_course_detail');
+    expect(out.listSync().length, greaterThanOrEqualTo(13));
   });
 }

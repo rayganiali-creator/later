@@ -8,7 +8,7 @@ Later is built so that your data stays with you: no account, no personal-data se
 
 # What the app stores
 
-The items you add (title, description, note, link, tags, category, date and time, priority, estimated duration, price and score), shelves (articles, videos, wishlist, ideas), people you add (name, note and, if you pick one from your contacts, a reference to that contact), time capsules and messages to your future self together with any attachments you choose, custom categories, history and simple usage statistics, and app settings. All of it is stored only in the app's private storage on your device and is never sent to any server.
+The items you add (title, description, note, link, tags, category, date and time, priority, estimated duration, price and score), shelves (articles, videos, wishlist, ideas), people you add (name, note and, if you pick one from your contacts, a reference to that contact), time capsules and messages to your future self together with any attachments you choose, custom categories, history and simple usage statistics, and app settings. Pictures you choose or take for items are part of this data: they come from the system gallery or camera app (Later asks for no camera or storage permission), are stored shrunk and without hidden metadata such as the photo location (EXIF), and are never sent anywhere. The home-screen widgets only show counters and one suggestion on this phone. All of it is stored only in the app's private storage on your device and is never sent to any server.
 
 # Internet
 

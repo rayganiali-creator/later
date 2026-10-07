@@ -389,3 +389,54 @@ extension LaterMedia on LaterController {
 }
 
 enum AppAnswer { installed, still, later, no }
+
+extension LaterMediaQa on LaterController {
+  /// QA: sample apps, podcasts, courses and games, each with a generated
+  /// cover picture, so every screen can be looked at without real data.
+  Future<void> debugSeedMedia() async {
+    if (!AppConfig.testToolsEnabled) return;
+    final n = now();
+    final rows = <(String, ItemType, int, Map<String, Object?>, int?, int, int)>[
+      ('Telegram', ItemType.app, 0, {'platforms': ['android']}, null, 0xFF2AABEE, 0),
+      ('Obsidian', ItemType.app, 1, {'platforms': ['android', 'windows']}, null, 0xFF7C3AED, 40),
+      ('رادیو تمرکز — قسمت ۱۲', ItemType.podcast, 1,
+          {'show': 'رادیو تمرکز', 'creator': 'نمونه', 'durationSec': 3600, 'progress': 42, 'positionSec': 1512}, 60, 0xFFE0663C, 0),
+      ('قسمت کوتاه درباره‌ی خواب', ItemType.podcast, 0, {'show': 'خواب خوب', 'durationSec': 1440}, 24, 0xFFD64F6E, 0),
+      ('Python برای هوش مصنوعی', ItemType.course, 1,
+          {'show': 'Udemy', 'creator': 'نمونه', 'level': 'beginner', 'goal': 'یادگیری Python برای ساخت AI', 'progress': 65}, 600, 0xFF3F6FD0, 0),
+      ('Hollow Knight', ItemType.game, 0, {'genre': 'Metroidvania', 'platforms': ['windows']}, 45, 0xFF2E2E48, 0),
+      ('Celeste', ItemType.game, 1, {'genre': 'Platformer', 'platforms': ['windows']}, 30, 0xFF9B4FCF, 0),
+    ];
+    for (final r in rows) {
+      final i = LaterItem(
+        id: newId(),
+        title: r.$1,
+        categoryId: BuiltinCategories.other,
+        createdAt: n.subtract(Duration(days: 3 + r.$7)),
+        updatedAt: n,
+        type: r.$2,
+        stage: r.$3,
+        status: ItemStages.statusFor(r.$2, r.$3),
+        estimatedMinutes: r.$5,
+        extra: r.$4,
+        source: 'sample',
+      );
+      await repo.upsertItemWithEvent(
+          i, ItemEvent(itemId: i.id, type: EventType.created, at: i.createdAt, categoryId: i.categoryId));
+      _items = [..._items, i];
+      _afterItemsChanged();
+      try {
+        final cover = img.Image(width: 480, height: 480, numChannels: 3);
+        final base = r.$6;
+        for (final px in cover) {
+          final t = (px.x + px.y) / 960;
+          px
+            ..r = (((base >> 16) & 0xFF) * (1 - t * 0.5)).round()
+            ..g = (((base >> 8) & 0xFF) * (1 - t * 0.5)).round()
+            ..b = ((base & 0xFF) * (1 - t * 0.5)).round();
+        }
+        await attachProcessed(i.id, await processImage(Uint8List.fromList(img.encodePng(cover))), name: 'sample');
+      } catch (_) {/* a missing sample picture is not worth failing the seed */}
+    }
+  }
+}

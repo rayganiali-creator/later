@@ -451,18 +451,18 @@ class _IdentityHeader extends StatelessWidget {
         ),
         borderRadius: BorderRadius.circular(20),
       ),
-      child: Row(children: [
-        Container(
-          width: 46,
-          height: 46,
-          decoration: BoxDecoration(color: color.withValues(alpha: 0.18), borderRadius: BorderRadius.circular(14)),
-          child: Icon(TypeInfo.icon(type), color: color),
-        ),
-        const SizedBox(width: 12),
-        Expanded(
-          child: Text(TypeInfo.shelfSub(l, type), style: context.text.titleSmall),
-        ),
-        ?action,
+      child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+        Row(children: [
+          Container(
+            width: 46,
+            height: 46,
+            decoration: BoxDecoration(color: color.withValues(alpha: 0.18), borderRadius: BorderRadius.circular(14)),
+            child: Icon(TypeInfo.icon(type), color: color),
+          ),
+          const SizedBox(width: 12),
+          Expanded(child: Text(TypeInfo.shelfSub(l, type), style: context.text.titleSmall)),
+        ]),
+        if (action != null) ...[const SizedBox(height: 10), action],
       ]),
     );
   }

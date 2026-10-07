@@ -11,6 +11,7 @@ import 'package:later/data/repository.dart';
 import 'package:later/domain/models.dart';
 import 'package:later/domain/settings.dart';
 import 'package:later/services/file_gateway.dart';
+import 'package:later/services/image_picker_gateway.dart';
 import 'package:later/services/notification_service.dart';
 import 'package:later/services/platform_bridge.dart';
 import 'package:later/services/purchase_gateway.dart';
@@ -57,7 +58,7 @@ class FakePurchaseGateway implements PurchaseGateway {
 }
 
 class TestEnv {
-  TestEnv._(this.controller, this.gateway, this.platform, this.files, this.purchases, this.vault, this.adb);
+  TestEnv._(this.controller, this.gateway, this.platform, this.files, this.purchases, this.vault, this.adb, this.imagePicker);
 
   final LaterController controller;
   final FakeNotificationGateway gateway;
@@ -66,6 +67,7 @@ class TestEnv {
   final FakePurchaseGateway purchases;
   final MemoryVault vault;
   final AppDatabase adb;
+  final FakeImagePicker imagePicker;
   DateTime clockNow = DateTime(2026, 9, 30, 10);
 
   static Future<TestEnv> create({
@@ -87,7 +89,9 @@ class TestEnv {
     final purchases = FakePurchaseGateway();
     final v = vault ?? MemoryVault();
     late TestEnv env;
+    final picker = FakeImagePicker();
     final c = LaterController(
+      imagePicker: picker,
       repo: repo,
       pro: ProService(vault: v, clock: () => env.clockNow, backupSigningKey: proKey),
       notifications: gw,
@@ -98,7 +102,7 @@ class TestEnv {
       appVersion: '1.0.0',
       clock: () => env.clockNow,
     );
-    env = TestEnv._(c, gw, platform, files, purchases, v, adb);
+    env = TestEnv._(c, gw, platform, files, purchases, v, adb, picker);
     env.clockNow = start;
     return env;
   }
