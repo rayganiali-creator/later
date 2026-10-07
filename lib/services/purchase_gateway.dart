@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 
 import '../core/config/pro_plans.dart';
 
-enum PurchaseStatus { success, cancelled, unavailable, failed }
+enum PurchaseStatus { success, cancelled, unavailable, failed, alreadyOwned }
 
 class PurchaseResult {
   const PurchaseResult(this.status, {this.plan, this.purchasedAt, this.token});
@@ -28,11 +28,12 @@ abstract class PurchaseGateway {
 
   Future<PurchaseResult> purchase(ProPlan plan);
 
-  /// Purchases made earlier that were never consumed/activated (e.g. the app
-  /// crashed between payment and activation).
+  /// Every purchase this market account still owns (purchases are kept, not
+  /// consumed, so Pro can be restored after a reinstall or on a new phone).
   Future<List<PurchaseResult>> pendingPurchases();
 
   /// Marks a purchase as consumed so the same product can be bought again.
+  /// Only used once everything bought has run out.
   Future<void> consume(String token);
 }
 

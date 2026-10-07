@@ -2802,4 +2802,8 @@ class AppL10nEn extends AppL10n {
 
   @override
   String get widgetOverdue => 'Overdue';
+
+  @override
+  String get proAlreadyOwned =>
+      'You already own this plan and it is still active. Pick another plan, or buy it again once it ends.';
 }

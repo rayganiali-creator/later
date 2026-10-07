@@ -49,12 +49,23 @@ class FakePurchaseGateway implements PurchaseGateway {
   @override
   Future<bool> isAvailable() async => true;
   @override
-  Future<PurchaseResult> purchase(ProPlan plan) async => PurchaseResult(next,
-      plan: plan, token: 'tok_${plan.sku}', purchasedAt: purchaseTime);
+  Future<PurchaseResult> purchase(ProPlan plan) async {
+    // Like the real market: a product that is still owned cannot be sold again.
+    if (pending.any((p) => p.plan?.sku == plan.sku)) return const PurchaseResult(PurchaseStatus.failed);
+    final r = PurchaseResult(next, plan: plan, token: 'tok_${plan.sku}', purchasedAt: purchaseTime ?? clock?.call());
+    if (r.status == PurchaseStatus.success) pending = [...pending, r];
+    return r;
+  }
+
+  /// Time source for the purchase time the "market" reports.
+  DateTime Function()? clock;
   @override
   Future<List<PurchaseResult>> pendingPurchases() async => pending;
   @override
-  Future<void> consume(String token) async => consumed.add(token);
+  Future<void> consume(String token) async {
+    consumed.add(token);
+    pending = [for (final p in pending) if (p.token != token) p];
+  }
 }
 
 class TestEnv {
@@ -76,6 +87,7 @@ class TestEnv {
     DateTime? now,
     MemoryVault? vault,
     String proKey = 'test-key',
+    FakePurchaseGateway? gateway,
   }) async {
     sqfliteFfiInit();
     final start = now ?? DateTime(2026, 9, 30, 10);
@@ -86,7 +98,7 @@ class TestEnv {
     final gw = FakeNotificationGateway();
     final platform = NullPlatformBridge();
     final files = FakeFileGateway();
-    final purchases = FakePurchaseGateway();
+    final purchases = gateway ?? FakePurchaseGateway();
     final v = vault ?? MemoryVault();
     late TestEnv env;
     final picker = FakeImagePicker();
@@ -104,6 +116,7 @@ class TestEnv {
     );
     env = TestEnv._(c, gw, platform, files, purchases, v, adb, picker);
     env.clockNow = start;
+    purchases.clock = () => env.clockNow;
     return env;
   }
 

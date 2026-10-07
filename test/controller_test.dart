@@ -362,7 +362,8 @@ void main() {
       e.purchases.next = PurchaseStatus.success;
       await c.buy(ProPlans.month1);
       expect(c.isPro, isTrue);
-      expect(e.purchases.consumed, ['tok_later_pro_1m']);
+      expect(e.purchases.consumed, isEmpty, reason: 'purchases are kept so they can be restored');
+      expect(e.purchases.pending.length, 1);
       final until1 = c.pro.entitlement.expiresAt!;
       e.clockNow = t0.add(const Duration(days: 15));
       final r = await c.buy(ProPlans.month3);
@@ -397,14 +398,47 @@ void main() {
       expect(c.settings.accent, AccentPalette.teal, reason: 'choice is kept for renewal');
     });
 
-    test('unrestored purchases can be re-applied and consumed', () async {
+    test('Pro comes back after a reinstall or on a new phone (purchases kept at the market)', () async {
       final e = await env0();
+      await e.controller.buy(ProPlans.month1);
+      e.clockNow = t0.add(const Duration(days: 10));
+      await e.controller.buy(ProPlans.month3);
+      final until = e.controller.pro.entitlement.expiresAt!;
+      // fresh install: empty vault + database, same market account
+      final e2 = await TestEnv.create(settings: readySettings, now: t0.add(const Duration(days: 12)), gateway: e.purchases);
+      await e2.controller.init();
+      await Future<void>.delayed(const Duration(milliseconds: 100));
+      expect(e2.controller.isPro, isTrue, reason: 'restored automatically on start');
+      expect(e2.controller.pro.entitlement.expiresAt, until, reason: 'same end date, nothing lost');
+      // doing it again (button) changes nothing
+      expect(await e2.controller.restorePurchases(), 2);
+      expect(e2.controller.pro.entitlement.expiresAt, until);
+    });
+
+    test('restore never shortens what is already granted and ignores unknown products', () async {
+      final e = await env0();
+      await e.controller.buy(ProPlans.month6);
+      final until = e.controller.pro.entitlement.expiresAt!;
       e.purchases.pending = [
-        PurchaseResult(PurchaseStatus.success, plan: ProPlans.month3, token: 'tk', purchasedAt: t0),
+        PurchaseResult(PurchaseStatus.success, plan: ProPlans.month1, token: 'x', purchasedAt: t0),
       ];
-      expect(await e.controller.restorePurchases(), 1);
-      expect(e.controller.isPro, isTrue);
-      expect(e.purchases.consumed, ['tk']);
+      await e.controller.restorePurchases();
+      expect(e.controller.pro.entitlement.expiresAt, until);
+      expect(await (await env0()).controller.restorePurchases(), 0, reason: 'nothing owned => nothing to restore');
+    });
+
+    test('buying a plan that is still active is refused with a clear status; after it ends it can be bought again', () async {
+      final e = await env0();
+      final c = e.controller;
+      await c.buy(ProPlans.month1);
+      e.clockNow = t0.add(const Duration(days: 5));
+      expect((await c.buy(ProPlans.month1)).status, PurchaseStatus.alreadyOwned);
+      expect((await c.buy(ProPlans.month3)).status, PurchaseStatus.success, reason: 'another plan still stacks');
+      e.clockNow = t0.add(const Duration(days: 200));
+      expect(c.isPro, isFalse);
+      expect((await c.buy(ProPlans.month1)).status, PurchaseStatus.success);
+      expect(c.isPro, isTrue);
+      expect(e.purchases.consumed, contains('tok_later_pro_1m'), reason: 'ended purchases are freed so they can be bought again');
     });
 
     test('QA tools are usable in test runs (debug mode) and simulate short plans', () async {

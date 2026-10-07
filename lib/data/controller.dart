@@ -229,6 +229,7 @@ class LaterController extends ChangeNotifier {
     if (launch != null) unawaited(handleNotificationTap(launch));
     unawaited(syncReminders());
     unawaited(_pushWidgets());
+    unawaited(_autoRestore());
     unawaited(platform.configureShortcuts({
       'add': l10n.shortcutAdd,
       'pick': l10n.shortcutPick,
@@ -933,25 +934,53 @@ class LaterController extends ChangeNotifier {
     if (plan.debugOnly && !AppConfig.testToolsEnabled) {
       return const PurchaseOutcome(PurchaseStatus.failed);
     }
+    // Purchases are kept at the market (never consumed while they still
+    // count) so Pro can be restored after a reinstall or on a new phone. The
+    // market refuses to sell a product twice while one is still owned.
+    final owned = await _ownedPurchases();
+    if (owned.any((o) => o.plan?.sku == plan.sku)) {
+      if (await _mergeOwned(owned)) _proChanged();
+      if (pro.isActive()) return const PurchaseOutcome(PurchaseStatus.alreadyOwned);
+      // Everything bought has run out: free the products so they can be bought again.
+      for (final o in owned) {
+        if (o.token != null) await purchases.consume(o.token!);
+      }
+    }
     final r = await purchases.purchase(plan);
     if (r.status != PurchaseStatus.success) return PurchaseOutcome(r.status);
     final ent = await pro.applyPurchase(plan, purchasedAt: r.purchasedAt);
-    if (r.token != null) await purchases.consume(r.token!);
     _proChanged();
     return PurchaseOutcome(PurchaseStatus.success, ent);
   }
 
-  /// Re-applies purchases that were paid but never activated.
-  Future<int> restorePurchases() async {
-    var n = 0;
-    for (final p in await purchases.pendingPurchases()) {
-      if (p.plan == null) continue;
-      await pro.applyPurchase(p.plan!, purchasedAt: p.purchasedAt);
-      if (p.token != null) await purchases.consume(p.token!);
-      n++;
+  Future<List<PurchaseResult>> _ownedPurchases() async {
+    try {
+      return [
+        for (final p in await purchases.pendingPurchases())
+          if (p.plan != null) p
+      ];
+    } catch (_) {
+      return const [];
     }
-    if (n > 0) _proChanged();
-    return n;
+  }
+
+  Future<bool> _mergeOwned(List<PurchaseResult> owned) =>
+      pro.mergeOwned([for (final o in owned) (o.plan!, o.purchasedAt)]);
+
+  /// Brings Pro back from the purchases the market account owns (reinstall,
+  /// new phone). Safe to run any number of times. Returns how many purchases
+  /// were found.
+  Future<int> restorePurchases() async {
+    final owned = await _ownedPurchases();
+    if (owned.isEmpty) return 0;
+    if (await _mergeOwned(owned)) _proChanged();
+    return owned.length;
+  }
+
+  Future<void> _autoRestore() async {
+    try {
+      await restorePurchases();
+    } catch (_) {}
   }
 
   void _proChanged() {

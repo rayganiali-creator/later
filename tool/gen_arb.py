@@ -1017,6 +1017,7 @@ k('settingsWidgetSub', 'کارهای امروز رو روی صفحه‌ی اصل
 k('widgetTodayEmpty', 'امروز چیزی نداری 🌿', 'Nothing for today 🌿')
 k('widgetMore', '+{n} مورد دیگه', '+{n} more')
 k('widgetOverdue', 'عقب‌افتاده', 'Overdue')
+k('proAlreadyOwned', 'این پلن را قبلاً خریده‌ای و هنوز فعاله. یه پلن دیگه بخر یا بعد از تموم‌شدنش دوباره بخر.', 'You already own this plan and it is still active. Pick another plan, or buy it again once it ends.')
 # consistency: every placeholder set must match between languages
 for key, (fa, en, _) in T.items():
     if key.startswith('_select_'):

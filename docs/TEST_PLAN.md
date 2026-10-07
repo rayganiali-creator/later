@@ -32,3 +32,13 @@ Install the QA APK from the GitHub pre-release. Settings → bottom: **ابزا�
 22. **Pictures:** add from gallery and from the camera (no permission prompt expected). Free: one picture; the second asks for Pro. Pro: up to 8, choose the main one, swipe + zoom, delete. A very large photo (30 MB+) shows the "too large" message; a non-image file shows "not a valid picture". Pictures show as thumbnails in lists/search/home, large in the detail sheet. Back up, reset, restore: pictures and covers are intact.
 23. **Widgets (small / medium / large + Pro list):** add each from the launcher. Check light and dark mode, the counters, the suggestion text (changes with the time of day and your data), ＋ (opens the quick-save sheet and returns to the launcher after saving), 🎯 (roulette), 📥 (inbox), ⟳ (refresh), tapping the suggestion (opens that item). Add / delete / complete an item in the app → the widget changes; restore a backup → the widget changes; reboot the phone → the widgets still show the last data. Known limit: after midnight the "today" number shows «—» until the app is opened (Android does not let widgets run app code).
 24. **Notifications / reboot / Android 13+ / offline / timezone / share sheet:** repeat scenarios 3, 5 and 12 above on the new build (including a reminder on a podcast or course).
+
+## Pro restore across reinstall / new phone (store build with the real Bazaar key)
+Purchases are no longer consumed after activation; Bazaar keeps them and the app rebuilds Pro from them.
+1. Buy a plan, confirm Pro is on.
+2. Uninstall the app (or use another phone logged into the same Bazaar account), install again, open it.
+   Pro must come back by itself within a few seconds (also: Pro screen -> "Restore purchases").
+3. Same end date as before; pressing restore again changes nothing.
+4. Buying the same plan while it is still active shows "you already own this plan". Another plan still stacks.
+5. After every purchase has run out, buying the same plan again works.
+Purchases made by older versions (consumed right away) cannot be restored; they stay valid on the phone where they were made.

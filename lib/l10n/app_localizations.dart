@@ -5202,6 +5202,12 @@ abstract class AppL10n {
   /// In fa, this message translates to:
   /// **'عقب‌افتاده'**
   String get widgetOverdue;
+
+  /// No description provided for @proAlreadyOwned.
+  ///
+  /// In fa, this message translates to:
+  /// **'این پلن را قبلاً خریده‌ای و هنوز فعاله. یه پلن دیگه بخر یا بعد از تموم‌شدنش دوباره بخر.'**
+  String get proAlreadyOwned;
 }
 
 class _AppL10nDelegate extends LocalizationsDelegate<AppL10n> {

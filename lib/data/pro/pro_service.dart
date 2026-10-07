@@ -127,6 +127,31 @@ class ProService extends ChangeNotifier {
     return _entitlement;
   }
 
+  /// Rebuilds the entitlement from purchases the market still owns (after a
+  /// reinstall or on a new phone). The purchases are laid end to end in the
+  /// order they were bought, exactly how stacking works, so applying the same
+  /// list twice changes nothing. Never shortens what is already granted.
+  /// Returns true when the entitlement changed.
+  Future<bool> mergeOwned(Iterable<(ProPlan, DateTime?)> owned) async {
+    final list = [
+      for (final o in owned)
+        if (!o.$1.debugOnly) (o.$1, (o.$2 ?? effectiveNow()).toUtc())
+    ]..sort((a, b) => a.$2.compareTo(b.$2));
+    if (list.isEmpty) return false;
+    DateTime? cursor;
+    for (final o in list) {
+      final start = (cursor != null && cursor.isAfter(o.$2)) ? cursor : o.$2;
+      cursor = start.add(o.$1.duration);
+    }
+    final current = _entitlement.expiresAt?.toUtc();
+    if (current != null && !cursor!.isAfter(current)) return false;
+    _entitlement = ProEntitlement(planType: list.last.$1.type, startAt: list.first.$2, expiresAt: cursor);
+    _tamperDetected = false;
+    await _persist();
+    notifyListeners();
+    return true;
+  }
+
   /// Removes Pro (QA tools / reset). User data is never touched.
   Future<void> clear() async {
     _entitlement = ProEntitlement.none;

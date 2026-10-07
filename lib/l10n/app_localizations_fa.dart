@@ -2798,4 +2798,8 @@ class AppL10nFa extends AppL10n {
 
   @override
   String get widgetOverdue => 'عقب‌افتاده';
+
+  @override
+  String get proAlreadyOwned =>
+      'این پلن را قبلاً خریده‌ای و هنوز فعاله. یه پلن دیگه بخر یا بعد از تموم‌شدنش دوباره بخر.';
 }
