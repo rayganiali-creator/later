@@ -31,7 +31,7 @@
     <TextView android:id="@+id/widget_item3" style="@style/WidgetListItem" />
     <TextView android:id="@+id/widget_item4" style="@style/WidgetListItem" />
 
-    <View
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1" />
