@@ -30,6 +30,21 @@ fi
 echo "== Launcher shortcuts / widgets registered"
 adb shell cmd appwidget list 2>/dev/null | grep -q "$PKG" && ok "app widgets registered" || info "appwidget list unavailable/empty"
 
+echo "== Widget providers (small / medium / large / list) are registered"
+for w in LaterWidgetProvider LaterMediumWidgetProvider LaterLargeWidgetProvider LaterListWidgetProvider; do
+  if adb shell dumpsys package "$PKG" | grep -q "widget.$w"; then ok "$w registered"; else bad "$w missing from the manifest"; fi
+done
+echo "== Quick actions from widgets reach the app without crashing"
+adb shell pm grant "$PKG" android.permission.POST_NOTIFICATIONS 2>/dev/null || true
+for q in capture inbox pick open "item:abc123"; do
+  adb shell am start -n "$PKG/app.baadan.later.MainActivity" -a app.baadan.later.QUICK --es quick "$q" >/dev/null 2>&1
+  sleep 4
+  case "$q" in
+    capture) ui_has "$(printf '\xd8\xb0\xd8\xae\xdb\x8c\xd8\xb1\xd9\x87')" && ok "capture sheet visible" || info "capture sheet text not found (locale/onboarding may block it)";;
+  esac
+done
+if adb logcat -d | grep -E "FATAL EXCEPTION" | grep -q "$PKG\|later"; then bad "crash while handling quick actions"; else ok "quick actions did not crash"; fi
+
 # ------------------------------------------------------------ notification alarms
 echo "== Alarms scheduled by the app right now: $(alarms)"
 adb shell pm grant "$PKG" android.permission.POST_NOTIFICATIONS 2>/dev/null || true

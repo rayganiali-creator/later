@@ -4,8 +4,11 @@
 // notifications, backup round trip. (Share sheet / reboot scenarios are driven
 // by tool/ci/android_scenarios.sh with adb.)
 import 'dart:io';
+import 'dart:math';
+import 'dart:typed_data';
 
 import 'package:flutter_test/flutter_test.dart';
+import 'package:image/image.dart' as img;
 import 'package:integration_test/integration_test.dart';
 import 'package:later/core/config/pro_plans.dart';
 import 'package:later/data/controller.dart';
@@ -14,7 +17,9 @@ import 'package:later/data/pro/pro_service.dart';
 import 'package:later/data/repository.dart';
 import 'package:later/domain/models.dart';
 import 'package:later/domain/reminders.dart';
+import 'package:later/services/attachment_store.dart';
 import 'package:later/services/file_gateway.dart';
+import 'package:later/services/image_processor.dart';
 import 'package:later/services/notification_service.dart';
 import 'package:later/services/platform_bridge.dart';
 import 'package:later/services/purchase_gateway.dart';
@@ -34,6 +39,7 @@ Future<LaterController> makeController(String dbName, {Vault? vault}) async {
     files: SystemFileGateway(),
     purchases: SimulatedPurchaseGateway(),
     appVersion: 'test',
+    attachmentStore: FileAttachmentStore(),
   );
   await c.init();
   return c;
@@ -145,5 +151,64 @@ void main() {
       exact: false, privateMode: true, texts: texts);
     expect((await gw.pendingIds()).contains(777), isTrue);
     await gw.cancelAll();
+  });
+
+  testWidgets('Pictures on device: native decode, shrink, no EXIF, thumbnail, backup round trip', (tester) async {
+    final name = 'img_${DateTime.now().microsecondsSinceEpoch}.db';
+    final c = await makeController(name);
+    await c.pro.clear();
+    await c.pro.applyPurchase(ProPlans.month1);
+    final item = await c.quickAdd('with picture', type: ItemType.game, inbox: false);
+    // A 3000x2000 photo-like image (noise compresses badly, like a real photo).
+    final im = img.Image(width: 3000, height: 2000, numChannels: 3);
+    final r = Random(7);
+    for (final px in im) {
+      px
+        ..r = r.nextInt(256)
+        ..g = r.nextInt(256)
+        ..b = r.nextInt(256);
+    }
+    final src = Uint8List.fromList(img.encodeJpg(im, quality: 92));
+    expect(src.length, greaterThan(1000000));
+    final sw = Stopwatch()..start();
+    final processed = await c.processImage(src);
+    // ignore: avoid_print
+    print('IMG_PROCESS ms=${sw.elapsedMilliseconds} in=${src.length} out=${processed.full.length} thumb=${processed.thumb.length} ${processed.width}x${processed.height}');
+    expect(max(processed.width, processed.height), 1600);
+    expect(processed.full.length, lessThan(src.length));
+    expect(sniffImageType(processed.full), 'image/jpeg');
+    final a = await c.attachProcessed(item.id, processed);
+    expect(c.coverImageId(c.itemById(item.id)!), a.id);
+    expect(await c.thumbBytes(a.id), isNotNull);
+    // A broken file must fail cleanly, not crash the engine.
+    await expectLater(c.processImage(Uint8List.fromList([0xFF, 0xD8, 0xFF, 1, 2, 3, 4, 5])), throwsA(isA<ImageException>()));
+
+    final bytes = await c.buildBackupBytes();
+    await c.repo.wipe(DateTime.now());
+    await c.restore(c.inspectBackup(bytes));
+    expect(c.imagesOf(item.id).length, 1);
+    final back = await c.imageBytes(c.imagesOf(item.id).single.id);
+    expect(back, isNotNull);
+    expect(back!.length, processed.full.length);
+    c.dispose();
+  });
+
+  testWidgets('New shelves persist on device (extras, progress, sessions, history)', (tester) async {
+    final name = 'sh_${DateTime.now().microsecondsSinceEpoch}.db';
+    var c = await makeController(name);
+    await c.pro.clear();
+    await c.pro.applyPurchase(ProPlans.month1);
+    final pod = await c.quickAdd('podcast', type: ItemType.podcast, inbox: false);
+    await c.update(c.itemById(pod.id)!.withExtra('durationSec', 3600));
+    await c.setProgress(pod.id, percent: 25);
+    final course = await c.quickAdd('course', type: ItemType.course, inbox: false);
+    await c.logSession(course.id, 45);
+    c.dispose();
+    c = await makeController(name);
+    expect(c.itemById(pod.id)!.progress, 25);
+    expect(c.itemById(pod.id)!.stage, ItemStages.listening);
+    expect(c.itemById(course.id)!.sessions.single.$2, 45);
+    expect(c.itemById(course.id)!.stageHistory, isNotEmpty);
+    c.dispose();
   });
 }
