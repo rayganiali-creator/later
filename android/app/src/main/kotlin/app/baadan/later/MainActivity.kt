@@ -178,6 +178,7 @@ class MainActivity : FlutterFragmentActivity() {
                 }
             }
             "requestPinWidget" -> result.success(requestPinWidget())
+            "openStoreReview" -> result.success(openStoreReview())
             "moveToBack" -> {
                 result.success(moveTaskToBack(true))
             }
@@ -190,6 +191,20 @@ class MainActivity : FlutterFragmentActivity() {
                 result.success(configureShortcuts(call.arguments as? Map<String, String>))
             }
             else -> result.notImplemented()
+        }
+    }
+
+    /** Opens this app's rating / comment page in Cafe Bazaar. */
+    private fun openStoreReview(): Boolean {
+        return try {
+            val id = packageName.removeSuffix(".qa")
+            val i = Intent(Intent.ACTION_EDIT, Uri.parse("bazaar://details?id=$id"))
+                .setPackage("com.farsitel.bazaar")
+                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            startActivity(i)
+            true
+        } catch (_: Exception) {
+            false
         }
     }
 

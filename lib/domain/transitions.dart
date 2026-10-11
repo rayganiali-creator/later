@@ -50,6 +50,24 @@ class Transitions {
         ),
       );
 
+  /// A repeating item was done for this round: it stays in the list with its
+  /// next date; only a "completed" event is recorded (for the statistics).
+  static Transition completeRepeating(LaterItem i, DateTime next, DateTime now) {
+    final extra = Map<String, Object?>.from(i.extra);
+    extra['lastDone'] = now.millisecondsSinceEpoch;
+    extra['doneCount'] = ((extra['doneCount'] as num?)?.toInt() ?? 0) + 1;
+    return Transition(
+      i.copyWith(dueAt: next, snoozeCount: 0, extra: extra, updatedAt: now),
+      ItemEvent(
+        itemId: i.id,
+        type: EventType.completed,
+        at: now,
+        categoryId: i.categoryId,
+        daysWaited: _waited(i, now),
+      ),
+    );
+  }
+
   /// "بی‌خیالش شدم": set aside without a feeling of failure.
   static Transition drop(LaterItem i, DateTime now) => Transition(
         track(

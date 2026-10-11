@@ -15,9 +15,11 @@ class ItemActions {
   static Future<void> complete(BuildContext context, LaterItem item) async {
     final app = context.appRead;
     final l = context.l10n;
+    final repeating = app.completesRepeating(item);
     final undo = await guarded(context, () => app.complete(item.id));
     if (!context.mounted || undo == null) return;
-    showAppSnack(context, l.toastDone,
+    final next = repeating ? app.itemById(item.id)?.dueAt : null;
+    showAppSnack(context, next != null ? l.toastDoneRepeat(context.fmt.date(next)) : l.toastDone,
         actionLabel: l.undo, onAction: () => guarded(context, undo));
   }
 

@@ -427,6 +427,11 @@ class AppL10nEn extends AppL10n {
   String get toastDone => 'Done ✓';
 
   @override
+  String toastDoneRepeat(String d) {
+    return 'Done for this time ✓ — next: $d';
+  }
+
+  @override
   String get toastDropped => 'Set aside';
 
   @override
@@ -763,6 +768,15 @@ class AppL10nEn extends AppL10n {
 
   @override
   String get accentSlate => 'Slate';
+
+  @override
+  String get accentEmerald => 'Green';
+
+  @override
+  String get accentViolet => 'Violet';
+
+  @override
+  String get accentSky => 'Blue';
 
   @override
   String get appIcon => 'App icon';
@@ -2806,4 +2820,36 @@ class AppL10nEn extends AppL10n {
   @override
   String get proAlreadyOwned =>
       'You already own this plan and it is still active. Pick another plan, or buy it again once it ends.';
+
+  @override
+  String get reviewTitle => 'Enjoying Later?';
+
+  @override
+  String get reviewBody =>
+      'If you have a few seconds, leave a rating and a comment in the store. It helps a lot.';
+
+  @override
+  String get reviewRate => 'Rate in the store';
+
+  @override
+  String get reviewAlready => 'I already rated';
+
+  @override
+  String get reviewExit => 'Exit';
+
+  @override
+  String get reviewNoStore => 'The store app is not installed on this phone.';
+
+  @override
+  String get reviewDoneTitle => 'Did you send your rating?';
+
+  @override
+  String get reviewDoneBody =>
+      'If you did, you will not see this again; otherwise we ask again when you exit.';
+
+  @override
+  String get reviewDoneYes => 'Yes, sent';
+
+  @override
+  String get reviewDoneNo => 'Not yet';
 }

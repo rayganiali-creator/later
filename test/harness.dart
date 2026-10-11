@@ -139,7 +139,7 @@ Future<TestEnv> createEnv(
   return env;
 }
 
-const AppSettings readySettings = AppSettings(onboardingDone: true, termsAcceptedVersion: 1, privacyAcceptedVersion: 1, widgetOffered: true);
+const AppSettings readySettings = AppSettings(onboardingDone: true, termsAcceptedVersion: 1, privacyAcceptedVersion: 1, widgetOffered: true, reviewDone: true);
 
 /// Lets real async work (sqflite ffi isolates, timers) progress while pumping.
 Future<void> settle(WidgetTester tester, {int rounds = 12}) async {

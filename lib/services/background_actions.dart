@@ -5,8 +5,10 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 import '../core/util/ids.dart';
 import '../data/db/app_database.dart';
+import '../data/pro/pro_service.dart';
 import '../data/repository.dart';
 import '../domain/models.dart';
+import '../domain/search_filter_sort.dart';
 import '../domain/snooze.dart';
 import '../domain/transitions.dart';
 import 'notification_service.dart';
@@ -30,9 +32,18 @@ Future<void> applyBackgroundAction(NotificationTap tap) async {
     final now = DateTime.now();
 
     Transition t;
+    var keepFiring = false;
     switch (tap.actionId) {
       case NotificationTap.actionDone:
-        t = Transitions.complete(item, now);
+        // A repeating reminder only ticks this round off: it stays in the list
+        // and the OS keeps firing it on its next days (Pro feature).
+        final next = item.reminderEnabled && await _hasPro() ? nextOccurrenceAfterCurrent(item, now) : null;
+        if (next != null) {
+          keepFiring = true;
+          t = Transitions.completeRepeating(item, next, now);
+        } else {
+          t = Transitions.complete(item, now);
+        }
       case NotificationTap.actionTomorrow:
         final calc = SnoozeCalculator(
           weekStart: settings.weekStart,
@@ -43,16 +54,30 @@ Future<void> applyBackgroundAction(NotificationTap tap) async {
       default:
         return;
     }
-    if (tap.actionId == NotificationTap.actionDone && !settings.keepHistory) {
+    if (tap.actionId == NotificationTap.actionDone && !keepFiring && !settings.keepHistory) {
       await repo.deleteItemWithEvent(item.id, t.event);
     } else {
       await repo.upsertItemWithEvent(t.item, t.event);
     }
     // Repeating reminders would otherwise keep firing for a finished item.
-    await FlutterLocalNotificationsPlugin().cancel(id: stableHash31(item.id));
+    if (!keepFiring) {
+      await FlutterLocalNotificationsPlugin().cancel(id: stableHash31(item.id));
+    }
     // The DB is intentionally left open: the native connection is shared
     // with the UI isolate. The UI re-reads from disk on resume.
   } catch (_) {
     // Nothing to report to; the next app launch re-syncs everything.
+  }
+}
+
+/// Whether recurring reminders are unlocked. If the secure storage cannot be
+/// read here, assume yes: keeping an item in the list is the harmless choice.
+Future<bool> _hasPro() async {
+  try {
+    final pro = ProService(vault: SecureVault());
+    await pro.load();
+    return pro.isActive();
+  } catch (_) {
+    return true;
   }
 }

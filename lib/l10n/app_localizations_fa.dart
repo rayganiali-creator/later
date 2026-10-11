@@ -425,6 +425,11 @@ class AppL10nFa extends AppL10n {
   String get toastDone => 'انجام شد ✓';
 
   @override
+  String toastDoneRepeat(String d) {
+    return 'برای این بار انجام شد ✓ — دفعه‌ی بعد: $d';
+  }
+
+  @override
   String get toastDropped => 'کنار گذاشته شد';
 
   @override
@@ -762,6 +767,15 @@ class AppL10nFa extends AppL10n {
 
   @override
   String get accentSlate => 'خاکستری';
+
+  @override
+  String get accentEmerald => 'سبز';
+
+  @override
+  String get accentViolet => 'بنفش';
+
+  @override
+  String get accentSky => 'آبی';
 
   @override
   String get appIcon => 'آیکون برنامه';
@@ -2802,4 +2816,36 @@ class AppL10nFa extends AppL10n {
   @override
   String get proAlreadyOwned =>
       'این پلن را قبلاً خریده‌ای و هنوز فعاله. یه پلن دیگه بخر یا بعد از تموم‌شدنش دوباره بخر.';
+
+  @override
+  String get reviewTitle => 'از «بعداً» راضی بودی؟';
+
+  @override
+  String get reviewBody =>
+      'اگه چند ثانیه وقت داری، نظر و ستاره‌ات رو توی بازار بذار؛ خیلی بهمون کمک می‌کنه.';
+
+  @override
+  String get reviewRate => 'ثبت نظر در بازار';
+
+  @override
+  String get reviewAlready => 'قبلاً نظر داده‌ام';
+
+  @override
+  String get reviewExit => 'خروج';
+
+  @override
+  String get reviewNoStore => 'بازار روی این گوشی نصب نیست.';
+
+  @override
+  String get reviewDoneTitle => 'نظرت ثبت شد؟';
+
+  @override
+  String get reviewDoneBody =>
+      'اگه ثبتش کردی دیگه این پیام رو نمی‌بینی؛ وگرنه موقع خروج دوباره می‌پرسیم.';
+
+  @override
+  String get reviewDoneYes => 'آره، ثبت شد';
+
+  @override
+  String get reviewDoneNo => 'نه، هنوز';
 }

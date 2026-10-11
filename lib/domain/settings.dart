@@ -4,7 +4,7 @@ import '../core/config/app_config.dart';
 import '../core/util/dates.dart';
 
 /// Accent palettes. The first is free, the others require Pro.
-enum AccentPalette { indigo, teal, rose, amber, slate }
+enum AccentPalette { indigo, teal, rose, amber, slate, emerald, violet, sky }
 
 /// Alternative launcher icons (Pro).
 enum IconVariant { classic, teal, rose, dark }
@@ -38,6 +38,7 @@ class AppSettings {
     this.appReviewReminder = false,
     this.askWhereOnShare = true,
     this.widgetOffered = false,
+    this.reviewDone = false,
   });
 
   /// Categories that take part in the roulette (empty = all). Pro to change.
@@ -60,6 +61,9 @@ class AppSettings {
 
   /// The home-screen widget was offered once (asked a single time).
   final bool widgetOffered;
+
+  /// The user said they rated the app in the store: the exit prompt stops.
+  final bool reviewDone;
 
   final ThemeMode themeMode;
   final AccentPalette accent;
@@ -118,6 +122,7 @@ class AppSettings {
     bool? appReviewReminder,
     bool? askWhereOnShare,
     bool? widgetOffered,
+    bool? reviewDone,
   }) =>
       AppSettings(
         rouletteCategories: rouletteCategories ?? this.rouletteCategories,
@@ -127,6 +132,7 @@ class AppSettings {
         appReviewReminder: appReviewReminder ?? this.appReviewReminder,
         askWhereOnShare: askWhereOnShare ?? this.askWhereOnShare,
         widgetOffered: widgetOffered ?? this.widgetOffered,
+        reviewDone: reviewDone ?? this.reviewDone,
         themeMode: themeMode ?? this.themeMode,
         accent: accent ?? this.accent,
         languageCode: languageCode ?? this.languageCode,
@@ -183,6 +189,7 @@ class AppSettings {
         'appReviewReminder': '$appReviewReminder',
         'askWhereOnShare': '$askWhereOnShare',
         'widgetOffered': '$widgetOffered',
+        'reviewDone': '$reviewDone',
       };
 
   /// Lenient parser: unknown/invalid values fall back to defaults.
@@ -249,6 +256,7 @@ class AppSettings {
       appReviewReminder: boolOf(m['appReviewReminder'], d.appReviewReminder),
       askWhereOnShare: boolOf(m['askWhereOnShare'], d.askWhereOnShare),
       widgetOffered: boolOf(m['widgetOffered'], d.widgetOffered),
+      reviewDone: boolOf(m['reviewDone'], d.reviewDone),
     );
   }
 }

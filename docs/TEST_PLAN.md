@@ -42,3 +42,10 @@ Purchases are no longer consumed after activation; Bazaar keeps them and the app
 4. Buying the same plan while it is still active shows "you already own this plan". Another plan still stacks.
 5. After every purchase has run out, buying the same plan again works.
 Purchases made by older versions (consumed right away) cannot be restored; they stay valid on the phone where they were made.
+
+## v1.2: repeating reminders, exit rating, theme colours
+1. (Pro) Add a task with a daily reminder. Mark it done: it stays in the list with tomorrow's date, nothing goes to the history, and the notification comes again tomorrow. Same for weekly / monthly / yearly. Undo restores today's date.
+2. Same from the notification's "Done" button (app closed): the item stays and the next day still notifies.
+3. Without Pro a repeating item still goes to the history when done.
+4. Press Back on the home screen: a rating dialog appears. "Rate in the store" opens Bazaar's comment page; when you return the app asks whether it was sent: "Yes" stops the prompt for good, "Not yet" keeps asking on every exit. "I already rated" stops it too.
+5. Settings > Colour: three new colours (green, violet, blue), light and dark mode.

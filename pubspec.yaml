@@ -3,7 +3,7 @@ description: "بعداً (Later) - الان لازم نیست؛ فقط فرام�
 publish_to: 'none'
 
 # version: <versionName>+<versionCode>. Bump both for every store release.
-version: 1.1.0+2
+version: 1.2.0+3
 
 environment:
   sdk: ^3.13.4

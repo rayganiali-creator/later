@@ -193,6 +193,14 @@
   "itemOpenLink": "باز کردن لینک",
   "itemLinkFailed": "لینک باز نشد.",
   "toastDone": "انجام شد ✓",
+  "toastDoneRepeat": "برای این بار انجام شد ✓ — دفعه‌ی بعد: {d}",
+  "@toastDoneRepeat": {
+    "placeholders": {
+      "d": {
+        "type": "String"
+      }
+    }
+  },
   "toastDropped": "کنار گذاشته شد",
   "toastDeleted": "حذف شد",
   "toastSnoozed": "منتقل شد به {when}",
@@ -359,6 +367,9 @@
   "accentRose": "رُز",
   "accentAmber": "کهربایی",
   "accentSlate": "خاکستری",
+  "accentEmerald": "سبز",
+  "accentViolet": "بنفش",
+  "accentSky": "آبی",
   "appIcon": "آیکون برنامه",
   "iconClassic": "کلاسیک",
   "iconTeal": "فیروزه‌ای",
@@ -1396,5 +1407,15 @@
     }
   },
   "widgetOverdue": "عقب‌افتاده",
-  "proAlreadyOwned": "این پلن را قبلاً خریده‌ای و هنوز فعاله. یه پلن دیگه بخر یا بعد از تموم‌شدنش دوباره بخر."
+  "proAlreadyOwned": "این پلن را قبلاً خریده‌ای و هنوز فعاله. یه پلن دیگه بخر یا بعد از تموم‌شدنش دوباره بخر.",
+  "reviewTitle": "از «بعداً» راضی بودی؟",
+  "reviewBody": "اگه چند ثانیه وقت داری، نظر و ستاره‌ات رو توی بازار بذار؛ خیلی بهمون کمک می‌کنه.",
+  "reviewRate": "ثبت نظر در بازار",
+  "reviewAlready": "قبلاً نظر داده‌ام",
+  "reviewExit": "خروج",
+  "reviewNoStore": "بازار روی این گوشی نصب نیست.",
+  "reviewDoneTitle": "نظرت ثبت شد؟",
+  "reviewDoneBody": "اگه ثبتش کردی دیگه این پیام رو نمی‌بینی؛ وگرنه موقع خروج دوباره می‌پرسیم.",
+  "reviewDoneYes": "آره، ثبت شد",
+  "reviewDoneNo": "نه، هنوز"
 }

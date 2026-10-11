@@ -877,6 +877,12 @@ abstract class AppL10n {
   /// **'انجام شد ✓'**
   String get toastDone;
 
+  /// No description provided for @toastDoneRepeat.
+  ///
+  /// In fa, this message translates to:
+  /// **'برای این بار انجام شد ✓ — دفعه‌ی بعد: {d}'**
+  String toastDoneRepeat(String d);
+
   /// No description provided for @toastDropped.
   ///
   /// In fa, this message translates to:
@@ -1518,6 +1524,24 @@ abstract class AppL10n {
   /// In fa, this message translates to:
   /// **'خاکستری'**
   String get accentSlate;
+
+  /// No description provided for @accentEmerald.
+  ///
+  /// In fa, this message translates to:
+  /// **'سبز'**
+  String get accentEmerald;
+
+  /// No description provided for @accentViolet.
+  ///
+  /// In fa, this message translates to:
+  /// **'بنفش'**
+  String get accentViolet;
+
+  /// No description provided for @accentSky.
+  ///
+  /// In fa, this message translates to:
+  /// **'آبی'**
+  String get accentSky;
 
   /// No description provided for @appIcon.
   ///
@@ -5208,6 +5232,66 @@ abstract class AppL10n {
   /// In fa, this message translates to:
   /// **'این پلن را قبلاً خریده‌ای و هنوز فعاله. یه پلن دیگه بخر یا بعد از تموم‌شدنش دوباره بخر.'**
   String get proAlreadyOwned;
+
+  /// No description provided for @reviewTitle.
+  ///
+  /// In fa, this message translates to:
+  /// **'از «بعداً» راضی بودی؟'**
+  String get reviewTitle;
+
+  /// No description provided for @reviewBody.
+  ///
+  /// In fa, this message translates to:
+  /// **'اگه چند ثانیه وقت داری، نظر و ستاره‌ات رو توی بازار بذار؛ خیلی بهمون کمک می‌کنه.'**
+  String get reviewBody;
+
+  /// No description provided for @reviewRate.
+  ///
+  /// In fa, this message translates to:
+  /// **'ثبت نظر در بازار'**
+  String get reviewRate;
+
+  /// No description provided for @reviewAlready.
+  ///
+  /// In fa, this message translates to:
+  /// **'قبلاً نظر داده‌ام'**
+  String get reviewAlready;
+
+  /// No description provided for @reviewExit.
+  ///
+  /// In fa, this message translates to:
+  /// **'خروج'**
+  String get reviewExit;
+
+  /// No description provided for @reviewNoStore.
+  ///
+  /// In fa, this message translates to:
+  /// **'بازار روی این گوشی نصب نیست.'**
+  String get reviewNoStore;
+
+  /// No description provided for @reviewDoneTitle.
+  ///
+  /// In fa, this message translates to:
+  /// **'نظرت ثبت شد؟'**
+  String get reviewDoneTitle;
+
+  /// No description provided for @reviewDoneBody.
+  ///
+  /// In fa, this message translates to:
+  /// **'اگه ثبتش کردی دیگه این پیام رو نمی‌بینی؛ وگرنه موقع خروج دوباره می‌پرسیم.'**
+  String get reviewDoneBody;
+
+  /// No description provided for @reviewDoneYes.
+  ///
+  /// In fa, this message translates to:
+  /// **'آره، ثبت شد'**
+  String get reviewDoneYes;
+
+  /// No description provided for @reviewDoneNo.
+  ///
+  /// In fa, this message translates to:
+  /// **'نه، هنوز'**
+  String get reviewDoneNo;
 }
 
 class _AppL10nDelegate extends LocalizationsDelegate<AppL10n> {

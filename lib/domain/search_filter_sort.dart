@@ -77,6 +77,16 @@ DateTime? effectiveDue(LaterItem i, DateTime now) {
   }
 }
 
+/// Date of the occurrence that follows the one that is current *now* (the
+/// "done for this round" target of a repeating item). Null when the item does
+/// not repeat.
+DateTime? nextOccurrenceAfterCurrent(LaterItem i, DateTime now) {
+  if (i.repeat == RepeatRule.none || i.dueAt == null) return null;
+  final cur = effectiveDue(i, now);
+  if (cur == null) return null;
+  return effectiveDue(i, Dates.addDays(Dates.startOfDay(cur), 1));
+}
+
 bool isOverdue(LaterItem i, DateTime now) {
   final due = effectiveDue(i, now);
   if (due == null) return false;

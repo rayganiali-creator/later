@@ -94,6 +94,10 @@ abstract class PlatformBridge {
   /// Asks Android to pin the home-screen widget (the system shows its own
   /// confirmation). False when the launcher cannot do it.
   Future<bool> requestPinWidget();
+
+  /// Opens the app's rating/comment page in Cafe Bazaar. False when Bazaar is
+  /// not installed.
+  Future<bool> openStoreReview();
   Future<bool> openBatteryOptimizationSettings();
   Future<bool> openExactAlarmSettings();
   Future<bool> setLauncherIcon(IconVariant variant);
@@ -226,6 +230,9 @@ class MethodChannelPlatformBridge implements PlatformBridge {
   Future<bool> requestPinWidget() => _bool('requestPinWidget');
 
   @override
+  Future<bool> openStoreReview() => _bool('openStoreReview');
+
+  @override
   Future<bool> openBatteryOptimizationSettings() => _bool('openBatterySettings');
 
   @override
@@ -306,6 +313,14 @@ class NullPlatformBridge implements PlatformBridge {
 
   @override
   Future<void> updateWidgets(WidgetSnapshot snapshot) async => lastWidget = snapshot;
+  int reviewOpens = 0;
+  bool reviewResult = true;
+  @override
+  Future<bool> openStoreReview() async {
+    reviewOpens++;
+    return reviewResult;
+  }
+
   int pinRequests = 0;
   bool pinResult = true;
   @override

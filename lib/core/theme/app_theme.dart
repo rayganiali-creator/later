@@ -18,6 +18,9 @@ const Map<AccentPalette, _Accent> _accents = {
   AccentPalette.rose: _Accent(Color(0xFFD1447A), Color(0xFFFFE1EC), Color(0xFFFF9BBF), Color(0xFF6E2144)),
   AccentPalette.amber: _Accent(Color(0xFFB26A00), Color(0xFFFFEBC8), Color(0xFFFFC463), Color(0xFF5C3900)),
   AccentPalette.slate: _Accent(Color(0xFF475569), Color(0xFFE3E8EF), Color(0xFFB4C0D0), Color(0xFF2E3846)),
+  AccentPalette.emerald: _Accent(Color(0xFF1B7F4B), Color(0xFFDDF4E6), Color(0xFF7ED9A2), Color(0xFF134B2C)),
+  AccentPalette.violet: _Accent(Color(0xFF7B3FC4), Color(0xFFF0E4FF), Color(0xFFC9A4FF), Color(0xFF4A2478)),
+  AccentPalette.sky: _Accent(Color(0xFF1F6FB5), Color(0xFFDCEEFF), Color(0xFF8CC4FF), Color(0xFF1B4570)),
 };
 
 Color accentColor(AccentPalette a, Brightness b) =>

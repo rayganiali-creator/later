@@ -495,6 +495,12 @@ class LaterController extends ChangeNotifier {
 
   Future<UndoAction?> complete(String id) => _finish(id, done: true);
 
+  /// True when completing [item] only ticks this round off (it repeats).
+  bool completesRepeating(LaterItem item) =>
+      item.reminderEnabled &&
+      access.has(ProFeature.recurringReminders) &&
+      nextOccurrenceAfterCurrent(item, now()) != null;
+
   /// "بی‌خیالش شدم"
   Future<UndoAction?> drop(String id) => _finish(id, done: false);
 
@@ -502,6 +508,24 @@ class LaterController extends ChangeNotifier {
     final cur = itemById(id);
     if (cur == null) return null;
     final n = now();
+    // A repeating reminder stays in the list: "done" only ticks this round off
+    // and the next date keeps notifying (repeats are a Pro feature; without
+    // Pro the item behaves like a normal one).
+    final next = done && cur.reminderEnabled && access.has(ProFeature.recurringReminders)
+        ? nextOccurrenceAfterCurrent(cur, n)
+        : null;
+    if (next != null) {
+      final r = Transitions.completeRepeating(cur, next, n);
+      await repo.upsertItemWithEvent(r.item, r.event);
+      _replace(r.item);
+      _afterItemsChanged();
+      return () async {
+        await repo.removeLastEvent(id, r.event.type);
+        await repo.upsertItem(cur);
+        _replace(cur);
+        _afterItemsChanged();
+      };
+    }
     final t = done ? Transitions.complete(cur, n) : Transitions.drop(cur, n);
     if (_settings.keepHistory) {
       await repo.upsertItemWithEvent(t.item, t.event);
@@ -925,6 +949,9 @@ class LaterController extends ChangeNotifier {
 
   /// Asks the launcher to add the widget to the home screen.
   Future<bool> addWidgetToHome() => platform.requestPinWidget();
+
+  /// Opens the store's rating page (false when the store app is missing).
+  Future<bool> openStoreReview() => platform.openStoreReview();
 
   String _widgetNum(int n) => _settings.languageCode == 'fa' ? toFaDigits(n) : '$n';
 
