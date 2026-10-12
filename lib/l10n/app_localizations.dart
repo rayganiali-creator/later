@@ -5292,6 +5292,48 @@ abstract class AppL10n {
   /// In fa, this message translates to:
   /// **'نه، هنوز'**
   String get reviewDoneNo;
+
+  /// No description provided for @settingsWidgetColor.
+  ///
+  /// In fa, this message translates to:
+  /// **'رنگ ویجت'**
+  String get settingsWidgetColor;
+
+  /// No description provided for @widgetColorGreen.
+  ///
+  /// In fa, this message translates to:
+  /// **'سبز'**
+  String get widgetColorGreen;
+
+  /// No description provided for @widgetColorBlue.
+  ///
+  /// In fa, this message translates to:
+  /// **'آبی'**
+  String get widgetColorBlue;
+
+  /// No description provided for @widgetColorPurple.
+  ///
+  /// In fa, this message translates to:
+  /// **'بنفش'**
+  String get widgetColorPurple;
+
+  /// No description provided for @widgetColorOrange.
+  ///
+  /// In fa, this message translates to:
+  /// **'نارنجی'**
+  String get widgetColorOrange;
+
+  /// No description provided for @widgetColorPink.
+  ///
+  /// In fa, this message translates to:
+  /// **'صورتی'**
+  String get widgetColorPink;
+
+  /// No description provided for @widgetColorInk.
+  ///
+  /// In fa, this message translates to:
+  /// **'خاکستری'**
+  String get widgetColorInk;
 }
 
 class _AppL10nDelegate extends LocalizationsDelegate<AppL10n> {

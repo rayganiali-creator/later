@@ -1,4 +1,5 @@
 import 'models.dart';
+import 'settings.dart';
 
 /// One accent colour (ARGB) per shelf. Shared by the app UI and the
 /// home-screen widgets so a shelf looks the same in both places.
@@ -14,4 +15,14 @@ int typeColorValue(ItemType t) => switch (t) {
       ItemType.podcast => 0xFFE0663C,
       ItemType.course => 0xFF3F6FD0,
       ItemType.game => 0xFF9B4FCF,
+    };
+
+/// Accent (ARGB) of each widget colour, for the colour picker swatches.
+int widgetColorValue(WidgetColor c) => switch (c) {
+      WidgetColor.green => 0xFF58B947,
+      WidgetColor.blue => 0xFF1CB0F6,
+      WidgetColor.purple => 0xFFA56CF0,
+      WidgetColor.orange => 0xFFFF9600,
+      WidgetColor.pink => 0xFFF2619A,
+      WidgetColor.ink => 0xFF4B5F6B,
     };

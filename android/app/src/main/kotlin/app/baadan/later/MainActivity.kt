@@ -178,6 +178,7 @@ class MainActivity : FlutterFragmentActivity() {
                 }
             }
             "requestPinWidget" -> result.success(requestPinWidget())
+            "widgetSelfTest" -> result.success(app.baadan.later.widget.WidgetSelfTest.run(this))
             "openStoreReview" -> result.success(openStoreReview())
             "moveToBack" -> {
                 result.success(moveTaskToBack(true))

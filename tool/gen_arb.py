@@ -1032,6 +1032,13 @@ k('reviewDoneTitle', 'نظرت ثبت شد؟', 'Did you send your rating?')
 k('reviewDoneBody', 'اگه ثبتش کردی دیگه این پیام رو نمی‌بینی؛ وگرنه موقع خروج دوباره می‌پرسیم.', 'If you did, you will not see this again; otherwise we ask again when you exit.')
 k('reviewDoneYes', 'آره، ثبت شد', 'Yes, sent')
 k('reviewDoneNo', 'نه، هنوز', 'Not yet')
+k('settingsWidgetColor', 'رنگ ویجت', 'Widget colour')
+k('widgetColorGreen', 'سبز', 'Green')
+k('widgetColorBlue', 'آبی', 'Blue')
+k('widgetColorPurple', 'بنفش', 'Purple')
+k('widgetColorOrange', 'نارنجی', 'Orange')
+k('widgetColorPink', 'صورتی', 'Pink')
+k('widgetColorInk', 'خاکستری', 'Grey')
 # consistency: every placeholder set must match between languages
 for key, (fa, en, _) in T.items():
     if key.startswith('_select_'):

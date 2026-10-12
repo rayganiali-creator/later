@@ -1,12 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="widget_small_label">Later — small</string>
-    <string name="widget_medium_label">Later — medium</string>
-    <string name="widget_large_label">Later — large</string>
+    <string name="widget_medium_label">Later</string>
     <string name="widget_list_label">Later — list (Pro)</string>
-    <string name="widget_small_description">One suggestion, quick add and roulette</string>
-    <string name="widget_medium_description">Inbox, today, one suggestion and quick buttons</string>
-    <string name="widget_large_description">A summary of every shelf, one suggestion and quick buttons</string>
+    <string name="widget_medium_description">A simple round widget: today\'s items and quick add; it adapts to any size you drag it to</string>
     <string name="widget_list_description">A few upcoming items; advanced Pro widget</string>
     <string name="widget_loading">Later</string>
     <string name="widget_count_template">%1$s waiting</string>

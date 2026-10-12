@@ -7,6 +7,7 @@ import '../../core/theme/app_theme.dart';
 import '../../core/util/dates.dart';
 import '../../data/controller.dart';
 import '../../domain/settings.dart';
+import '../../domain/type_colors.dart' show widgetColorValue;
 import '../../services/notification_service.dart';
 import '../app_scope.dart';
 import '../widgets/common.dart';
@@ -72,6 +73,14 @@ class _SettingsTabState extends State<SettingsTab> with WidgetsBindingObserver {
           ThemeMode.system => l.themeSystem,
         };
 
+    String widgetColorName(WidgetColor c) => switch (c) {
+          WidgetColor.green => l.widgetColorGreen,
+          WidgetColor.blue => l.widgetColorBlue,
+          WidgetColor.purple => l.widgetColorPurple,
+          WidgetColor.orange => l.widgetColorOrange,
+          WidgetColor.pink => l.widgetColorPink,
+          WidgetColor.ink => l.widgetColorInk,
+        };
     String accentName(AccentPalette a) => switch (a) {
           AccentPalette.indigo => l.accentIndigo,
           AccentPalette.teal => l.accentTeal,
@@ -318,6 +327,11 @@ class _SettingsTabState extends State<SettingsTab> with WidgetsBindingObserver {
             ),
             _tile(Icons.widgets_outlined, l.settingsWidget, l.settingsWidgetSub,
                 onTap: () => offerHomeWidget(context)),
+            _tile(Icons.color_lens_outlined, l.settingsWidgetColor, widgetColorName(st.widgetColor), onTap: () async {
+              final v = await _choose<WidgetColor>(context, l.settingsWidgetColor, WidgetColor.values, st.widgetColor, widgetColorName,
+                  swatch: (c) => Color(widgetColorValue(c)));
+              if (v != null) await app.updateSettings((x) => x.copyWith(widgetColor: v));
+            }),
             _tile(Icons.casino_outlined, l.settingsRouletteCats,
                 st.rouletteCategories.isEmpty ? l.settingsRouletteCatsAll : fmt.num(st.rouletteCategories.length),
                 trailing: app.isPro ? null : const ProTag(), onTap: () async {

@@ -1,12 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="widget_small_label">بعداً — کوچک</string>
-    <string name="widget_medium_label">بعداً — متوسط</string>
-    <string name="widget_large_label">بعداً — بزرگ</string>
+    <string name="widget_medium_label">بعداً</string>
     <string name="widget_list_label">بعداً — فهرست (Pro)</string>
-    <string name="widget_small_description">یک پیشنهاد، افزودن سریع و قرعه</string>
-    <string name="widget_medium_description">صندوق ورودی، امروز، یک پیشنهاد و دکمه‌های سریع</string>
-    <string name="widget_large_description">خلاصه‌ی همه‌ی قفسه‌ها، یک پیشنهاد و دکمه‌های سریع</string>
+    <string name="widget_medium_description">ویجت ساده و گرد: کارهای امروز، افزودن سریع؛ هر اندازه‌ای بکشی خودش تنظیم می‌شود</string>
     <string name="widget_list_description">چند مورد نزدیک؛ ویجت پیشرفته‌ی Pro</string>
     <string name="widget_loading">بعداً</string>
     <string name="widget_count_template">%1$s مورد منتظرند</string>

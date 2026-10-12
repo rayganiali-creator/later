@@ -6,6 +6,9 @@ import '../core/util/dates.dart';
 /// Accent palettes. The first is free, the others require Pro.
 enum AccentPalette { indigo, teal, rose, amber, slate, emerald, violet, sky }
 
+/// Accent colour of the home-screen widget (free).
+enum WidgetColor { green, blue, purple, orange, pink, ink }
+
 /// Alternative launcher icons (Pro).
 enum IconVariant { classic, teal, rose, dark }
 
@@ -39,6 +42,7 @@ class AppSettings {
     this.askWhereOnShare = true,
     this.widgetOffered = false,
     this.reviewDone = false,
+    this.widgetColor = WidgetColor.green,
   });
 
   /// Categories that take part in the roulette (empty = all). Pro to change.
@@ -64,6 +68,9 @@ class AppSettings {
 
   /// The user said they rated the app in the store: the exit prompt stops.
   final bool reviewDone;
+
+  /// Colour of the home-screen widget.
+  final WidgetColor widgetColor;
 
   final ThemeMode themeMode;
   final AccentPalette accent;
@@ -123,6 +130,7 @@ class AppSettings {
     bool? askWhereOnShare,
     bool? widgetOffered,
     bool? reviewDone,
+    WidgetColor? widgetColor,
   }) =>
       AppSettings(
         rouletteCategories: rouletteCategories ?? this.rouletteCategories,
@@ -133,6 +141,7 @@ class AppSettings {
         askWhereOnShare: askWhereOnShare ?? this.askWhereOnShare,
         widgetOffered: widgetOffered ?? this.widgetOffered,
         reviewDone: reviewDone ?? this.reviewDone,
+        widgetColor: widgetColor ?? this.widgetColor,
         themeMode: themeMode ?? this.themeMode,
         accent: accent ?? this.accent,
         languageCode: languageCode ?? this.languageCode,
@@ -190,6 +199,7 @@ class AppSettings {
         'askWhereOnShare': '$askWhereOnShare',
         'widgetOffered': '$widgetOffered',
         'reviewDone': '$reviewDone',
+        'widgetColor': widgetColor.name,
       };
 
   /// Lenient parser: unknown/invalid values fall back to defaults.
@@ -257,6 +267,7 @@ class AppSettings {
       askWhereOnShare: boolOf(m['askWhereOnShare'], d.askWhereOnShare),
       widgetOffered: boolOf(m['widgetOffered'], d.widgetOffered),
       reviewDone: boolOf(m['reviewDone'], d.reviewDone),
+      widgetColor: enumOf(WidgetColor.values, m['widgetColor'], d.widgetColor),
     );
   }
 }

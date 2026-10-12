@@ -865,5 +865,12 @@
   "reviewDoneTitle": "Did you send your rating?",
   "reviewDoneBody": "If you did, you will not see this again; otherwise we ask again when you exit.",
   "reviewDoneYes": "Yes, sent",
-  "reviewDoneNo": "Not yet"
+  "reviewDoneNo": "Not yet",
+  "settingsWidgetColor": "Widget colour",
+  "widgetColorGreen": "Green",
+  "widgetColorBlue": "Blue",
+  "widgetColorPurple": "Purple",
+  "widgetColorOrange": "Orange",
+  "widgetColorPink": "Pink",
+  "widgetColorInk": "Grey"
 }

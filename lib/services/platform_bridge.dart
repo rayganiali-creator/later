@@ -26,6 +26,7 @@ class WidgetSnapshot {
     this.smartText,
     this.smartId,
     this.todayItems = const [],
+    this.color = 'green',
     required this.strings,
   });
 
@@ -49,6 +50,9 @@ class WidgetSnapshot {
   /// Items due today (or overdue), most urgent first: id, title, color (ARGB int), overdue.
   final List<Map<String, Object?>> todayItems;
 
+  /// Widget accent colour name (green, blue, purple, orange, pink, ink).
+  final String color;
+
   /// Localized strings needed by the native widget.
   final Map<String, String> strings;
 
@@ -63,6 +67,7 @@ class WidgetSnapshot {
         'smartText': smartText,
         'smartId': smartId,
         'today': todayItems,
+        'color': color,
         'strings': strings,
       };
 }

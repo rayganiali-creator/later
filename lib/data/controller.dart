@@ -677,7 +677,9 @@ class LaterController extends ChangeNotifier {
         next.languageCode != before.languageCode) {
       scheduleReminderSync();
     }
-    if (next.languageCode != before.languageCode || next.weekStart != before.weekStart) {
+    if (next.languageCode != before.languageCode ||
+        next.weekStart != before.weekStart ||
+        next.widgetColor != before.widgetColor) {
       unawaited(_pushWidgets());
     }
     if (next.iconVariant != before.iconVariant) {
@@ -907,6 +909,7 @@ class LaterController extends ChangeNotifier {
         smartKind: kind,
         smartText: text,
         smartId: pick?.item.id,
+        color: _settings.widgetColor.name,
         todayItems: [
           for (final i in todayItems().take(6))
             {
@@ -914,6 +917,7 @@ class LaterController extends ChangeNotifier {
               'title': i.title,
               'color': typeColorValue(i.type),
               'overdue': isOverdue(i, now()),
+              'when': _widgetWhen(i),
             }
         ],
         strings: {
@@ -952,6 +956,14 @@ class LaterController extends ChangeNotifier {
 
   /// Opens the store's rating page (false when the store app is missing).
   Future<bool> openStoreReview() => platform.openStoreReview();
+
+  /// Short text on the right of a widget row: the time (if the item has one).
+  String _widgetWhen(LaterItem i) {
+    if (!i.hasTime || i.dueAt == null) return '';
+    final d = effectiveDue(i, now()) ?? i.dueAt!;
+    final t = '${d.hour.toString().padLeft(2, '0')}:${d.minute.toString().padLeft(2, '0')}';
+    return _settings.languageCode == 'fa' ? toFaDigits(t) : t;
+  }
 
   String _widgetNum(int n) => _settings.languageCode == 'fa' ? toFaDigits(n) : '$n';
 

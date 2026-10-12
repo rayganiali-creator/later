@@ -2848,4 +2848,25 @@ class AppL10nFa extends AppL10n {
 
   @override
   String get reviewDoneNo => 'نه، هنوز';
+
+  @override
+  String get settingsWidgetColor => 'رنگ ویجت';
+
+  @override
+  String get widgetColorGreen => 'سبز';
+
+  @override
+  String get widgetColorBlue => 'آبی';
+
+  @override
+  String get widgetColorPurple => 'بنفش';
+
+  @override
+  String get widgetColorOrange => 'نارنجی';
+
+  @override
+  String get widgetColorPink => 'صورتی';
+
+  @override
+  String get widgetColorInk => 'خاکستری';
 }

@@ -31,7 +31,7 @@ echo "== Launcher shortcuts / widgets registered"
 adb shell cmd appwidget list 2>/dev/null | grep -q "$PKG" && ok "app widgets registered" || info "appwidget list unavailable/empty"
 
 echo "== Widget providers (small / medium / large / list) are registered"
-for w in LaterWidgetProvider LaterMediumWidgetProvider LaterLargeWidgetProvider LaterListWidgetProvider; do
+for w in LaterMediumWidgetProvider LaterListWidgetProvider; do
   if adb shell dumpsys package "$PKG" | grep -q "widget.$w"; then ok "$w registered"; else bad "$w missing from the manifest"; fi
 done
 echo "== Quick actions from widgets reach the app without crashing"

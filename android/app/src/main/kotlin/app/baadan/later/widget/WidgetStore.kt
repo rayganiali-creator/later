@@ -8,7 +8,7 @@ import org.json.JSONObject
 import java.util.Calendar
 
 /** Snapshot pushed from Dart; rendered by the widget providers. */
-data class TodayRow(val id: String, val title: String, val color: Int, val overdue: Boolean)
+data class TodayRow(val id: String, val title: String, val color: Int, val overdue: Boolean, val whenText: String)
 
 data class WidgetData(
     val count: Int,
@@ -19,6 +19,7 @@ data class WidgetData(
     val counts: Map<String, Int>,
     val smartText: String?,
     val smartId: String?,
+    val color: String,
     val today: List<TodayRow>,
     val strings: Map<String, String>,
 ) {
@@ -64,6 +65,7 @@ object WidgetStore {
         json.put("counts", c)
         json.put("smartText", map["smartText"] as? String)
         json.put("smartId", map["smartId"] as? String)
+        json.put("color", map["color"] as? String ?: "green")
         val t = JSONArray()
         (map["today"] as? List<*>)?.take(6)?.forEach { e ->
             val m = e as? Map<*, *> ?: return@forEach
@@ -73,6 +75,7 @@ object WidgetStore {
                 JSONObject().put("id", id).put("title", title)
                     .put("color", (m["color"] as? Number)?.toLong() ?: 0xFF5B4FD6L)
                     .put("overdue", m["overdue"] as? Boolean ?: false)
+                    .put("when", m["when"] as? String ?: "")
             )
         }
         json.put("today", t)
@@ -99,10 +102,11 @@ object WidgetStore {
                 counts = counts,
                 smartText = if (j.isNull("smartText")) null else j.optString("smartText"),
                 smartId = if (j.isNull("smartId")) null else j.optString("smartId"),
+                color = j.optString("color", "green"),
                 today = j.optJSONArray("today")?.let { a ->
                     (0 until a.length()).mapNotNull { i ->
                         val o = a.optJSONObject(i) ?: return@mapNotNull null
-                        TodayRow(o.getString("id"), o.getString("title"), o.optLong("color", 0xFF5B4FD6L).toInt(), o.optBoolean("overdue", false))
+                        TodayRow(o.getString("id"), o.getString("title"), o.optLong("color", 0xFF5B4FD6L).toInt(), o.optBoolean("overdue", false), o.optString("when", ""))
                     }
                 } ?: emptyList(),
                 strings = strings,
@@ -112,25 +116,12 @@ object WidgetStore {
         }
     }
 
-    private val providers = listOf(
-        LaterWidgetProvider::class.java,
-        LaterMediumWidgetProvider::class.java,
-        LaterLargeWidgetProvider::class.java,
-        LaterListWidgetProvider::class.java,
-    )
-
     /** Redraws every placed widget from the last saved snapshot. */
     fun refreshAll(context: Context) {
         val mgr = AppWidgetManager.getInstance(context)
-        for (cls in providers) {
-            val ids = mgr.getAppWidgetIds(ComponentName(context, cls))
-            if (ids.isEmpty()) continue
-            when (cls) {
-                LaterWidgetProvider::class.java -> LaterWidgetProvider.update(context, mgr, ids)
-                LaterMediumWidgetProvider::class.java -> LaterMediumWidgetProvider.update(context, mgr, ids)
-                LaterLargeWidgetProvider::class.java -> LaterLargeWidgetProvider.update(context, mgr, ids)
-                LaterListWidgetProvider::class.java -> LaterListWidgetProvider.update(context, mgr, ids)
-            }
-        }
+        val main = mgr.getAppWidgetIds(ComponentName(context, LaterMediumWidgetProvider::class.java))
+        if (main.isNotEmpty()) LaterMediumWidgetProvider.update(context, mgr, main)
+        val list = mgr.getAppWidgetIds(ComponentName(context, LaterListWidgetProvider::class.java))
+        if (list.isNotEmpty()) LaterListWidgetProvider.update(context, mgr, list)
     }
 }

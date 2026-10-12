@@ -11,6 +11,7 @@ import 'package:later/domain/classifier.dart';
 import 'package:later/domain/game_picker.dart';
 import 'package:later/domain/learning.dart';
 import 'package:later/domain/models.dart';
+import 'package:later/domain/settings.dart';
 import 'package:later/domain/pro.dart';
 import 'package:later/domain/transitions.dart';
 import 'package:later/domain/widget_pick.dart';
@@ -426,6 +427,19 @@ void main() {
       expect(w.todayItems.first['overdue'], true);
       expect(w.todayItems.first['title'], 'دیروز');
       expect(w.toMap()['today'], isA<List<Object?>>());
+    });
+
+    test('widget colour is a setting and reaches the widget with the row times', () async {
+      final e = await env0(items: []);
+      final n = e.controller.now();
+      await e.controller.saveNew(item('t', title: 'قرص', due: DateTime(n.year, n.month, n.day, 20, 30), hasTime: true));
+      await e.controller.updateSettings((s) => s.copyWith(widgetColor: WidgetColor.purple));
+      await Future<void>.delayed(const Duration(milliseconds: 600));
+      final w = e.platform.lastWidget!;
+      expect(w.color, 'purple');
+      expect(w.toMap()['color'], 'purple');
+      expect(w.todayItems.single['when'], '۲۰:۳۰');
+      expect(AppSettings.fromMap(e.controller.settings.toMap()).widgetColor, WidgetColor.purple);
     });
 
     test('the widget offer is remembered and pinning goes through the bridge', () async {

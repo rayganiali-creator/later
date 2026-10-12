@@ -4,13 +4,17 @@ import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
 import android.content.Context
 import android.content.Intent
-import android.widget.RemoteViews
-import app.baadan.later.R
+import android.os.Bundle
 
-/** Main widget (4x2, compact): what is set for today, plus add / roulette / inbox. */
+/** The one Later widget: round, minimal, adapts to any size it is dragged to. */
 class LaterMediumWidgetProvider : AppWidgetProvider() {
 
     override fun onUpdate(context: Context, manager: AppWidgetManager, ids: IntArray) = update(context, manager, ids)
+
+    override fun onAppWidgetOptionsChanged(context: Context, manager: AppWidgetManager, id: Int, newOptions: Bundle) {
+        super.onAppWidgetOptionsChanged(context, manager, id, newOptions)
+        update(context, manager, intArrayOf(id))
+    }
 
     override fun onReceive(context: Context, intent: Intent) {
         super.onReceive(context, intent)
@@ -20,14 +24,7 @@ class LaterMediumWidgetProvider : AppWidgetProvider() {
     companion object {
         fun update(context: Context, manager: AppWidgetManager, ids: IntArray) {
             if (ids.isEmpty()) return
-            val data = WidgetStore.load(context)
-            for (id in ids) {
-                val v = RemoteViews(context.packageName, R.layout.widget_medium)
-                WidgetHeader.bind(context, v, data, id)
-                WidgetRows.bind(context, v, data, 3, id * 10 + 10, WidgetHeader.emptyText(data))
-                v.setOnClickPendingIntent(R.id.widget_root, WidgetActions.open(context, "open", id * 10 + 6))
-                manager.updateAppWidget(id, v)
-            }
+            WidgetRender.update(context, manager, ids)
         }
     }
 }

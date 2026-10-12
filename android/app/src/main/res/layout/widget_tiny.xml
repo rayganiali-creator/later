@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/widget_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/widget_bg"
+    android:orientation="horizontal"
+    android:paddingStart="9dp"
+    android:paddingEnd="9dp"
+    android:paddingTop="9dp"
+    android:paddingBottom="12dp">
+        <FrameLayout android:layout_width="30dp" android:layout_height="33dp" android:layout_gravity="center_vertical">
+            <ImageView android:id="@+id/mark_edge" android:layout_width="30dp" android:layout_height="30dp" android:layout_marginTop="3dp" android:importantForAccessibility="no" android:scaleType="fitXY" android:src="@drawable/tint_mark" />
+            <ImageView android:id="@+id/mark_face" android:layout_width="30dp" android:layout_height="30dp" android:importantForAccessibility="no" android:scaleType="fitXY" android:src="@drawable/tint_mark" />
+            <TextView android:layout_width="30dp" android:layout_height="30dp" android:gravity="center" android:text="ب" android:textColor="#FFFFFF" android:textSize="16sp" android:textStyle="bold" />
+        </FrameLayout>
+        <TextView android:id="@+id/big" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_marginStart="8dp" android:layout_weight="1" android:layout_gravity="center_vertical" android:textSize="22sp" android:textStyle="bold" />
+        <FrameLayout android:id="@+id/widget_add" android:layout_width="34dp" android:layout_height="37dp" android:layout_gravity="center_vertical">
+            <ImageView android:id="@+id/fab_edge" android:layout_width="34dp" android:layout_height="34dp" android:layout_marginTop="3dp" android:importantForAccessibility="no" android:scaleType="fitXY" android:src="@drawable/tint_fab" />
+            <ImageView android:id="@+id/fab_face" android:layout_width="34dp" android:layout_height="34dp" android:importantForAccessibility="no" android:scaleType="fitXY" android:src="@drawable/tint_fab" />
+            <TextView android:layout_width="34dp" android:layout_height="34dp" android:gravity="center" android:text="+" android:textColor="#FFFFFF" android:textSize="24sp" android:textStyle="bold" />
+        </FrameLayout>
+</LinearLayout>

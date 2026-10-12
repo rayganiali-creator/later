@@ -1417,5 +1417,12 @@
   "reviewDoneTitle": "نظرت ثبت شد؟",
   "reviewDoneBody": "اگه ثبتش کردی دیگه این پیام رو نمی‌بینی؛ وگرنه موقع خروج دوباره می‌پرسیم.",
   "reviewDoneYes": "آره، ثبت شد",
-  "reviewDoneNo": "نه، هنوز"
+  "reviewDoneNo": "نه، هنوز",
+  "settingsWidgetColor": "رنگ ویجت",
+  "widgetColorGreen": "سبز",
+  "widgetColorBlue": "آبی",
+  "widgetColorPurple": "بنفش",
+  "widgetColorOrange": "نارنجی",
+  "widgetColorPink": "صورتی",
+  "widgetColorInk": "خاکستری"
 }

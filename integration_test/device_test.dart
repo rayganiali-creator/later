@@ -7,6 +7,8 @@ import 'dart:io';
 import 'dart:math';
 import 'dart:typed_data';
 
+import 'package:flutter/services.dart' show MethodChannel;
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:image/image.dart' as img;
 import 'package:integration_test/integration_test.dart';
@@ -47,6 +49,11 @@ Future<LaterController> makeController(String dbName, {Vault? vault}) async {
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
+
+  testWidgets('Home-screen widget: every size and colour inflates on the device', (tester) async {
+    const channel = MethodChannel('app.baadan.later/platform');
+    expect(await channel.invokeMethod<String>('widgetSelfTest'), 'ok');
+  });
 
   testWidgets('SQLite on device: CRUD + persistence across re-open', (tester) async {
     final name = 'it_${DateTime.now().microsecondsSinceEpoch}.db';

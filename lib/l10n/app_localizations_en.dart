@@ -2852,4 +2852,25 @@ class AppL10nEn extends AppL10n {
 
   @override
   String get reviewDoneNo => 'Not yet';
+
+  @override
+  String get settingsWidgetColor => 'Widget colour';
+
+  @override
+  String get widgetColorGreen => 'Green';
+
+  @override
+  String get widgetColorBlue => 'Blue';
+
+  @override
+  String get widgetColorPurple => 'Purple';
+
+  @override
+  String get widgetColorOrange => 'Orange';
+
+  @override
+  String get widgetColorPink => 'Pink';
+
+  @override
+  String get widgetColorInk => 'Grey';
 }
