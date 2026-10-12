@@ -1543,6 +1543,30 @@ abstract class AppL10n {
   /// **'آبی'**
   String get accentSky;
 
+  /// No description provided for @accentCoral.
+  ///
+  /// In fa, this message translates to:
+  /// **'مرجانی'**
+  String get accentCoral;
+
+  /// No description provided for @accentMagenta.
+  ///
+  /// In fa, this message translates to:
+  /// **'سرخابی'**
+  String get accentMagenta;
+
+  /// No description provided for @accentCocoa.
+  ///
+  /// In fa, this message translates to:
+  /// **'قهوه‌ای'**
+  String get accentCocoa;
+
+  /// No description provided for @accentNavy.
+  ///
+  /// In fa, this message translates to:
+  /// **'سرمه‌ای'**
+  String get accentNavy;
+
   /// No description provided for @appIcon.
   ///
   /// In fa, this message translates to:

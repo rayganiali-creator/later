@@ -90,6 +90,10 @@ class _SettingsTabState extends State<SettingsTab> with WidgetsBindingObserver {
           AccentPalette.emerald => l.accentEmerald,
           AccentPalette.violet => l.accentViolet,
           AccentPalette.sky => l.accentSky,
+          AccentPalette.coral => l.accentCoral,
+          AccentPalette.magenta => l.accentMagenta,
+          AccentPalette.cocoa => l.accentCocoa,
+          AccentPalette.navy => l.accentNavy,
         };
 
     String iconName(IconVariant v) => switch (v) {

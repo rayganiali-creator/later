@@ -165,7 +165,7 @@ void main() {
   });
 
   test('the three new theme colours exist and are stored by name', () {
-    expect(AccentPalette.values.map((a) => a.name), containsAll(['emerald', 'violet', 'sky']));
+    expect(AccentPalette.values.map((a) => a.name), containsAll(['emerald', 'violet', 'sky', 'coral', 'magenta', 'cocoa', 'navy']));
     const s = AppSettings(accent: AccentPalette.violet);
     expect(AppSettings.fromMap(s.toMap()).accent, AccentPalette.violet);
   });

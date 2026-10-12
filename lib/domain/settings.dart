@@ -4,7 +4,7 @@ import '../core/config/app_config.dart';
 import '../core/util/dates.dart';
 
 /// Accent palettes. The first is free, the others require Pro.
-enum AccentPalette { indigo, teal, rose, amber, slate, emerald, violet, sky }
+enum AccentPalette { indigo, teal, rose, amber, slate, emerald, violet, sky, coral, magenta, cocoa, navy }
 
 /// Accent colour of the home-screen widget (free).
 enum WidgetColor { green, blue, purple, orange, pink, ink }

@@ -779,6 +779,18 @@ class AppL10nEn extends AppL10n {
   String get accentSky => 'Blue';
 
   @override
+  String get accentCoral => 'Coral';
+
+  @override
+  String get accentMagenta => 'Magenta';
+
+  @override
+  String get accentCocoa => 'Cocoa';
+
+  @override
+  String get accentNavy => 'Navy';
+
+  @override
   String get appIcon => 'App icon';
 
   @override

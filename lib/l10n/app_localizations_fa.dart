@@ -778,6 +778,18 @@ class AppL10nFa extends AppL10n {
   String get accentSky => 'آبی';
 
   @override
+  String get accentCoral => 'مرجانی';
+
+  @override
+  String get accentMagenta => 'سرخابی';
+
+  @override
+  String get accentCocoa => 'قهوه‌ای';
+
+  @override
+  String get accentNavy => 'سرمه‌ای';
+
+  @override
   String get appIcon => 'آیکون برنامه';
 
   @override
