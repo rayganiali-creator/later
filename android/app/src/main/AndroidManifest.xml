@@ -9,8 +9,6 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <!-- Optional: lets reminders fire at the exact minute (user-grantable, Android 12+). -->
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
-    <!-- Cafe Bazaar in-app purchase (Pro). -->
-    <uses-permission android:name="com.farsitel.bazaar.permission.PAY_THROUGH_BAZAAR" />
 
     <!-- Deliberately NO INTERNET permission in release builds: everything is local.
          (Debug/profile manifests add it for the Flutter tooling.) -->
@@ -169,7 +167,5 @@
         <intent>
             <action android:name="android.media.action.IMAGE_CAPTURE" />
         </intent>
-        <!-- Cafe Bazaar (billing). -->
-        <package android:name="com.farsitel.bazaar" />
     </queries>
 </manifest>

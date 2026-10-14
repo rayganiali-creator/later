@@ -90,6 +90,14 @@ jobs:
           flutter build apk --release --flavor store
           # Myket build (pipeline check): must compile with the Myket billing plugin
           flutter build apk --release --flavor myket --dart-define=STORE=myket
+      - name: Myket build must not mention Cafe Bazaar in its manifest
+        run: |
+          APK=build/app/outputs/flutter-apk/app-myket-release.apk
+          "$ANDROID_HOME/cmdline-tools/latest/bin/apkanalyzer" manifest print "$APK" > myket-manifest.txt
+          if grep -qi "bazaar" myket-manifest.txt; then
+            echo "::error::The Myket manifest mentions Bazaar"; grep -i bazaar myket-manifest.txt; exit 1
+          fi
+          ! "$ANDROID_HOME/cmdline-tools/latest/bin/apkanalyzer" manifest permissions "$APK" | grep -q "android.permission.INTERNET"
       - name: Store build must not contain QA tools or INTERNET permission
         run: |
           APK=build/app/outputs/flutter-apk/app-store-release.apk
