@@ -88,6 +88,8 @@ jobs:
           export LATER_KEYSTORE_PASSWORD=ci-throwaway LATER_KEY_ALIAS=ci LATER_KEY_PASSWORD=ci-throwaway
           flutter build appbundle --release --flavor store
           flutter build apk --release --flavor store
+          # Myket build (pipeline check): must compile with the Myket billing plugin
+          flutter build apk --release --flavor myket --dart-define=STORE=myket
       - name: Store build must not contain QA tools or INTERNET permission
         run: |
           APK=build/app/outputs/flutter-apk/app-store-release.apk

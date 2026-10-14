@@ -10,6 +10,7 @@ import 'data/db/app_database.dart';
 import 'data/pro/pro_service.dart';
 import 'data/repository.dart';
 import 'services/file_gateway.dart';
+import 'services/myket_gateway.dart';
 import 'services/notification_service.dart';
 import 'services/platform_bridge.dart';
 import 'services/purchase_gateway.dart';
@@ -51,8 +52,10 @@ Future<LaterController> _compose(String version) async {
     reminderService: ReminderService(gateway),
     platform: MethodChannelPlatformBridge(),
     files: SystemFileGateway(),
-    // QA builds "buy" instantly; the store build talks to Cafe Bazaar.
-    purchases: AppConfig.testToolsEnabled ? SimulatedPurchaseGateway() : BazaarPurchaseGateway(),
+    // QA builds "buy" instantly; store builds talk to Cafe Bazaar or Myket.
+    purchases: AppConfig.testToolsEnabled
+        ? SimulatedPurchaseGateway()
+        : (AppConfig.store == 'myket' ? MyketPurchaseGateway() : BazaarPurchaseGateway()),
     appVersion: version,
   );
 }

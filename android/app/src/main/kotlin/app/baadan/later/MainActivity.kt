@@ -179,7 +179,7 @@ class MainActivity : FlutterFragmentActivity() {
             }
             "requestPinWidget" -> result.success(requestPinWidget())
             "widgetSelfTest" -> result.success(app.baadan.later.widget.WidgetSelfTest.run(this))
-            "openStoreReview" -> result.success(openStoreReview())
+            "openStoreReview" -> result.success(openStoreReview(call.arguments as? String))
             "moveToBack" -> {
                 result.success(moveTaskToBack(true))
             }
@@ -195,18 +195,26 @@ class MainActivity : FlutterFragmentActivity() {
         }
     }
 
-    /** Opens this app's rating / comment page in Cafe Bazaar. */
-    private fun openStoreReview(): Boolean {
-        return try {
-            val id = packageName.removeSuffix(".qa")
-            val i = Intent(Intent.ACTION_EDIT, Uri.parse("bazaar://details?id=$id"))
-                .setPackage("com.farsitel.bazaar")
-                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            startActivity(i)
-            true
-        } catch (_: Exception) {
-            false
+    /** Opens this app's rating / comment page in the market the build is for. */
+    private fun openStoreReview(store: String?): Boolean {
+        val id = packageName.removeSuffix(".qa")
+        val attempts = if (store == "myket") {
+            listOf("ir.mservices.market" to "myket://comment?id=$id", "ir.mservices.market" to "myket://application?id=$id")
+        } else {
+            listOf("com.farsitel.bazaar" to "bazaar://details?id=$id")
         }
+        for ((pkg, uri) in attempts) {
+            try {
+                val i = Intent(Intent.ACTION_EDIT, Uri.parse(uri))
+                    .setPackage(pkg)
+                    .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                startActivity(i)
+                return true
+            } catch (_: Exception) {
+                // try the next link
+            }
+        }
+        return false
     }
 
     /** Asks the launcher to pin the main widget; Android shows its own confirmation. */

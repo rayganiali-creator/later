@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/services.dart';
 
+import '../core/config/app_config.dart';
 import '../domain/settings.dart';
 
 /// Text shared to the app from another app (Android share sheet).
@@ -235,7 +236,7 @@ class MethodChannelPlatformBridge implements PlatformBridge {
   Future<bool> requestPinWidget() => _bool('requestPinWidget');
 
   @override
-  Future<bool> openStoreReview() => _bool('openStoreReview');
+  Future<bool> openStoreReview() => _bool('openStoreReview', AppConfig.store);
 
   @override
   Future<bool> openBatteryOptimizationSettings() => _bool('openBatterySettings');

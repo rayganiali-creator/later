@@ -50,9 +50,12 @@ class AppConfig {
   /// True in builds that may show the QA / test tools (Pro simulation,
   /// sample data, time travel). Never true for the store flavor in release.
   static bool get testToolsEnabled {
-    if (appFlavor == 'store') return false;
+    if (appFlavor == 'store' || appFlavor == 'myket') return false;
     return kDebugMode || appFlavor == 'qa';
   }
+
+  /// Which market this build is for: 'bazaar' (default) or 'myket'.
+  static const String store = String.fromEnvironment('STORE', defaultValue: 'bazaar');
 
   static const String flavorName = String.fromEnvironment(
     'FLUTTER_APP_FLAVOR',

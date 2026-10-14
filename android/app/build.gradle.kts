@@ -48,12 +48,22 @@ android {
         // versionCode / versionName come from pubspec.yaml (`version: x.y.z+n`).
         versionCode = flutter.versionCode
         versionName = flutter.versionName
+        // Myket billing (plugin myket_iap): which market app to bind to.
+        manifestPlaceholders += mapOf(
+            "marketApplicationId" to "ir.mservices.market",
+            "marketBindAddress" to "ir.mservices.market.InAppBillingService.BIND",
+            "marketPermission" to "ir.mservices.market.BILLING",
+        )
     }
 
     flavorDimensions += "distribution"
     productFlavors {
         // What is uploaded to the market. No test tools.
         create("store") {
+            dimension = "distribution"
+        }
+        // Same app, uploaded to Myket (in-app billing through Myket).
+        create("myket") {
             dimension = "distribution"
         }
         // Installable test build side-by-side with the store app. Enables the
@@ -120,7 +130,7 @@ dependencies {
 // Guard rail: a store release must never be signed with the debug key.
 gradle.taskGraph.whenReady {
     val storeRelease = allTasks.any {
-        it.project == project && Regex("(assemble|bundle|package)StoreRelease").matches(it.name)
+        it.project == project && Regex("(assemble|bundle|package)(Store|Myket)Release").matches(it.name)
     }
     if (storeRelease && !hasReleaseSigning) {
         throw GradleException(

@@ -40,6 +40,7 @@ dependencies:
   url_launcher: ^6.3.2
   shamsi_date: ^1.1.1
   package_info_plus: ^10.2.1
+  myket_iap: ^1.1.12
 
 dev_dependencies:
   flutter_test:
