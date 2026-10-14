@@ -5,6 +5,10 @@
 -renamesourcefileattribute SourceFile
 
 # Poolakey (Cafe Bazaar billing) ships its own consumer rules; nothing extra needed.
+# Bazaar builds contain the myket_iap plugin code but not Myket's client library.
+-dontwarn ir.mservices.**
+-dontwarn ir.myket.**
+-dontwarn com.github.myketstore.**
 # flutter_local_notifications uses Gson with generics; its consumer rules cover it.
 
 # flutter_local_notifications (Gson reflection on generic types) — needed with R8.

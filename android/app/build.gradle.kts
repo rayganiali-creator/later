@@ -75,6 +75,12 @@ android {
         }
     }
 
+    // Cafe Bazaar billing code (Poolakey) is only part of the Bazaar builds.
+    sourceSets {
+        getByName("store").java.srcDir("src/bazaar/kotlin")
+        getByName("qa").java.srcDir("src/bazaar/kotlin")
+    }
+
     signingConfigs {
         create("release") {
             if (hasReleaseSigning) {
@@ -123,8 +129,16 @@ dependencies {
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.5")
     implementation("androidx.core:core-ktx:1.16.0")
     implementation("androidx.fragment:fragment-ktx:1.8.6")
-    // Cafe Bazaar in-app billing.
-    implementation("com.github.cafebazaar.Poolakey:poolakey:2.2.0")
+    // Cafe Bazaar in-app billing (not in the Myket build: both billing
+    // libraries contain the same AIDL class, so each build takes only its own).
+    "storeImplementation"("com.github.cafebazaar.Poolakey:poolakey:2.2.0")
+    "qaImplementation"("com.github.cafebazaar.Poolakey:poolakey:2.2.0")
+}
+
+// The myket_iap plugin pulls in Myket's billing client for every build; only
+// the Myket build uses it.
+configurations.matching { it.name.startsWith("store") || it.name.startsWith("qa") }.configureEach {
+    exclude(group = "com.github.myketstore", module = "myket-billing-client")
 }
 
 // Guard rail: a store release must never be signed with the debug key.
