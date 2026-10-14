@@ -10,8 +10,7 @@ name: Release (signed store build)
 #   LATER_KEY_ALIAS         (later)
 #   LATER_KEY_PASSWORD
 #   LATER_PRO_SIGNING_KEY   long random string, keep it the same for every release
-#   MYKET_RSA_KEY           public key from the Myket developer panel (only for the Myket build;
-#                           Myket shows it after the app is created). Optional for the first upload.
+#   (Myket's RSA key is a public key and lives in lib/services/myket_gateway.dart.)
 #   BAZAAR_RSA_KEY          public key from the Bazaar developer panel. Bazaar only shows it
 #                           after the first upload, so leave it out for the first run.
 
@@ -52,14 +51,10 @@ jobs:
           D: ${{ secrets.LATER_KEY_PASSWORD }}
           E: ${{ secrets.LATER_PRO_SIGNING_KEY }}
           F: ${{ secrets.BAZAAR_RSA_KEY }}
-          G: ${{ secrets.MYKET_RSA_KEY }}
         run: |
           for v in A B C D E; do
             if [ -z "${!v}" ]; then echo "::error::A required secret is missing (see the comment at the top of release.yml)"; exit 1; fi
           done
-          if [ -z "$G" ]; then
-            echo "::warning::MYKET_RSA_KEY is empty: the Myket APK is only good for the FIRST upload to Myket (purchases will not work in it). Add the key, then run again."
-          fi
           if [ -z "$F" ]; then
             echo "::warning::BAZAAR_RSA_KEY is empty: this build is only good for the FIRST upload to Bazaar (purchases will not work in it). Add the key, then run again."
           fi
@@ -84,7 +79,6 @@ jobs:
           LATER_KEY_PASSWORD: ${{ secrets.LATER_KEY_PASSWORD }}
           PRO: ${{ secrets.LATER_PRO_SIGNING_KEY }}
           RSA: ${{ secrets.BAZAAR_RSA_KEY }}
-          MYKET: ${{ secrets.MYKET_RSA_KEY }}
         run: |
           flutter build appbundle --release --flavor store \
             --dart-define=LATER_PRO_SIGNING_KEY="$PRO" --dart-define=BAZAAR_RSA_KEY="$RSA"
@@ -92,7 +86,7 @@ jobs:
             --dart-define=LATER_PRO_SIGNING_KEY="$PRO" --dart-define=BAZAAR_RSA_KEY="$RSA"
           # The same app for Myket (billing through Myket)
           flutter build apk --release --flavor myket \
-            --dart-define=LATER_PRO_SIGNING_KEY="$PRO" --dart-define=STORE=myket --dart-define=MYKET_RSA_KEY="$MYKET"
+            --dart-define=LATER_PRO_SIGNING_KEY="$PRO" --dart-define=STORE=myket
 
       - name: Verify the APK is signed with the upload key and has no QA tools / INTERNET
         run: |

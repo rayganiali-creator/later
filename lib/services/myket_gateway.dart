@@ -61,9 +61,15 @@ class RealMyketApi implements MyketApi {
 /// Myket billing. Same behaviour as the Bazaar gateway: purchases are kept at
 /// the market (not consumed while they still count) so Pro can be restored.
 class MyketPurchaseGateway implements PurchaseGateway {
+  /// Myket's RSA *public* key for this app (from the Myket developer panel). It
+  /// only verifies purchase signatures, so it is not a secret and may live in
+  /// the code. A build can still override it with --dart-define=MYKET_RSA_KEY.
+  static const String _publicKey =
+      'MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCQ5HdjQbddDlt7rdA3+dgpYSxh/PiKv+dIPNteV9lC2N9k21lmBQtvTtTkYrw6VzDq3JPIVSU9kHdgxn6XOAqMzTJ/0GFRzie+D3+SblSLKR/vPjVw/vUFcRNXLRHP2+ZE8M3ygsp6YIoKj5D4quD6GFicS3A0j0yk15B8TOSZfwIDAQAB';
+
   MyketPurchaseGateway({MyketApi? api, String? rsaKey})
       : _api = api ?? RealMyketApi(),
-        _rsaKey = rsaKey ?? const String.fromEnvironment('MYKET_RSA_KEY');
+        _rsaKey = rsaKey ?? const String.fromEnvironment('MYKET_RSA_KEY', defaultValue: _publicKey);
 
   final MyketApi _api;
   final String _rsaKey;
