@@ -19,7 +19,7 @@ The store build of Later does not request the internet permission and its core f
 Notifications: to show reminders; asked at the end of the first-run introduction, and asked again with an explanation when you turn on your first reminder if you declined.
 Exact alarms: to show reminders on time; optional.
 Device restart: so reminders are re-scheduled after the phone reboots.
-Cafe Bazaar communication: only to buy a Pro subscription.
+Store communication (Cafe Bazaar or Myket): only to buy a Pro subscription.
 The app does not ask for permission to read your contacts. When you tap "Pick from contacts" the system's own picker opens and only the single contact you choose (its name and a reference to it) is handed to the app; the number and other details are not copied or stored. The app does not ask for location, microphone, camera or shared storage. Saving and restoring backups uses the system file picker.
 
 # Sharing from other apps
@@ -28,7 +28,7 @@ When you choose "Share → Later" in another app (for example a browser), only t
 
 # Purchases
 
-Payments are handled by the app store (Cafe Bazaar); Later has no access to your payment details. Subscription status (plan type, start and end dates) is stored on the device in encrypted form.
+Payments are handled by the app store (Cafe Bazaar or Myket); Later has no access to your payment details. Subscription status (plan type, start and end dates) is stored on the device in encrypted form.
 
 # Backups
 
