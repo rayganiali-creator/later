@@ -39,19 +39,34 @@ void main() {
     final out = Directory('store/assets/screenshots')..createSync(recursive: true);
     final key = GlobalKey();
     Future<void> shot(String name) async {
+      FocusManager.instance.primaryFocus?.unfocus();
       await settle(tester, rounds: 8);
       final boundary = key.currentContext!.findRenderObject()! as RenderRepaintBoundary;
       final bytes = await tester.runAsync(() async {
-        final img = await boundary.toImage(pixelRatio: 2.6);
+        final img = await boundary.toImage(pixelRatio: 3.0);
         final data = await img.toByteData(format: ui.ImageByteFormat.png);
         return data!.buffer.asUint8List();
       });
       File('${out.path}/$name.png').writeAsBytesSync(bytes!);
     }
 
+    // On a short screen the home list is lazy: scroll until the tile is built.
+    Future<void> reveal(Finder f) async {
+      final scroll = find.byType(Scrollable).first;
+      for (final dy in [-300.0, 300.0]) {
+        for (var i = 0; i < 40 && f.evaluate().isEmpty; i++) {
+          await tester.drag(scroll, Offset(0, dy));
+          await tester.pump();
+        }
+      }
+      await tester.ensureVisible(f.first);
+    }
+
     Future<void> show(TestEnv env) async {
-      tester.view.physicalSize = const Size(412, 915) * 2;
-      tester.view.devicePixelRatio = 2;
+      // No keyboard focus ring (the black outline around the + button).
+      FocusManager.instance.highlightStrategy = FocusHighlightStrategy.alwaysTouch;
+      tester.view.physicalSize = const Size(360, 640) * 3;
+      tester.view.devicePixelRatio = 3;
       await tester.pumpWidget(RepaintBoundary(key: key, child: LaterApp(controller: env.controller)));
       await settle(tester);
     }
@@ -107,21 +122,27 @@ void main() {
     await shot('03_roulette');
     tester.state<NavigatorState>(find.byType(Navigator).first).pop();
     await settle(tester);
-    await tester.ensureVisible(find.text(fa.shelfWishTitle).first);
+    await reveal(find.text(fa.shelfWishTitle));
     await settle(tester);
     await tester.tap(find.text(fa.shelfWishTitle).first);
     await settle(tester);
     await shot('04_wishlist');
     tester.state<NavigatorState>(find.byType(Navigator).first).pop();
     await settle(tester);
-    await tester.ensureVisible(find.text(fa.shelfFutureTitle).first);
+    await reveal(find.text(fa.shelfFutureTitle));
     await settle(tester);
     await tester.tap(find.text(fa.shelfFutureTitle).first);
     await settle(tester);
     await shot('05_future');
     tester.state<NavigatorState>(find.byType(Navigator).first).pop();
     await settle(tester);
+    for (var i = 0; i < 12; i++) {
+      await tester.drag(find.byType(Scrollable).first, const Offset(0, 400));
+      await tester.pump();
+    }
+    await settle(tester);
     await tester.tap(find.text(fa.dashInbox).first);
+    await settle(tester);
     await shot('06_inbox');
     tester.state<NavigatorState>(find.byType(Navigator).first).pop();
     await settle(tester);
