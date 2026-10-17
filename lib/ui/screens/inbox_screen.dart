@@ -61,6 +61,7 @@ String suggestWhat(AppL10n l, ItemType t) => switch (t) {
       ItemType.podcast => l.suggestWhatPodcast,
       ItemType.course => l.suggestWhatCourse,
       ItemType.game => l.suggestWhatGame,
+      ItemType.note => l.suggestWhatNote,
       _ => '',
     };
 

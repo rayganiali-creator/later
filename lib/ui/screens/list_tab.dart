@@ -144,6 +144,7 @@ class _ListTabState extends State<ListTab> {
                 ItemType.app,
                 ItemType.wishlist,
                 ItemType.idea,
+                ItemType.note,
               ])
                 chip(TypeInfo.shelfTitle(l, t), ItemFilter(FilterKind.type, t.name)),
               for (final c in app.categories)

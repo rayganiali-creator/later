@@ -49,3 +49,8 @@ Purchases made by older versions (consumed right away) cannot be restored; they 
 3. Without Pro a repeating item still goes to the history when done.
 4. Press Back on the home screen: a rating dialog appears. "Rate in the store" opens Bazaar's comment page; when you return the app asks whether it was sent: "Yes" stops the prompt for good, "Not yet" keeps asking on every exit. "I already rated" stops it too.
 5. Settings > Colour: three new colours (green, violet, blue), light and dark mode.
+
+## یادداشت‌ها (۱.۴.۰)
+- از خانه ← قفسه‌ی «یادداشت‌ها» ← افزودن؛ متن در «توضیح» ذخیره می‌شود.
+- برای یادداشت تاریخ/ساعت و «یادآوری» بگذار؛ در زمان مقرر نوتیف با کل متن (BigText) می‌آید.
+- نوتیفی که در نوار اعلان مانده، با باز و بسته‌کردن برنامه پاک نمی‌شود.

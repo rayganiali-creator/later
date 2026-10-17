@@ -35,6 +35,7 @@ class _QuickCaptureState extends State<_QuickCapture> {
     ItemType.course,
     ItemType.wishlist,
     ItemType.idea,
+    ItemType.note,
   ];
 
   @override

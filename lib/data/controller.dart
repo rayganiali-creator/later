@@ -72,8 +72,9 @@ class DashboardCounts {
     this.podcasts = 0,
     this.courses = 0,
     this.games = 0,
+    this.notes = 0,
   });
-  final int today, inbox, read, watch, wishlist, ideas, future, people, apps, podcasts, courses, games;
+  final int today, inbox, read, watch, wishlist, ideas, future, people, apps, podcasts, courses, games, notes;
 }
 
 enum TriageChoice { today, thisWeek, noDate, read, watch, wishlist, idea, done, delete }
@@ -344,6 +345,7 @@ class LaterController extends ChangeNotifier {
   bool _staleFor(LaterItem i, DateTime n) {
     switch (i.type) {
       case ItemType.idea:
+      case ItemType.note:
       case ItemType.capsule:
       case ItemType.future:
         return false;
@@ -1176,7 +1178,7 @@ class LaterController extends ChangeNotifier {
 
   DashboardCounts dashboardCounts() {
     var today = 0, inbox = 0, read = 0, watch = 0, wish = 0, ideas = 0, unopened = 0;
-    var apps = 0, pods = 0, courses = 0, games = 0;
+    var apps = 0, pods = 0, courses = 0, games = 0, notes = 0;
     for (final i in activeItems) {
       if (i.inbox) inbox++;
       switch (i.type) {
@@ -1196,6 +1198,8 @@ class LaterController extends ChangeNotifier {
           courses++;
         case ItemType.game:
           games++;
+        case ItemType.note:
+          notes++;
         case ItemType.capsule:
         case ItemType.future:
           unopened++; // unlocked but not opened yet
@@ -1217,6 +1221,7 @@ class LaterController extends ChangeNotifier {
       podcasts: pods,
       courses: courses,
       games: games,
+      notes: notes,
     );
   }
 

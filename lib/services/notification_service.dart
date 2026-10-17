@@ -192,7 +192,7 @@ class FlutterNotificationGateway implements NotificationGateway {
   Future<Set<int>> pendingIds() async =>
       (await _plugin.pendingNotificationRequests()).map((e) => e.id).toSet();
 
-  NotificationDetails _details(NotificationTexts t, {required bool privateMode, bool noActions = false}) =>
+  NotificationDetails _details(NotificationTexts t, {required bool privateMode, bool noActions = false, String? body}) =>
       NotificationDetails(
         android: AndroidNotificationDetails(
           kReminderChannelId,
@@ -201,6 +201,7 @@ class FlutterNotificationGateway implements NotificationGateway {
           importance: Importance.high,
           priority: fln.Priority.high,
           category: AndroidNotificationCategory.reminder,
+          styleInformation: body == null ? null : BigTextStyleInformation(body),
           visibility: privateMode
               ? NotificationVisibility.private
               : NotificationVisibility.public,
@@ -255,7 +256,7 @@ class FlutterNotificationGateway implements NotificationGateway {
       title: privateMode && !r.sealed ? texts.privateTitle : r.title,
       body: privateMode && !r.sealed ? texts.privateBody : r.body,
       scheduledDate: when,
-      notificationDetails: _details(texts, privateMode: privateMode && !r.sealed, noActions: r.sealed),
+      notificationDetails: _details(texts, privateMode: privateMode && !r.sealed, noActions: r.sealed, body: privateMode && !r.sealed ? texts.privateBody : r.body),
       // Without the "exact alarms" permission, an alarm-clock alarm is the one
       // mode that still fires on time in Doze (it shows a small alarm icon).
       androidScheduleMode: exact
@@ -368,8 +369,9 @@ class ReminderSyncResult {
 }
 
 /// Keeps the OS scheduler in sync with the items: computes the plan, then
-/// replaces *all* pending notifications (cancel-all + schedule), which makes
-/// the operation idempotent and duplicate-free by construction.
+/// reschedules every planned id (same id replaces the alarm) and cancels only
+/// pending ids no longer planned: idempotent, duplicate-free, and it leaves
+/// notifications already shown in the shade alone.
 class ReminderService {
   ReminderService(this._gateway, {this._planner = const ReminderPlanner()});
 
@@ -392,8 +394,15 @@ class ReminderService {
     List<PlannedReminder> extra = const [],
   }) async {
     try {
-      await _gateway.cancelAll();
-      if (!remindersEnabled) return ReminderSyncResult.empty;
+      // Never cancelAll(): that also dismisses notifications already shown in
+      // the shade (every app resume would wipe them). Only stale alarms go.
+      final pending = await _gateway.pendingIds();
+      if (!remindersEnabled) {
+        for (final id in pending) {
+          await _gateway.cancel(id);
+        }
+        return ReminderSyncResult.empty;
+      }
       final plan = _planner.plan(
         items,
         now,
@@ -406,6 +415,10 @@ class ReminderService {
         unlockBodyOf: unlockBodyOf,
       );
       plan.addAll(extra);
+      final keep = plan.map((r) => r.notificationId).toSet();
+      for (final id in pending) {
+        if (!keep.contains(id)) await _gateway.cancel(id);
+      }
       if (plan.isEmpty) return ReminderSyncResult.empty;
       final perm = await _gateway.permission();
       final exact = await _gateway.exactAlarmsAllowed();

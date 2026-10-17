@@ -25,7 +25,7 @@ enum EventType {
 
 /// What kind of thing an item is. One table, one model, many "shelves".
 /// Persisted as index: append only.
-enum ItemType { task, read, watch, wishlist, idea, person, capsule, future, app, podcast, course, game }
+enum ItemType { task, read, watch, wishlist, idea, person, capsule, future, app, podcast, course, game, note }
 
 /// Per-type progress ("stage"). Persisted as an int whose meaning depends on
 /// the [ItemType]; [ItemStages] is the single place that knows the mapping
@@ -50,6 +50,8 @@ class ItemStages {
   // courses (learn)
   static const learnLater = 0, learning = 1, learnPaused = 2, learned = 3, learnAbandoned = 4;
   // games
+  // notes
+  static const noteActive = 0, noteArchived = 1;
   static const wantPlay = 0, playing = 1, playPaused = 2, gameFinished = 3, gameDropped = 4;
 
   /// All stages of [t] in display order.
@@ -63,6 +65,7 @@ class ItemStages {
         ItemType.podcast => const [notListened, listening, listenPaused, listened],
         ItemType.course => const [learnLater, learning, learnPaused, learned, learnAbandoned],
         ItemType.game => const [wantPlay, playing, playPaused, gameFinished, gameDropped],
+        ItemType.note => const [noteActive, noteArchived],
         _ => const [0],
       };
 
@@ -87,6 +90,8 @@ class ItemStages {
         return stage == learned ? ItemStatus.done : (stage == learnAbandoned ? ItemStatus.dropped : ItemStatus.active);
       case ItemType.game:
         return stage == gameFinished ? ItemStatus.done : (stage == gameDropped ? ItemStatus.dropped : ItemStatus.active);
+      case ItemType.note:
+        return stage == noteArchived ? ItemStatus.dropped : ItemStatus.active;
       default:
         return ItemStatus.active;
     }
@@ -102,6 +107,7 @@ class ItemStages {
         ItemType.podcast => listened,
         ItemType.course => learned,
         ItemType.game => gameFinished,
+        ItemType.note => noteArchived,
         _ => 0,
       };
 
@@ -113,6 +119,7 @@ class ItemStages {
         ItemType.app => appNotWanted,
         ItemType.course => learnAbandoned,
         ItemType.game => gameDropped,
+        ItemType.note => noteArchived,
         _ => 0,
       };
 

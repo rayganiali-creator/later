@@ -15,6 +15,7 @@ int typeColorValue(ItemType t) => switch (t) {
       ItemType.podcast => 0xFFE0663C,
       ItemType.course => 0xFF3F6FD0,
       ItemType.game => 0xFF9B4FCF,
+      ItemType.note => 0xFFB7791F,
     };
 
 /// Accent (ARGB) of each widget colour, for the colour picker swatches.

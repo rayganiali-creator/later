@@ -21,6 +21,7 @@ class TypeInfo {
         ItemType.podcast => Icons.headphones_rounded,
         ItemType.course => Icons.school_outlined,
         ItemType.game => Icons.sports_esports_outlined,
+        ItemType.note => Icons.sticky_note_2_outlined,
       };
 
   /// Each shelf has its own accent so it is recognisable at a glance.
@@ -32,6 +33,7 @@ class TypeInfo {
         ItemType.podcast => l.shelfPodcastSub,
         ItemType.course => l.shelfCourseSub,
         ItemType.game => l.shelfGameSub,
+        ItemType.note => l.shelfNoteSub,
         _ => '',
       };
 
@@ -52,6 +54,7 @@ class TypeInfo {
         ItemType.podcast => l.shelfPodcastTitle,
         ItemType.course => l.shelfCourseTitle,
         ItemType.game => l.shelfGameTitle,
+        ItemType.note => l.shelfNoteTitle,
         ItemType.task => l.navList,
       };
 
@@ -76,6 +79,8 @@ class TypeInfo {
         return [l.stageLearnLater, l.stageLearning, l.stagePaused, l.stageLearned, l.stageLearnAbandoned][s.clamp(0, 4)];
       case ItemType.game:
         return [l.stageWantPlay, l.stagePlaying, l.stagePaused, l.stageGameFinished, l.stageGameDropped][s.clamp(0, 4)];
+      case ItemType.note:
+        return s == ItemStages.noteArchived ? l.stageIdeaArchived : '';
       default:
         return '';
     }
@@ -89,6 +94,7 @@ class TypeInfo {
         ItemType.app => l.markAsInstalled,
         ItemType.podcast => l.markAsListened,
         ItemType.course || ItemType.game => l.markAsLearned,
+        ItemType.note => l.stageIdeaArchived,
         _ => l.itemDone,
       };
 

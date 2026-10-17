@@ -1402,6 +1402,7 @@ class AppL10nFa extends AppL10n {
       'podcast': 'پادکست',
       'course': 'دوره',
       'game': 'بازی',
+      'note': 'یادداشت',
       'other': 'مورد',
     });
     return '$_temp0';
@@ -2260,6 +2261,22 @@ class AppL10nFa extends AppL10n {
 
   @override
   String get shelfCourseSub => 'دوره‌ها و مهارت‌هایی که بعداً یاد می‌گیرم';
+
+  @override
+  String get shelfNoteTitle => 'یادداشت‌ها';
+
+  @override
+  String get shelfNoteSub => 'یادداشت‌هایی که می‌تونن یادآوری هم داشته باشن';
+
+  @override
+  String get shelfEmptyNoteTitle => 'هنوز یادداشتی نداری';
+
+  @override
+  String get shelfEmptyNoteBody =>
+      'هر چی خواستی بنویس؛ اگه لازم بود می‌تونی براش یادآوری هم بذاری.';
+
+  @override
+  String get suggestWhatNote => 'یه یادداشت';
 
   @override
   String get shelfGameSub => 'بازی‌هایی که بعداً بازی می‌کنم';

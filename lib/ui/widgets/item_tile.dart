@@ -99,6 +99,13 @@ class ItemTile extends StatelessWidget {
                   decoration: item.status == ItemStatus.active ? null : TextDecoration.lineThrough,
                   color: item.status == ItemStatus.active ? s.onSurface : s.onSurfaceVariant,
                 )),
+            if (item.type == ItemType.note && item.description.isNotEmpty) ...[
+              const SizedBox(height: 4),
+              Text(item.description,
+                  maxLines: 3,
+                  overflow: TextOverflow.ellipsis,
+                  style: context.text.bodySmall?.copyWith(color: s.onSurfaceVariant)),
+            ],
             if (meta.isNotEmpty) ...[
               const SizedBox(height: 6),
               Wrap(spacing: 6, runSpacing: 4, children: meta),

@@ -244,6 +244,7 @@ class HomeTab extends StatelessWidget {
               shelf(ItemType.app, d.apps, const ShelfScreen(type: ItemType.app)),
               shelf(ItemType.wishlist, d.wishlist, const ShelfScreen(type: ItemType.wishlist)),
               shelf(ItemType.idea, d.ideas, const ShelfScreen(type: ItemType.idea)),
+              shelf(ItemType.note, d.notes, const ShelfScreen(type: ItemType.note)),
               shelf(ItemType.person, d.people, const PeopleScreen()),
               shelf(ItemType.capsule, d.future, const FutureScreen()),
             ],

@@ -2614,7 +2614,7 @@ abstract class AppL10n {
   /// No description provided for @typeName.
   ///
   /// In fa, this message translates to:
-  /// **'{id, select, task{کار} read{مقاله} watch{ویدیو} wishlist{خرید} idea{ایده} person{آدم} capsule{کپسول} future{پیام} app{نرم‌افزار} podcast{پادکست} course{دوره} game{بازی} other{مورد}}'**
+  /// **'{id, select, task{کار} read{مقاله} watch{ویدیو} wishlist{خرید} idea{ایده} person{آدم} capsule{کپسول} future{پیام} app{نرم‌افزار} podcast{پادکست} course{دوره} game{بازی} note{یادداشت} other{مورد}}'**
   String typeName(String id);
 
   /// No description provided for @daysAgo.
@@ -4212,6 +4212,36 @@ abstract class AppL10n {
   /// In fa, this message translates to:
   /// **'دوره‌ها و مهارت‌هایی که بعداً یاد می‌گیرم'**
   String get shelfCourseSub;
+
+  /// No description provided for @shelfNoteTitle.
+  ///
+  /// In fa, this message translates to:
+  /// **'یادداشت‌ها'**
+  String get shelfNoteTitle;
+
+  /// No description provided for @shelfNoteSub.
+  ///
+  /// In fa, this message translates to:
+  /// **'یادداشت‌هایی که می‌تونن یادآوری هم داشته باشن'**
+  String get shelfNoteSub;
+
+  /// No description provided for @shelfEmptyNoteTitle.
+  ///
+  /// In fa, this message translates to:
+  /// **'هنوز یادداشتی نداری'**
+  String get shelfEmptyNoteTitle;
+
+  /// No description provided for @shelfEmptyNoteBody.
+  ///
+  /// In fa, this message translates to:
+  /// **'هر چی خواستی بنویس؛ اگه لازم بود می‌تونی براش یادآوری هم بذاری.'**
+  String get shelfEmptyNoteBody;
+
+  /// No description provided for @suggestWhatNote.
+  ///
+  /// In fa, this message translates to:
+  /// **'یه یادداشت'**
+  String get suggestWhatNote;
 
   /// No description provided for @shelfGameSub.
   ///

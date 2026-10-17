@@ -1402,6 +1402,7 @@ class AppL10nEn extends AppL10n {
       'podcast': 'Podcast',
       'course': 'Course',
       'game': 'Game',
+      'note': 'Note',
       'other': 'Item',
     });
     return '$_temp0';
@@ -2265,6 +2266,22 @@ class AppL10nEn extends AppL10n {
 
   @override
   String get shelfCourseSub => 'Courses and skills I will learn later';
+
+  @override
+  String get shelfNoteTitle => 'Notes';
+
+  @override
+  String get shelfNoteSub => 'Notes that can remind you too';
+
+  @override
+  String get shelfEmptyNoteTitle => 'No notes yet';
+
+  @override
+  String get shelfEmptyNoteBody =>
+      'Write anything down; add a reminder if you want one.';
+
+  @override
+  String get suggestWhatNote => 'a note';
 
   @override
   String get shelfGameSub => 'Games I will play later';

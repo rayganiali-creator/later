@@ -57,6 +57,7 @@ class _ShelfScreenState extends State<ShelfScreen> {
         ItemType.podcast => l.shelfEmptyPodcastTitle,
         ItemType.course => l.shelfEmptyCourseTitle,
         ItemType.game => l.shelfEmptyGameTitle,
+        ItemType.note => l.shelfEmptyNoteTitle,
         _ => l.shelfEmptyIdeaTitle,
       };
 
@@ -68,6 +69,7 @@ class _ShelfScreenState extends State<ShelfScreen> {
         ItemType.podcast => l.shelfEmptyPodcastBody,
         ItemType.course => l.shelfEmptyCourseBody,
         ItemType.game => l.shelfEmptyGameBody,
+        ItemType.note => l.shelfEmptyNoteBody,
         _ => l.shelfEmptyIdeaBody,
       };
 

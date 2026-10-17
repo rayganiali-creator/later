@@ -513,6 +513,7 @@ class _AddEditSheetState extends State<AddEditSheet> {
                     ItemType.watch,
                     ItemType.wishlist,
                     ItemType.idea,
+                    ItemType.note,
                     ItemType.app,
                     ItemType.podcast,
                     ItemType.course,

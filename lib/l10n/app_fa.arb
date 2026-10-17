@@ -714,7 +714,7 @@
   "repeatYearly": "هر سال",
   "defaultCapsuleTitle": "کپسول بی‌نام",
   "defaultMessageTitle": "پیام بی‌نام",
-  "typeName": "{id, select, task{کار} read{مقاله} watch{ویدیو} wishlist{خرید} idea{ایده} person{آدم} capsule{کپسول} future{پیام} app{نرم‌افزار} podcast{پادکست} course{دوره} game{بازی} other{مورد}}",
+  "typeName": "{id, select, task{کار} read{مقاله} watch{ویدیو} wishlist{خرید} idea{ایده} person{آدم} capsule{کپسول} future{پیام} app{نرم‌افزار} podcast{پادکست} course{دوره} game{بازی} note{یادداشت} other{مورد}}",
   "@typeName": {
     "placeholders": {
       "id": {
@@ -1124,6 +1124,11 @@
   "shelfAppSub": "نرم‌افزارهایی که بعداً نصب می‌کنم",
   "shelfPodcastSub": "پادکست‌هایی که بعداً گوش می‌کنم",
   "shelfCourseSub": "دوره‌ها و مهارت‌هایی که بعداً یاد می‌گیرم",
+  "shelfNoteTitle": "یادداشت‌ها",
+  "shelfNoteSub": "یادداشت‌هایی که می‌تونن یادآوری هم داشته باشن",
+  "shelfEmptyNoteTitle": "هنوز یادداشتی نداری",
+  "shelfEmptyNoteBody": "هر چی خواستی بنویس؛ اگه لازم بود می‌تونی براش یادآوری هم بذاری.",
+  "suggestWhatNote": "یه یادداشت",
   "shelfGameSub": "بازی‌هایی که بعداً بازی می‌کنم",
   "shelfEmptyAppTitle": "هنوز نرم‌افزاری نذاشتی",
   "shelfEmptyAppBody": "لینک Google Play یا بازار رو بفرست به بعداً، تا وقتی نصبش کنی اینجا می‌مونه.",

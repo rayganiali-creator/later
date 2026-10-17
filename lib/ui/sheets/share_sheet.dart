@@ -32,6 +32,7 @@ Future<void> showShareDestinationSheet(BuildContext context, LaterItem item) {
     (ItemType.app, l.shelfAppTitle),
     (ItemType.wishlist, l.triageWish),
     (ItemType.idea, l.triageIdea),
+    (ItemType.note, l.shelfNoteTitle),
   ];
 
   return showAppSheet<void>(
