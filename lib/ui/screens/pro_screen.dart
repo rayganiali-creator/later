@@ -53,7 +53,7 @@ class _ProScreenState extends State<ProScreen> {
         case PurchaseStatus.cancelled:
           showAppSnack(context, l.proPurchaseCancelled);
         case PurchaseStatus.unavailable:
-          showAppSnack(context, l.proPurchaseUnavailable);
+          showAppSnack(context, l.proPurchaseUnavailable(AppConfig.storeLabel(fa: Localizations.localeOf(context).languageCode == 'fa')));
         case PurchaseStatus.alreadyOwned:
           showAppSnack(context, l.proAlreadyOwned);
         case PurchaseStatus.failed:

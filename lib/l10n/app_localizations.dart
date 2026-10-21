@@ -2278,8 +2278,8 @@ abstract class AppL10n {
   /// No description provided for @proPurchaseUnavailable.
   ///
   /// In fa, this message translates to:
-  /// **'سرویس پرداخت در دسترس نیست. برنامه‌ی کافه‌بازار را بررسی کن.'**
-  String get proPurchaseUnavailable;
+  /// **'سرویس پرداخت در دسترس نیست. برنامه‌ی {store} را بررسی کن.'**
+  String proPurchaseUnavailable(String store);
 
   /// No description provided for @proPurchaseFailed.
   ///
@@ -5296,14 +5296,14 @@ abstract class AppL10n {
   /// No description provided for @reviewBody.
   ///
   /// In fa, this message translates to:
-  /// **'اگه چند ثانیه وقت داری، نظر و ستاره‌ات رو توی بازار بذار؛ خیلی بهمون کمک می‌کنه.'**
-  String get reviewBody;
+  /// **'اگه چند ثانیه وقت داری، نظر و ستاره‌ات رو توی {store} بذار؛ خیلی بهمون کمک می‌کنه.'**
+  String reviewBody(String store);
 
   /// No description provided for @reviewRate.
   ///
   /// In fa, this message translates to:
-  /// **'ثبت نظر در بازار'**
-  String get reviewRate;
+  /// **'ثبت نظر در {store}'**
+  String reviewRate(String store);
 
   /// No description provided for @reviewAlready.
   ///
@@ -5320,8 +5320,8 @@ abstract class AppL10n {
   /// No description provided for @reviewNoStore.
   ///
   /// In fa, this message translates to:
-  /// **'بازار روی این گوشی نصب نیست.'**
-  String get reviewNoStore;
+  /// **'{store} روی این گوشی نصب نیست.'**
+  String reviewNoStore(String store);
 
   /// No description provided for @reviewDoneTitle.
   ///

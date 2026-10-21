@@ -57,6 +57,10 @@ class AppConfig {
   /// Which market this build is for: 'bazaar' (default) or 'myket'.
   static const String store = String.fromEnvironment('STORE', defaultValue: 'bazaar');
 
+  /// Market name for user-facing text (Persian when [fa], else English).
+  static String storeLabel({required bool fa}) =>
+      store == 'myket' ? (fa ? 'مایکت' : 'Myket') : (fa ? 'کافه‌بازار' : 'Cafe Bazaar');
+
   static const String flavorName = String.fromEnvironment(
     'FLUTTER_APP_FLAVOR',
     defaultValue: '',

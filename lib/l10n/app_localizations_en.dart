@@ -1195,8 +1195,9 @@ class AppL10nEn extends AppL10n {
   String get proPurchaseCancelled => 'Purchase cancelled.';
 
   @override
-  String get proPurchaseUnavailable =>
-      'Billing is unavailable. Check the Cafe Bazaar app.';
+  String proPurchaseUnavailable(String store) {
+    return 'Billing is unavailable. Check the $store app.';
+  }
 
   @override
   String get proPurchaseFailed => 'The purchase failed. Please try again.';
@@ -2854,11 +2855,14 @@ class AppL10nEn extends AppL10n {
   String get reviewTitle => 'Enjoying Later?';
 
   @override
-  String get reviewBody =>
-      'If you have a few seconds, leave a rating and a comment in the store. It helps a lot.';
+  String reviewBody(String store) {
+    return 'If you have a few seconds, leave a rating and a comment on $store. It helps a lot.';
+  }
 
   @override
-  String get reviewRate => 'Rate in the store';
+  String reviewRate(String store) {
+    return 'Rate on $store';
+  }
 
   @override
   String get reviewAlready => 'I already rated';
@@ -2867,7 +2871,9 @@ class AppL10nEn extends AppL10n {
   String get reviewExit => 'Exit';
 
   @override
-  String get reviewNoStore => 'The store app is not installed on this phone.';
+  String reviewNoStore(String store) {
+    return '$store is not installed on this phone.';
+  }
 
   @override
   String get reviewDoneTitle => 'Did you send your rating?';

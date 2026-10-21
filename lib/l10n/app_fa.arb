@@ -595,7 +595,14 @@
   "proNothingToRestore": "خرید بازیابی‌نشده‌ای پیدا نشد.",
   "proPurchaseSuccess": "Pro فعال شد",
   "proPurchaseCancelled": "خرید لغو شد.",
-  "proPurchaseUnavailable": "سرویس پرداخت در دسترس نیست. برنامه‌ی کافه‌بازار را بررسی کن.",
+  "proPurchaseUnavailable": "سرویس پرداخت در دسترس نیست. برنامه‌ی {store} را بررسی کن.",
+  "@proPurchaseUnavailable": {
+    "placeholders": {
+      "store": {
+        "type": "String"
+      }
+    }
+  },
   "proPurchaseFailed": "خرید انجام نشد. دوباره تلاش کن.",
   "proTamper": "اطلاعات اشتراک درست نبود و پاک شد. اگه خرید کرده بودی «بازیابی خریدها» رو بزن.",
   "proF1": "قرعه‌ی هوشمند و صندوق ورودی هوشمند",
@@ -1418,11 +1425,32 @@
   "widgetOverdue": "عقب‌افتاده",
   "proAlreadyOwned": "این پلن را قبلاً خریده‌ای و هنوز فعاله. یه پلن دیگه بخر یا بعد از تموم‌شدنش دوباره بخر.",
   "reviewTitle": "از «بعداً» راضی بودی؟",
-  "reviewBody": "اگه چند ثانیه وقت داری، نظر و ستاره‌ات رو توی بازار بذار؛ خیلی بهمون کمک می‌کنه.",
-  "reviewRate": "ثبت نظر در بازار",
+  "reviewBody": "اگه چند ثانیه وقت داری، نظر و ستاره‌ات رو توی {store} بذار؛ خیلی بهمون کمک می‌کنه.",
+  "@reviewBody": {
+    "placeholders": {
+      "store": {
+        "type": "String"
+      }
+    }
+  },
+  "reviewRate": "ثبت نظر در {store}",
+  "@reviewRate": {
+    "placeholders": {
+      "store": {
+        "type": "String"
+      }
+    }
+  },
   "reviewAlready": "قبلاً نظر داده‌ام",
   "reviewExit": "خروج",
-  "reviewNoStore": "بازار روی این گوشی نصب نیست.",
+  "reviewNoStore": "{store} روی این گوشی نصب نیست.",
+  "@reviewNoStore": {
+    "placeholders": {
+      "store": {
+        "type": "String"
+      }
+    }
+  },
   "reviewDoneTitle": "نظرت ثبت شد؟",
   "reviewDoneBody": "اگه ثبتش کردی دیگه این پیام رو نمی‌بینی؛ وگرنه موقع خروج دوباره می‌پرسیم.",
   "reviewDoneYes": "آره، ثبت شد",

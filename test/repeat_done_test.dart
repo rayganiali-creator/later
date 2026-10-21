@@ -120,7 +120,7 @@ void main() {
       await pumpApp(tester, env);
       await tester.binding.handlePopRoute();
       await settle(tester);
-      await tester.tap(find.text(fa.reviewRate));
+      await tester.tap(find.text(fa.reviewRate('کافه‌بازار')));
       await settle(tester);
       expect(env.platform.reviewOpens, 1);
       for (final st in [AppLifecycleState.inactive, AppLifecycleState.hidden, AppLifecycleState.paused, AppLifecycleState.hidden, AppLifecycleState.inactive, AppLifecycleState.resumed]) {
@@ -149,7 +149,7 @@ void main() {
       await pumpApp(tester, env);
       await tester.binding.handlePopRoute();
       await settle(tester);
-      await tester.tap(find.text(fa.reviewRate));
+      await tester.tap(find.text(fa.reviewRate('کافه‌بازار')));
       await settle(tester);
       for (final st in [AppLifecycleState.inactive, AppLifecycleState.hidden, AppLifecycleState.paused, AppLifecycleState.hidden, AppLifecycleState.inactive, AppLifecycleState.resumed]) {
         tester.binding.handleAppLifecycleStateChanged(st);

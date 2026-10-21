@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show SystemNavigator;
 
+import '../../core/config/app_config.dart';
 import '../../domain/models.dart';
 import '../../services/platform_bridge.dart';
 import '../app_scope.dart';
@@ -103,12 +104,12 @@ class _HomeShellState extends State<HomeShell> with WidgetsBindingObserver {
       builder: (ctx) => AlertDialog(
         icon: const Icon(Icons.star_rounded, size: 34),
         title: Text(l.reviewTitle, textAlign: TextAlign.center),
-        content: Text(l.reviewBody, textAlign: TextAlign.center),
+        content: Text(l.reviewBody(AppConfig.storeLabel(fa: Localizations.localeOf(context).languageCode == 'fa')), textAlign: TextAlign.center),
         actionsAlignment: MainAxisAlignment.center,
         actionsOverflowAlignment: OverflowBarAlignment.center,
         actionsOverflowDirection: VerticalDirection.down,
         actions: [
-          FilledButton(onPressed: () => Navigator.pop(ctx, 'rate'), child: Text(l.reviewRate)),
+          FilledButton(onPressed: () => Navigator.pop(ctx, 'rate'), child: Text(l.reviewRate(AppConfig.storeLabel(fa: Localizations.localeOf(context).languageCode == 'fa')))),
           TextButton(onPressed: () => Navigator.pop(ctx, 'already'), child: Text(l.reviewAlready)),
           TextButton(onPressed: () => Navigator.pop(ctx, 'exit'), child: Text(l.reviewExit)),
         ],
@@ -122,7 +123,7 @@ class _HomeShellState extends State<HomeShell> with WidgetsBindingObserver {
         if (ok) {
           _awaitingReview = true;
         } else {
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(l.reviewNoStore)));
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(l.reviewNoStore(AppConfig.storeLabel(fa: Localizations.localeOf(context).languageCode == 'fa')))));
         }
       case 'already':
         await app.updateSettings((s) => s.copyWith(reviewDone: true));

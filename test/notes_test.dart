@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:later/core/config/app_config.dart';
 import 'package:later/domain/models.dart';
 
 import 'harness.dart';
@@ -41,5 +42,10 @@ void main() {
   test('note stages: archived counts as dropped, not done', () {
     expect(ItemStages.statusFor(ItemType.note, ItemStages.noteArchived), ItemStatus.dropped);
     expect(ItemStages.statusFor(ItemType.note, 0), ItemStatus.active);
+  });
+
+  test('market name in texts follows the build flavor (default build: Bazaar)', () {
+    expect(AppConfig.storeLabel(fa: true), 'کافه‌بازار');
+    expect(AppConfig.storeLabel(fa: false), 'Cafe Bazaar');
   });
 }

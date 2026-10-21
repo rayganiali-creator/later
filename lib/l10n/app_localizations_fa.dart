@@ -1195,8 +1195,9 @@ class AppL10nFa extends AppL10n {
   String get proPurchaseCancelled => 'خرید لغو شد.';
 
   @override
-  String get proPurchaseUnavailable =>
-      'سرویس پرداخت در دسترس نیست. برنامه‌ی کافه‌بازار را بررسی کن.';
+  String proPurchaseUnavailable(String store) {
+    return 'سرویس پرداخت در دسترس نیست. برنامه‌ی $store را بررسی کن.';
+  }
 
   @override
   String get proPurchaseFailed => 'خرید انجام نشد. دوباره تلاش کن.';
@@ -2850,11 +2851,14 @@ class AppL10nFa extends AppL10n {
   String get reviewTitle => 'از «بعداً» راضی بودی؟';
 
   @override
-  String get reviewBody =>
-      'اگه چند ثانیه وقت داری، نظر و ستاره‌ات رو توی بازار بذار؛ خیلی بهمون کمک می‌کنه.';
+  String reviewBody(String store) {
+    return 'اگه چند ثانیه وقت داری، نظر و ستاره‌ات رو توی $store بذار؛ خیلی بهمون کمک می‌کنه.';
+  }
 
   @override
-  String get reviewRate => 'ثبت نظر در بازار';
+  String reviewRate(String store) {
+    return 'ثبت نظر در $store';
+  }
 
   @override
   String get reviewAlready => 'قبلاً نظر داده‌ام';
@@ -2863,7 +2867,9 @@ class AppL10nFa extends AppL10n {
   String get reviewExit => 'خروج';
 
   @override
-  String get reviewNoStore => 'بازار روی این گوشی نصب نیست.';
+  String reviewNoStore(String store) {
+    return '$store روی این گوشی نصب نیست.';
+  }
 
   @override
   String get reviewDoneTitle => 'نظرت ثبت شد؟';
