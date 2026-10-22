@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Cafe Bazaar builds only: in-app purchase permission and package visibility.
+     The Myket build must not mention Bazaar anywhere in its manifest. -->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <uses-permission android:name="com.farsitel.bazaar.permission.PAY_THROUGH_BAZAAR" />
+    <queries>
+        <package android:name="com.farsitel.bazaar" />
+    </queries>
+</manifest>
