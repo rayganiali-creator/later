@@ -2848,6 +2848,17 @@ class AppL10nEn extends AppL10n {
   String get widgetOverdue => 'Overdue';
 
   @override
+  String get widgetNext => 'Up next';
+
+  @override
+  String get widgetTasksToday => 'Tasks for today';
+
+  @override
+  String widgetProgress(String done, String total) {
+    return '$done of $total done';
+  }
+
+  @override
   String get proAlreadyOwned =>
       'You already own this plan and it is still active. Pick another plan, or buy it again once it ends.';
 

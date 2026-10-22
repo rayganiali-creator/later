@@ -8,6 +8,10 @@ import android.graphics.Color
 class WidgetTheme(val accent: Int, val edge: Int, private val softLight: Int, val night: Boolean) {
     /** Soft tint used behind rows and the counter. */
     val soft: Int get() = if (night) blend(accent, NIGHT_BG, 0.20f) else softLight
+    /** Paler tint behind plain rows, so the featured card stands out. */
+    val rowBg: Int get() = if (night) blend(accent, NIGHT_BG, 0.10f) else blend(softLight, WHITE, 0.55f)
+    /** Track colour of the day-progress bar. */
+    val progTrack: Int get() = if (night) 0xFF33424C.toInt() else 0xFFE3EBE1.toInt()
     val accentText: Int get() = if (night) accent else edge
     val lateBg: Int get() = if (night) blend(RED, NIGHT_BG, 0.20f) else 0xFFFFE6E6.toInt()
     val lateText: Int get() = if (night) 0xFFFF9A9A.toInt() else 0xFFB53434.toInt()
@@ -16,6 +20,7 @@ class WidgetTheme(val accent: Int, val edge: Int, private val softLight: Int, va
     companion object {
         private const val RED = 0xFFEA5455.toInt()
         private val NIGHT_BG = 0xFF202A31.toInt()
+        private val WHITE = 0xFFFFFFFF.toInt()
 
         // name -> accent, accent edge (the "thick" bottom border), light soft tint
         private val TABLE = mapOf(

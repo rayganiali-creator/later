@@ -5281,6 +5281,24 @@ abstract class AppL10n {
   /// **'عقب‌افتاده'**
   String get widgetOverdue;
 
+  /// No description provided for @widgetNext.
+  ///
+  /// In fa, this message translates to:
+  /// **'بعدی'**
+  String get widgetNext;
+
+  /// No description provided for @widgetTasksToday.
+  ///
+  /// In fa, this message translates to:
+  /// **'کار برای امروز'**
+  String get widgetTasksToday;
+
+  /// No description provided for @widgetProgress.
+  ///
+  /// In fa, this message translates to:
+  /// **'{done} از {total} انجام شد'**
+  String widgetProgress(String done, String total);
+
   /// No description provided for @proAlreadyOwned.
   ///
   /// In fa, this message translates to:

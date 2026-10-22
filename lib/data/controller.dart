@@ -943,6 +943,10 @@ class LaterController extends ChangeNotifier {
           'todayEmpty': l.widgetTodayEmpty,
           'more': l.widgetMore('{n}'),
           'overdue': l.widgetOverdue,
+          'next': l.widgetNext,
+          'tasksToday': l.widgetTasksToday,
+          'progress': l.widgetProgress('{done}', '{total}'),
+          'date': _widgetDateLine(),
           'fa': _settings.languageCode == 'fa' ? '1' : '0',
           'day': '${now().year * 10000 + now().month * 100 + now().day}',
           'nothing': l.widgetNothing,
@@ -968,6 +972,14 @@ class LaterController extends ChangeNotifier {
   }
 
   String _widgetNum(int n) => _settings.languageCode == 'fa' ? toFaDigits(n) : '$n';
+
+  /// "پنجشنبه ۳۰ مهر" / "Thursday 30 Oct" for the widget header.
+  String _widgetDateLine() {
+    final n = now();
+    final fa = _settings.languageCode == 'fa';
+    final day = Dates.formatDate(n, _settings.calendar, fa: fa, now: n, omitCurrentYear: true);
+    return '${Dates.weekdayName(n, fa)} $day';
+  }
 
   // ------------------------------------------------------------------ Pro
 

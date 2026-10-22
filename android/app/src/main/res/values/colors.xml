@@ -9,4 +9,7 @@
     <color name="widget_pill_text">#3B3480</color>
     <color name="widget_accent">#5B4BDB</color>
     <color name="widget_edge">#E4E9E6</color>
+    <color name="widget_bg_top">#FFFFFF</color>
+    <color name="widget_bg_bottom">#F1F7EF</color>
+    <color name="widget_border">#DFEADD</color>
 </resources>
