@@ -198,23 +198,56 @@ class MainActivity : FlutterFragmentActivity() {
     /** Opens this app's rating / comment page in the market the build is for. */
     private fun openStoreReview(store: String?): Boolean {
         val id = packageName.removeSuffix(".qa")
-        val attempts = if (store == "myket") {
-            listOf("ir.mservices.market" to "myket://comment?id=$id", "ir.mservices.market" to "myket://application?id=$id")
+        val myket = store == "myket"
+        val storePkg = if (myket) "ir.mservices.market" else "com.farsitel.bazaar"
+        val deepLinks = if (myket) {
+            listOf("myket://comment?id=$id", "myket://application?id=$id")
         } else {
-            listOf("com.farsitel.bazaar" to "bazaar://details?id=$id")
+            listOf("bazaar://details?id=$id")
         }
-        for ((pkg, uri) in attempts) {
-            try {
-                val i = Intent(Intent.ACTION_EDIT, Uri.parse(uri))
-                    .setPackage(pkg)
-                    .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                startActivity(i)
-                return true
-            } catch (_: Exception) {
-                // try the next link
-            }
+        val web = if (myket) "https://myket.ir/app/$id" else "https://cafebazaar.ir/app/$id"
+
+        fun tryStart(action: String, uri: String, pkg: String?): Boolean = try {
+            val i = Intent(action, Uri.parse(uri)).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            if (pkg != null) i.setPackage(pkg)
+            // BROWSABLE only for web links: a store activity whose intent
+            // filter lacks it would stop matching if we added it there.
+            if (action == Intent.ACTION_VIEW && uri.startsWith("http")) i.addCategory(Intent.CATEGORY_BROWSABLE)
+            startActivity(i)
+            true
+        } catch (_: Exception) {
+            false
         }
-        return false
+
+        // 1) Straight into the store app. Myket's comment/application links are
+        //    ACTION_VIEW links (ACTION_EDIT is Cafe Bazaar's convention; with
+        //    EDIT both Myket intents fail even when Myket is installed, which
+        //    is why the exit dialog ended at the "store is not installed"
+        //    snackbar during Myket review). Bazaar keeps EDIT first.
+        for (uri in deepLinks) {
+            if (!myket && tryStart(Intent.ACTION_EDIT, uri, storePkg)) return true
+            if (tryStart(Intent.ACTION_VIEW, uri, storePkg)) return true
+        }
+        // 2) Same links without pinning the package, in case the store app
+        //    handles them under a different component.
+        for (uri in deepLinks) {
+            if (tryStart(Intent.ACTION_VIEW, uri, null)) return true
+        }
+        // 3) The store is genuinely not installed (e.g. a reviewer opening the
+        //    APK without the store app): the app's page on the store's website
+        //    still lets the user read and post a review, so the button never
+        //    dead-ends at "not installed".
+        if (tryStart(Intent.ACTION_VIEW, web, null)) return true
+        // 4) Last resort: let the user pick any browser for the web page.
+        return try {
+            val webIntent = Intent(Intent.ACTION_VIEW, Uri.parse(web))
+                .addCategory(Intent.CATEGORY_BROWSABLE)
+                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            startActivity(Intent.createChooser(webIntent, null).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
+            true
+        } catch (_: Exception) {
+            false
+        }
     }
 
     /** Asks the launcher to pin the main widget; Android shows its own confirmation. */
