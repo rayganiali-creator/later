@@ -1423,6 +1423,19 @@
     }
   },
   "widgetOverdue": "عقب‌افتاده",
+  "widgetNext": "بعدی",
+  "widgetTasksToday": "کار برای امروز",
+  "widgetProgress": "{done} از {total} انجام شد",
+  "@widgetProgress": {
+    "placeholders": {
+      "done": {
+        "type": "String"
+      },
+      "total": {
+        "type": "String"
+      }
+    }
+  },
   "proAlreadyOwned": "این پلن را قبلاً خریده‌ای و هنوز فعاله. یه پلن دیگه بخر یا بعد از تموم‌شدنش دوباره بخر.",
   "reviewTitle": "از «بعداً» راضی بودی؟",
   "reviewBody": "اگه چند ثانیه وقت داری، نظر و ستاره‌ات رو توی {store} بذار؛ خیلی بهمون کمک می‌کنه.",

@@ -2,6 +2,10 @@ package app.baadan.later.widget
 
 import android.appwidget.AppWidgetManager
 import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.Paint
+import android.graphics.RectF
 import android.os.Bundle
 import android.view.View
 import android.widget.RemoteViews
@@ -10,15 +14,17 @@ import app.baadan.later.R
 /**
  * Draws the one adaptive widget: whatever size the user drags it to, the
  * layout that fits is chosen (strip, tiny, small, medium, large) and filled
- * with today's items in the colour picked in the app.
+ * with today's items in the colour picked in the app. Medium and large lead
+ * with a featured "up next" card, then the remaining rows, then the day's
+ * progress; small shows the count with the next item underneath.
  */
 object WidgetRender {
-    private enum class Kind(val layout: Int, val rows: Int) {
-        TINY(R.layout.widget_tiny, 0),
-        STRIP(R.layout.widget_strip, 0),
-        SMALL(R.layout.widget_small, 1),
-        MEDIUM(R.layout.widget_medium, 3),
-        LARGE(R.layout.widget_large, 4),
+    private enum class Kind(val layout: Int, val rows: Int, val feat: Boolean) {
+        TINY(R.layout.widget_tiny, 0, false),
+        STRIP(R.layout.widget_strip, 0, false),
+        SMALL(R.layout.widget_small, 1, false),
+        MEDIUM(R.layout.widget_medium, 2, true),
+        LARGE(R.layout.widget_large, 3, true),
     }
 
     private val ROW_IDS = listOf(
@@ -56,15 +62,22 @@ object WidgetRender {
 
         // Accent parts
         for (mark in intArrayOf(R.id.mark_face, R.id.fab_face)) v.setInt(mark, "setColorFilter", theme.accent)
-        for (edge in intArrayOf(R.id.mark_edge, R.id.fab_edge)) v.setInt(edge, "setColorFilter", theme.edge)
-        v.setInt(R.id.count_bg, "setColorFilter", theme.soft)
-        v.setTextColor(R.id.widget_count, theme.accentText)
         v.setTextColor(R.id.big, theme.accent)
         v.setInt(R.id.sug_bg, "setColorFilter", theme.accent)
 
         v.setTextViewText(R.id.widget_title, if (kind == Kind.SMALL) (data?.str("today") ?: "") else (data?.str("app") ?: context.getString(R.string.widget_loading)))
-        v.setTextViewText(R.id.widget_count, if (data == null) "" else data.str("today") + " · " + todayN)
+        v.setTextViewText(R.id.widget_date, data?.str("date") ?: "")
         v.setTextViewText(R.id.big, todayN)
+
+        // Day progress (done of today's total), when the snapshot carries it
+        val done = data?.counts?.get("todayDone") ?: 0
+        val total = data?.counts?.get("todayTotal") ?: 0
+        val showProg = data != null && total > 0 && !data.isStaleDay()
+        val progText = if (showProg) {
+            data!!.str("progress").replace("{done}", data.num(done)).replace("{total}", data.num(total))
+        } else ""
+        v.setTextViewText(R.id.big_label, data?.str("tasksToday") ?: "")
+        v.setTextViewText(R.id.big_sub, progText)
 
         // Strip: first item (or the empty line) + a short sub line
         val first = rows.firstOrNull()
@@ -76,19 +89,43 @@ object WidgetRender {
             else -> first.whenText
         })
 
-        // Today rows
+        // Featured card: the next item, bigger (medium / large)
+        if (kind.feat) {
+            if (first == null) {
+                v.setViewVisibility(R.id.feat, View.GONE)
+            } else {
+                v.setViewVisibility(R.id.feat, View.VISIBLE)
+                v.setInt(R.id.feat_bg, "setColorFilter", if (first.overdue) theme.lateBg else theme.soft)
+                v.setTextViewText(R.id.feat_label, data!!.str("next"))
+                v.setTextColor(R.id.feat_label, if (first.overdue) theme.lateText else theme.accentText)
+                v.setTextViewText(R.id.feat_t, first.title)
+                v.setTextColor(R.id.feat_t, if (first.overdue) theme.lateText else context.getColor(R.color.widget_text))
+                if (first.whenText.isBlank()) {
+                    v.setViewVisibility(R.id.feat_w_box, View.GONE)
+                } else {
+                    v.setViewVisibility(R.id.feat_w_box, View.VISIBLE)
+                    v.setInt(R.id.feat_w_bg, "setColorFilter", context.getColor(R.color.widget_bg))
+                    v.setTextViewText(R.id.feat_w, first.whenText)
+                    v.setTextColor(R.id.feat_w, if (first.overdue) theme.lateText else theme.accentText)
+                }
+                v.setOnClickPendingIntent(R.id.feat, WidgetActions.openItem(context, first.id, id * 10 + 9))
+            }
+        }
+
+        // Today rows (after the featured one, when there is a featured card)
+        val pillRows = if (kind.feat) rows.drop(1) else rows
         for (i in 0 until 4) {
             val ids = ROW_IDS[i]
             if (i >= kind.rows) {
                 v.setViewVisibility(ids[0], View.GONE)
                 continue
             }
-            val r = rows.getOrNull(i)
+            val r = pillRows.getOrNull(i)
             if (r == null) {
                 v.setViewVisibility(ids[0], View.GONE)
                 continue
             }
-            val extra = rows.size - kind.rows
+            val extra = pillRows.size - kind.rows
             val isMore = i == kind.rows - 1 && extra > 0
             v.setViewVisibility(ids[0], View.VISIBLE)
             if (isMore) {
@@ -99,7 +136,7 @@ object WidgetRender {
                 v.setTextViewText(ids[4], "")
                 v.setOnClickPendingIntent(ids[0], WidgetActions.open(context, "open", id * 10 + 10 + i))
             } else {
-                v.setInt(ids[1], "setColorFilter", if (r.overdue) theme.lateBg else theme.soft)
+                v.setInt(ids[1], "setColorFilter", if (r.overdue) theme.lateBg else theme.rowBg)
                 v.setInt(ids[2], "setColorFilter", if (r.overdue) theme.red else r.color)
                 v.setTextViewText(ids[3], r.title)
                 v.setTextColor(ids[3], if (r.overdue) theme.lateText else context.getColor(R.color.widget_text))
@@ -108,13 +145,27 @@ object WidgetRender {
                 v.setOnClickPendingIntent(ids[0], WidgetActions.openItem(context, r.id, id * 10 + 10 + i))
             }
         }
-        if (kind.rows > 0 || kind == Kind.SMALL) {
+        if (kind.feat || kind.rows > 0 || kind == Kind.SMALL) {
             if (rows.isEmpty()) {
                 v.setViewVisibility(R.id.widget_msg, View.VISIBLE)
                 v.setTextViewText(R.id.widget_msg, WidgetText.empty(data))
             } else {
                 v.setViewVisibility(R.id.widget_msg, View.GONE)
             }
+        }
+
+        // Progress footer (medium / large)
+        if (showProg) {
+            val d = data!!
+            v.setViewVisibility(R.id.prog_box, View.VISIBLE)
+            v.setTextViewText(R.id.prog_text, progText)
+            val pct = done * 100 / total
+            v.setTextViewText(R.id.prog_pct, if (d.str("fa") == "1") d.num(pct) + "٪" else "$pct%")
+            v.setTextColor(R.id.prog_pct, theme.accentText)
+            val rtl = d.str("fa") == "1"
+            v.setImageViewBitmap(R.id.prog_bar, progressBitmap(context, theme, done.toFloat() / total.toFloat(), rtl, (w - 190).coerceAtLeast(60)))
+        } else {
+            v.setViewVisibility(R.id.prog_box, View.GONE)
         }
 
         // Large: shelf counters + suggestion
@@ -133,6 +184,26 @@ object WidgetRender {
         v.setOnClickPendingIntent(R.id.strip_text, WidgetActions.openItem(context, first?.id, id * 10 + 2))
         v.setOnClickPendingIntent(R.id.widget_root, WidgetActions.open(context, "open", id * 10 + 6))
         return v
+    }
+
+    /** The day-progress bar as a bitmap, so it can be rounded and accent-tinted. */
+    private fun progressBitmap(context: Context, theme: WidgetTheme, frac: Float, rtl: Boolean, widthDp: Int): Bitmap {
+        val density = context.resources.displayMetrics.density
+        val wpx = (widthDp * density).toInt().coerceAtLeast(24)
+        val hpx = (6 * density).toInt().coerceAtLeast(4)
+        val bmp = Bitmap.createBitmap(wpx, hpx, Bitmap.Config.ARGB_8888)
+        val canvas = Canvas(bmp)
+        val paint = Paint(Paint.ANTI_ALIAS_FLAG)
+        val r = hpx / 2f
+        paint.color = theme.progTrack
+        canvas.drawRoundRect(RectF(0f, 0f, wpx.toFloat(), hpx.toFloat()), r, r, paint)
+        val fillW = wpx * frac.coerceIn(0f, 1f)
+        if (fillW > 0f) {
+            paint.color = theme.accent
+            val left = if (rtl) wpx - fillW else 0f
+            canvas.drawRoundRect(RectF(left, 0f, left + fillW, hpx.toFloat()), r, r, paint)
+        }
+        return bmp
     }
 }
 

@@ -373,9 +373,13 @@ extension LaterMedia on LaterController {
 
   Map<String, int> widgetCounts() {
     final d = dashboardCounts();
+    final n = now();
+    final doneToday = _items.where((i) => i.completedAt != null && Dates.isSameDay(i.completedAt!, n)).length;
     return {
       'inbox': d.inbox,
       'today': d.today,
+      'todayDone': doneToday,
+      'todayTotal': doneToday + d.today,
       'learn': d.courses,
       'podcasts': d.podcasts,
       'games': d.games,

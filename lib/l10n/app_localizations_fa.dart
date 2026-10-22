@@ -2844,6 +2844,17 @@ class AppL10nFa extends AppL10n {
   String get widgetOverdue => 'عقب‌افتاده';
 
   @override
+  String get widgetNext => 'بعدی';
+
+  @override
+  String get widgetTasksToday => 'کار برای امروز';
+
+  @override
+  String widgetProgress(String done, String total) {
+    return '$done از $total انجام شد';
+  }
+
+  @override
   String get proAlreadyOwned =>
       'این پلن را قبلاً خریده‌ای و هنوز فعاله. یه پلن دیگه بخر یا بعد از تموم‌شدنش دوباره بخر.';
 
